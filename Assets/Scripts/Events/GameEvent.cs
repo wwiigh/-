@@ -8,19 +8,19 @@ public class GameEvent : MonoBehaviour
 {
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject optionButton;
-    Event event_loaded;
+    EventClass event_loaded;
     [SerializeField] TMP_Text eventName;
     [SerializeField] Image image;
     [SerializeField] TMP_Text description;
     int optionCount;
-    [SerializeField] List<Event> all_events;
-    List<Event> normal_events = new List<Event>();
-    List<Event> story_events = new List<Event>();
+    [SerializeField] List<EventClass> all_events;
+    List<EventClass> normal_events = new List<EventClass>();
+    List<EventClass> story_events = new List<EventClass>();
 
     private void Start() {
-        foreach(Event _event in all_events){
-            if (_event.type == Event.Type.normal) normal_events.Add(_event);
-            else if (_event.type == Event.Type.story) story_events.Add(_event);
+        foreach(EventClass _event in all_events){
+            if (_event.type == EventClass.Type.normal) normal_events.Add(_event);
+            else if (_event.type == EventClass.Type.story) story_events.Add(_event);
         }
     }
 

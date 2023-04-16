@@ -666,5 +666,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Event
       objectReference: {fileID: 0}
+    - target: {fileID: 7632591219211394567, guid: 0869d78ea7f4c394db6566d6cd8f6cad, type: 3}
+      propertyPath: all_events.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 35ea900ae244eb849829448b74eae440, type: 2}
+    - target: {fileID: 7632591219211394567, guid: 0869d78ea7f4c394db6566d6cd8f6cad, type: 3}
+      propertyPath: all_events.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0580db0b1bba5454ab3eb74b9cb87747, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0869d78ea7f4c394db6566d6cd8f6cad, type: 3}
