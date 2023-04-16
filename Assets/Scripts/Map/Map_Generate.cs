@@ -12,6 +12,13 @@ public class Map_Generate : MonoBehaviour
         [Range(0, 1)]
         public float chance;
     }
+    [System.Serializable]
+    public struct node_num
+    {
+        public int howmany;
+        [Range(0, 1)]
+        public float chance;
+    }
     [Header("用來決定生成點的隨機位置")]
     public Vector2 random_pos_max;
     public Vector2 random_pos_min;
@@ -50,6 +57,10 @@ public class Map_Generate : MonoBehaviour
     public float node_start_size_y;
     [Header("表示點的大小")]
     public Vector2 node_size;
+
+    [Header("每層出現數目")]
+    public node_num[] nodes_num;
+
     [Header("保留給點的顯示,如戰鬥,事件的ui顯示等,尚未使用")]
     public Color[] colors;
     private List<Node> nodes = new List<Node>();
@@ -131,9 +142,20 @@ public class Map_Generate : MonoBehaviour
         nodes[2].Set_valid();
 
         //每層隨機挑2~4點顯示
+        int random_nodes_num=0;
         for (int i = 1; i < node_height; i++)
         {
-            int random_nodes_num = Random.Range(2, 5);
+            float probability = Random.value;
+            
+            for (int ii = 0; ii < nodes_num.Length; ii++)
+            {
+                if (probability <= nodes_num[ii].chance)
+                {
+                    random_nodes_num = nodes_num[ii].howmany;
+                    break;
+                }
+                else probability-=nodes_num[ii].chance;
+            }
             for (int j = 0; j < random_nodes_num; j++)
             {
                 int random_nodes_index = Random.Range(0, node_width);
