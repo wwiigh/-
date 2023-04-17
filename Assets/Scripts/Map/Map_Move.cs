@@ -20,21 +20,21 @@ public class Map_Move : MonoBehaviour
     }
     void OnGUI()
     {
-        // if(Event.current.type == EventType.MouseDown)
-        // {
-        //     first = Event.current.mousePosition;
-        // }
-        // if(Event.current.type == EventType.MouseDrag)
-        // {
-        //     second = Event.current.mousePosition;
-        //     Vector3 first_pos = Camera.main.ScreenToWorldPoint(new Vector3(first.x,first.y,0));
-        //     Vector3 second_pos = Camera.main.ScreenToWorldPoint(new Vector3(second.x,second.y,0));
-        //     pos = second_pos - first_pos;
-        //     pos = pos * scale;
-        //     first = second;
-        //     need_move = true;
-        // }
-        // else need_move = false;
+        if(Event.current.type == EventType.MouseDown)
+        {
+            first = Event.current.mousePosition;
+        }
+        if(Event.current.type == EventType.MouseDrag)
+        {
+            second = Event.current.mousePosition;
+            Vector3 first_pos = Camera.main.ScreenToWorldPoint(new Vector3(first.x,first.y,0));
+            Vector3 second_pos = Camera.main.ScreenToWorldPoint(new Vector3(second.x,second.y,0));
+            pos = second_pos - first_pos;
+            pos = pos * scale;
+            first = second;
+            need_move = true;
+        }
+        else need_move = false;
     }
     // Update is called once per frame
     void Update()

@@ -68,6 +68,11 @@ public class Map_Generate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Generate_Map();
+    }
+
+    void Generate_Map()
+    {
         //初始
         Init();
         //顯示點
@@ -94,11 +99,10 @@ public class Map_Generate : MonoBehaviour
         //將被標為戰鬥,事件的點更新，更新圖層
         Show_status();
     }
-
     // Update is called once per frame
     void Update()
     {
-
+        
     }
     //最上方為height = 0
     //左邊往右數width為0 1 2
