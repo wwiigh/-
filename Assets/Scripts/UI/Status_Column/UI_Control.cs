@@ -7,7 +7,7 @@ public class UI_Control : MonoBehaviour
     public GameObject Information_Show_Gameobject;
     public UI_Show_Text UI_information;
     public GameObject information_box;
-    public List<GameObject> information_box_array = new List<GameObject>();
+    List<GameObject> information_box_array = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
