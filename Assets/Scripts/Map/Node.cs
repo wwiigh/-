@@ -24,6 +24,7 @@ public class Node:MonoBehaviour
     // n none
     // b boss
     // h 祭壇
+    // m 主線
     char type;
     //現在持有的點
     public Button node;
@@ -34,7 +35,8 @@ public class Node:MonoBehaviour
     public List<int> next;
     //上面接了那些點
     public List<int> parent;
-
+    //是不是可以點擊
+    public bool can_go;
     public Sprite little_monster;
     public Sprite big_monster;
     public Sprite events;
@@ -42,6 +44,10 @@ public class Node:MonoBehaviour
     public Sprite altar;
     public Sprite boss;
     public Sprite shop;
+    public void check()
+    {
+        print("check");
+    }
 
     public bool Return_valid()
     {
@@ -111,6 +117,9 @@ public class Node:MonoBehaviour
             case 'e':
                 node.GetComponent<Image>().sprite = events;
                 break;
+            case 'm':
+                node.GetComponent<Image>().sprite = events;
+                break;
             case 't':
                 node.GetComponent<Image>().sprite = treasure;
                 break;
@@ -124,5 +133,38 @@ public class Node:MonoBehaviour
                 node.GetComponent<Image>().sprite = altar;
                 break;
         }
+    }
+    public int return_height()
+    {
+        return height;
+    }
+    public int return_width()
+    {
+        return width;
+    }
+    public void copy(Node node)
+    {
+        Init();
+        height = node.return_height();
+        width = node.return_width();
+        is_valid = node.Return_valid();
+        type = node.Return_type();
+        can_assign = node.can_assign;
+        foreach (var item in node.next)
+        {
+            next.Add(item);
+        }
+        foreach (var item in node.parent)
+        {
+            parent.Add(item);
+        }
+        little_monster = node.little_monster;
+        big_monster = node.big_monster;
+        events = node.events;
+        treasure = node.treasure;
+        altar = node.altar;
+        boss = node.boss;
+        shop = node.shop;
+        Set_button(type);
     }
 }

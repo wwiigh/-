@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1533400783247136340}
   - component: {fileID: 253070598842849452}
   - component: {fileID: 4666246024383433288}
+  - component: {fileID: 67343297821365039}
+  - component: {fileID: -1955779297030522516}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -121,7 +123,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1533400783247136340}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4666246024383433288}
+        m_TargetAssemblyTypeName: Node, Assembly-CSharp
+        m_MethodName: check
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4666246024383433288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,10 +152,49 @@ MonoBehaviour:
   can_assign: 0
   next: 
   parent: 
+  can_go: 0
   little_monster: {fileID: 21300000, guid: 6cdf6ba56710b774f862015139a36d07, type: 3}
   big_monster: {fileID: 21300000, guid: 2b9e9a9ffc0b891489b6e9ba70d1e578, type: 3}
   events: {fileID: 21300000, guid: 6a8e5519d4bf3e14baa5d53b13ab54b0, type: 3}
   treasure: {fileID: 21300000, guid: 5ddd074e1fb9ae34092cd36894032a5e, type: 3}
   altar: {fileID: 21300000, guid: 817b6f30d75912f46aca2eb7e973c265, type: 3}
-  boss: {fileID: 0}
+  boss: {fileID: 21300000, guid: 0e0df7317c1c25e49b8a78515fad0b4d, type: 3}
   shop: {fileID: 21300000, guid: b7b10b553476aa446a988e5259e25703, type: 3}
+--- !u!223 &67343297821365039
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979500256342431254}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &-1955779297030522516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979500256342431254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295

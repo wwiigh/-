@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UI_Control : MonoBehaviour
 {
+    public Vector2 positon_offset;
     public GameObject Information_Show_Gameobject;
     public UI_Show_Text UI_information;
     public GameObject information_box;
@@ -18,6 +19,7 @@ public class UI_Control : MonoBehaviour
             new_box.GetComponent<Information_Box>().information.text = information.information;
             new_box.SetActive(false);
             new_box.GetComponent<Transform>().SetParent(Information_Show_Gameobject.transform);
+            new_box.transform.position = new_box.transform.position + new Vector3(positon_offset.x,positon_offset.y,0);
             information_box_array.Add(new_box);
 
         }

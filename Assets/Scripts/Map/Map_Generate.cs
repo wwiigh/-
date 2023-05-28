@@ -60,12 +60,25 @@ public class Map_Generate : MonoBehaviour
 
     [Header("每層出現數目")]
     public node_num[] nodes_num;
+    [Header("現在關卡")]
+    public int now_level;
+    [Header("現在層數")]
+    public int now_height;
 
     [Header("保留給點的顯示,如戰鬥,事件的ui顯示等,尚未使用")]
     public Color[] colors;
     private List<Node> nodes = new List<Node>();
-    private List<int> node_arr = new List<int>();
+    public Map_Save map_save;
+    // private List<int> node_arr = new List<int>();
     // Start is called before the first frame update
+    public void On_Click()
+    {
+        print("onclick");
+        now_height -=1;
+        // map_save.save_node(nodes);
+        map_save.save_level_height(now_level,now_height);
+        Show_status();
+    }
     void Start()
     {
         Generate_Map();
@@ -73,6 +86,16 @@ public class Map_Generate : MonoBehaviour
 
     void Generate_Map()
     {
+        if(map_save.is_new==0)
+        {
+            Init();
+            map_save.copy(nodes);
+            now_height = map_save.return_height();
+            now_level = map_save.return_level();
+            Visualize_Edge();
+            Show_status();
+            return;
+        }
         //初始
         Init();
         //顯示點
@@ -93,10 +116,20 @@ public class Map_Generate : MonoBehaviour
         // List<int> tmp_node_arr = new List<int>();
         // Generate_V3_set_route(node_arr,0,2,tmp_node_arr);
         // Generate_V3_set_event(node_arr);
-        Generate_V2();
+        Generate_Special_events(node_height-1,'f');
+        Generate_Special_events(Random.Range(1,4),'f');
+        Generate_Special_events(4,'m');
+        Generate_Special_events(0,'b');
+        // Generate_V2();
         
         Generate_reset();
         //將被標為戰鬥,事件的點更新，更新圖層
+        
+        now_level = 1;
+        now_height = 9;
+        map_save.save_node(nodes);
+        map_save.save_level_height(now_level,now_height);
+        map_save.is_new = 0;
         Show_status();
     }
     // Update is called once per frame
@@ -132,6 +165,10 @@ public class Map_Generate : MonoBehaviour
                 tmp_node.GetComponent<Node>().Set_height(i);
                 tmp_node.GetComponent<Node>().Set_width(j);
                 tmp_node.GetComponent<Node>().Set_node_size(node_size);
+
+                //設定on click
+                
+                b.onClick.AddListener(delegate { On_Click(); });
 
                 //加入到nodes裡
                 nodes.Add(tmp_node.GetComponent<Node>());
@@ -307,6 +344,19 @@ public class Map_Generate : MonoBehaviour
                 int count = Map.transform.childCount;
                 Node n = nodes[i * node_width + j];
                 n.node.transform.SetSiblingIndex(count - 1);
+                print(n.return_height());
+                if(i==now_height)
+                {
+                    print("show status");
+                    n.node.GetComponent<Image>().color = new Color(1,1,1,1);
+                    // n.node.GetComponent<Image>().enabled = (false);
+                    n.node.GetComponent<Button>().enabled = (true);
+                }
+                else
+                {
+                    n.node.GetComponent<Image>().color = new Color(1,1,1,0.5f);
+                    n.node.GetComponent<Button>().enabled = (false);
+                }
                 if (n.Return_valid() == false)
                 {
                     n.node.GetComponent<Button>().enabled = (false);
@@ -528,6 +578,14 @@ public class Map_Generate : MonoBehaviour
                     else probability-=different_type[i].chance;
                 }
             }
+        }
+    }
+
+    void Generate_Special_events(int height, char type)
+    {
+        for (int j = 0; j < node_width; j++)
+        {
+            nodes[height * node_width + j].Set_type(type);
         }
     }
 }

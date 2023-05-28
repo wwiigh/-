@@ -143,5 +143,5 @@ MonoBehaviour:
   events: {fileID: 21300000, guid: 6a8e5519d4bf3e14baa5d53b13ab54b0, type: 3}
   treasure: {fileID: 21300000, guid: 5ddd074e1fb9ae34092cd36894032a5e, type: 3}
   altar: {fileID: 21300000, guid: 817b6f30d75912f46aca2eb7e973c265, type: 3}
-  boss: {fileID: 0}
+  boss: {fileID: 21300000, guid: 0e0df7317c1c25e49b8a78515fad0b4d, type: 3}
   shop: {fileID: 21300000, guid: b7b10b553476aa446a988e5259e25703, type: 3}
