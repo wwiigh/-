@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.IO;
 public class Map_Generate : MonoBehaviour
 {
     [System.Serializable]
@@ -68,7 +68,7 @@ public class Map_Generate : MonoBehaviour
     [Header("保留給點的顯示,如戰鬥,事件的ui顯示等,尚未使用")]
     public Color[] colors;
     private List<Node> nodes = new List<Node>();
-    public Map_Save map_save;
+    // public Map_Save map_save;
     // private List<int> node_arr = new List<int>();
     // Start is called before the first frame update
     public void On_Click()
@@ -76,22 +76,27 @@ public class Map_Generate : MonoBehaviour
         print("onclick");
         now_height -=1;
         // map_save.save_node(nodes);
-        map_save.save_level_height(now_level,now_height);
+        // map_save.save_level_height(now_level,now_height);
+        save();
         Show_status();
     }
     void Start()
     {
+        // print(Application.dataPath);
         Generate_Map();
     }
 
     void Generate_Map()
     {
-        if(map_save.is_new==0)
+        string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/Map_Data");
+        Map_Save  MyData = JsonUtility.FromJson<Map_Save>(LoadData);
+        if(MyData.is_new==0)
         {
             Init();
-            map_save.copy(nodes);
-            now_height = map_save.return_height();
-            now_level = map_save.return_level();
+            copy(MyData);
+        //     map_save.copy(nodes);
+            now_height = MyData.return_height();
+            now_level = MyData.return_level();
             Visualize_Edge();
             Show_status();
             return;
@@ -127,9 +132,10 @@ public class Map_Generate : MonoBehaviour
         
         now_level = 1;
         now_height = 9;
-        map_save.save_node(nodes);
-        map_save.save_level_height(now_level,now_height);
-        map_save.is_new = 0;
+        save();
+        // map_save.save_node(nodes);
+        // map_save.save_level_height(now_level,now_height);
+        // map_save.is_new = 0;
         Show_status();
     }
     // Update is called once per frame
@@ -586,6 +592,92 @@ public class Map_Generate : MonoBehaviour
         for (int j = 0; j < node_width; j++)
         {
             nodes[height * node_width + j].Set_type(type);
+        }
+    }
+    void save()
+    {
+        List<int> node_parent_arr = new List<int>();
+        List<int> node_parent_index_arr = new List<int>();
+        List<int> node_next_arr = new List<int>();
+        List<int> node_next_index_arr = new List<int>();
+        List<bool> node_assign_arr = new List<bool>();
+        List<bool> node_valid_arr = new List<bool>();
+        List<char> node_type_arr = new List<char>();
+        int _is_new = 0;
+        int _now_level = now_level;
+        int _now_height = now_height;
+
+        foreach (var item in nodes)
+        {
+            
+            // Node tmp = new Node();
+            // tmp.node = button;
+            // tmp.copy(item);
+            // height = item.return_height();
+            // width = item.return_width();
+            node_next_index_arr.Add(item.next.Count);
+            foreach (var item2 in item.next)
+            {
+                node_next_arr.Add(item2);
+            }
+            node_parent_index_arr.Add(item.parent.Count);
+
+            foreach (var item2 in item.parent)
+            {
+                node_parent_arr.Add(item2);
+            }
+            // little_monster = item.little_monster;
+            // big_monster = item.big_monster;
+            // events = item.events;
+            // treasure = item.treasure;
+            // altar = item.altar;
+            // boss = item.boss;
+            // shop = item.shop;
+            node_valid_arr.Add(item.Return_valid());
+            node_type_arr.Add(item.Return_type());
+            node_assign_arr.Add(item.can_assign);
+            // node_arr.Add(tmp);    
+        } 
+        Map_Save save_data = new Map_Save{
+            is_new = _is_new,
+            now_level = _now_level,
+            now_height = _now_height,
+            node_assign_arr = node_assign_arr,
+            node_parent_arr = node_parent_arr,
+            node_parent_index_arr = node_parent_index_arr,
+            node_next_arr = node_next_arr,
+            node_next_index_arr = node_next_index_arr,
+            node_valid_arr = node_valid_arr,
+            node_type_arr = node_type_arr
+        };
+        string jsonInfo = JsonUtility.ToJson(save_data,true);
+        File.WriteAllText(Application.dataPath+"/Save_Data/Map_Data", jsonInfo);
+
+    }
+    public void copy(Map_Save data)
+    {
+        int index_parent = 0;
+        int index_next = 0;
+        for(int i=0;i<data.node_assign_arr.Count;i++)
+        {
+            // nodes[i].Set_height(height);
+            // nodes[i].Set_width(width);
+            // level = node_parent_arr.Count;
+            for(int j=0;j<data.node_parent_index_arr[i];j++)
+            {
+                nodes[i].parent.Add(data.node_parent_arr[index_parent+j]);
+            }
+            index_parent += data.node_parent_index_arr[i];
+            for(int j=0;j<data.node_next_index_arr[i];j++)
+            {
+                nodes[i].next.Add(data.node_next_arr[index_next+j]);
+            }
+            index_next += data.node_next_index_arr[i];
+            
+            if(data.node_valid_arr[i]==true)
+                nodes[i].Set_valid();
+            nodes[i].Set_type(data.node_type_arr[i]);
+            nodes[i].can_assign = data.node_assign_arr[i];
         }
     }
 }

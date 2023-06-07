@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-[CreateAssetMenu(fileName = "New Map_Save", menuName = "Map_Save")]
-public class Map_Save : ScriptableObject
+// [CreateAssetMenu(fileName = "New Map_Save", menuName = "Map_Save")]
+public class Map_Save
 {
     [Header("是否為新的地圖")]
     //0 for not new, 1 for new
@@ -15,11 +15,11 @@ public class Map_Save : ScriptableObject
 
     [Header("第幾層")]
     public int now_height;
-    [Header("button perfab")]
-    public Button button;
-    int height = 10;
-    int width = 10;
-    public List<Node> node_arr = new List<Node>();
+    // [Header("button perfab")]
+    // public Button button;
+    // int height = 10;
+    // int width = 10;
+    // public List<Node> node_arr = new List<Node>();
     public List<int> node_parent_arr = new List<int>();
     public List<int> node_parent_index_arr = new List<int>();
     public List<int> node_next_arr = new List<int>();
@@ -118,7 +118,7 @@ public class Map_Save : ScriptableObject
     }
     public void clear()
     {
-        node_arr.Clear();
+        // node_arr.Clear();
         node_parent_arr.Clear();
         node_parent_index_arr.Clear();
         node_next_index_arr.Clear();
