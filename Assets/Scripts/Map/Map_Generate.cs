@@ -129,7 +129,8 @@ public class Map_Generate : MonoBehaviour
         
         Generate_reset();
         //將被標為戰鬥,事件的點更新，更新圖層
-        
+        check_big_monster(0,2,0);
+        check_small_monster(0,2,0);
         now_level = 1;
         now_height = 9;
         save();
@@ -141,7 +142,7 @@ public class Map_Generate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        print(nodes[0].GetComponent<RectTransform>().position);
     }
     //最上方為height = 0
     //左邊往右數width為0 1 2
@@ -155,7 +156,7 @@ public class Map_Generate : MonoBehaviour
             for (int j = 0; j < node_width; j++)
             {
                 GameObject tmp_node = Instantiate(_node);
-
+                // tmp_node.GetComponent<Transform>().position = Vector3.zero;
                 //設定位置
                 Button b = tmp_node.GetComponent<Node>().node;
                 b.GetComponent<Transform>().SetParent(Map.transform);
@@ -163,8 +164,7 @@ public class Map_Generate : MonoBehaviour
                 float random_y = Random.Range(random_pos_min.y,random_pos_max.y);
                 b.GetComponent<RectTransform>().offsetMax = new Vector2(node_start_size_x + (j + 1) * node_size_x + (j) * X_Space+random_x, node_start_size_y - i * node_size_y - (i) * Y_Space+random_y);
                 b.GetComponent<RectTransform>().offsetMin = new Vector2(node_start_size_x + (j) * node_size_x + (j) * X_Space+random_x, node_start_size_y - (i + 1) * node_size_y - (i) * Y_Space+random_y);
-
-
+                
                 //對點作初始
                 tmp_node.GetComponent<Node>().node = b;
                 tmp_node.GetComponent<Node>().Init();
@@ -175,6 +175,9 @@ public class Map_Generate : MonoBehaviour
                 //設定on click
                 
                 b.onClick.AddListener(delegate { On_Click(); });
+                tmp_node.GetComponent<RectTransform>().localPosition= new Vector3(
+                    tmp_node.GetComponent<RectTransform>().localPosition.x,
+                    tmp_node.GetComponent<RectTransform>().localPosition.y,0);
 
                 //加入到nodes裡
                 nodes.Add(tmp_node.GetComponent<Node>());
@@ -579,6 +582,7 @@ public class Map_Generate : MonoBehaviour
                     if (probability <= different_type[i].chance)
                     {
                         nodes[j].Set_type(different_type[i].type);
+                        // nodes[j].Set_type('F');
                         break;
                     }
                     else probability-=different_type[i].chance;
@@ -680,5 +684,54 @@ public class Map_Generate : MonoBehaviour
             nodes[i].can_assign = data.node_assign_arr[i];
         }
     }
-}
 
+    void check_big_monster(int _height,int _width,int _num)
+    {
+        for(int i=0;i<nodes[node_width*_height + _width].next.Count;i++)
+        {
+            int index = nodes[node_width*_height + _width].next[i];
+            if(nodes[node_width*(_height+1) + index].Return_valid()==false)continue;
+            if(nodes[node_width*(_height+1) + index].Return_type()=='F')
+            {
+                if(_num==2)
+                {
+                    float _type = Random.value;
+                    if(_type<0.25)nodes[node_width*(_height+1) + index].Set_type('t');
+                    else if(_type<0.5)nodes[node_width*(_height+1) + index].Set_type('s');
+                    else if(_type<0.75)nodes[node_width*(_height+1) + index].Set_type('h');
+                    else if(_type<=1)nodes[node_width*(_height+1) + index].Set_type('e');
+                    check_big_monster(_height+1,index,_num);
+                }
+                else 
+                check_big_monster(_height+1,index,_num+1);
+            }
+            else
+            check_big_monster(_height+1,index,_num);
+        }
+    }
+    void check_small_monster(int _height,int _width,int _num)
+    {
+        if(_height==8)return;
+        for(int i=0;i<nodes[node_width*_height + _width].next.Count;i++)
+        {
+            int index = nodes[node_width*_height + _width].next[i];
+            if(nodes[node_width*(_height+1) + index].Return_valid()==false)continue;
+            if(nodes[node_width*(_height+1) + index].Return_type()=='f')
+            {
+                if(_num==4)
+                {
+                    float _type = Random.value;
+                    if(_type<0.25)nodes[node_width*(_height+1) + index].Set_type('t');
+                    else if(_type<0.5)nodes[node_width*(_height+1) + index].Set_type('s');
+                    else if(_type<0.75)nodes[node_width*(_height+1) + index].Set_type('h');
+                    else if(_type<=1)nodes[node_width*(_height+1) + index].Set_type('e');
+                    check_small_monster(_height+1,index,_num);
+                }
+                else 
+                check_small_monster(_height+1,index,_num+1);
+            }
+            else
+            check_small_monster(_height+1,index,_num);
+        }
+    }
+}
