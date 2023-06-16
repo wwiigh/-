@@ -12,6 +12,7 @@ public class Shop_hide : MonoBehaviour
     public Image background;
     public GameObject leave;
     public GameObject product;
+    public GameObject map_move;
     public TMP_Text text;
     public void hide()
     {
@@ -22,6 +23,7 @@ public class Shop_hide : MonoBehaviour
             leave.SetActive(false);
             product.SetActive(false);
             status = 1;
+            map_move.GetComponent<Map_Move>().enabled = true;
         }
         else
         {
@@ -30,16 +32,18 @@ public class Shop_hide : MonoBehaviour
             background.color = origin_background;
             leave.SetActive(true);
             product.SetActive(true);
+            map_move.GetComponent<Map_Move>().enabled = false;
         }
     }
     public void leave_shop()
     {
+        map_move.GetComponent<Map_Move>().enabled = true;
         shop.SetActive(false);   
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        map_move.GetComponent<Map_Move>().enabled = false;
     }
 
     // Update is called once per frame

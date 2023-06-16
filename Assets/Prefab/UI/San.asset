@@ -15,3 +15,4 @@ MonoBehaviour:
   texts:
   - box: {fileID: 0}
     information: "\u7406\u667A"
+    line_count: 1

@@ -15,6 +15,8 @@ public class Map_Save
 
     [Header("第幾層")]
     public int now_height;
+    [Header("第幾個點")]
+    public int now_width;
     // [Header("button perfab")]
     // public Button button;
     // int height = 10;
@@ -47,6 +49,10 @@ public class Map_Save
         now_height = save_height;
         now_level = save_level;
     }
+    public void save_width(int _save_width)
+    {
+        now_width = _save_width;
+    }
     public int return_level()
     {
         return now_level;
@@ -54,6 +60,10 @@ public class Map_Save
     public int return_height()
     {
         return now_height;
+    }
+    public int return_width()
+    {
+        return now_width;
     }
     public void save_node(List<Node> nodes)
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
 public class Map_Generate : MonoBehaviour
@@ -67,16 +68,28 @@ public class Map_Generate : MonoBehaviour
 
     [Header("保留給點的顯示,如戰鬥,事件的ui顯示等,尚未使用")]
     public Color[] colors;
+    [Header("顯示商店")]
+    public GameObject shop_object;
+    [Header("顯示祭壇")]
+    public GameObject altar_object;
     private List<Node> nodes = new List<Node>();
+    private int now_width = 0;
     // public Map_Save map_save;
     // private List<int> node_arr = new List<int>();
     // Start is called before the first frame update
     public void On_Click()
     {
         print("onclick");
-        now_height -=1;
         // map_save.save_node(nodes);
         // map_save.save_level_height(now_level,now_height);
+        
+        
+    }
+    public void Set_width_height(int _width)
+    {
+        now_width = _width;
+        now_height -=1;
+        print(now_width);
         save();
         Show_status();
     }
@@ -99,13 +112,16 @@ public class Map_Generate : MonoBehaviour
             now_level = MyData.return_level();
             Visualize_Edge();
             Show_status();
+            check_status();
+            set_click_action();
+
             return;
         }
         //初始
         Init();
         //顯示點
         Gen_Map();
-        Regenerate_Point();
+        // Regenerate_Point();
         //創造邊
         Create_Edge();
         //將邊畫出來
@@ -138,11 +154,24 @@ public class Map_Generate : MonoBehaviour
         // map_save.save_level_height(now_level,now_height);
         // map_save.is_new = 0;
         Show_status();
+        check_status();
+        set_click_action();
+
     }
     // Update is called once per frame
+    void check_status()
+    {
+        if(SceneManager.GetActiveScene().name != "Map")
+        {
+            foreach(var n in nodes)
+            {
+                n.node.enabled = false;
+            }
+        }
+    }
     void Update()
     {
-        print(nodes[0].GetComponent<RectTransform>().position);
+        // print(nodes[0].GetComponent<RectTransform>().position);
     }
     //最上方為height = 0
     //左邊往右數width為0 1 2
@@ -175,6 +204,7 @@ public class Map_Generate : MonoBehaviour
                 //設定on click
                 
                 b.onClick.AddListener(delegate { On_Click(); });
+                b.onClick.AddListener(delegate { Set_width_height(tmp_node.GetComponent<Node>().return_width()); });
                 tmp_node.GetComponent<RectTransform>().localPosition= new Vector3(
                     tmp_node.GetComponent<RectTransform>().localPosition.x,
                     tmp_node.GetComponent<RectTransform>().localPosition.y,0);
@@ -353,13 +383,29 @@ public class Map_Generate : MonoBehaviour
                 int count = Map.transform.childCount;
                 Node n = nodes[i * node_width + j];
                 n.node.transform.SetSiblingIndex(count - 1);
-                print(n.return_height());
-                if(i==now_height)
+                // print(n.return_height());
+                if(i==9 && now_height==i)
                 {
-                    print("show status");
+                    // print("show status");
                     n.node.GetComponent<Image>().color = new Color(1,1,1,1);
                     // n.node.GetComponent<Image>().enabled = (false);
                     n.node.GetComponent<Button>().enabled = (true);
+                }
+                else if(i==now_height)
+                {
+                    if(nodes[(i+1)*node_width + now_width].parent.Contains(j))
+                    {
+
+                        // print("show status");
+                        n.node.GetComponent<Image>().color = new Color(1,1,1,1);
+                        // n.node.GetComponent<Image>().enabled = (false);
+                        n.node.GetComponent<Button>().enabled = (true);
+                    }
+                    else
+                    {
+                        n.node.GetComponent<Image>().color = new Color(1,1,1,0.5f);
+                        n.node.GetComponent<Button>().enabled = (false);
+                    }
                 }
                 else
                 {
@@ -610,7 +656,7 @@ public class Map_Generate : MonoBehaviour
         int _is_new = 0;
         int _now_level = now_level;
         int _now_height = now_height;
-
+        int _now_width = now_width;
         foreach (var item in nodes)
         {
             
@@ -646,6 +692,7 @@ public class Map_Generate : MonoBehaviour
             is_new = _is_new,
             now_level = _now_level,
             now_height = _now_height,
+            now_width = _now_width,
             node_assign_arr = node_assign_arr,
             node_parent_arr = node_parent_arr,
             node_parent_index_arr = node_parent_index_arr,
@@ -734,4 +781,58 @@ public class Map_Generate : MonoBehaviour
             check_small_monster(_height+1,index,_num);
         }
     }
+
+    public void set_click_action()
+    {
+        print("set button");
+        for(int i=0;i<nodes.Count;i++)
+        {
+            Node n = nodes[i];
+            Button b = n.node;
+            if(n.Return_valid()==false)continue;
+            switch (n.Return_type())
+            {
+                case 's':
+                    // node.GetComponent<Image>().sprite = shop;
+                    b.onClick.AddListener(delegate { click_action_shop(); });
+                    
+                    break;
+                case 'f':
+                    // node.GetComponent<Image>().sprite = little_monster;
+                    break;
+            case 'F':
+                    // node.GetComponent<Image>().sprite = big_monster;
+                    break;
+            case 'e':
+                    // node.GetComponent<Image>().sprite = events;
+                    break;
+            case 'm':
+                    // node.GetComponent<Image>().sprite = events;
+                    break;
+            case 't':
+                    // node.GetComponent<Image>().sprite = treasure;
+                    break;
+            case 'n':
+                    // node.GetComponent<Image>().sprite = null;
+                    break;
+            case 'b':
+                    // node.GetComponent<Image>().sprite = boss;
+                    break;
+                case 'h':
+                    // node.GetComponent<Image>().sprite = altar;
+                    b.onClick.AddListener(delegate { click_action_altar(); });
+                    break;
+            }
+        }
+    }
+    public void click_action_shop()
+    {
+        shop_object.SetActive(true);
+
+    }
+    public void click_action_altar()
+    {
+        altar_object.SetActive(true);
+    }
+
 }

@@ -1370,17 +1370,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4022496201264725922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1859,7 +1859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   start_set: 1
-  positon_offset: {x: 3, y: 0}
+  positon_offset: {x: -3.5, y: 3.5}
   Information_Show_Gameobject: {fileID: 3965258236680841824}
   UI_information: {fileID: 11400000, guid: 647530fc1e1a2bd41be210e7954c5704, type: 2}
   information_box: {fileID: 57291191255820774, guid: 94e52672451dd0a47b77dcc874693846, type: 3}
@@ -2091,7 +2091,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4022496202028020082}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2287358899943366458}
+        m_TargetAssemblyTypeName: UI_button_control, Assembly-CSharp
+        m_MethodName: change_map_active
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5051693227946949452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2150,7 +2162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   start_set: 1
-  positon_offset: {x: 14, y: 0}
+  positon_offset: {x: 7.2, y: 3.5}
   Information_Show_Gameobject: {fileID: 3965258236680841824}
   UI_information: {fileID: 11400000, guid: f417a33382546994f8964fcab7f4dbd0, type: 2}
   information_box: {fileID: 57291191255820774, guid: 94e52672451dd0a47b77dcc874693846, type: 3}
@@ -2252,7 +2264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   start_set: 1
-  positon_offset: {x: 5, y: 0}
+  positon_offset: {x: -1, y: 3.5}
   Information_Show_Gameobject: {fileID: 3965258236680841824}
   UI_information: {fileID: 11400000, guid: 76dcde9d915c4d9419feb25c646c9b37, type: 2}
   information_box: {fileID: 57291191255820774, guid: 94e52672451dd0a47b77dcc874693846, type: 3}
@@ -2590,7 +2602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   start_set: 1
-  positon_offset: {x: 14, y: 0}
+  positon_offset: {x: 7.2, y: 3.5}
   Information_Show_Gameobject: {fileID: 3965258236680841824}
   UI_information: {fileID: 11400000, guid: 77b03f241446ec445a545a072047b3a3, type: 2}
   information_box: {fileID: 57291191255820774, guid: 94e52672451dd0a47b77dcc874693846, type: 3}
@@ -2836,7 +2848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   start_set: 1
-  positon_offset: {x: 14, y: 0}
+  positon_offset: {x: 7.2, y: 3.5}
   Information_Show_Gameobject: {fileID: 3965258236680841824}
   UI_information: {fileID: 11400000, guid: cf6a7b573de747649b12d884560661c6, type: 2}
   information_box: {fileID: 57291191255820774, guid: 94e52672451dd0a47b77dcc874693846, type: 3}
@@ -2851,6 +2863,7 @@ GameObject:
   - component: {fileID: 4022496202479915096}
   - component: {fileID: 4022496202479915098}
   - component: {fileID: 4022496202479915097}
+  - component: {fileID: 2287358899943366458}
   m_Layer: 0
   m_Name: ui_buttom
   m_TagString: Untagged
@@ -2922,6 +2935,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2287358899943366458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022496202479919015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ef7589c17d4fe44ac2f22cba96ec2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 0}
 --- !u!1 &4022496202732189460
 GameObject:
   m_ObjectHideFlags: 0
@@ -2977,7 +3003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   start_set: 1
-  positon_offset: {x: 0, y: 0}
+  positon_offset: {x: -7, y: 3.5}
   Information_Show_Gameobject: {fileID: 3965258236680841824}
   UI_information: {fileID: 11400000, guid: 90de4739b7c265c4cb4c5c09e1f7d802, type: 2}
   information_box: {fileID: 57291191255820774, guid: 94e52672451dd0a47b77dcc874693846, type: 3}

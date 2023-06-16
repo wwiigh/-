@@ -12,6 +12,7 @@ public class UI_Show_Text : ScriptableObject
         public Image box;
         [TextArea]
         public string information;
+        public int line_count;
     }
     [Header("填入說明文字")]
     public Information_Text[] texts;

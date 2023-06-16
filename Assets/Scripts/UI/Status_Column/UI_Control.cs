@@ -19,10 +19,13 @@ public class UI_Control : MonoBehaviour
             foreach (var information in UI_information.texts)
             {
                 GameObject new_box = Instantiate(information_box);
-                new_box.GetComponent<Information_Box>().box = information.box;
+                if(information.box!=null)new_box.GetComponent<Information_Box>().box = information.box;
                 new_box.GetComponent<Information_Box>().information.text = information.information;
+                new_box.GetComponent<Information_Box>().add_count(information.line_count);
+                // new_box.GetComponent<Information_Box>().set_box_size();
                 new_box.SetActive(false);
                 new_box.GetComponent<Transform>().SetParent(Information_Show_Gameobject.transform);
+                new_box.transform.localPosition = Vector3.zero;
                 new_box.transform.position = new_box.transform.position + new Vector3(positon_offset.x,positon_offset.y-index*1.2f,0);
                 information_box_array.Add(new_box);
                 index++;
@@ -37,8 +40,11 @@ public class UI_Control : MonoBehaviour
         foreach (var information in UI_information.texts)
         {
             GameObject new_box = Instantiate(information_box);
-            new_box.GetComponent<Information_Box>().box = information.box;
+            if(information.box!=null)new_box.GetComponent<Information_Box>().box = information.box;
             new_box.GetComponent<Information_Box>().information.text = information.information;
+            new_box.GetComponent<Information_Box>().add_count(information.line_count);
+            // print(new_box.GetComponent<Information_Box>().information.textInfo.lineCount.ToString()+" "+Time.time.ToString());
+            // new_box.GetComponent<Information_Box>().set_box_size();
             new_box.SetActive(false);
             new_box.GetComponent<Transform>().SetParent(t);
             new_box.transform.position = new_box.transform.position + pos + new Vector3(positon_offset.x,positon_offset.y-index*1.2f,0);
@@ -66,8 +72,10 @@ public class UI_Control : MonoBehaviour
         foreach (var information in UI_information.texts)
         {
             GameObject new_box = Instantiate(information_box);
-            new_box.GetComponent<Information_Box>().box = information.box;
+            if(information.box!=null)new_box.GetComponent<Information_Box>().box = information.box;
             new_box.GetComponent<Information_Box>().information.text = information.information;
+            new_box.GetComponent<Information_Box>().add_count(information.line_count);
+            // new_box.GetComponent<Information_Box>().set_box_size();
             new_box.SetActive(false);
             new_box.GetComponent<Transform>().SetParent(t);
             new_box.transform.position = new_box.transform.position + pos + new Vector3(positon_offset.x,positon_offset.y-index*1.2f,0);
@@ -94,14 +102,17 @@ public class UI_Control : MonoBehaviour
     {
         foreach (var box in information_box_array)
         {
+            // box.GetComponent<Information_Box>().set_box_size();
             box.SetActive(true);
-
+            box.GetComponent<Information_Box>().set_box_size();
         }
     }
     public void Disable_Text()
     {
         foreach (var box in information_box_array)
         {
+            box.GetComponent<Information_Box>().set_box_size();
+
             box.SetActive(false);
 
         }

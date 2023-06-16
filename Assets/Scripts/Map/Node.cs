@@ -47,6 +47,8 @@ public class Node:MonoBehaviour
     public void check()
     {
         print("check");
+        print(height.ToString()+" "+width.ToString());
+        
     }
 
     public bool Return_valid()
