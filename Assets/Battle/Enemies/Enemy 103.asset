@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 548caa84be730fa48afd04ee30fbe60c, type: 3}
-  m_Name: Enemy 4
+  m_Name: Enemy 103
   m_EditorClassIdentifier: 
-  id: 4
-  mobName: "\u77F3\u50CF"
+  id: 103
+  mobName: "\u5E7B\u5F71"
   hp: 30
-  goldDrop: 40
-  sizeX: 350
-  sizeY: 350
-  image: {fileID: 21300000, guid: dd1139e9a24cb794ca7b987228725884, type: 3}
+  sizeX: 300
+  sizeY: 300
+  image: {fileID: 21300000, guid: 9ec0cffae5803b0418363505468f9e3f, type: 3}

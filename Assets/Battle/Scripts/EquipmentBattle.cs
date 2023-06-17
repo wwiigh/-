@@ -10,7 +10,7 @@ public class EquipmentBattle : MonoBehaviour
     List<GameObject> equipmentObjs = new List<GameObject>();
     private void Start() {
         battle = transform.parent.gameObject;
-        equipments = battle.GetComponent<Battle>().GetEquipments();
+        equipments = battle.GetComponent<BattleController>().GetEquipments();
         Init();
     }
     public void Init(){
