@@ -22,16 +22,22 @@ public class StatusIcon : MonoBehaviour
     void Init(){
         parent = transform.parent.gameObject;
         battle = parent.transform.parent.gameObject;
-        descriptionBox = battle.GetComponent<Battle>().descriptionBox;
+        descriptionBox = battle.GetComponent<BattleController>().descriptionBox;
     }
     public void UpdateIcon(int idx, (Status.status _status, int level) pack){
         if (parent == null) Init();
         status = pack._status;
         level = pack.level;
         Vector3 defaultPosotion = new Vector3(-100, -215, 0);
-        transform.localPosition = defaultPosotion + Vector3.right * 50 * (idx % 6) + Vector3.down * 60 * (idx / 6);
+        transform.localPosition = defaultPosotion + Vector3.right * 50 * (idx % 5) + Vector3.down * 60 * (idx / 5);
         img.sprite = battle.GetComponent<Status>().GetImage(status);
-        levelText.text = pack.level.ToString();
+        if (Status.IsCountable(status)){
+            levelText.enabled = true;
+            levelText.text = pack.level.ToString();
+        }
+        else{
+            levelText.enabled = false;
+        }
     }
 
     public void PointerIn(){

@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 216658799}
   - component: {fileID: 216658798}
   - component: {fileID: 216658797}
-  - component: {fileID: 216658801}
+  - component: {fileID: 216658803}
   - component: {fileID: 216658802}
   m_Layer: 5
   m_Name: Battle
@@ -335,31 +335,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &216658801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 216658796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af2ef8cdc6d2d0d488e1c2184c9068e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 1013566804284671106, guid: 282ef3cc73e40fc4e81903a27f9638fe, type: 3}
-  enemyClass:
-  - {fileID: 11400000, guid: 408dd2c2a18aea94299f835ec38972d1, type: 2}
-  - {fileID: 11400000, guid: e60a4c0f556c11b429478c29c3177f80, type: 2}
-  - {fileID: 11400000, guid: 66f32a03065ce23478e0f9a65bd682f2, type: 2}
-  - {fileID: 11400000, guid: c77a34663246a354e94471323568d4c1, type: 2}
-  - {fileID: 11400000, guid: 95804521531918d4ba3b1f2d158bdc98, type: 2}
-  - {fileID: 11400000, guid: 29afea1760e22c44ebd5613d21f31abd, type: 2}
-  equipmentClass:
-  - {fileID: 11400000, guid: 2d6ee39f4c06eb44088a696b42bd79e5, type: 2}
-  - {fileID: 11400000, guid: affd9a4a5a4392740922e0e287d6e277, type: 2}
-  - {fileID: 11400000, guid: be38261637c7a874b97267ffd98dd739, type: 2}
-  descriptionBox: {fileID: 666303654}
 --- !u!114 &216658802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,8 +348,68 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image:
-  - {fileID: 21300000, guid: 5f2c76a0aa3f6ea4092544fd2b3eb2b8, type: 3}
-  - {fileID: 21300000, guid: 01b29b0dbd06f324aa3b1e486439315f, type: 3}
+  - {fileID: 21300000, guid: c23eac28768468b4884e6668b16aa76e, type: 3}
+  - {fileID: 21300000, guid: c23eac28768468b4884e6668b16aa76e, type: 3}
+  - {fileID: 21300000, guid: 8574cbc4a1c24c644beb629d5ae5201c, type: 3}
+  - {fileID: 21300000, guid: 8574cbc4a1c24c644beb629d5ae5201c, type: 3}
+  - {fileID: 21300000, guid: ed4d19a3519dd3b43a17ae392b49f298, type: 3}
+  - {fileID: 21300000, guid: ae83fd678d159774a805ad0c9582fb71, type: 3}
+  - {fileID: 21300000, guid: dc4682f3fbe492a41b1cb60e3dfd5fb3, type: 3}
+  - {fileID: 21300000, guid: 1ffa540a2966de143b4059c032ab3a3f, type: 3}
+  - {fileID: 21300000, guid: d3731065e4d81c447b3ea0d3403bed5f, type: 3}
+  - {fileID: 21300000, guid: 6af997bc912428643a1e888712f1461e, type: 3}
+  - {fileID: 21300000, guid: 5a998026ed678ae4e80bddcf672f0385, type: 3}
+  - {fileID: 21300000, guid: 444b856b2743ed548894b3b0b517a42a, type: 3}
+  - {fileID: 21300000, guid: 444b856b2743ed548894b3b0b517a42a, type: 3}
+  - {fileID: 21300000, guid: 018daf896417af34992a85dda911c829, type: 3}
+  - {fileID: 21300000, guid: a0126dd9946d78f4daefbbc3e3c3223f, type: 3}
+  - {fileID: 21300000, guid: 27fd211206b008245b2a04e2281b0f15, type: 3}
+  - {fileID: 21300000, guid: 82e10e1c777f82945b2cf8ca9a06e7d9, type: 3}
+  - {fileID: 21300000, guid: 0e5cc9e8dcfe70d47ac8ee4d681cef0c, type: 3}
+  - {fileID: 21300000, guid: 6ffcdf80e9c96ab4c910dbb546d2f711, type: 3}
+  - {fileID: 21300000, guid: 78d11d20104a01a4ba52b99fde3a0c60, type: 3}
+  - {fileID: 21300000, guid: 836550e7f837f3a4e9547b173617557e, type: 3}
+  - {fileID: 21300000, guid: ba5d570dfe29f3b49ba0c74cd96b480e, type: 3}
+  - {fileID: 21300000, guid: 3de484567d322074ea0dfa08e2af834d, type: 3}
+  - {fileID: 21300000, guid: 9c81106996e37634789e5ae727b456df, type: 3}
+  - {fileID: 21300000, guid: 38d12697fe5509b4986c25b00e0b846a, type: 3}
+  - {fileID: 21300000, guid: ddcb7aabde0f574419c94969104d27d0, type: 3}
+  - {fileID: 21300000, guid: a1613dbd049f1744c8db81c05bfc84af, type: 3}
+  - {fileID: 21300000, guid: 13fe1cf1ab9b4e74c98ab76398c17633, type: 3}
+  - {fileID: 21300000, guid: f4a9efe1608e7814a9fa74b4c973324e, type: 3}
+  - {fileID: 21300000, guid: 59b2aec8a2af2614883c61a399900c0c, type: 3}
+  - {fileID: 21300000, guid: a318db5620f8ec5458aeeda3a20abb6a, type: 3}
+  - {fileID: 21300000, guid: 6a9fd146ba753d84f9d2cb25e0083c4e, type: 3}
+  - {fileID: 21300000, guid: 3ee3516909b18ae46bad7997fc74b1fc, type: 3}
+  - {fileID: 21300000, guid: 1d0e8f56f62a6f44086e7e04d3429170, type: 3}
+  - {fileID: 21300000, guid: 2d25673abda0e834286ea4a5dfeac39f, type: 3}
+  - {fileID: 21300000, guid: f2d438dc464cd1047ac7ec09ebc5adf5, type: 3}
+  - {fileID: 21300000, guid: 176c93f1fa9ffaa478b1def2973ea74e, type: 3}
+  - {fileID: 21300000, guid: 0c90d210fe1a9c248a9affede8753247, type: 3}
+--- !u!114 &216658803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216658796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45adcc278ecc2ee45bad5f19f09b0d50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 1013566804284671106, guid: 282ef3cc73e40fc4e81903a27f9638fe, type: 3}
+  enemyClass:
+  - {fileID: 11400000, guid: 408dd2c2a18aea94299f835ec38972d1, type: 2}
+  - {fileID: 11400000, guid: e60a4c0f556c11b429478c29c3177f80, type: 2}
+  - {fileID: 11400000, guid: 66f32a03065ce23478e0f9a65bd682f2, type: 2}
+  - {fileID: 11400000, guid: c77a34663246a354e94471323568d4c1, type: 2}
+  - {fileID: 11400000, guid: 95804521531918d4ba3b1f2d158bdc98, type: 2}
+  equipmentClass:
+  - {fileID: 11400000, guid: 2d6ee39f4c06eb44088a696b42bd79e5, type: 2}
+  - {fileID: 11400000, guid: affd9a4a5a4392740922e0e287d6e277, type: 2}
+  - {fileID: 11400000, guid: be38261637c7a874b97267ffd98dd739, type: 2}
+  descriptionBox: {fileID: 666303654}
 --- !u!1001 &368696070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1090,7 +1125,7 @@ GameObject:
   - component: {fileID: 1196184644}
   - component: {fileID: 1196184643}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: enter battle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1161,8 +1196,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 216658801}
-        m_TargetAssemblyTypeName: Battle, Assembly-CSharp
+      - m_Target: {fileID: 216658803}
+        m_TargetAssemblyTypeName: BattleController, Assembly-CSharp
         m_MethodName: EnterBattle
         m_Mode: 1
         m_Arguments:
