@@ -1,0 +1,7 @@
+{
+    "player_max_hp": 100,
+    "player_hp": 90,
+    "money": 0,
+    "max_sanity": 100,
+    "sanity": 100
+}

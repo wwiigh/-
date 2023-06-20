@@ -16,6 +16,8 @@ public class Item_Effect : MonoBehaviour
     public Button del;
     public Type item_type;
     public int list_index;
+    public string _type;
+    public string _name;
     Bag_System bag;
     public void show_button()
     {
