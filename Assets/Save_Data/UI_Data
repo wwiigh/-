@@ -1,0 +1,42 @@
+{
+    "bag_type": [
+        "item",
+        "item",
+        "item",
+        "equipment",
+        "item",
+        "item",
+        "item",
+        "equipment"
+    ],
+    "bag_name": [
+        "208",
+        "204",
+        "201",
+        "10",
+        "114",
+        "110",
+        "210",
+        "8"
+    ],
+    "relic_type": [
+        "relic",
+        "relic",
+        "relic",
+        "relic"
+    ],
+    "relic_name": [
+        "15",
+        "18",
+        "27",
+        "20"
+    ],
+    "equipment_type": [
+        "equipment",
+        "equipment"
+    ],
+    "equipment_name": [
+        "27",
+        "1"
+    ]
+}

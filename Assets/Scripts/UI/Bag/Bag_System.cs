@@ -37,7 +37,7 @@ public class Bag_System : MonoBehaviour
         // Add_Item("s1","item");
     }
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         init();   
     }
@@ -46,6 +46,16 @@ public class Bag_System : MonoBehaviour
     void Update()
     {
         
+    }
+    void OnEnable()
+    {
+        Bag_Save.Load_Data(this);
+    }
+    void OnDisable()
+    {
+        Bag_Save.Save_Data("bag",bag_list);
+        Bag_Save.Save_Data("relic",relic_list);
+        Bag_Save.Save_Data("equipment",equipment_list);
     }
 
     public bool Add_Item(string name, string type)
@@ -65,6 +75,8 @@ public class Bag_System : MonoBehaviour
             new_item.GetComponent<Item_Effect>().close = buttons[1];
             new_item.GetComponent<Item_Effect>().del = buttons[2];
             new_item.GetComponent<Item_Effect>().list_index = id;
+            new_item.GetComponent<Item_Effect>()._name = name;
+            new_item.GetComponent<Item_Effect>()._type = type;
             if(bag_list.Count<6) new_item.GetComponent<UI_Control>().reset_pos(this.transform,new Vector3(x,0,0));
             if(bag_list.Count>=6) new_item.GetComponent<UI_Control>().reset_pos(this.transform,new Vector3(x,-0.8f,0));
             id_to_item[id] = new_item;
@@ -86,6 +98,8 @@ public class Bag_System : MonoBehaviour
             new_item.GetComponent<Item_Effect>().close = buttons[1];
             new_item.GetComponent<Item_Effect>().del = buttons[2];
             new_item.GetComponent<Item_Effect>().list_index = id;
+            new_item.GetComponent<Item_Effect>()._name = name;
+            new_item.GetComponent<Item_Effect>()._type = type;
             if(bag_list.Count<6) new_item.GetComponent<UI_Control>().reset_pos(this.transform,new Vector3(x,0,0));
             if(bag_list.Count>=6) new_item.GetComponent<UI_Control>().reset_pos(this.transform,new Vector3(x,-0.8f,0));
             id_to_item[id] = new_item;
@@ -107,6 +121,8 @@ public class Bag_System : MonoBehaviour
             new_item.GetComponent<Item_Effect>().use = buttons[0];
             new_item.GetComponent<Item_Effect>().close = buttons[1];
             new_item.GetComponent<Item_Effect>().del = buttons[2];
+            new_item.GetComponent<Item_Effect>()._name = name;
+            new_item.GetComponent<Item_Effect>()._type = type;
             if(relic_list.Count<12) new_item.GetComponent<UI_Control>().reset_pos(this.transform,new Vector3(x,0,0));
             if(relic_list.Count>=12) new_item.GetComponent<UI_Control>().reset_pos(this.transform,new Vector3(x,-0.8f,0));
             relic_list.Add(new_item);
@@ -193,5 +209,45 @@ public class Bag_System : MonoBehaviour
             i.transform.position = pos + new Vector3(0.5f,-0.8f-0.7f*_index,0);
             _index++;
         }
+    }
+    public bool Have_Item(string type,string name)
+    {
+        if(type == "equipment")
+        {
+            for(int i=0;i<bag_list.Count;i++)
+            {
+                string n = bag_list[i].GetComponent<UI_Control>().UI_information.name;
+                if(n == name)return true;
+            }
+            for(int i=0;i<equipment_list.Count;i++)
+            {
+                string n = equipment_list[i].GetComponent<UI_Control>().UI_information.name;
+                if(n == name)return true;
+            }
+            return false;
+        }
+        if(type == "item")
+        {
+            for(int i=0;i<bag_list.Count;i++)
+            {
+                string n = bag_list[i].GetComponent<UI_Control>().UI_information.name;
+                if(n == name)return true;
+            }
+            return false;
+        }
+        if(type == "relic")
+        {
+            for(int i=0;i<relic_list.Count;i++)
+            {
+                string n = relic_list[i].GetComponent<UI_Control>().UI_information.name;
+                if(n == name)return true;
+            }
+            return false;
+        }
+        return true;
+    }
+    public void Buy()
+    {
+
     }
 }
