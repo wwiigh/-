@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-    GameObject parent;
+    BattleController battleController;
     // [SerializeField] GameObject GS;
     [SerializeField] GameObject imageObj;
     [SerializeField] TMPro.TextMeshProUGUI nameText;
@@ -25,7 +25,7 @@ public class Character : MonoBehaviour
     List<GameObject> statusIcons = new List<GameObject>();
     void Start()
     {
-        parent = transform.parent.gameObject;
+        battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         Init_HP();
         // selectionMarkObj = Instantiate(selectionMark, transform);
         // selectionMarkObj.GetComponent<SelectionMark>().Init(gameObject);
@@ -73,6 +73,8 @@ public class Character : MonoBehaviour
     //     }
     // }
 
+
+
     public bool GetHit(int damage){
         if (block < damage){
             damage -= block;
@@ -101,6 +103,20 @@ public class Character : MonoBehaviour
             return true;
         }
     }
+    public bool LoseHP(int value){
+        if (hp <= value){
+            hp = 0;
+            hpBar.GetComponent<HPBar>().UpdateHP();
+            return false;
+        }
+        else{
+            hp -= value;
+            hpBar.GetComponent<HPBar>().UpdateHP();
+            return true;
+        }
+    }
+
+
 
     public bool Attack(GameObject target, int dmg){
         int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg);
@@ -135,15 +151,51 @@ public class Character : MonoBehaviour
         return block;
     }
 
+
+
     public void HoverIn(){
-        // if (GS.GetComponent<GameState>().GetState() == GameState.State.SelectEnemy)
-        //     selectionMarkObj.SetActive(true);
+        if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
+            transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
+        }
     }
-
+    public void Click(){
+        if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
+            battleController.EnemySelected(gameObject);
+            transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        }
+    }
     public void HoverOut(){
-        // selectionMarkObj.SetActive(false);
+        if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
+            transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        }
     }
 
+
+
+    public void TurnEnd(){
+        List<(Status.status _status, int level)> tmp_list = new List<(Status.status _status, int level)>();
+        foreach(var pack in status){
+            if (Status.DecreaseOnTurnEnd(pack._status)) tmp_list.Add(pack);
+        }
+        for (int i = tmp_list.Count - 1; i >= 0; i--){
+            status.Remove(tmp_list[i]);
+            AddStatus(tmp_list[i]._status, tmp_list[i].level - 1);
+        }
+        UpdateStatus();
+    }
+
+
+
+    public bool TriggerBurn(bool decrease){
+        int level = GetStatus(Status.status.burn);
+        bool dead = LoseHP(level);
+        if (decrease){
+            if (level % 1 == 1) level = level / 2 + 1;
+            else level = level / 2;
+            AddStatus(Status.status.burn, -level);
+        }
+        return dead;
+    }
     // public void Select(){
     //     if (GS.GetComponent<GameState>().GetState() == GameState.State.SelectEnemy){
     //         GS.GetComponent<Broadcast>().UseCardSelected(gameObject);
@@ -155,9 +207,9 @@ public class Character : MonoBehaviour
         nameText.text = "玩家";
         maxHP = Global.player_max_hp;
         hp = Global.player_hp;
-        for (int i = 0; i < 12; i++){
-            GetComponent<Character>().AddStatus((Status.status) Random.Range(0, 38), Random.Range(1, 20));
-        }
+        // for (int i = 0; i < 12; i++){
+        //     GetComponent<Character>().AddStatus((Status.status) Random.Range(0, 38), Random.Range(1, 20));
+        // }
     }
 
     public void InitEnemy(EnemyClass enemy){
@@ -169,6 +221,18 @@ public class Character : MonoBehaviour
         imageObj.transform.localPosition += new Vector3(0, (enemy.sizeY - 300) / 2, 0);
         var rectT = imageObj.transform as RectTransform;
         rectT.sizeDelta = new Vector2(enemy.sizeX, enemy.sizeY);
+
+        switch(enemy.id){
+            case 101:
+                GetComponent<Animator>().Play("101_idle");
+                break;
+            case 102:
+                GetComponent<Animator>().Play("102_idle");
+                break;
+            default:
+                Debug.Log("Character.InitEnemy(): Unknown id " + enemy.id.ToString());
+                break;
+        }
     }
 
     public int GetEnemyID(){

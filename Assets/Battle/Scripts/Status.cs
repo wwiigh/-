@@ -28,6 +28,7 @@ public class Status : MonoBehaviour
         fluid,
         blink,
         oppress,
+        prepare,
 
 
         burn,
@@ -95,6 +96,8 @@ public class Status : MonoBehaviour
                 return "眨眼";
             case status.oppress:
                 return "壓迫";
+            case status.prepare:
+                return "萬全準備";
 
             case status.burn:
                 return "燃燒";
@@ -180,6 +183,8 @@ public class Status : MonoBehaviour
                 return "每次打出消費為3以上的卡牌時，將其無效並移除";
             case status.oppress:
                 return "回合結束時對玩家造成<color=red>" + level.ToString() + "</color>點傷害";
+            case status.prepare:
+                return "回合結束時選擇1張牌，在打出前給予保留，持續<color=green>" + level.ToString() + "</color>回合";
                 
             case status.burn:
                 return "回合開始時失去<color=red>" + level.ToString() + "</color>點生命，隨後層數減半";
@@ -225,6 +230,13 @@ public class Status : MonoBehaviour
             _status == status.blink || _status == status.summoned || _status == status.observe)
             return false;
         else return true;
+    }
+
+    public static bool DecreaseOnTurnEnd(status _status){
+        if (_status == status.taunt || _status == status.prepare || _status == status.weak || _status == status.frail ||
+            _status == status.vulnerable || _status == status.dream || _status == status.information_erase || _status == status.swallow )
+            return true;
+        else return false;
     }
 
     public Sprite GetImage(status _status){

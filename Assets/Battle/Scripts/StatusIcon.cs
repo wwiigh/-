@@ -6,7 +6,7 @@ using TMPro;
 
 public class StatusIcon : MonoBehaviour
 {
-    GameObject battle;
+    GameObject battleController;
     GameObject parent;
     [SerializeField] Image img;
     [SerializeField] TMP_Text levelText;
@@ -20,9 +20,10 @@ public class StatusIcon : MonoBehaviour
         // descriptionBox.SetActive(false);
     }
     void Init(){
+        battleController = GameObject.FindGameObjectWithTag("BattleController");
         parent = transform.parent.gameObject;
-        battle = parent.transform.parent.gameObject;
-        descriptionBox = battle.GetComponent<BattleController>().descriptionBox;
+        Debug.Log("battleController is " + battleController.ToString());
+        descriptionBox = battleController.GetComponent<BattleController>().descriptionBox;
     }
     public void UpdateIcon(int idx, (Status.status _status, int level) pack){
         if (parent == null) Init();
@@ -30,7 +31,7 @@ public class StatusIcon : MonoBehaviour
         level = pack.level;
         Vector3 defaultPosotion = new Vector3(-100, -215, 0);
         transform.localPosition = defaultPosotion + Vector3.right * 50 * (idx % 5) + Vector3.down * 60 * (idx / 5);
-        img.sprite = battle.GetComponent<Status>().GetImage(status);
+        img.sprite = battleController.GetComponent<Status>().GetImage(status);
         if (Status.IsCountable(status)){
             levelText.enabled = true;
             levelText.text = pack.level.ToString();

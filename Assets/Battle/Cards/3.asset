@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77dd86b85efde9f45aa20cdb20faffb8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bd715c39497b8f409754214f1f95a2d, type: 3}
   m_Name: 3
   m_EditorClassIdentifier: 
   id: 3
-  cardName: "\u5315\u9996\u6295\u64F2"
-  image: {fileID: 21300000, guid: 096613e3476cf9f4981c295aa22e6fe0, type: 3}
-  cost: 1
+  cardName: "\u5E7B\u75DB"
+  image: {fileID: 21300000, guid: 9468c63ed6a24ee438b4f4cc4d81658c, type: 3}
+  cost_original: 1
+  cost: 0
   description:
-  - "\u9020\u6210"
-  - '#A'
-  - "\u9EDE\u50B7\u5BB33\u6B21"
-  Args: 02000000
+  - "\u7ACB\u5373\u89F8\u767C\u4E00\u6B21\u76EE\u6A19\u7684\u71C3\u71D2\u50B7\u5BB3"
+  Args: 
   select: 1
-  rarity: 0
+  rarity: 1
+  type: 1
   exhaust: 0
-  fontSize: 30
+  fontSize: 10

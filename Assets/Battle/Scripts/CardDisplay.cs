@@ -2,41 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CardDisplay : MonoBehaviour
 {
-    [SerializeField] GameObject deck;
     [SerializeField] Sprite normal;
     [SerializeField] Sprite uncommon;
     [SerializeField] Sprite rare;
+    [SerializeField] Sprite special;
 
-    public Text nameText;
+    public Image cardBase;
+    public TMP_Text nameText;
     public Image img;
-    public Text descriptionText;
-    public Text costText;
-    public int index;
+    public TMP_Text descriptionText;
+    public TMP_Text costText;
     public Card thisCard;
 
-    public GameObject Make(Card c, int idx, Transform t){
-        GameObject a =  Instantiate(gameObject, transform.parent);
+    public GameObject Make(Card c, Transform t){
+        GameObject a =  Instantiate(gameObject, t);
+        c.cost = c.cost_original;
         a.GetComponent<CardDisplay>().thisCard = c;
-        a.GetComponent<CardDisplay>().index = idx;
         a.tag = "Card";
         a.GetComponent<CardDisplay>().LoadCard();
-        a.transform.SetParent(t);
-        a.SetActive(true);
-        return gameObject;
+        // a.SetActive(true);
+        return a;
     }
 
     public void LoadCard(){
-        if (thisCard.rarity == 0) GetComponent<Image>().sprite = normal;
-        else if (thisCard.rarity == 1) GetComponent<Image>().sprite = uncommon;
-        else GetComponent<Image>().sprite = rare;
+        if (thisCard.rarity == Card.Rarity.common) cardBase.sprite = normal;
+        else if (thisCard.rarity == Card.Rarity.uncommon) cardBase.sprite = uncommon;
+        else cardBase.sprite = rare;
         nameText.text = thisCard.cardName;
         descriptionText.fontSize = thisCard.fontSize;
         img.sprite = thisCard.image;
         int ArgIdx = 0;
         descriptionText.text = "";
+        if (thisCard.keep || thisCard.keepBeforeUse) descriptionText.text += "保留。";
         costText.text = thisCard.cost.ToString();
         foreach (string s in thisCard.description){
             if (s == "#A"){
@@ -52,10 +53,6 @@ public class CardDisplay : MonoBehaviour
                 descriptionText.text += s;
             }
         }
-    }
-
-    public int GetIndex(){
-        return index;
     }
 
     public void SetPos(Vector3 v){

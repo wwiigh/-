@@ -4,17 +4,38 @@ using UnityEngine;
 
 public class BattleController : MonoBehaviour
 {
-    [SerializeField] GameObject character;
+    [SerializeField] GameObject deck_obj;
+    [SerializeField] GameObject characters;
+    [SerializeField] GameObject character_template;
+    [SerializeField] GameObject panel;
+    public GameObject descriptionBox;
     [SerializeField] EnemyClass[] enemyClass;
     [SerializeField] EquipmentClass[] equipmentClass;
-    public GameObject descriptionBox;
     GameObject player;
+    GameObject caller_saved;
+    Deck deck;
     public enum BattleType{
         Normal,
         Elite,
         Boss
     }
+    public enum BattleState{
+        Normal,
+        SelectEnemy,
+        SelectCard
+    }
+    BattleState battleState = BattleState.Normal;
+
+
+    private void Start() {
+        deck = deck_obj.GetComponent<Deck>();
+    }
+
+
     public void EnterBattle(){
+        for (int i = characters.transform.childCount - 1; i >= 0; i--){
+            Destroy(characters.transform.GetChild(i).gameObject);
+        }
         EnterBattle_id(Random.Range(101, 107 + 1));
     }
 
@@ -53,11 +74,105 @@ public class BattleController : MonoBehaviour
                 return;
         }
         SpawnEnemies(enemyID);
+        deck.Init();
+        deck.Draw(5);
     }
 
-    public void TurnEnd(){
-
+    public void EndTurn(){
+        StartCoroutine(_EndTurn());
     }
+
+    IEnumerator _EndTurn(){
+        deck.TurnEnd();
+        characters.transform.GetChild(0).GetComponent<Character>().TurnEnd();
+        // yield return new WaitForSeconds(0.1f);
+        foreach(Transform child in characters.transform){
+            if (child.tag == "Enemy"){
+                child.GetComponent<EnemyMove>().Move();
+            }
+            yield return new WaitForSeconds(1f);
+        }
+        StartCoroutine(_StartTurn());
+    }
+
+    IEnumerator _StartTurn(){
+        deck.Draw(5);
+        yield return new WaitForSeconds(0);
+    }
+
+
+
+    public BattleState GetState(){
+        return battleState;
+    }
+    void EnterState(BattleState state){
+        Debug.Log("battle controller: enter state " + state.ToString());
+        battleState = state;
+    }
+
+
+
+    public void SelectEnemy(GameObject caller){ // to be revised
+        caller_saved = caller;
+        EnterState(BattleState.SelectEnemy);
+    }
+    public void SelectEnemy(){ // to be revised
+        EnterState(BattleState.SelectEnemy);
+    }
+    public void EnemySelected(GameObject enemy){
+        CardEffects.EnemySelected(enemy);
+        EnterState(BattleState.Normal);
+        deck.Rearrange();
+    }
+
+
+
+    bool isEqual = true;
+    bool cancellable = true;
+    int targetCardNumber = 0;
+    List<GameObject> selectedCards = new List<GameObject>();
+    public void SelectCard(int count, bool _isEqual, bool _cancellable){
+        selectedCards.Clear();
+        targetCardNumber = count;
+        isEqual = _isEqual;
+        cancellable = _cancellable;
+        panel.GetComponent<Panel>().Show(BattleState.SelectCard, 0, targetCardNumber, isEqual, cancellable);
+        EnterState(BattleState.SelectCard);
+    }
+    public void SelectCard_Add(GameObject card){
+        selectedCards.Add(card);
+        panel.GetComponent<Panel>().UpdateAll(selectedCards.Count, targetCardNumber, isEqual, cancellable);
+    }
+    public void SelectCard_Remove(GameObject card){
+        selectedCards.Remove(card);
+        panel.GetComponent<Panel>().UpdateAll(selectedCards.Count, targetCardNumber, isEqual, cancellable);
+    }
+    public void SelectCard_Confirm(){
+        if (isEqual && selectedCards.Count == targetCardNumber){
+            EnterState(BattleState.Normal);
+            CardEffects.CardSelected(selectedCards);
+            panel.GetComponent<Panel>().Hide();
+        }
+        if (!isEqual && selectedCards.Count <= targetCardNumber){
+            EnterState(BattleState.Normal);
+            CardEffects.CardSelected(selectedCards);
+            panel.GetComponent<Panel>().Hide();
+        }
+    }
+    public void SelectCard_Cancel(){
+        if (!cancellable) return;
+        if (battleState == BattleState.SelectCard){
+            EnterState(BattleState.Normal);
+            panel.GetComponent<Panel>().Hide();
+            deck.Rearrange();
+            deck.ResetHand();
+        }
+    }
+    public bool SelectCard_Availible(){
+        return selectedCards.Count < targetCardNumber;
+    }
+
+
 
     public GameObject GetPlayer(){
         return player;
@@ -65,14 +180,14 @@ public class BattleController : MonoBehaviour
 
     void InitPlayer(){
         // GameObject player = Instantiate(character, transform);
-        player = Instantiate(character, transform);
+        player = Instantiate(character_template, characters.transform);
         player.transform.localPosition = new Vector3(-480, 0, 0);
         player.tag = "Player";
         player.GetComponent<Character>().InitPlayer();
     }
 
     void InitEnemy(int id, int idx){
-        GameObject enemy = Instantiate(character, transform);
+        GameObject enemy = Instantiate(character_template, characters.transform);
         enemy.transform.localPosition = new Vector3(180 + idx*300, 0, 0);
         enemy.tag = "Enemy";
         enemy.GetComponent<Character>().InitEnemy(enemyClass[id]);

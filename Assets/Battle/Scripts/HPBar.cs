@@ -21,7 +21,7 @@ public class HPBar : MonoBehaviour
         int block = character.GetBlock();
 
         hpText.text = hp.ToString() + " / " + maxHP.ToString();
-        transform.GetComponent<Slider>().value = hp;
+        transform.GetComponent<Slider>().value = (float) hp / maxHP;
         if (block > 0){
             blockText.text = block.ToString();
             foreach (Transform child in transform){

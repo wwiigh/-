@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Global
   - Enemy
+  - BattleController
+  - Card
+  - Deck
   layers:
   - Default
   - TransparentFX

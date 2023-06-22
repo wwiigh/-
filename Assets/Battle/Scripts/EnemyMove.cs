@@ -4,36 +4,51 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
+
     public void Move(){
+        StartCoroutine(_Move());
+    }
+    IEnumerator _Move(){
         int id = GetComponent<Character>().GetEnemyID();
-        GameObject player = transform.parent.GetComponent<BattleController>().GetPlayer();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         int result, state;
 
         switch(id){
             case 101: // 史萊姆
-                result = Random.Range(1, 3);
-                if (result == 1){
+                result = Random.Range(0, 3);
+                if (result == 0){
+                    GetComponent<Animator>().Play("101_strike");
+                    yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 6);
                     player.GetComponent<Character>().AddStatus(Status.status.weak, 1);
                 }
-                else if (result == 2){
+                else if (result == 1){
+                    GetComponent<Animator>().Play("101_strike");
+                    yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 10);
                 }
                 else{
+                    GetComponent<Animator>().Play("101_spit");
+                    yield return new WaitForSeconds(0.5f);
                     player.GetComponent<Character>().AddStatus(Status.status.weak, 1);
                     player.GetComponent<Character>().AddStatus(Status.status.frail, 1);
                 }
                 break;
             case 102: // 哥布林
-                result = Random.Range(1, 3);
-                if (result == 1){
+                result = Random.Range(0, 3);
+                if (result == 0){
+                    GetComponent<Animator>().Play("102_strike");
+                    yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 10);
                 }
-                else if (result == 2){
+                else if (result == 1){
+                    GetComponent<Animator>().Play("102_strike");
+                    yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 6);
                     GetComponent<Character>().AddStatus(Status.status.strength, 2);
                 }
                 else{
+                    GetComponent<Animator>().Play("102_evade");
                     GetComponent<Character>().AddArmor(8);
                 }
                 break;
