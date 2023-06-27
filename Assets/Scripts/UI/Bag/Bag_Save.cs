@@ -73,7 +73,7 @@ public class Bag_Save
         }
         for(int i=0;i<equipment_type.Count;i++)
         {
-            bag_System.Add_Item(equipment_name[i],equipment_type[i]);
+            bag_System.Add_Item(equipment_name[i],equipment_type[i],true);
             bag_System.wear_equipment(bag_type.Count+i);
         }
         for(int i=0;i<relic_type.Count;i++)

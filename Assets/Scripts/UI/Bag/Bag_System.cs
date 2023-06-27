@@ -58,11 +58,11 @@ public class Bag_System : MonoBehaviour
         Bag_Save.Save_Data("equipment",equipment_list);
     }
 
-    public bool Add_Item(string name, string type)
+    public bool Add_Item(string name, string type,bool force = false)
     {
         if(type == "equipment")
         {
-            if(bag_list.Count==12)return false;
+            if(force == false && bag_list.Count==12)return false;
             int index = bag_list.Count % 6;
             float x = index * 0.8f;
             UI_Show_Text _item = equipment[name];
@@ -85,7 +85,7 @@ public class Bag_System : MonoBehaviour
         }
         if(type == "item")
         {
-            if(bag_list.Count==12)return false;
+            if(force == false &&bag_list.Count==12)return false;
             int index = bag_list.Count % 6;
             float x = index * 0.8f;
             UI_Show_Text _item = item[name];
