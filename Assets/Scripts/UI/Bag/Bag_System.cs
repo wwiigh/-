@@ -50,6 +50,16 @@ public class Bag_System : MonoBehaviour
     void OnEnable()
     {
         Bag_Save.Load_Data(this);
+        // List<int> tmp = Return_Equipment();
+        // foreach(var i in tmp)
+        // {
+        //     print("equipment"+i.ToString());
+        // }
+        // tmp = Return_Relic();
+        // foreach(var i in tmp)
+        // {
+        //     print("relic"+i.ToString());
+        // }
     }
     void OnDisable()
     {
@@ -249,5 +259,27 @@ public class Bag_System : MonoBehaviour
     public void Buy()
     {
 
+    }
+
+    public List<int> Return_Equipment()
+    {
+        List<int> equipment = new List<int>();
+        for(int i=0;i<equipment_list.Count;i++)
+        {
+            string n = equipment_list[i].GetComponent<UI_Control>().UI_information.name;
+            equipment.Add(int.Parse(n));
+        }
+        return equipment;
+    }
+
+    public List<int> Return_Relic()
+    {
+        List<int> relic = new List<int>();
+        for(int i=0;i<relic_list.Count;i++)
+        {
+            string n = relic_list[i].GetComponent<UI_Control>().UI_information.name;
+            relic.Add(int.Parse(n));
+        }
+        return relic;
     }
 }
