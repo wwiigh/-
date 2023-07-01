@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Battle/Scripts/AllCards.cs.meta
+guid: 89579c7ab499c8b4a88ec2ffd6bc1837
+========
+guid: d4ef5140e57562943bbd517c501f80f2
+>>>>>>>> 50c7df4807f6c4559d828f44732b1682c42870ad:Assets/Scripts/Shop/Shop_Buy.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

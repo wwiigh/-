@@ -7,6 +7,10 @@
         "item",
         "item",
         "item",
+        "item",
+        "item",
+        "item",
+        "item",
         "equipment"
     ],
     "bag_name": [
@@ -17,26 +21,34 @@
         "114",
         "110",
         "210",
-        "8"
+        "204",
+        "201",
+        "209",
+        "208",
+        "25"
     ],
     "relic_type": [
+        "relic",
+        "relic",
+        "relic",
         "relic",
         "relic",
         "relic",
         "relic"
     ],
     "relic_name": [
-        "15",
         "18",
-        "27",
-        "20"
+        "24",
+        "20",
+        "16",
+        "22",
+        "6",
+        "7"
     ],
     "equipment_type": [
-        "equipment",
         "equipment"
     ],
     "equipment_name": [
-        "27",
-        "1"
+        "8"
     ]
 }
