@@ -190,8 +190,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u4E8B\u4EF6\u9078\u9805"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 36e864acdab730544b4fe0450f12d73f, type: 2}
-  m_sharedMaterial: {fileID: 7635600507851739849, guid: 36e864acdab730544b4fe0450f12d73f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e2d4595e4b1a9ea4ab891a978c9aeca2, type: 2}
+  m_sharedMaterial: {fileID: 86366545012150804, guid: e2d4595e4b1a9ea4ab891a978c9aeca2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

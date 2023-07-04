@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c40f88f3e38a0148bd91b954ecf8b3e, type: 3}
+  m_Name: story 2-2
+  m_EditorClassIdentifier: 
+  id: 202
+  eventName: 
+  type: 1
+  image: {fileID: 21300000, guid: 1c1823acafb4b954080ff93a3b835d0f, type: 3}
+  description: "\u78EF\u5440\u2026\u2026<br>\u4F60\u63A8\u958B\u4E86\u9435\u9580\uFF0C\u8E0F\u5165\u4E00\u9593\u623F<color=black>\u9593</color>\u3002<br>\u9996\u5148\u5438\u5F15\u4F60\u6CE8\u610F\u7684\u662F\u4E00\u65C1<color=black>\u66F8\u6AC3</color>\u4E0A<color=black>\u6EFF</color>\u6EFF\u7684\u66F8\u3002<br>\u5730\u677F\u4E0A\u6563\u843D\u8005<color=black>\u5E7E\u5F35\u7D19</color>\uFF0C\u7D19<color=black>\u4E0A</color>\u5BEB<color=black>\u8005\u8A31</color>\u591A\u5BC6<color=black>\u5BC6\u9EBB\u9EBB</color>\u7684\u5B57<br>\u4F60\u7684\u624B\u671D\u5411\u4E86\u66F8\u6AC3..."
+  optionText:
+  - "[\u62FF\u8D77\u4E00\u672C\u66F8]"

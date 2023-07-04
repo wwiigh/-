@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c40f88f3e38a0148bd91b954ecf8b3e, type: 3}
-  m_Name: Event 1
+  m_Name: Event 7
   m_EditorClassIdentifier: 
-  id: 1
-  eventName: "\u53EF\u7591\u7684\u7BB1\u5B50"
+  id: 7000
+  eventName: "\u8DEF\u908A\u7684\u71DF\u706B"
   type: 0
-  image: {fileID: 21300000, guid: d89f4811cea1bae4297a30dd502c5c59, type: 3}
-  description: "\u6E2C\u8A662"
+  image: {fileID: 21300000, guid: 3ce02f2af19cfe040845781f87cf500d, type: 3}
+  description: "\u9019\u88E1\u6709\u524D\u4EBA\u7559\u4E0B\u4F86\u7684\u71DF\u706B\uFF0C\u662F\u500B\u4F11\u606F\u7684\u597D\u5730\u65B9"
   optionText:
-  - "[\u6253\u958B] <color=red>(50%) \u88AB\u8972\u64CA</color>\uFF1B<color=green>(50%)
-    \u7372\u5F97\u5BF6\u7BB1\u7269\u54C1</color>"
-  - "\u96E2\u958B"
+  - "[\u4F11\u606F] \u6062\u5FA910\u9EDE\u7406\u667A\u3001\u8840\u91CF\u3002"
