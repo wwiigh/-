@@ -59,6 +59,7 @@ public class Bag_Save
     public static void  Load_Data(Bag_System bag_System)
     {
         if(!File.Exists(Application.dataPath+"/Save_Data/UI_Data"))return;
+        bag_System.clear();
         string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/UI_Data");
         Data Load = JsonUtility.FromJson<Data>(LoadData);
         bag_name = Load.bag_name;

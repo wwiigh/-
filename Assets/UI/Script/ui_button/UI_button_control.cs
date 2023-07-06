@@ -22,7 +22,12 @@ public class UI_button_control : MonoBehaviour
     {
         setting.SetActive(!setting.activeSelf);
     }
-    
+    public void testhealth()
+    {
+        Global.AddHp(-10);
+        Global.AddSan(-10);
+        Global.money += 100;
+    }
     void Start()
     {
         

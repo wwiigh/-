@@ -16,4 +16,6 @@ public class UI_Show_Text : ScriptableObject
     }
     [Header("填入說明文字")]
     public Information_Text[] texts;
+    [Header("稀有度 普通(1) < 罕見(2) < 稀有(3) 無稀有度(0)")]
+    public int rarity;
 }

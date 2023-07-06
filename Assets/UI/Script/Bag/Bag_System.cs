@@ -19,13 +19,16 @@ public class Bag_System : MonoBehaviour
     public GameObject Bag;
     public GameObject Relic;
     public GameObject Equipment;
-    public Dictionary<string,UI_Show_Text> equipment = new Dictionary<string, UI_Show_Text>();
-    public Dictionary<string,UI_Show_Text> relic = new Dictionary<string, UI_Show_Text>();
-    public Dictionary<string,UI_Show_Text> item = new Dictionary<string, UI_Show_Text>();
-    public Dictionary<string,Sprite> equipment_image = new Dictionary<string, Sprite>();
-    public Dictionary<string,Sprite> relic_image = new Dictionary<string, Sprite>();
-    public Dictionary<string,Sprite> item_image = new Dictionary<string, Sprite>();
-    public Dictionary<int,GameObject> id_to_item = new Dictionary<int, GameObject>();
+    Dictionary<string,UI_Show_Text> equipment = new Dictionary<string, UI_Show_Text>();
+    Dictionary<string,UI_Show_Text> relic = new Dictionary<string, UI_Show_Text>();
+    Dictionary<string,UI_Show_Text> item = new Dictionary<string, UI_Show_Text>();
+    Dictionary<string,Sprite> equipment_image = new Dictionary<string, Sprite>();
+    Dictionary<string,Sprite> relic_image = new Dictionary<string, Sprite>();
+    Dictionary<string,Sprite> item_image = new Dictionary<string, Sprite>();
+    Dictionary<string,int> equipment_rarity = new Dictionary<string, int>();
+    Dictionary<string,int> relic_rarity = new Dictionary<string, int>();
+    Dictionary<string,int> item_rarity = new Dictionary<string, int>();
+    Dictionary<int,GameObject> id_to_item = new Dictionary<int, GameObject>();
     int id = 0;
     List<GameObject> bag_list = new List<GameObject>();
     List<GameObject> equipment_list = new List<GameObject>();
@@ -147,16 +150,19 @@ public class Bag_System : MonoBehaviour
             {
                 equipment.Add(i.name,i.description);
                 equipment_image.Add(i.name,i.picture);
+                equipment_rarity.Add(i.name,i.description.rarity);
             }
             if(i.type == "item")
             {
                 item.Add(i.name,i.description);
                 item_image.Add(i.name,i.picture);
+                item_rarity.Add(i.name,i.description.rarity);
             }
             if(i.type == "relic")
             {
                 relic.Add(i.name,i.description);
                 relic_image.Add(i.name,i.picture);
+                relic_rarity.Add(i.name,i.description.rarity);
             }
         }
     }
@@ -272,6 +278,25 @@ public class Bag_System : MonoBehaviour
         return equipment;
     }
 
+    public List<int> Return_All_Equipment()
+    {
+        List<int> equipment = new List<int>();
+        for(int i=0;i<equipment_list.Count;i++)
+        {
+            string n = equipment_list[i].GetComponent<UI_Control>().UI_information.name;
+            equipment.Add(int.Parse(n));
+        }
+        for(int i=0;i<bag_list.Count;i++)
+        {
+            if(bag_list[i].GetComponent<Item_Effect>().item_type == Item_Effect.Type.equipment_off)
+            {
+                string n = bag_list[i].GetComponent<UI_Control>().UI_information.name;
+                equipment.Add(int.Parse(n));
+            }
+        }
+        return equipment;
+    }
+
     public List<int> Return_Relic()
     {
         List<int> relic = new List<int>();
@@ -281,5 +306,23 @@ public class Bag_System : MonoBehaviour
             relic.Add(int.Parse(n));
         }
         return relic;
+    }
+    public void clear()
+    {
+        foreach (var item in bag_list)
+        {
+            Destroy(item);
+        }
+        bag_list.Clear();
+        foreach (var item in equipment_list)
+        {
+            Destroy(item);
+        }
+        equipment_list.Clear();
+        foreach (var item in relic_list)
+        {
+            Destroy(item);
+        }
+        relic_list.Clear();
     }
 }
