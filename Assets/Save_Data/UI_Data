@@ -1,54 +1,14 @@
 {
-    "bag_type": [
-        "item",
-        "item",
-        "item",
-        "equipment",
-        "item",
-        "item",
-        "item",
-        "item",
-        "item",
-        "item",
-        "item",
-        "equipment"
-    ],
-    "bag_name": [
-        "208",
-        "204",
-        "201",
-        "10",
-        "114",
-        "110",
-        "210",
-        "204",
-        "201",
-        "209",
-        "208",
-        "25"
-    ],
+    "bag_type": [],
+    "bag_name": [],
     "relic_type": [
-        "relic",
-        "relic",
-        "relic",
-        "relic",
-        "relic",
         "relic",
         "relic"
     ],
     "relic_name": [
-        "18",
-        "24",
-        "20",
-        "16",
-        "22",
-        "6",
-        "7"
+        "1",
+        "2"
     ],
-    "equipment_type": [
-        "equipment"
-    ],
-    "equipment_name": [
-        "8"
-    ]
+    "equipment_type": [],
+    "equipment_name": []
 }
