@@ -19,11 +19,14 @@ MonoBehaviour:
   cost: 0
   description:
   - "\u4E1F\u68C41\u5F35\u724C\uFF0C\u7372\u5F97"
-  - '#A'
+  - '#D'
   - "\u9EDE\u8B77\u7532\uFF0C\u5F9E\u62BD\u724C\u5806\u6AA2\u7D221\u5F35\u8017\u80FD\u70BA0\u7684\u5361\u7247"
   Args: 03000000
   select: 0
   rarity: 0
   type: 1
+  keep: 0
+  keepBeforeUse: 0
   exhaust: 0
+  upgraded: 0
   fontSize: 10

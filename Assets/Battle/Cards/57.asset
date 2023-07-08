@@ -19,7 +19,7 @@ MonoBehaviour:
   cost: 0
   description:
   - "\u7D66\u4E88"
-  - '#A'
+  - '#O'
   - "\u5C64\u71C3\u71D2"
   Args: 07000000
   select: 1

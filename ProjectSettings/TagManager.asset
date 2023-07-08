@@ -9,6 +9,7 @@ TagManager:
   - BattleController
   - Card
   - Deck
+  - Cost
   layers:
   - Default
   - TransparentFX
