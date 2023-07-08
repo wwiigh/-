@@ -29,6 +29,11 @@ public class Status : MonoBehaviour
         blink,
         oppress,
         prepare,
+        fortify,
+        fast_hand,
+        second_weapon,
+        bounce_back,
+        counter,
 
 
         burn,
@@ -98,6 +103,16 @@ public class Status : MonoBehaviour
                 return "壓迫";
             case status.prepare:
                 return "萬全準備";
+            case status.fortify:
+                return "固守";
+            case status.fast_hand:
+                return "無影手";
+            case status.second_weapon:
+                return "備用武器";
+            case status.bounce_back:
+                return "反彈";
+            case status.counter:
+                return "反擊架勢";
 
             case status.burn:
                 return "燃燒";
@@ -185,6 +200,16 @@ public class Status : MonoBehaviour
                 return "回合結束時對玩家造成<color=red>" + level.ToString() + "</color>點傷害";
             case status.prepare:
                 return "回合結束時選擇1張牌，在打出前給予保留，持續<color=green>" + level.ToString() + "</color>回合";
+            case status.fortify:
+                return "本回合內每次獲得護甲時抽1張牌，還可觸發<color=green>" + level.ToString() + "</color>次";
+            case status.fast_hand:
+                return "每丟棄1張牌就對隨機敵人造成<color=green>" + level.ToString() + "</color>點傷害";
+            case status.second_weapon:
+                return "每回合第1次丟棄卡牌時，抽<color=green>" + level.ToString() + "</color>張牌";
+            case status.bounce_back:
+                return "下<color=green>" + level.ToString() + "</color>張打出的牌進入抽牌堆而不是棄牌堆";
+            case status.counter:
+                return "護甲被突破時對攻擊者造成<color=green>" + level.ToString() + "</color>點傷害並給予<color=green>1</color>層易傷";
                 
             case status.burn:
                 return "回合開始時失去<color=red>" + level.ToString() + "</color>點生命，隨後層數減半";
@@ -235,6 +260,12 @@ public class Status : MonoBehaviour
     public static bool DecreaseOnTurnEnd(status _status){
         if (_status == status.taunt || _status == status.prepare || _status == status.weak || _status == status.frail ||
             _status == status.vulnerable || _status == status.dream || _status == status.information_erase || _status == status.swallow )
+            return true;
+        else return false;
+    }
+
+    public static bool ClearOnTurnEnd(status _status){
+        if (_status == status.temporary_strength || _status == status.temporary_dexterity || _status == status.fortify)
             return true;
         else return false;
     }

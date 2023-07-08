@@ -35,13 +35,29 @@ public class CardDisplay : MonoBehaviour
         nameText.text = thisCard.cardName;
         descriptionText.fontSize = thisCard.fontSize;
         img.sprite = thisCard.image;
-        int ArgIdx = 0;
         descriptionText.text = "";
         if (thisCard.keep || thisCard.keepBeforeUse) descriptionText.text += "保留。";
         costText.text = thisCard.cost.ToString();
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        int ArgIdx = 0;
+        int tmp = 0;
         foreach (string s in thisCard.description){
             if (s == "#A"){
-                //descriptionText.text += thisCard.Args[ArgIdx] + " ";
+                tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx]);
+                if (tmp > thisCard.Args[ArgIdx]) descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
+                else if (tmp < thisCard.Args[ArgIdx]) descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
+                else descriptionText.text += tmp;
+                ArgIdx++;
+            }
+            else if (s == "#D"){
+                tmp = BattleController.ComputeArmor(thisCard.Args[ArgIdx]);
+                if (tmp > thisCard.Args[ArgIdx]) descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
+                else if (tmp < thisCard.Args[ArgIdx]) descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
+                else descriptionText.text += tmp;
+                ArgIdx++;
+            }
+            else if (s == "#O"){
                 descriptionText.text += thisCard.Args[ArgIdx];
                 ArgIdx++;
             }

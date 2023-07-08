@@ -5,30 +5,32 @@ using UnityEngine.UI;
 
 public class Cost : MonoBehaviour
 {
-    [SerializeField] Text costText;
-    int maxCost;
-    int cost;
-    void Start()
-    {
-        Init();
-    }
+    static Text costText;
+    static int maxCost;
+    static int cost;
 
-    public void Init(){
+    static public void Init(){
+        costText = GameObject.FindGameObjectWithTag("Cost").transform.GetChild(0).GetComponent<Text>();
         maxCost = 3;
         cost = 3;
         updateText();
     }
 
-    public int GetCost(){
+    static public int GetCost(){
         return cost;
     }
 
-    public void ChangeCost(int value){
+    static public void ChangeCost(int value){
         cost += value;
         updateText();
     }
 
-    void updateText(){
+    static public void Refill(int additional){
+        cost = maxCost + additional;
+        updateText();
+    }
+
+    static void updateText(){
         costText.text = cost.ToString() + " / " + maxCost.ToString();
     }
 }

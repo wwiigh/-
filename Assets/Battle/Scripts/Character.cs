@@ -6,29 +6,23 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     BattleController battleController;
-    // [SerializeField] GameObject GS;
     [SerializeField] GameObject imageObj;
     [SerializeField] TMPro.TextMeshProUGUI nameText;
     [SerializeField] GameObject hpBarTemplate;
     [SerializeField] GameObject statusIconTemplate;
-    // [SerializeField] GameObject selectionMark;
-    // [SerializeField] public GameObject effect;
+    [SerializeField] GameObject damageTextTemplate;
     GameObject hpBar;
-    // GameObject selectionMarkObj;
     EnemyClass enemyClass;
     int maxHP = 100;
     int hp = 100;
     int armor = 0;
     int block = 0;
-    int state = 0;
     List<(Status.status _status, int level)> status = new List<(Status.status _status, int level)>();
     List<GameObject> statusIcons = new List<GameObject>();
     void Start()
     {
         battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         Init_HP();
-        // selectionMarkObj = Instantiate(selectionMark, transform);
-        // selectionMarkObj.GetComponent<SelectionMark>().Init(gameObject);
         UpdateStatus();
     }
 
@@ -76,6 +70,8 @@ public class Character : MonoBehaviour
 
 
     public bool GetHit(int damage){
+        GameObject dmgText = Instantiate(damageTextTemplate, transform);
+        dmgText.GetComponent<DamageText>().Show(damage);
         if (block < damage){
             damage -= block;
             block = 0;
@@ -139,16 +135,32 @@ public class Character : MonoBehaviour
         else hp += value;
     }
 
+
+
     public int GetArmor(){
         return armor;
     }
-
     public void AddArmor(int value){
         armor += value;
+        hpBar.GetComponent<HPBar>().UpdateHP();
+        if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
+            GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();
+            AddStatus(Status.status.fortify, -1);
+        }
     }
+
+
 
     public int GetBlock(){
         return block;
+    }
+    public void AddBlock(int value){
+        block += value;
+        hpBar.GetComponent<HPBar>().UpdateHP();
+        if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
+            GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();
+            AddStatus(Status.status.fortify, -1);
+        }
     }
 
 
@@ -172,15 +184,34 @@ public class Character : MonoBehaviour
 
 
 
+    public void TurnStart(){
+        if (GetStatus(Status.status.auto_guard) > 0) AddStatus(Status.status.taunt, 1);
+        if (GetStatus(Status.status.burn) > 0) TriggerBurn(true);
+        if (hpBar != null){
+            block = 0;
+            hpBar.GetComponent<HPBar>().UpdateHP();
+        }
+    }
     public void TurnEnd(){
-        List<(Status.status _status, int level)> tmp_list = new List<(Status.status _status, int level)>();
+        // List<(Status.status _status, int level)> tmp_list = new List<(Status.status _status, int level)>();
+        // foreach(var pack in status){
+        //     if (Status.DecreaseOnTurnEnd(pack._status)) tmp_list.Add(pack);
+        //     // if (Status.ClearOnTurnEnd(pack._status)) AddStatus(Status.status.temporary_dexterity, -pack.level);
+        // }
+        // for (int i = tmp_list.Count - 1; i >= 0; i--){
+        //     status.Remove(tmp_list[i]);
+        //     AddStatus(tmp_list[i]._status, tmp_list[i].level - 1);
+        // }
+        // UpdateStatus();
+
+        List<(Status.status _status, int level)> decreaseList = new List<(Status.status _status, int level)>();
+        List<(Status.status _status, int level)> clearList = new List<(Status.status _status, int level)>();
         foreach(var pack in status){
-            if (Status.DecreaseOnTurnEnd(pack._status)) tmp_list.Add(pack);
+            if (Status.DecreaseOnTurnEnd(pack._status)) decreaseList.Add(pack);
+            if (Status.ClearOnTurnEnd(pack._status)) clearList.Add(pack);
         }
-        for (int i = tmp_list.Count - 1; i >= 0; i--){
-            status.Remove(tmp_list[i]);
-            AddStatus(tmp_list[i]._status, tmp_list[i].level - 1);
-        }
+        foreach(var pack in decreaseList) AddStatus(pack._status, -1);
+        foreach(var pack in clearList) AddStatus(pack._status, -pack.level);
         UpdateStatus();
     }
 
@@ -190,7 +221,7 @@ public class Character : MonoBehaviour
         int level = GetStatus(Status.status.burn);
         bool dead = LoseHP(level);
         if (decrease){
-            if (level % 1 == 1) level = level / 2 + 1;
+            if (level % 2 == 1) level = level / 2 + 1;
             else level = level / 2;
             AddStatus(Status.status.burn, -level);
         }
@@ -229,6 +260,15 @@ public class Character : MonoBehaviour
             case 102:
                 GetComponent<Animator>().Play("102_idle");
                 break;
+            case 103:
+                GetComponent<Animator>().Play("103_idle");
+                break;
+            case 104:
+                GetComponent<Animator>().Play("104_idle");
+                break;
+            case 105:
+                GetComponent<Animator>().Play("105_idle");
+                break;
             default:
                 Debug.Log("Character.InitEnemy(): Unknown id " + enemy.id.ToString());
                 break;
@@ -237,14 +277,6 @@ public class Character : MonoBehaviour
 
     public int GetEnemyID(){
         return enemyClass.id;
-    }
-
-    public int GetState(){
-        return state;
-    }
-
-    public void SetState(int n){
-        state = n;
     }
 
     public List<(Status.status _status, int level)> GetAllStatus(){
