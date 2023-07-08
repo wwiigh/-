@@ -40,8 +40,8 @@ public class Map_Node_Action : MonoBehaviour
     public void click_action_event()
     {
         event_object.SetActive(true);
-        int id = Event_Select.Get_Event();
-        event_object.GetComponent<GameEvent>().LoadEvent(id,EventClass.Type.normal);
+        // int id = Event_Select.Get_Event();
+        event_object.GetComponent<GameEvent>().LoadEvent(30000,EventClass.Type.normal);
         StartCoroutine(wait_finish(event_object));
     }
     public void click_action_story(int level)

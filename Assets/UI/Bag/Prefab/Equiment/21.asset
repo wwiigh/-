@@ -16,3 +16,4 @@ MonoBehaviour:
   - box: {fileID: 0}
     information: "\u7C21\u7D04\u80F8\u7AE0 \u666E\u901A\n\u6BCF\u6709\u4E00\u500B\u666E\u901A\u88DD\u5099\uFF0C\u7372\u5F974\u9EDE\u8B77\u7532"
     line_count: 3
+  rarity: 1
