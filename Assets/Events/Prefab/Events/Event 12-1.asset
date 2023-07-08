@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c40f88f3e38a0148bd91b954ecf8b3e, type: 3}
+  m_Name: Event 12-1
+  m_EditorClassIdentifier: 
+  id: 12000
+  eventName: "\u7DE8\u5287\u5BB6\u7684\u624B\u7A3F"
+  type: 0
+  image: {fileID: 21300000, guid: 508bc2496d665c544b9082026553cf1e, type: 3}
+  description: 
+  optionText:
+  - "[\u64BF\u5230\u624B\u7A3F1] \u5347\u7D1A\u5361\u7247\u3001\u907A\u7269\u3001\u88DD\u5099\u3001\u8840\u91CF\u5176\u4E2D\u4E4B\u4E00\uFF0C\u6216\u662F\u6C92\u4E8B\u767C\u751F"
+  - "[\u96E2\u958B]"

@@ -1850,6 +1850,7 @@ GameObject:
   - component: {fileID: 6558886768722482880}
   - component: {fileID: 9122566846177235570}
   - component: {fileID: 8387311185730927281}
+  - component: {fileID: 9073734228523657974}
   m_Layer: 0
   m_Name: money
   m_TagString: Untagged
@@ -1985,6 +1986,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &9073734228523657974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022496201860663854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e5dc8378fd2c384d89a21e063ccbfd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money_num: {fileID: 4022496202736198028}
 --- !u!1 &4022496202001352927
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,6 +2269,7 @@ GameObject:
   - component: {fileID: 3589774444416940945}
   - component: {fileID: 1676441857255860957}
   - component: {fileID: 1633497489141874212}
+  - component: {fileID: 5223881969333757975}
   m_Layer: 0
   m_Name: san
   m_TagString: Untagged
@@ -2390,6 +2405,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &5223881969333757975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022496202154611490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af843e4c0befc6f4ba1d16b4ab365375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  san_num: {fileID: 4022496200775160348}
 --- !u!1 &4022496202154745895
 GameObject:
   m_ObjectHideFlags: 0
@@ -2620,7 +2648,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4022496202266760245}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2287358899943366458}
+        m_TargetAssemblyTypeName: UI_button_control, Assembly-CSharp
+        m_MethodName: testhealth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6893346046013638448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3037,13 +3077,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   now_visit: 
-  map: {fileID: 0}
-  altar: {fileID: 0}
+  map_canvas: {fileID: 0}
+  map_disable_move: {fileID: 0}
   setting: {fileID: 2002920066864248222}
-  shop: {fileID: 0}
-  battle: {fileID: 0}
-  treasure: {fileID: 0}
-  events: {fileID: 0}
 --- !u!1 &4022496202732189460
 GameObject:
   m_ObjectHideFlags: 0
@@ -3056,6 +3092,7 @@ GameObject:
   - component: {fileID: 9038304074419259849}
   - component: {fileID: 6249563856938675046}
   - component: {fileID: 3797154585680122854}
+  - component: {fileID: 2095699153047454587}
   m_Layer: 0
   m_Name: heart
   m_TagString: Untagged
@@ -3192,6 +3229,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2095699153047454587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022496202732189460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf5f0fd841e19943ad385d9fd7adc9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health_bar: {fileID: 4022496201515317896}
+  health_num: {fileID: 4022496201760832447}
 --- !u!1 &4022496202736198026
 GameObject:
   m_ObjectHideFlags: 0
@@ -3301,7 +3352,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -3320,7 +3371,7 @@ MonoBehaviour:
   m_IsTextObjectScaleStatic: 0
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
+  m_pageToDisplay: 2
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0

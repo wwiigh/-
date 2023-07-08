@@ -161,6 +161,14 @@ public class Map_Generate : MonoBehaviour
         check_big_monster(0,2,0);
         check_small_monster(0,2,0);
         now_level = now_level + 1;
+        if(now_level>3)
+        {
+            Map_System.New_Game();
+            UI_System.New_Game();
+            Event_System.New_Game();
+            Bag_Save.Load_Data(FindObjectOfType<Bag_System>());
+            now_level=1;
+        }
         now_height = 9;
         save();
         Show_status();
@@ -190,7 +198,7 @@ public class Map_Generate : MonoBehaviour
             copy(MyData);
         //     map_save.copy(nodes);
             now_height = MyData.return_height();
-            now_level = MyData.return_level();
+            now_level = MyData.return_level()>3?1:MyData.return_level();
             now_width = MyData.return_width();
             Visualize_Edge();
             Show_status();
@@ -230,6 +238,10 @@ public class Map_Generate : MonoBehaviour
         check_big_monster(0,2,0);
         check_small_monster(0,2,0);
         now_level = 1;
+        Map_System.New_Game();
+        UI_System.New_Game();
+        Event_System.New_Game();
+        Bag_Save.Load_Data(FindObjectOfType<Bag_System>());
         now_height = 9;
         save();
         // map_save.save_node(nodes);
@@ -892,7 +904,7 @@ public class Map_Generate : MonoBehaviour
                     break;
                 case 'm':
                     // node.GetComponent<Image>().sprite = events;
-                    b.onClick.AddListener(delegate { node_action.click_action_event(); });
+                    b.onClick.AddListener(delegate { node_action.click_action_story(now_level); });
                     break;
                 case 't':
                     // node.GetComponent<Image>().sprite = treasure;

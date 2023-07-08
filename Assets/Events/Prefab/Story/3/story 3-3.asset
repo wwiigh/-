@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c40f88f3e38a0148bd91b954ecf8b3e, type: 3}
+  m_Name: story 3-3
+  m_EditorClassIdentifier: 
+  id: 303
+  eventName: 
+  type: 1
+  image: {fileID: 21300000, guid: 6a8971ccbddc63d479450983f79c8695, type: 3}
+  description: "\u4F60\u767C\u73FE\u65E5\u8A18\u6700\u5F8C\u4E00\u9801\u593E\u8005\u4E00\u5F35\u7167\u7247\uFF0C\u7167\u7247\u5DF2\u7D93\u6C59\u640D\u4E0D\u6E05<br>\u53EA\u80FD\u5927\u6982\u8FA8\u8B58\u51FA\u9019\u662F\u4E00\u5F35\u5408\u7167\uFF0C\u4F60\u6C7A\u5B9A\u2026"
+  optionText:
+  - "[\u5E36\u8D70\u4ED6] \u7372\u5F97\u907A\u7269(\u7167\u7247)\uFF0C\u7406\u667A\u4E0B\u964D10"
+  - "[\u96E2\u958B] "

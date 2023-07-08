@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.IO;
+public class Map_System : MonoBehaviour
+{
+    public static void New_Game()
+    {
+        Map_Save save_data = new Map_Save{
+            is_new = 1,
+            now_level = 1,
+            now_height = 9,
+            now_width = 0,
+            node_assign_arr = null,
+            node_parent_arr = null,
+            node_parent_index_arr = null,
+            node_next_arr = null,
+            node_next_index_arr = null,
+            node_valid_arr = null,
+            node_type_arr = null
+        };
+        string jsonInfo = JsonUtility.ToJson(save_data,true);
+        File.WriteAllText(Application.dataPath+"/Save_Data/Map_Data", jsonInfo);
+        
+    }
+}
