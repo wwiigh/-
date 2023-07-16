@@ -61,6 +61,7 @@ public class GameEvent : MonoBehaviour
         }
     }
     public void LoadEvent(int event_id, EventClass.Type type){
+        Reset();
         if(type == EventClass.Type.normal){
             event_loaded = normal_events_dict[event_id];
         }
@@ -99,6 +100,7 @@ public class GameEvent : MonoBehaviour
             if (child.name == "optionButton") tmp.Add(child.gameObject);
         }
         foreach(GameObject obj in tmp){
+            obj.SetActive(false);
             Destroy(obj);
         }
         description.text = "";
@@ -139,7 +141,7 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(203,EventClass.Type.story);
                 break;
             case 203:   
-                Global.money -= 100;
+                Global.AddMoney(-100);
                 Reset();
                 LoadEvent(204,EventClass.Type.story);
                 break;
@@ -165,10 +167,10 @@ public class GameEvent : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case 401:   
-                //待處理
+                this.gameObject.SetActive(false);
                 break;
             case 501:   
-                //待處理
+                this.gameObject.SetActive(false);
                 break;
             case 1000:
                 FindObjectOfType<Bag_System>().Show_Equipment_list(1,1);
@@ -177,7 +179,7 @@ public class GameEvent : MonoBehaviour
                 if(random_value<0.33)
                 {
                     random_value = Random.value;
-                    if(random_value<0.45)Global.money += 30;
+                    if(random_value<0.45)Global.AddMoney(30);
                     else if(random_value<0.70 || FindObjectOfType<Bag_System>().Bag_Full()==true)
                     {
                         FindObjectOfType<Bag_System>().Add_Random_Relic();
@@ -300,7 +302,7 @@ public class GameEvent : MonoBehaviour
             case 10000:
                 if(random_value<0.5)
                 {
-                    Global.AddMoney(100);
+                    Global.AddMoney(30);
                 }
                 else
                 {
@@ -658,20 +660,46 @@ public class GameEvent : MonoBehaviour
     {
         List<GameObject> tmp = new List<GameObject>();
         foreach(Transform child in canvas.transform){
-            if (child.name == "optionButton") tmp.Add(child.gameObject);
+            if (child.name == "optionButton"&&child.gameObject.activeSelf==true) tmp.Add(child.gameObject);
         }
+        Debug.Log("now count "+tmp.Count);
         switch (event_loaded.id)
         {
+            case 203:
+                if(Global.money<100)
+                {
+                    
+                    tmp[0].GetComponent<Button>().interactable = false;
+                }
+                break;
             case 1000:
                 int[] r_list = FindObjectOfType<Bag_System>().equipment_type_num();
                 if(r_list[0]<2&&r_list[1]<2&&r_list[2]<2)
                 {
                     tmp[1].GetComponent<Button>().interactable = false;
-                    break;
                 }
+                List<int> tmp_list = FindObjectOfType<Bag_System>().Return_All_Equipment();
+                if(tmp_list.Count==0)
+                {
+                    for(int i=0;i<3;i++)
+                    {
+                        tmp[i].GetComponent<Button>().interactable = false;
+                    }
+                }
+                break;
+            case 19000:
+                List<int> r = FindObjectOfType<Bag_System>().Return_All_Relic();
+                if(r.Count == 0)tmp[0].GetComponent<Button>().interactable = false;
+                r = FindObjectOfType<Bag_System>().Return_All_Equipment();
+                if(r.Count == 0)tmp[1].GetComponent<Button>().interactable = false;
+
                 break;
             default:
                 break;
         }
+    }
+    IEnumerator wait_one_frame()
+    {
+        yield return new WaitForEndOfFrame();
     }
 }
