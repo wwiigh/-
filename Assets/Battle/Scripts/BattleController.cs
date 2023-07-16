@@ -25,6 +25,13 @@ public class BattleController : MonoBehaviour
         SelectCard
     }
     BattleState battleState = BattleState.Normal;
+    bool playedAttackThisTurn = false;
+    bool playedSkillThisTurn = false;
+    bool playedCardThisTurn = false;
+    bool tookDmgLastTurn = false;
+    bool tookDmgThisTurn = false;
+    bool discardedThisTurn = false;
+    int currentTurn = 0;
 
 
     private void Start() {
@@ -44,6 +51,7 @@ public class BattleController : MonoBehaviour
     //         EnterBattle_id(Random.Range(101, 109 + 1));
     //     }
     // }
+    
     public void EnterBattle_id(int id){
         InitPlayer();
         int[] enemyID;
@@ -74,9 +82,46 @@ public class BattleController : MonoBehaviour
                 return;
         }
         SpawnEnemies(enemyID);
+        Cost.Init();
         deck.Init();
-        deck.Draw(5);
+        currentTurn = 0;
+        StartCoroutine(_StartTurn());
     }
+
+
+
+    public bool PlayedAttackAndSkillThisTurn(){
+        return playedAttackThisTurn && playedSkillThisTurn;
+    }
+    public bool PlayedCardThisTurn(){
+        return playedCardThisTurn;
+    }
+    public int GetCurrentTurn(){
+        return currentTurn;
+    }
+    public bool TookDmgLastTurn(){
+        return tookDmgLastTurn;
+    }
+    public bool DiscardedThisTurn(){
+        return discardedThisTurn;
+    }
+
+
+
+    public void PlayedAttack(){
+        playedAttackThisTurn = true;
+    }
+    public void PlayedSkill(){
+        playedSkillThisTurn = true;
+    }
+    public void PlayedCard(){
+        playedCardThisTurn = true;
+    }
+    public void Discarded(){
+        discardedThisTurn = true;
+    }
+
+
 
     public void EndTurn(){
         StartCoroutine(_EndTurn());
@@ -88,6 +133,7 @@ public class BattleController : MonoBehaviour
         // yield return new WaitForSeconds(0.1f);
         foreach(Transform child in characters.transform){
             if (child.tag == "Enemy"){
+                child.GetComponent<Character>().TurnStart();
                 child.GetComponent<EnemyMove>().Move();
             }
             yield return new WaitForSeconds(1f);
@@ -96,7 +142,17 @@ public class BattleController : MonoBehaviour
     }
 
     IEnumerator _StartTurn(){
+        currentTurn += 1;
+        playedAttackThisTurn = false;
+        playedSkillThisTurn = false;
+        playedCardThisTurn = false;
+        discardedThisTurn = false;
+        foreach(Transform child in characters.transform){
+            if (child.tag == "Enemy") child.GetComponent<EnemyMove>().SetIntention();
+        }
         deck.Draw(5);
+        Cost.Refill(0);
+        player.GetComponent<Character>().TurnStart();
         yield return new WaitForSeconds(0);
     }
 
@@ -120,9 +176,32 @@ public class BattleController : MonoBehaviour
         EnterState(BattleState.SelectEnemy);
     }
     public void EnemySelected(GameObject enemy){
-        CardEffects.EnemySelected(enemy);
         EnterState(BattleState.Normal);
+        CardEffects.EnemySelected(enemy);
         deck.Rearrange();
+    }
+    public GameObject ReturnRandomEnemy(){
+        List<GameObject> pool = new List<GameObject>();
+        foreach(Transform child in characters.transform) 
+            if (child.tag == "Enemy") pool.Add(child.gameObject);
+        return pool[Random.Range(0, pool.Count)];
+    }
+    public List<GameObject> GetAllEnemy(){
+        List<GameObject> ret = new List<GameObject>();
+        foreach(Transform child in characters.transform) 
+            if (child.tag == "Enemy") ret.Add(child.gameObject);
+        return ret;
+    }
+    public GameObject GetEnemyWithLowestHP(){
+        int lowestHP = 999;
+        GameObject ret = null;
+        foreach(Transform child in characters.transform){
+            if (child.tag == "Enemy" && child.GetComponent<Character>().GetHP() < lowestHP){
+                ret = child.gameObject;
+                lowestHP = child.GetComponent<Character>().GetHP();
+            }
+        }
+        return ret;
     }
 
 
@@ -164,8 +243,8 @@ public class BattleController : MonoBehaviour
         if (battleState == BattleState.SelectCard){
             EnterState(BattleState.Normal);
             panel.GetComponent<Panel>().Hide();
-            deck.Rearrange();
             deck.ResetHand();
+            deck.Rearrange();
         }
     }
     public bool SelectCard_Availible(){
@@ -223,5 +302,27 @@ public class BattleController : MonoBehaviour
         }
 
         return final_dmg;
+    }
+    public static int ComputeDamage(GameObject from, float dmg){
+        Character from_character = from.GetComponent<Character>();
+        float multiplier = 1.0f;
+
+        int strength = from_character.GetStatus(Status.status.strength) + from_character.GetStatus(Status.status.temporary_strength);
+        if (from_character.GetStatus(Status.status.weak) > 0) multiplier -= 0.25f;
+        multiplier += from_character.GetStatus(Status.status.damage_adjust) * 0.01f;
+
+        int final_dmg = (int) ((dmg + strength) * multiplier);
+
+        return final_dmg;
+    }
+    public static int ComputeArmor(float value){
+        Character player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
+
+        int dexterity = player.GetStatus(Status.status.dexterity) + player.GetStatus(Status.status.temporary_dexterity);
+        value += dexterity;
+
+        if (player.GetStatus(Status.status.frail) > 0) value *= 0.75f;
+
+        return (int) value;
     }
 }

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Deck : MonoBehaviour
 {
+    BattleController battleController;
     [SerializeField] List<Card> drawPile = new List<Card>();
     [SerializeField] List<Card> trash = new List<Card>();
     [SerializeField] List<GameObject> hand = new List<GameObject>();
@@ -11,9 +13,14 @@ public class Deck : MonoBehaviour
     [SerializeField] GameObject card_template;
     [SerializeField] GameObject allcards_obj;
     AllCards allcards_class;
+    TMP_Text drawPileNumber;
+    TMP_Text trashNumber;
     int hand_limit = 8;
     private void Start() {
+        battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         allcards_class = allcards_obj.GetComponent<AllCards>();
+        drawPileNumber = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        trashNumber = transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         Init();
     }
 
@@ -62,9 +69,51 @@ public class Deck : MonoBehaviour
     }
 
     public void Discard(GameObject card){
+        Character player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         hand.Remove(card);
         trash.Add(card.GetComponent<CardDisplay>().thisCard);
         Destroy(card);
+        Rearrange();
+        
+        int tmp = player.GetStatus(Status.status.second_weapon);
+        if (tmp > 0 && !battleController.DiscardedThisTurn())
+            GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw(tmp);
+        
+        tmp = player.GetStatus(Status.status.fast_hand);
+        if (tmp > 0) battleController.ReturnRandomEnemy().GetComponent<Character>().GetHit(tmp);
+        
+        battleController.Discarded();
+    }
+
+    void TurnEndDiscard(GameObject card){
+        hand.Remove(card);
+        trash.Add(card.GetComponent<CardDisplay>().thisCard);
+        Destroy(card);
+        Rearrange();
+    }
+
+    public void RemoveCard(GameObject card){
+        Card card_info = card.GetComponent<CardDisplay>().thisCard;
+        hand.Remove(card);
+        if (card_info.id == 22){
+            GameObject target = battleController.GetEnemyWithLowestHP();
+            Character player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
+            player.Attack(target, card_info.Args[1]);
+        }
+        if (card_info.id == 23){
+            AddCardToHand(card_info);
+        }
+        if (card_info.id == 24){
+            Character player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
+            player.AddStatus(Status.status.strength, card_info.Args[1]);
+        }
+        Destroy(card);
+        Rearrange();
+    }
+
+    public void AddCardToHand(Card card){
+        if (hand.Count == hand_limit) return;
+        hand.Add(MakeCard(card));
         Rearrange();
     }
 
@@ -76,7 +125,7 @@ public class Deck : MonoBehaviour
         // }
         for (int i = hand.Count - 1; i >= 0; i--){
             if (!hand[i].GetComponent<CardDisplay>().thisCard.keep && !hand[i].GetComponent<CardDisplay>().thisCard.keepBeforeUse){
-                Discard(hand[i]);
+                TurnEndDiscard(hand[i]);
             }
         }
     }
@@ -96,8 +145,11 @@ public class Deck : MonoBehaviour
 
     public void Rearrange(){
         int gap = 200;
+        UpdateDeckNumbers();
         for (int i = 0; i < hand.Count; i++){
-            hand[i].GetComponent<CardMove>().Move(new Vector3(-gap/2 * (hand.Count-1) + gap * i, -400, 0));
+            if (hand[i].GetComponent<CardState>().state == CardState.State.ReadyToUse)
+                hand[i].GetComponent<CardMove>().Move(new Vector3(-700, 300, 0));
+            else hand[i].GetComponent<CardMove>().Move(new Vector3(-gap/2 * (hand.Count-1) + gap * i, -400, 0));
             // if (hand[i].GetComponent<CardState>().state == CardState.State.ReadyToUse)
             //     hand[i].GetComponent<CardState>().state = CardState.State.Normal;
             // if (hand[i].GetComponent<CardState>().state == CardState.State.Selected)
@@ -130,6 +182,11 @@ public class Deck : MonoBehaviour
             deck[k] = deck[n];
             deck[n] = tmp;
         }
+    }
+
+    void UpdateDeckNumbers(){
+        drawPileNumber.text = drawPile.Count.ToString();
+        trashNumber.text = trash.Count.ToString();
     }
 
     GameObject MakeCard(Card c){

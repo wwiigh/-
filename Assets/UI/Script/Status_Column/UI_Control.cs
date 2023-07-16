@@ -117,4 +117,13 @@ public class UI_Control : MonoBehaviour
 
         }
     }
+    public void Change_description()
+    {
+        for(int i=0;i<information_box_array.Count;i++)
+        {
+            GameObject new_box = information_box_array[i];
+            new_box.GetComponent<Information_Box>().information.text = UI_information.texts[i].information;
+            new_box.GetComponent<Information_Box>().add_count(UI_information.texts[i].line_count);
+        }
+    }
 }

@@ -73,10 +73,10 @@ public class DescriptionBox : MonoBehaviour
         item = a;
         UpdateText();
         box.SetActive(true);
-        Debug.Log("position: " + t.position.ToString());
+        // Debug.Log("position: " + t.position.ToString());
         // box.transform.position = t.position + new Vector3(200, -180, 0);
         box.transform.position = t.position + new Vector3(2, -1.3f, 0);
-        Debug.Log("box position: " + box.transform.position.ToString());
+        // Debug.Log("box position: " + box.transform.position.ToString());
     }
 
     public void Hide(){

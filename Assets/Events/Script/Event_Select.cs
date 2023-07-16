@@ -15,7 +15,7 @@ public class Event_Select : MonoBehaviour
     {
         for(int i=1;i<=30;i++)
         {
-            if(i==17)continue;
+            if(i==17||i==24)continue;
             Events_array.Add(i*1000);
         }
         Events_array.Add(11002);
@@ -31,6 +31,12 @@ public class Event_Select : MonoBehaviour
             Save_Data();
             return last_event;
         }
+        if(last_event == 18000)
+        {
+            last_event = 24000;
+            Save_Data();
+            return last_event;
+        }
         int index = Random.Range(0,Events_array.Count);
         int id = Events_array[index];
         Events_array.Remove(id);
@@ -39,7 +45,7 @@ public class Event_Select : MonoBehaviour
         return id;
     }
 
-    static void Save_Data()
+    public static void Save_Data()
     {
         Data save_data = new Data{
             Events_array = Events_array,        

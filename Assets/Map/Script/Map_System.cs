@@ -4,6 +4,25 @@ using UnityEngine;
 using System.IO;
 public class Map_System : MonoBehaviour
 {
+    public enum map_state{
+        normal,
+        fight,
+        shop,
+        events,
+        altar,
+        treasure,
+        ending
+    }
+    public enum map_ui{
+        close,
+        open
+    }
+    public map_state now_state;
+    public map_ui now_ui;
+    public void Change_state(map_state state)
+    {
+        now_state = state;
+    }
     public static void New_Game()
     {
         Map_Save save_data = new Map_Save{

@@ -61,6 +61,7 @@ public class GameEvent : MonoBehaviour
         }
     }
     public void LoadEvent(int event_id, EventClass.Type type){
+        Reset();
         if(type == EventClass.Type.normal){
             event_loaded = normal_events_dict[event_id];
         }
@@ -90,6 +91,7 @@ public class GameEvent : MonoBehaviour
             if(i==4)
                 tmp.GetComponent<Button>().onClick.AddListener(delegate { ButtonPressed5(); });
         }
+        Button_event_check();
     }
 
     public void Reset(){
@@ -98,6 +100,7 @@ public class GameEvent : MonoBehaviour
             if (child.name == "optionButton") tmp.Add(child.gameObject);
         }
         foreach(GameObject obj in tmp){
+            obj.SetActive(false);
             Destroy(obj);
         }
         description.text = "";
@@ -106,6 +109,7 @@ public class GameEvent : MonoBehaviour
     }
 
     public void ButtonPressed1(){
+        float random_value = Random.value;
         switch (event_loaded.id)
         {
             case 101:   
@@ -137,7 +141,7 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(203,EventClass.Type.story);
                 break;
             case 203:   
-                Global.money -= 100;
+                Global.AddMoney(-100);
                 Reset();
                 LoadEvent(204,EventClass.Type.story);
                 break;
@@ -163,8 +167,290 @@ public class GameEvent : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case 401:   
+                this.gameObject.SetActive(false);
                 break;
             case 501:   
+                this.gameObject.SetActive(false);
+                break;
+            case 1000:
+                FindObjectOfType<Bag_System>().Show_Equipment_list(1,1);
+                break;
+            case 2000:
+                if(random_value<0.33)
+                {
+                    random_value = Random.value;
+                    if(random_value<0.45)Global.AddMoney(30);
+                    else if(random_value<0.70 || FindObjectOfType<Bag_System>().Bag_Full()==true)
+                    {
+                        FindObjectOfType<Bag_System>().Add_Random_Relic();
+                    }
+                    else FindObjectOfType<Bag_System>().Add_Random_Equipment();
+                }
+                else if(random_value<0.66) Global.AddSan(-10);
+                else FindObjectOfType<Map_Node_Action>().click_action_battle();
+                this.gameObject.SetActive(false);
+                break;
+            case 3000:
+                if(random_value<0.3)Global.AddSan(-10);
+                Reset();
+                LoadEvent(3001,EventClass.Type.normal);
+                break;
+            case 3001:
+                if(random_value<0.6)Global.AddSan(-20);
+                Reset();
+                LoadEvent(3002,EventClass.Type.normal);
+                break;
+            case 3002:
+                if(random_value<0.99)Global.AddSan(-40);
+                Reset();
+                LoadEvent(3003,EventClass.Type.normal);
+                break;
+            case 3003:
+                FindObjectOfType<Bag_System>().Add_Item("5","relic");
+                this.gameObject.SetActive(false);
+                break;
+            case 4000:
+                if(Global.sanity >= 50) 
+                {
+                    Reset();
+                    LoadEvent(4001,EventClass.Type.normal);
+                }
+                else 
+                this.gameObject.SetActive(false);
+                break;
+            case 4001:
+                this.gameObject.SetActive(false);
+                break;
+            case 5000:
+                Reset();
+                LoadEvent(5001,EventClass.Type.normal);
+                break;
+            case 5001:
+                Global.AddSan(-10);
+                FindObjectOfType<Bag_System>().Add_Item("6","relic");
+                this.gameObject.SetActive(false);
+                break;
+            case 6000:
+                //待處理卡片
+                if(FindObjectOfType<Bag_System>().Bag_Full())return;
+                Global.AddMaxHp(10);
+                FindObjectOfType<Bag_System>().Add_Item("301","item");
+                this.gameObject.SetActive(false);
+                break;
+            case 6001:
+                //待處理卡片
+                if(FindObjectOfType<Bag_System>().Bag_Full())return;
+                Global.AddMaxHp(10);
+                FindObjectOfType<Bag_System>().Add_Item("302","item");
+                this.gameObject.SetActive(false);
+                break;
+            case 6002:
+                //待處理卡片
+                if(FindObjectOfType<Bag_System>().Bag_Full())return;
+                Global.AddMaxHp(10);
+                FindObjectOfType<Bag_System>().Add_Item("303","item");
+                bool relic_1 = FindObjectOfType<Bag_System>().Have_Item("item",301.ToString());
+                bool relic_2 = FindObjectOfType<Bag_System>().Have_Item("item",302.ToString());
+                bool relic_3 = FindObjectOfType<Bag_System>().Have_Item("item",303.ToString());
+                if(relic_1&&relic_2&&relic_3)
+                {
+                    FindObjectOfType<Bag_System>().Bag_del_item(301,"item");
+                    FindObjectOfType<Bag_System>().Bag_del_item(302,"item");
+                    FindObjectOfType<Bag_System>().Bag_del_item(303,"item");
+                    Reset();
+                    LoadEvent(6003,EventClass.Type.normal);
+                }
+                else this.gameObject.SetActive(false);
+                break;
+            case 6003:
+                FindObjectOfType<Bag_System>().Add_Item("7","relic");
+                this.gameObject.SetActive(false);
+                break;
+            case 7000:
+                Global.AddHp(10);
+                Global.AddSan(10);
+                this.gameObject.SetActive(false);
+                break;
+            case 8000:
+                FindObjectOfType<Bag_System>().Add_Item("8","relic");
+                Global.AddSan(-5);
+                this.gameObject.SetActive(false);
+                break;
+            case 8001:
+                this.gameObject.SetActive(false);
+                break;
+            case 9000:
+                //卡片待做
+                Reset();
+                if(random_value<0.5)
+                {
+                    Global.AddSan(-10);
+                    LoadEvent(9001,EventClass.Type.normal);
+                }
+                else
+                {
+                    Global.AddHp(-10);
+                    LoadEvent(9002,EventClass.Type.normal);
+                }
+                break;
+            case 9001:
+                this.gameObject.SetActive(false);
+                break;
+            case 9002:
+                this.gameObject.SetActive(false);
+                break;
+            case 10000:
+                if(random_value<0.5)
+                {
+                    Global.AddMoney(30);
+                }
+                else
+                {
+                    Global.AddHp(-10);
+                }
+                this.gameObject.SetActive(false);
+                break;
+            case 11000:
+                Global.AddSan(-10);
+                Reset();
+                LoadEvent(11001,EventClass.Type.normal);
+                break;
+            case 11001:
+                this.gameObject.SetActive(false);
+                break;
+            case 11002:
+                //卡片待做
+                Global.AddSan(-10);
+                this.gameObject.SetActive(false);
+                break;
+            case 12000:
+                //待處理卡片
+                if(FindObjectOfType<Bag_System>().Bag_Full())return;
+                Global.AddMaxHp(10);
+                FindObjectOfType<Bag_System>().Add_Item("304","item");
+                this.gameObject.SetActive(false);
+                break;
+            case 12001:
+                //待處理卡片
+                if(FindObjectOfType<Bag_System>().Bag_Full())return;
+                Global.AddMaxHp(10);
+                FindObjectOfType<Bag_System>().Add_Item("305","item");
+                this.gameObject.SetActive(false);
+                break;
+            case 12002:
+                //待處理卡片
+                if(FindObjectOfType<Bag_System>().Bag_Full())return;
+                Global.AddMaxHp(10);
+                FindObjectOfType<Bag_System>().Add_Item("306","item");
+                bool item_1 = FindObjectOfType<Bag_System>().Have_Item("item",304.ToString());
+                bool item_2 = FindObjectOfType<Bag_System>().Have_Item("item",305.ToString());
+                bool item_3 = FindObjectOfType<Bag_System>().Have_Item("item",306.ToString());
+                if(item_1&&item_2&&item_3)
+                {
+                    FindObjectOfType<Bag_System>().Bag_del_item(304,"item");
+                    FindObjectOfType<Bag_System>().Bag_del_item(305,"item");
+                    FindObjectOfType<Bag_System>().Bag_del_item(306,"item");
+                    Reset();
+                    LoadEvent(12003,EventClass.Type.normal);
+                }
+                else this.gameObject.SetActive(false);
+                break;
+            case 12003:
+                FindObjectOfType<Bag_System>().Add_Item("9","relic");
+                this.gameObject.SetActive(false);
+                break;
+            case 13000:
+                Global.AddSan(-10);
+                this.gameObject.SetActive(false);
+                break;
+            case 14000:
+                Global.AddSan(-10);
+                Reset();
+                LoadEvent(14001,EventClass.Type.normal);
+                break;
+            case 14001:
+                this.gameObject.SetActive(false);
+                break;
+            case 14002:
+                this.gameObject.SetActive(false);
+                break;
+            case 14003:
+                this.gameObject.SetActive(false);
+                break;
+            case 15000:
+                Global.AddHp(-10);
+                Reset();
+                LoadEvent(15001,EventClass.Type.normal);
+                break;
+            case 15001:
+                this.gameObject.SetActive(false);
+                break;
+            case 15002:
+                this.gameObject.SetActive(false);
+                break;
+            case 16000:
+                this.gameObject.SetActive(false);
+                break;
+            case 18000:
+                //卡片
+                Global.AddSan(-10);
+                this.gameObject.SetActive(false);
+                break;
+            case 19000:
+                Global.AddSan(10);
+                FindObjectOfType<Bag_System>().Remove_Random_Relic();
+                this.gameObject.SetActive(false);
+                break;
+            case 20000:
+                //待做
+                this.gameObject.SetActive(false);
+                break;
+            case 21000:
+                this.gameObject.SetActive(false);
+                break;
+            case 22000:
+                Global.AddSan(-10);
+                this.gameObject.SetActive(false);
+                break;
+            case 23000:
+                Global.AddSan(-10);
+                this.gameObject.SetActive(false);
+                break;
+            case 24000:
+                FindObjectOfType<Bag_System>().Add_Item("12","relic");
+                this.gameObject.SetActive(false);
+                break;
+            case 25000:
+                if((float)Global.sanity/Global.max_sanity > 0.75f)Global.AddSan(-10);
+                if((float)Global.player_hp/Global.player_max_hp > 0.75f)Global.AddHp(-10);
+                else 
+                {
+                    Global.AddSan(10);
+                    Global.AddHp(10);
+                }
+                this.gameObject.SetActive(false);
+                break;
+            case 26000:
+                this.gameObject.SetActive(false);
+                break;
+            case 27000:
+                float p = (float)Global.sanity/Global.max_sanity;
+                if(p>0.5)Global.AddSan(-10);
+                else
+                {
+                    //卡片
+                    Global.AddMoney(100);
+                }
+                this.gameObject.SetActive(false);
+                break;
+            case 28000:
+                this.gameObject.SetActive(false);
+                break;
+            case 29000:
+                this.gameObject.SetActive(false);
+                break;
+            case 30000:
+                this.gameObject.SetActive(false);
                 break;
             default:
                 break;
@@ -172,6 +458,7 @@ public class GameEvent : MonoBehaviour
 
     }
     public void ButtonPressed2(){
+        float random_value = Random.value;
         switch (event_loaded.id)
         {
             case 101:   
@@ -194,17 +481,225 @@ public class GameEvent : MonoBehaviour
             case 303: 
                 this.gameObject.SetActive(false);
                 break;
+            case 1000:
+                FindObjectOfType<Bag_System>().Show_Equipment_list(2,2);
+                break;
+            case 2000: 
+                this.gameObject.SetActive(false);
+                break;
+            case 3000: 
+                this.gameObject.SetActive(false);
+                break;
+            case 3001: 
+                this.gameObject.SetActive(false);
+                break;
+            case 3002: 
+                this.gameObject.SetActive(false);
+                break;
+            case 3003:
+                this.gameObject.SetActive(false);
+                break;
+            case 5000:
+                this.gameObject.SetActive(false);
+                break;
+            case 5001:
+                random_value = Random.value;
+                bool v = FindObjectOfType<Bag_System>().Bag_Full();
+                if(random_value < 0.5 && v==false)FindObjectOfType<Bag_System>().Add_Random_Equipment();
+                else FindObjectOfType<Bag_System>().Add_Random_Relic();
+                this.gameObject.SetActive(false);
+                break;
+            case 6000:
+                this.gameObject.SetActive(false);
+                break;
+            case 6001:
+                this.gameObject.SetActive(false);
+                break;
+            case 6002:
+                this.gameObject.SetActive(false);
+                break;
+            case 8000:
+                Global.AddHp(-5);
+                Reset();
+                LoadEvent(8001,EventClass.Type.normal);
+                break;
+            case 9000:
+                this.gameObject.SetActive(false);
+                break;
+            case 10000:
+                this.gameObject.SetActive(false);
+                break;
+            case 11000:
+                this.gameObject.SetActive(false);
+                break;
+            case 11002:
+                //卡片待做
+                Global.AddSan(-15);
+                FindObjectOfType<Bag_System>().Remove_Random_Equipment();
+                this.gameObject.SetActive(false);
+                break;
+            case 12000:
+                this.gameObject.SetActive(false);
+                break;
+            case 12001:
+                this.gameObject.SetActive(false);
+                break;
+            case 12002:
+                this.gameObject.SetActive(false);
+                break;
+            case 13000:
+                //待做
+                this.gameObject.SetActive(false);
+                break;
+            case 14000:
+                Global.AddSan(10);
+                Global.AddHp(10);
+                Reset();
+                LoadEvent(14002,EventClass.Type.normal);
+                break;
+            case 15000:
+                Reset();
+                LoadEvent(15002,EventClass.Type.normal);
+                break;
+            case 16000:
+                this.gameObject.SetActive(false);
+                break;
+            case 18000:
+                this.gameObject.SetActive(false);
+                break;
+            case 19000:
+                FindObjectOfType<Bag_System>().Remove_Random_Equipment();
+                this.gameObject.SetActive(false);
+                break;
+            case 20000:
+                //待做
+                this.gameObject.SetActive(false);
+                break;
+            case 25000:
+                
+                this.gameObject.SetActive(false);
+                break;
+            case 27000:
+                float p = (float)Global.sanity/Global.max_sanity;
+                if(p>0.5)Global.AddSan(-10);
+                else Global.AddSan(10);
+                this.gameObject.SetActive(false);
+                break;
+            case 28000:
+                this.gameObject.SetActive(false);
+                break;
+            case 30000:
+                this.gameObject.SetActive(false);
+                break;
             default:
                 break;
         }
     }
     public void ButtonPressed3(){
-        
+        switch (event_loaded.id)
+        {
+            case 1000:
+                FindObjectOfType<Bag_System>().Show_Equipment_list(1,3);
+                break;
+            case 5001:
+                this.gameObject.SetActive(false);
+                break;
+            case 14000:
+                Reset();
+                LoadEvent(14003,EventClass.Type.normal);
+                break;
+            case 16000:
+                this.gameObject.SetActive(false);
+                break;
+            case 19000:
+                //卡片
+                FindObjectOfType<Bag_System>().Add_Random_Relic();
+                this.gameObject.SetActive(false);
+                break;
+            case 28000:
+                this.gameObject.SetActive(false);
+                break;
+            default:
+                break;
+        }
     }
     public void ButtonPressed4(){
-        
+        switch (event_loaded.id)
+        {
+            case 1000:
+                this.gameObject.SetActive(false);
+                break;
+            case 16000:
+                this.gameObject.SetActive(false);
+                break;
+            case 19000:
+                Global.AddHp(-10);
+                Global.AddSan(10);
+                this.gameObject.SetActive(false);
+                break;
+            case 28000:
+                this.gameObject.SetActive(false);
+                break;
+            default:
+                break;
+        }
     }
     public void ButtonPressed5(){
-        
+        switch (event_loaded.id)
+        {
+            case 19000:
+                //卡牌
+                this.gameObject.SetActive(false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void Button_event_check()
+    {
+        List<GameObject> tmp = new List<GameObject>();
+        foreach(Transform child in canvas.transform){
+            if (child.name == "optionButton"&&child.gameObject.activeSelf==true) tmp.Add(child.gameObject);
+        }
+        Debug.Log("now count "+tmp.Count);
+        switch (event_loaded.id)
+        {
+            case 203:
+                if(Global.money<100)
+                {
+                    
+                    tmp[0].GetComponent<Button>().interactable = false;
+                }
+                break;
+            case 1000:
+                int[] r_list = FindObjectOfType<Bag_System>().equipment_type_num();
+                if(r_list[0]<2&&r_list[1]<2&&r_list[2]<2)
+                {
+                    tmp[1].GetComponent<Button>().interactable = false;
+                }
+                List<int> tmp_list = FindObjectOfType<Bag_System>().Return_All_Equipment();
+                if(tmp_list.Count==0)
+                {
+                    for(int i=0;i<3;i++)
+                    {
+                        tmp[i].GetComponent<Button>().interactable = false;
+                    }
+                }
+                break;
+            case 19000:
+                List<int> r = FindObjectOfType<Bag_System>().Return_All_Relic();
+                if(r.Count == 0)tmp[0].GetComponent<Button>().interactable = false;
+                r = FindObjectOfType<Bag_System>().Return_All_Equipment();
+                if(r.Count == 0)tmp[1].GetComponent<Button>().interactable = false;
+
+                break;
+            default:
+                break;
+        }
+    }
+    IEnumerator wait_one_frame()
+    {
+        yield return new WaitForEndOfFrame();
     }
 }

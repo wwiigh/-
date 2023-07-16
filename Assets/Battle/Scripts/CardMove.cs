@@ -5,6 +5,7 @@ using UnityEngine;
 public class CardMove : MonoBehaviour
 {
     BattleController battleController;
+    Cost cost;
     bool draggable = true;
     bool moving = false;
     Vector3 moveDestination;
@@ -21,6 +22,7 @@ public class CardMove : MonoBehaviour
 
     private void Start() {
         battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+        cost = GameObject.FindGameObjectWithTag("Cost").GetComponent<Cost>();
     }
 
     public void Drag(){
@@ -44,7 +46,7 @@ public class CardMove : MonoBehaviour
         if (battleController.GetState() == BattleController.BattleState.SelectEnemy || 
             battleController.GetState() == BattleController.BattleState.SelectCard) return;
         dragging = false;
-        if (transform.localPosition.y > playCardThreshold){
+        if (transform.localPosition.y > playCardThreshold && Cost.GetCost() >= GetComponent<CardDisplay>().thisCard.cost){
             GetComponent<CardState>().state = CardState.State.ReadyToUse;
             CardEffects.Use(gameObject);
             Move(new Vector3(-700, 300, 0));
@@ -56,6 +58,7 @@ public class CardMove : MonoBehaviour
 
     public void PointerEnter(){
         scalingState = ScalingState.Bigger;
+        transform.SetAsLastSibling();
         StartCoroutine(ChangeSize(2.4f, 0.2f));
     }
 
@@ -73,7 +76,7 @@ public class CardMove : MonoBehaviour
     }
 
     IEnumerator SlideTo(Vector3 destination, float speed){
-        Debug.Log("slide to(): dst: " + destination.ToString());
+        // Debug.Log("slide to(): dst: " + destination.ToString());
         moveDestination = destination;
         if (moving) yield break;
         moving = true;

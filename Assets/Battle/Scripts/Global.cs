@@ -31,6 +31,9 @@ public class Global
     public static void AddMaxHp(int value){
         player_max_hp += value;
     }
+    public static void AddMoney(int value){
+        money += value;
+    }
     //用來存檔
     public static void SaveData()
     {
