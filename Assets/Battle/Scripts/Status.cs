@@ -34,6 +34,11 @@ public class Status : MonoBehaviour
         second_weapon,
         bounce_back,
         counter,
+        lock_on_prepare,
+        lock_on,
+        fire_armor,
+        fire_enchantment,
+        doppelganger,
 
 
         burn,
@@ -113,6 +118,16 @@ public class Status : MonoBehaviour
                 return "反彈";
             case status.counter:
                 return "反擊架勢";
+            case status.lock_on_prepare:
+                return "弱點鎖定-預備";
+            case status.lock_on:
+                return "弱點鎖定";
+            case status.fire_armor:
+                return "烈焰護身";
+            case status.fire_enchantment:
+                return "火焰附魔";
+            case status.doppelganger:
+                return "影子分身";
 
             case status.burn:
                 return "燃燒";
@@ -210,6 +225,16 @@ public class Status : MonoBehaviour
                 return "下<color=green>" + level.ToString() + "</color>張打出的牌進入抽牌堆而不是棄牌堆";
             case status.counter:
                 return "護甲被突破時對攻擊者造成<color=green>" + level.ToString() + "</color>點傷害並給予<color=green>1</color>層易傷";
+            case status.lock_on_prepare:
+                return "下回合造成的傷害翻倍";
+            case status.lock_on:
+                return "造成的傷害翻倍";
+            case status.fire_armor:
+                return "本回合每次受到攻擊時給予攻擊者<color=green>" + level.ToString() + "</color>層燃燒";
+            case status.fire_enchantment:
+                return "每次攻擊額外給予<color=green>" + level.ToString() + "</color>層燃燒";
+            case status.doppelganger:
+                return "打出卡牌時，將一張消費為0、基礎攻擊、護甲減半、帶有移除和消逝的複製加入手中。還可觸發<color=green>" + level.ToString() + "</color>次。因此能力產生的卡牌不會觸發此效果";
                 
             case status.burn:
                 return "回合開始時失去<color=red>" + level.ToString() + "</color>點生命，隨後層數減半";
@@ -252,7 +277,8 @@ public class Status : MonoBehaviour
     public static bool IsCountable(status _status){
         if (_status == status.hard_shell || _status == status.doom || _status == status.symbioticA || _status == status.symbioticB ||
             _status == status.absorb || _status == status.auto_guard || _status == status.energy_absorb || _status == status.fluid ||
-            _status == status.blink || _status == status.summoned || _status == status.observe)
+            _status == status.blink || _status == status.summoned || _status == status.observe || _status == status.lock_on_prepare ||
+            _status == status.lock_on)
             return false;
         else return true;
     }
@@ -265,7 +291,8 @@ public class Status : MonoBehaviour
     }
 
     public static bool ClearOnTurnEnd(status _status){
-        if (_status == status.temporary_strength || _status == status.temporary_dexterity || _status == status.fortify)
+        if (_status == status.temporary_strength || _status == status.temporary_dexterity || _status == status.fortify ||
+            _status == status.fire_armor)
             return true;
         else return false;
     }

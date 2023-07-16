@@ -31,6 +31,8 @@ public class BattleController : MonoBehaviour
     bool tookDmgLastTurn = false;
     bool tookDmgThisTurn = false;
     bool discardedThisTurn = false;
+    Card lastCardPlayed = null;
+    bool played46ThisTurn = false;
     int currentTurn = 0;
 
 
@@ -105,6 +107,12 @@ public class BattleController : MonoBehaviour
     public bool DiscardedThisTurn(){
         return discardedThisTurn;
     }
+    public Card GetLastCardPlayed(){
+        return lastCardPlayed;
+    }
+    public bool Played46ThisTurn(){
+        return played46ThisTurn;
+    }
 
 
 
@@ -114,8 +122,10 @@ public class BattleController : MonoBehaviour
     public void PlayedSkill(){
         playedSkillThisTurn = true;
     }
-    public void PlayedCard(){
+    public void PlayedCard(Card card){
         playedCardThisTurn = true;
+        lastCardPlayed = card;
+        if (card.id == 46) played46ThisTurn = true;
     }
     public void Discarded(){
         discardedThisTurn = true;
@@ -147,6 +157,7 @@ public class BattleController : MonoBehaviour
         playedSkillThisTurn = false;
         playedCardThisTurn = false;
         discardedThisTurn = false;
+        played46ThisTurn = false;
         foreach(Transform child in characters.transform){
             if (child.tag == "Enemy") child.GetComponent<EnemyMove>().SetIntention();
         }

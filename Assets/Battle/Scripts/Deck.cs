@@ -53,6 +53,10 @@ public class Deck : MonoBehaviour
     //     Shuffle(drawPile);
     // }
 
+    public Card GetCard(int id){
+        return allcards_class.GetCard(id);
+    }
+
     void RemoveChild(){
         List<GameObject> list = new List<GameObject>();
         foreach(Transform child in transform){
@@ -111,36 +115,76 @@ public class Deck : MonoBehaviour
         Rearrange();
     }
 
-    public void AddCardToHand(Card card){
-        if (hand.Count == hand_limit) return;
-        hand.Add(MakeCard(card));
+    public GameObject AddCardToHand(Card card){
+        if (hand.Count == hand_limit) return null;
+        GameObject tmp = MakeCard(card);
+        hand.Add(tmp);
+        Rearrange();
+        return tmp;
+    }
+
+    public void MoveFromHandToDrawPile(GameObject card){
+        hand.Remove(card);
+        drawPile.Insert(0, card.GetComponent<CardDisplay>().thisCard);
+        Destroy(card);
         Rearrange();
     }
 
+    public Card GetRandomSkillCard(){
+        return allcards_obj.GetComponent<AllCards>().GetRandomSkillCard();
+    }
+    public Card GetRandomAttackCard(){
+        return allcards_obj.GetComponent<AllCards>().GetRandomAttackCard();
+    }
+
+    public void AnEyeForAnEye(int dmgReceived){
+        foreach(GameObject card in hand){
+            Card card_info = card.GetComponent<CardDisplay>().thisCard;
+            if (card_info.id == 34){
+                card_info.Args[0] += dmgReceived * card_info.Args[1];
+                card.GetComponent<CardDisplay>().LoadCard();
+            }
+        }
+    }
+
     public void TurnEnd(){
-        // foreach(GameObject card in hand){
-        //     if (!card.GetComponent<CardDisplay>().thisCard.keep && !card.GetComponent<CardDisplay>().thisCard.keepBeforeUse){
-        //         Discard(card);
-        //     }
-        // }
+        foreach(Card card in drawPile){
+            if (card.once_used) card.once_used = false;
+        }
+        foreach(Card card in trash){
+            if (card.once_used) card.once_used = false;
+        }
+        foreach(GameObject card in hand){
+            if (card.GetComponent<CardDisplay>().thisCard.costDecreaseOnTurnEnd) card.GetComponent<CardDisplay>().thisCard.cost--;
+            if (card.GetComponent<CardDisplay>().thisCard.once_used) card.GetComponent<CardDisplay>().thisCard.once_used = false;
+        }
         for (int i = hand.Count - 1; i >= 0; i--){
             if (!hand[i].GetComponent<CardDisplay>().thisCard.keep && !hand[i].GetComponent<CardDisplay>().thisCard.keepBeforeUse){
                 TurnEndDiscard(hand[i]);
             }
         }
+        UpdateHand();
     }
 
-    public void Draw(){
-        if (hand.Count == hand_limit) return;
+    public GameObject Draw(){
+        if (hand.Count == hand_limit) return null;
+        GameObject cardObj = null;
         if (drawPile.Count > 0){
-            hand.Add(MakeCard(drawPile[0]));
+            cardObj = MakeCard(drawPile[0]);
+            hand.Add(cardObj);
             drawPile.RemoveAt(0);
         }
         Rearrange();
+        return cardObj;
     }
 
-    public void Draw(int n){
-        for (int i = 0; i < n; i++) Draw();
+    public List<GameObject> Draw(int n){
+        List<GameObject> list = new List<GameObject>();
+        for (int i = 0; i < n; i++){
+            GameObject tmp = Draw();
+            if (tmp != null) list.Add(tmp);
+        }
+        return list;
     }
 
     public void Rearrange(){
@@ -150,10 +194,7 @@ public class Deck : MonoBehaviour
             if (hand[i].GetComponent<CardState>().state == CardState.State.ReadyToUse)
                 hand[i].GetComponent<CardMove>().Move(new Vector3(-700, 300, 0));
             else hand[i].GetComponent<CardMove>().Move(new Vector3(-gap/2 * (hand.Count-1) + gap * i, -400, 0));
-            // if (hand[i].GetComponent<CardState>().state == CardState.State.ReadyToUse)
-            //     hand[i].GetComponent<CardState>().state = CardState.State.Normal;
-            // if (hand[i].GetComponent<CardState>().state == CardState.State.Selected)
-            //     hand[i].GetComponent<CardState>().Unselect();
+            hand[i].GetComponent<CardDisplay>().LoadCard();
         }
     }
 
@@ -170,6 +211,10 @@ public class Deck : MonoBehaviour
         for (int i = 0; i < hand.Count; i++){
             hand[i].GetComponent<CardDisplay>().LoadCard();
         }
+    }
+
+    public List<GameObject> GetHand(){
+        return hand;
     }
 
     void Shuffle(List<Card> deck){

@@ -86,16 +86,19 @@ public class Character : MonoBehaviour
                 else{
                     hp -= damage;
                     hpBar.GetComponent<HPBar>().UpdateHP();
+                    AnEyeForAnEye(damage);
                     return true;
                 }
             }else{
                 armor -= damage;
                 hpBar.GetComponent<HPBar>().UpdateHP();
+                AnEyeForAnEye(damage);
                 return true;
             }
         }else{
             block -= damage;
             hpBar.GetComponent<HPBar>().UpdateHP();
+            AnEyeForAnEye(damage);
             return true;
         }
     }
@@ -108,8 +111,13 @@ public class Character : MonoBehaviour
         else{
             hp -= value;
             hpBar.GetComponent<HPBar>().UpdateHP();
+            AnEyeForAnEye(value);
             return true;
         }
+    }
+    void AnEyeForAnEye(int dmgReceived){
+        Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
+        deck.AnEyeForAnEye(dmgReceived);
     }
 
 
@@ -119,6 +127,8 @@ public class Character : MonoBehaviour
         if (target.GetComponent<Character>().GetStatus(Status.status.invincible) > 0)
             target.GetComponent<Character>().AddStatus(Status.status.invincible, -1);
         bool target_alive = target.GetComponent<Character>().GetHit(final_dmg);
+        int fireLevel = GetStatus(Status.status.fire_enchantment);
+        if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
         return target_alive;
     }
 
@@ -133,6 +143,7 @@ public class Character : MonoBehaviour
     public void Heal(int value){
         if (hp + value > maxHP) hp = maxHP;
         else hp += value;
+        hpBar.GetComponent<HPBar>().UpdateHP();
     }
 
 

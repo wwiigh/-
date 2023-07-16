@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Cards")]
 public class Card : ScriptableObject
@@ -33,7 +34,10 @@ public class Card : ScriptableObject
     public bool keep;
     public bool keepBeforeUse;
     public bool exhaust;
+    public bool disappear;
     public bool upgraded;
+    public bool once_used;
+    public bool costDecreaseOnTurnEnd;
     public int fontSize = 10;
 
     public static Card Copy(Card c){
@@ -43,12 +47,18 @@ public class Card : ScriptableObject
             image = c.image,
             cost_original = c.cost_original,
             cost = c.cost,
-            description = c.description,
-            Args = c.Args,
+            description = c.description.ToList<string>(),
+            Args =c.Args.ToList<int>(),
             select = c.select,
             rarity = c.rarity,
             type = c.type,
+            keep = c.keep,
+            keepBeforeUse = c.keepBeforeUse,
             exhaust = c.exhaust,
+            disappear = c.disappear,
+            upgraded = c.upgraded,
+            once_used = c.once_used,
+            costDecreaseOnTurnEnd = c.costDecreaseOnTurnEnd,
             fontSize = c.fontSize
         };
     }

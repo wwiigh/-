@@ -209,4 +209,11 @@ public class EnemyMove : MonoBehaviour
         }
         if (value == 0) intentionObj.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "";
     }
+
+    public int GetIntentionType(){
+        if (intentionObj.GetComponent<Image>().sprite == attackImg) return 1;
+        if (intentionObj.GetComponent<Image>().sprite == defendImg) return 2;
+        if (intentionObj.GetComponent<Image>().sprite == othersImg) return 3;
+        return -1;
+    }
 }

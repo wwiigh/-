@@ -16,6 +16,11 @@ public class AllCards : MonoBehaviour
         return allCards;
     }
 
+    public Card GetCard(int id){
+        if (id > allCards.Count) return null;
+        return allCards[id - 1];
+    }
+
     public Card GetRandomSkillCard(){
         if (allSkillCards.Count == 0){
             foreach(Card c in allCards){

@@ -10,18 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bd715c39497b8f409754214f1f95a2d, type: 3}
-  m_Name: 8
+  m_Name: 38
   m_EditorClassIdentifier: 
-  id: 8
-  cardName: "\u81E8\u6A5F\u61C9\u8B8A"
-  image: {fileID: 21300000, guid: bc24df070be1ec349870bee15f18e600, type: 3}
+  id: 38
+  cardName: "\u5C08\u6CE8"
+  image: {fileID: 21300000, guid: cede391162b589e4ab7504fc6c5a9696, type: 3}
   cost_original: 1
   cost: 0
   description:
-  - "\u82E5\u76EE\u6A19\u7684\u610F\u5716\u662F\u653B\u64CA\uFF0C\u5C071\u5F35\u96A8\u6A5F\u6280\u80FD\u724C\u52A0\u5165\u624B\u4E2D\uFF0C\u5426\u5247\u5C071\u5F35\u96A8\u6A5F\u653B\u64CA\u724C\u52A0\u5165\u624B\u4E2D"
-  Args: 
+  - "\u7372\u5F97"
+  - '#D'
+  - "\u9EDE\u8B77\u7532\uFF0C\u5F9E\u62BD\u724C\u5806\u6AA2\u7D221\u5F35\u6D88\u8CBB\u70BA"
+  - '#O'
+  - "\u4EE5\u4E0B\u7684\u5361\u724C\uFF0C\u4F7F\u5176\u7372\u5F97\u4FDD\u7559\u3001\u6D88\u8CBB+"
+  - '#O'
+  - "\u8207\u56DE\u5408\u7D50\u675F\u6642\u6D88\u8CBB-1\u6548\u679C"
+  Args: 050000000100000002000000
   select: 0
-  rarity: 0
+  rarity: 1
   type: 1
   keep: 0
   keepBeforeUse: 0

@@ -21,7 +21,7 @@ public class CardDisplay : MonoBehaviour
     public GameObject Make(Card c, Transform t){
         GameObject a =  Instantiate(gameObject, t);
         c.cost = c.cost_original;
-        a.GetComponent<CardDisplay>().thisCard = c;
+        a.GetComponent<CardDisplay>().thisCard = Card.Copy(c);
         a.tag = "Card";
         a.GetComponent<CardDisplay>().LoadCard();
         // a.SetActive(true);
@@ -34,9 +34,14 @@ public class CardDisplay : MonoBehaviour
         else cardBase.sprite = rare;
         nameText.text = thisCard.cardName;
         descriptionText.fontSize = thisCard.fontSize;
-        img.sprite = thisCard.image;
+
+        if (thisCard.image == null) img.enabled = false;
+        else img.sprite = thisCard.image;
+        
         descriptionText.text = "";
         if (thisCard.keep || thisCard.keepBeforeUse) descriptionText.text += "保留。";
+        if (thisCard.exhaust) descriptionText.text += "移除。";
+        if (thisCard.disappear) descriptionText.text += "消逝。";
         costText.text = thisCard.cost.ToString();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -64,6 +69,12 @@ public class CardDisplay : MonoBehaviour
             else if (s == "#N"){
                 //descriptionText.text += s + " ";
                 descriptionText.text += "\n";
+            }
+            else if (s == "#once_start" && thisCard.once_used){
+                descriptionText.text += "<color=grey>";
+            }
+            else if (s == "#once_end" && thisCard.once_used){
+                descriptionText.text += "</color>";
             }
             else{
                 descriptionText.text += s;

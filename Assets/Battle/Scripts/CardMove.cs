@@ -19,6 +19,9 @@ public class CardMove : MonoBehaviour
     Vector3 posSaved;
     Vector3 positionOffset;
     int playCardThreshold = -300;
+    public delegate void OnClickDelegate(int n);
+    public event OnClickDelegate OnClick;
+    public int clickReturnNumber = -1;
 
     private void Start() {
         battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
@@ -43,6 +46,10 @@ public class CardMove : MonoBehaviour
     }
 
     public void Drop(){
+        if (OnClick != null){
+            OnClick.Invoke(clickReturnNumber);
+            return;
+        }
         if (battleController.GetState() == BattleController.BattleState.SelectEnemy || 
             battleController.GetState() == BattleController.BattleState.SelectCard) return;
         dragging = false;
