@@ -16,3 +16,4 @@ MonoBehaviour:
   - box: {fileID: 0}
     information: "\u6E3E\u6C8C\u7269\u8CEA \u7F55\u898B\nSan\u503C\u4E0A\u9650-10"
     line_count: 2
+  rarity: 2

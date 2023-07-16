@@ -4,6 +4,10 @@ using UnityEngine;
 using System.IO;
 public class UI_System : MonoBehaviour
 {
+    void OnEnable()
+    {
+        Global.ReadData();
+    }
     public static void New_Game()
     {
         Bag_Save.Data save_data = new Bag_Save.Data{

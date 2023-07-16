@@ -16,6 +16,14 @@ public class UI_button_control : MonoBehaviour
         // map.SetActive(!map.activeSelf);
         map_canvas.GetComponent<Canvas>().sortingOrder = (map_canvas.GetComponent<Canvas>().sortingOrder==0 ?2:0);
         map_disable_move.SetActive(!map_disable_move.activeSelf);
+        if(map_disable_move.activeSelf)
+        {
+            FindObjectOfType<Map_System>().now_ui = Map_System.map_ui.open;
+        }
+        else
+        {
+            FindObjectOfType<Map_System>().now_ui = Map_System.map_ui.close;
+        }
     }
 
     public void change_setting_active()

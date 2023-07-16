@@ -131,12 +131,17 @@ public class Map_Generate : MonoBehaviour
     public void Go_to_next()
     {
         Show_status();
+        if(now_level == 3 && now_height==-1)
+        {
+            node_action.ending();
+        }
         if(now_height==-1)
         {
             ReGenerate_Map();
             Play_Animation();
         }
     }
+
     void Start()
     {
         // print(Application.dataPath);
@@ -151,12 +156,14 @@ public class Map_Generate : MonoBehaviour
         clear();
         Init();
         Gen_Map();
+        Regenerate_Point();
         Create_Edge();
         Visualize_Edge();
         Generate_Special_events(node_height-1,'f');
-        Generate_Special_events(Random.Range(1,4),'f');
+        Generate_Special_events(Random.Range(2,4),'f');
         Generate_Special_events(4,'m');
         Generate_Special_events(0,'b');
+        Generate_Special_events(1,'h');
         Generate_reset();
         check_big_monster(0,2,0);
         check_small_monster(0,2,0);
@@ -167,6 +174,7 @@ public class Map_Generate : MonoBehaviour
             UI_System.New_Game();
             Event_System.New_Game();
             Bag_Save.Load_Data(FindObjectOfType<Bag_System>());
+            Global.init();
             now_level=1;
         }
         now_height = 9;
@@ -190,28 +198,32 @@ public class Map_Generate : MonoBehaviour
     }
     void Generate_Map()
     {
-        string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/Map_Data");
-        Map_Save  MyData = JsonUtility.FromJson<Map_Save>(LoadData);
-        if(MyData.is_new==0)
+        if(File.Exists(Application.dataPath+"/Save_Data/Map_Data")==true)
         {
-            Init();
-            copy(MyData);
-        //     map_save.copy(nodes);
-            now_height = MyData.return_height();
-            now_level = MyData.return_level()>3?1:MyData.return_level();
-            now_width = MyData.return_width();
-            Visualize_Edge();
-            Show_status();
-            check_status();
-            set_click_action();
-
-            return;
+            string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/Map_Data");
+            Map_Save  MyData = JsonUtility.FromJson<Map_Save>(LoadData);
+            if(MyData.is_new==0)
+            {
+                Init();
+                copy(MyData);
+                Regenerate_Point();
+                //map_save.copy(nodes);
+                now_height = MyData.return_height();
+                now_level = MyData.return_level()>3?1:MyData.return_level();
+                now_width = MyData.return_width();
+                Visualize_Edge();
+                Show_status();
+                check_status();
+                set_click_action();
+                return;
+            }
         }
+        
         //初始
         Init();
         //顯示點
         Gen_Map();
-        // Regenerate_Point();
+        Regenerate_Point();
         //創造邊
         Create_Edge();
         //將邊畫出來
@@ -228,9 +240,10 @@ public class Map_Generate : MonoBehaviour
         // Generate_V3_set_route(node_arr,0,2,tmp_node_arr);
         // Generate_V3_set_event(node_arr);
         Generate_Special_events(node_height-1,'f');
-        Generate_Special_events(Random.Range(1,4),'f');
+        Generate_Special_events(Random.Range(2,4),'f');
         Generate_Special_events(4,'m');
         Generate_Special_events(0,'b');
+        Generate_Special_events(1,'h');
         // Generate_V2();
         
         Generate_reset();
@@ -250,7 +263,6 @@ public class Map_Generate : MonoBehaviour
         Show_status();
         check_status();
         set_click_action();
-
     }
     // Update is called once per frame
     void check_status()
@@ -562,7 +574,7 @@ public class Map_Generate : MonoBehaviour
                 }
             }
             float new_space_x = node_size.x * node_width + X_Space * (node_width) - valid_num * node_size.x;
-            new_space_x = new_space_x / (valid_num - 1);
+            new_space_x = new_space_x / (valid_num - 1) *0.7f;
             for (int j = 0; j < index; j++)
             {
                 float random_x = Random.Range(random_pos_min.x,random_pos_max.x);
@@ -738,7 +750,7 @@ public class Map_Generate : MonoBehaviour
             nodes[height * node_width + j].Set_type(type);
         }
     }
-    void save()
+    public void save()
     {
         List<int> node_parent_arr = new List<int>();
         List<int> node_parent_index_arr = new List<int>();

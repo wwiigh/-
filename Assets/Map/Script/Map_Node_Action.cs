@@ -20,29 +20,48 @@ public class Map_Node_Action : MonoBehaviour
     public void click_action_shop()
     {
         shop_object.SetActive(true);
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.shop);
         StartCoroutine(wait_finish(shop_object));
     }
     public void click_action_altar()
     {
         altar_object.SetActive(true);
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.altar);
         StartCoroutine(wait_finish(altar_object));
     }
     public void click_action_battle()
     {
         battle_object.SetActive(true);
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
         StartCoroutine(wait_finish(battle_object));
     }
     public void click_action_treasure()
     {
         treasure_object.SetActive(true);
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.treasure);
         StartCoroutine(wait_finish(treasure_object));
     }
     public void click_action_event()
     {
         event_object.SetActive(true);
+        Random.InitState((int)Time.time);
         int id = Event_Select.Get_Event();
         event_object.GetComponent<GameEvent>().LoadEvent(id,EventClass.Type.normal);
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.events);
         StartCoroutine(wait_finish(event_object));
+    }
+    public void ending()
+    {
+        event_object.SetActive(true);
+        if(FindObjectOfType<Bag_System>().Have_Item("relic","3"))
+        {
+            event_object.GetComponent<GameEvent>().LoadEvent(501,EventClass.Type.story);
+        }
+        else
+        {
+            event_object.GetComponent<GameEvent>().LoadEvent(401,EventClass.Type.story);
+        }
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.ending);
     }
     public void click_action_story(int level)
     {
@@ -61,6 +80,7 @@ public class Map_Node_Action : MonoBehaviour
             default:
                 break;
         }
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.events);
         StartCoroutine(wait_finish(event_object));
     }
 
@@ -71,5 +91,6 @@ public class Map_Node_Action : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         map.Go_to_next();
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.normal);
     }
 }
