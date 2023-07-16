@@ -18,13 +18,20 @@ public class Item_Effect : MonoBehaviour
     public int list_index;
     public string _type;
     public string _name;
+    public List<int> item_always_use = new List<int>();
+    public List<int> item_no_effect = new List<int>();
     Bag_System bag;
     public void show_button()
     {
+        if(_type=="relic")
+        {
+            close_button();
+            return;
+        }
         del.onClick.RemoveAllListeners();
         use.onClick.RemoveAllListeners();
         close.onClick.RemoveAllListeners();
-        
+        use.interactable = true;
         bag.change_button_pos(this.transform.position);
         switch (item_type)
         {
@@ -52,6 +59,8 @@ public class Item_Effect : MonoBehaviour
                 close.gameObject.SetActive(true);
                 del.gameObject.SetActive(true);
                 use.GetComponentInChildren<TMP_Text>().text = "使用";
+                check_button(int.Parse(_name));
+                use.onClick.AddListener(delegate { use_item(int.Parse(_name)); });
                 del.GetComponentInChildren<TMP_Text>().text = "移除";
                 del.onClick.AddListener(delegate { del_item(); });
                 close.GetComponentInChildren<TMP_Text>().text = "關閉";
@@ -67,9 +76,10 @@ public class Item_Effect : MonoBehaviour
         close.gameObject.SetActive(false);
         del.gameObject.SetActive(false);
     }
-    public void use_item()
+    public void use_item(int id)
     {
-        // Bag_System bag = FindAnyObjectByType<Bag_System>();
+        bool success = FindObjectOfType<Item_Implement>().Use_Item(id);
+        if(success==true)del_item();
     }
     public void del_item()
     {
@@ -106,5 +116,14 @@ public class Item_Effect : MonoBehaviour
         bool ans =  bag.clear_equipment(list_index);
         clear_button();
         return ans;
+    }
+
+    public void check_button(int id)
+    {
+        if(FindObjectOfType<Item_Implement>().use_count==3)use.interactable = false;
+        else if(item_always_use.Contains(id))use.interactable = true;
+        else if(item_no_effect.Contains(id))use.interactable = false;
+        else if(FindObjectOfType<Map_System>().now_state == Map_System.map_state.fight)use.interactable = true;
+        else use.interactable = false;
     }
 }

@@ -227,3 +227,7 @@ MonoBehaviour:
   del: {fileID: 0}
   item_type: 0
   list_index: 0
+  _type: 
+  _name: 
+  item_always_use: 6b0000006e0000007600000078000000c9000000cb000000d0000000d3000000
+  item_no_effect: 2d0100002e0100002f010000300100003101000032010000

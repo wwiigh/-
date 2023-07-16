@@ -156,6 +156,7 @@ public class Map_Generate : MonoBehaviour
         clear();
         Init();
         Gen_Map();
+        Regenerate_Point();
         Create_Edge();
         Visualize_Edge();
         Generate_Special_events(node_height-1,'f');
@@ -205,6 +206,7 @@ public class Map_Generate : MonoBehaviour
             {
                 Init();
                 copy(MyData);
+                Regenerate_Point();
                 //map_save.copy(nodes);
                 now_height = MyData.return_height();
                 now_level = MyData.return_level()>3?1:MyData.return_level();
@@ -221,7 +223,7 @@ public class Map_Generate : MonoBehaviour
         Init();
         //顯示點
         Gen_Map();
-        // Regenerate_Point();
+        Regenerate_Point();
         //創造邊
         Create_Edge();
         //將邊畫出來
@@ -261,7 +263,6 @@ public class Map_Generate : MonoBehaviour
         Show_status();
         check_status();
         set_click_action();
-
     }
     // Update is called once per frame
     void check_status()
@@ -573,7 +574,7 @@ public class Map_Generate : MonoBehaviour
                 }
             }
             float new_space_x = node_size.x * node_width + X_Space * (node_width) - valid_num * node_size.x;
-            new_space_x = new_space_x / (valid_num - 1);
+            new_space_x = new_space_x / (valid_num - 1) *0.7f;
             for (int j = 0; j < index; j++)
             {
                 float random_x = Random.Range(random_pos_min.x,random_pos_max.x);

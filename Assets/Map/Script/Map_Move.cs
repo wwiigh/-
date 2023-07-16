@@ -39,7 +39,17 @@ public class Map_Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(need_move)
+        bool canmove ;
+        if(FindObjectOfType<Map_System>().now_state == Map_System.map_state.normal || 
+        FindObjectOfType<Map_System>().now_ui == Map_System.map_ui.open)
+        {
+            canmove = true;
+        }
+        else
+        {
+            canmove = false;
+        }
+        if(canmove==true&& need_move)
         {
             var y = transform.position.y;
             y = y - pos.y;

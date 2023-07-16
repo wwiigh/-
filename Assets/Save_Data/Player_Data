@@ -1,7 +1,8 @@
 {
     "player_max_hp": 100,
-    "player_hp": 90,
+    "player_hp": 100,
     "money": 0,
     "max_sanity": 100,
-    "sanity": 100
+    "sanity": 100,
+    "money_addition": 1.0
 }

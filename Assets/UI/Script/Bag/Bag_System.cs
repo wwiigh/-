@@ -36,10 +36,11 @@ public class Bag_System : MonoBehaviour
     List<GameObject> equipment_list = new List<GameObject>();
     List<GameObject> relic_list = new List<GameObject>();
     List<int> id_list = new List<int>();
+    ///<summary>for test</summary>
     public void _add_item()
     {
-        int i = Random.Range(0,item_list.Length);
-        Add_Item(item_list[i].name,item_list[i].type);
+        // int i = Random.Range(0,item_list.Length);
+        Add_Item("107","item");
         // Add_Item("s1","item");
     }
     // Start is called before the first frame update
@@ -68,6 +69,10 @@ public class Bag_System : MonoBehaviour
         // }
     }
     void OnDisable()
+    {
+        save();   
+    }
+    public void save()
     {
         Bag_Save.Save_Data("bag",bag_list);
         Bag_Save.Save_Data("relic",relic_list);
@@ -146,6 +151,7 @@ public class Bag_System : MonoBehaviour
             if(relic_list.Count<12) new_item.GetComponent<UI_Control>().reset_pos(this.transform,new Vector3(x,0,0));
             if(relic_list.Count>=12) new_item.GetComponent<UI_Control>().reset_pos(this.transform,new Vector3(x,-0.8f,0));
             relic_list.Add(new_item);
+            GetComponent<Relic_Implement>().Handle_Relic_immediate(int.Parse(name));
         }
         return true;
     }
@@ -342,7 +348,7 @@ public class Bag_System : MonoBehaviour
     {
 
     }
-
+    ///<summary>回傳正在裝備中的裝備</summary>
     public List<int> Return_Equipment()
     {
         List<int> equipment = new List<int>();
@@ -353,7 +359,7 @@ public class Bag_System : MonoBehaviour
         }
         return equipment;
     }
-
+    ///<summary>回傳所有裝備(包含未裝備)</summary>
     public List<int> Return_All_Equipment()
     {
         id_list.Clear();
@@ -376,7 +382,7 @@ public class Bag_System : MonoBehaviour
         return equipment;
     }
 
-    public List<int> Return_Relic()
+    public List<int> Return_All_Relic()
     {
         List<int> relic = new List<int>();
         for(int i=0;i<relic_list.Count;i++)

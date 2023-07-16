@@ -156,7 +156,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3127881266344213158}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8635923497404759970}
+        m_TargetAssemblyTypeName: Altar, Assembly-CSharp
+        m_MethodName: Add_San
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2515736850069341435
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +290,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3951328488502862132}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8635923497404759970}
+        m_TargetAssemblyTypeName: Altar, Assembly-CSharp
+        m_MethodName: Up_Card
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2612528827317706263
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,6 +312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1917971934906908065}
+  - component: {fileID: 8635923497404759970}
   m_Layer: 0
   m_Name: altar
   m_TagString: Untagged
@@ -311,6 +336,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8635923497404759970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2612528827317706263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a27cf6b94c5a5c4fbd140b13fee1536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2961875110662631607
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,7 +604,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7816552710723617017}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8635923497404759970}
+        m_TargetAssemblyTypeName: Altar, Assembly-CSharp
+        m_MethodName: Add_Hp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3831199584384817901
 GameObject:
   m_ObjectHideFlags: 0
