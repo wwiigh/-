@@ -711,10 +711,6 @@ MonoBehaviour:
   m_Gizmos: 1
   m_OverrideSceneCullingMask: 0
   m_SceneIsLit: 0
-  m_SceneLighting: 1
-  m_2DMode: 1
-  m_isRotationLocked: 0
-  m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
     m_Target: {x: 960, y: 540, z: 0}
