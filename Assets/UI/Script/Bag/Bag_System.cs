@@ -41,7 +41,11 @@ public class Bag_System : MonoBehaviour
     {
         // int i = Random.Range(0,item_list.Length);
         Add_Item("107","item");
+        Add_Item("119","item");
         // Add_Item("s1","item");
+
+        // Map_System.New_Game();
+
     }
     // Start is called before the first frame update
     void Awake()

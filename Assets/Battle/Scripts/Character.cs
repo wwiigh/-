@@ -280,6 +280,21 @@ public class Character : MonoBehaviour
             case 105:
                 GetComponent<Animator>().Play("105_idle");
                 break;
+            case 106:
+                GetComponent<Animator>().Play("106_idle");
+                break;
+            case 107:
+                GetComponent<Animator>().Play("107_idle");
+                break;
+            case 108:
+                GetComponent<Animator>().Play("108_idle");
+                break;
+            case 201:
+                GetComponent<Animator>().Play("201_idle");
+                break;
+            case 202:
+                GetComponent<Animator>().Play("202_idle");
+                break;
             default:
                 Debug.Log("Character.InitEnemy(): Unknown id " + enemy.id.ToString());
                 break;

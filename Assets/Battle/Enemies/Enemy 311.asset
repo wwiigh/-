@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 548caa84be730fa48afd04ee30fbe60c, type: 3}
+  m_Name: Enemy 311
+  m_EditorClassIdentifier: 
+  id: 311
+  mobName: "\u6050\u61FC\u805A\u5408\u9AD4"
+  hp: 165
+  sizeX: 300
+  sizeY: 300
+  image: {fileID: 680539548, guid: c097d7650d7c66545a4ee81989af61a5, type: 3}

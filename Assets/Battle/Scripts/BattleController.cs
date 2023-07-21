@@ -79,6 +79,15 @@ public class BattleController : MonoBehaviour
             case 107:
                 enemyID = new int[]{2, 2};
                 break;
+            case 111:
+                enemyID = new int[]{5};
+                break;
+            case 112:
+                enemyID = new int[]{6};
+                break;
+            case 121:
+                enemyID = new int[]{7};
+                break;
             default:
                 Debug.Log("Enter battle: Unknown id " + id.ToString());
                 return;
