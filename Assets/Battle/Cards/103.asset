@@ -10,25 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bd715c39497b8f409754214f1f95a2d, type: 3}
-  m_Name: 46
+  m_Name: 103
   m_EditorClassIdentifier: 
-  id: 46
-  cardName: "\u528D\u6C23"
-  image: {fileID: 21300000, guid: 125e9ed2852026040b2bc1dc392019bb, type: 3}
+  id: 103
+  cardName: "\u57FA\u790E\u683C\u64CB"
+  image: {fileID: 21300000, guid: 65499f91909f39a4e890a68271f04f6b, type: 3}
   cost_original: 1
   cost: 0
   description:
-  - "\u5C0D\u6240\u6709\u6575\u4EBA\u9020\u6210"
-  - '#A'
-  - "\u9EDE\u50B7\u5BB3\u3002"
-  - '#once_start'
-  - "\u7368\u4E00\uFF1A\u5C07\u4E00\u5F35\u7D0D\u5200\u52A0\u5165\u624B\u724C\uFF0C\u4E26\u7D66\u4E88\u79FB\u9664\u3002"
-  - '#once_end'
-  - "\u82E5\u672C\u56DE\u5408\u6253\u51FA\u904E\u528D\u6C23\uFF0C\u6539\u70BA\u9020\u62102\u6B21\u50B7\u5BB3"
-  Args: 05000000
+  - "\u7372\u5F97"
+  - '#D'
+  - "\u9EDE\u81E8\u6642\u8B77\u7532"
+  Args: 06000000
   select: 0
-  rarity: 2
-  type: 0
+  rarity: 0
+  type: 1
   keep: 0
   keepBeforeUse: 0
   exhaust: 0
@@ -36,4 +32,4 @@ MonoBehaviour:
   upgraded: 0
   once_used: 0
   costDecreaseOnTurnEnd: 0
-  fontSize: 8
+  fontSize: 10

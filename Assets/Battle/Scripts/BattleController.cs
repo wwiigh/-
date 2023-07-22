@@ -122,6 +122,9 @@ public class BattleController : MonoBehaviour
     public bool Played46ThisTurn(){
         return played46ThisTurn;
     }
+    public bool PlayedAttackThisTurn(){
+        return playedAttackThisTurn;
+    }
 
 
 
@@ -302,13 +305,17 @@ public class BattleController : MonoBehaviour
     }
 
     public static int ComputeDamage(GameObject from, GameObject to, float dmg){
+        return ComputeDamage(from, to, dmg, 1, 1);
+    }
+    public static int ComputeDamage(GameObject from, GameObject to, float dmg, float strength_multiplier, float tmp_strength_multiplier){
         Character from_character = from.GetComponent<Character>();
         Character to_character = to.GetComponent<Character>();
         float multiplier = 1.0f;
 
         if (to_character.GetStatus(Status.status.invincible) > 0) return 0;
 
-        int strength = from_character.GetStatus(Status.status.strength) + from_character.GetStatus(Status.status.temporary_strength);
+        int strength = (int)(from_character.GetStatus(Status.status.strength) * strength_multiplier) + 
+                       (int)(from_character.GetStatus(Status.status.temporary_strength) * tmp_strength_multiplier);
         if (from_character.GetStatus(Status.status.weak) > 0) multiplier -= 0.25f;
         if (to_character.GetStatus(Status.status.vulnerable) > 0) multiplier += 0.25f;
         multiplier += from_character.GetStatus(Status.status.damage_adjust) * 0.01f;
@@ -324,10 +331,14 @@ public class BattleController : MonoBehaviour
         return final_dmg;
     }
     public static int ComputeDamage(GameObject from, float dmg){
+        return ComputeDamage(from, dmg, 1, 1);
+    }
+    public static int ComputeDamage(GameObject from, float dmg, float strength_multiplier, float tmp_strength_multiplier){
         Character from_character = from.GetComponent<Character>();
         float multiplier = 1.0f;
 
-        int strength = from_character.GetStatus(Status.status.strength) + from_character.GetStatus(Status.status.temporary_strength);
+        int strength = (int)(from_character.GetStatus(Status.status.strength) * strength_multiplier) + 
+                       (int)(from_character.GetStatus(Status.status.temporary_strength) * tmp_strength_multiplier);
         if (from_character.GetStatus(Status.status.weak) > 0) multiplier -= 0.25f;
         multiplier += from_character.GetStatus(Status.status.damage_adjust) * 0.01f;
 

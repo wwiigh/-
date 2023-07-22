@@ -21,6 +21,7 @@ public class Global : MonoBehaviour
     public static int max_sanity = 100;
     public static int sanity = 100;
     public static float money_addition = 1;
+    public static List<Card> player_deck = new List<Card>();
     public static void init()
     {
         player_hp = 100;
@@ -29,6 +30,7 @@ public class Global : MonoBehaviour
         max_sanity = 100;
         sanity = 100;
         money_addition = 1;
+        PlayerDeckInit();
         SaveData();
     }
 
@@ -56,6 +58,35 @@ public class Global : MonoBehaviour
             money += value;
         }
     }
+
+
+
+    public static void PlayerDeckInit(){
+        if (player_deck.Count != 0) return;
+        AllCards allcards = GameObject.FindGameObjectWithTag("AllCards").GetComponent<AllCards>();
+        List<Card> basicCards = allcards.GetBasicCards();
+        for (int i = 0; i < 4; i++){
+            player_deck.Add(basicCards[0]);
+        }
+        for (int i = 0; i < 4; i++){
+            player_deck.Add(basicCards[1]);
+        }
+        for (int i = 0; i < 2; i++){
+            player_deck.Add(basicCards[2]);
+        }
+    }
+    public static void PlayerDeck_Add(Card card){
+        player_deck.Add(card);
+    }
+    public static void PlayerDeck_Remove(Card card){
+        player_deck.Remove(card);
+    }
+    public static List<Card> GetPlayerDeck(){
+        return player_deck;
+    }
+
+
+
     //用來存檔
     public static void SaveData()
     {

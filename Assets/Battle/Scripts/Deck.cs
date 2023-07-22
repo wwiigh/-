@@ -42,6 +42,9 @@ public class Deck : MonoBehaviour
             drawPile.Add( Card.Copy( allcards[i] ) );
         }
         Shuffle(drawPile);
+
+        AddCardToHand(GetCard(46)); // for testing
+        AddCardToHand(GetCard(56));
     }
 
     // public void Init(){

@@ -47,9 +47,25 @@ public class CardDisplay : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         int ArgIdx = 0;
         int tmp = 0;
+        bool upgraded_text = false;
         foreach (string s in thisCard.description){
+            if (s == "#upgrade_start"){
+                upgraded_text = true;
+            }
+            else if (s == "#upgrade_end"){
+                upgraded_text = false;
+                continue;
+            }
+
+            if (upgraded_text) continue;
+
             if (s == "#A"){
-                tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx]);
+                if (thisCard.id == 47){
+                    if (thisCard.upgraded) tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 5);
+                    else tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 3);
+                }
+                else tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx]);
+
                 if (tmp > thisCard.Args[ArgIdx]) descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
                 else if (tmp < thisCard.Args[ArgIdx]) descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
                 else descriptionText.text += tmp;
@@ -70,11 +86,11 @@ public class CardDisplay : MonoBehaviour
                 //descriptionText.text += s + " ";
                 descriptionText.text += "\n";
             }
-            else if (s == "#once_start" && thisCard.once_used){
-                descriptionText.text += "<color=grey>";
+            else if (s == "#once_start"){
+                if (thisCard.once_used) descriptionText.text += "<color=grey>";
             }
-            else if (s == "#once_end" && thisCard.once_used){
-                descriptionText.text += "</color>";
+            else if (s == "#once_end"){
+                if (thisCard.once_used) descriptionText.text += "</color>";
             }
             else{
                 descriptionText.text += s;

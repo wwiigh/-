@@ -5,6 +5,7 @@ using UnityEngine;
 public class AllCards : MonoBehaviour
 {
     [SerializeField] List<Card> allCards;
+    [SerializeField] List<Card> basicCards;
     List<Card> allSkillCards = new List<Card>();
     List<Card> allAttackCards = new List<Card>();
 
@@ -14,6 +15,10 @@ public class AllCards : MonoBehaviour
 
     public List<Card> GetAllCards(){
         return allCards;
+    }
+
+    public List<Card> GetBasicCards(){
+        return basicCards;
     }
 
     public Card GetCard(int id){

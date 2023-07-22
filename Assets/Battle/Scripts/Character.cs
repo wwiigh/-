@@ -131,6 +131,15 @@ public class Character : MonoBehaviour
         if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
         return target_alive;
     }
+    public bool Attack(GameObject target, int dmg, float strength_multiplier, float tmp_strength_multiplier){
+        int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg, strength_multiplier, tmp_strength_multiplier);
+        if (target.GetComponent<Character>().GetStatus(Status.status.invincible) > 0)
+            target.GetComponent<Character>().AddStatus(Status.status.invincible, -1);
+        bool target_alive = target.GetComponent<Character>().GetHit(final_dmg);
+        int fireLevel = GetStatus(Status.status.fire_enchantment);
+        if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
+        return target_alive;
+    }
 
     public int GetMaxHP(){
         return maxHP;
@@ -177,8 +186,10 @@ public class Character : MonoBehaviour
 
 
     public void HoverIn(){
+        Debug.Log("HoverIn");
         if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
             transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
+            Debug.Log("change color");
         }
     }
     public void Click(){
