@@ -113,7 +113,60 @@ public class Global : MonoBehaviour
         Global.sanity = Load.sanity;
         Global.money_addition = Load.money_addition;
     }
-
+    /// <summary>
+    /// 會回傳是否成功加入，有可能背包滿了放不了
+    /// </summary>
+    /// <param name="id">傳入物品 ID</param>
+    /// <param name="type">relic or equipment or item</param>
+    
+    public static bool AddItemToBag(int id,string type)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        bool success_add = bag_System.Add_Item(id.ToString(),type);
+        return success_add;
+        
+    }
+    /// <summary>
+    /// 刪除物品(道具裝備遺物皆可)
+    /// </summary>
+    /// <param name="id">傳入物品 ID</param>
+    /// <param name="type">relic or equipment or item</param>
+    public static void RemoveItemFromBag(int id,string type)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        bag_System.Bag_del_item(id,type);
+    }
+    ///<summary>回傳正在裝備中的裝備</summary>
+    public static List<int> Return_Equipment()
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Return_Equipment();
+    }
+    ///<summary>回傳所有裝備(包含未裝備以及裝備中)</summary>
+    public static  List<int> Return_All_Equipment()
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Return_All_Equipment();
+    }
+    ///<summary>
+    ///回傳所有遺物
+    ///</summary>
+    public static  List<int> Return_All_Relic()
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Return_All_Relic();
+    }
+    ///<summary>
+    ///回傳正在背包裡的所有物品，包含裝備和道具
+    ///其中回傳list<list<int>>
+    ///list[0]內放入背包內道具
+    ///list[1]內放入背包內裝備
+    ///</summary>
+    public static List<List<int>> Return_All_Item_In_Bag()
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Return_All_Item_In_Bag();
+    }
 
     public delegate void MyDelegate(int n);
     static MyDelegate callback_saved;
