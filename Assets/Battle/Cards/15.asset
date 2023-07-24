@@ -19,7 +19,7 @@ MonoBehaviour:
   cost: 0
   description:
   - "\u7372\u5F97\u7B49\u540C\u7576\u524D\u56DE\u5408\u6578\u7684\u80FD\u91CF("
-  - '#O'
+  - '#turn'
   - "\u9EDE)"
   Args: 00000000
   select: 0
@@ -28,5 +28,8 @@ MonoBehaviour:
   keep: 0
   keepBeforeUse: 0
   exhaust: 1
+  disappear: 0
   upgraded: 0
+  once_used: 0
+  costDecreaseOnTurnEnd: 0
   fontSize: 10

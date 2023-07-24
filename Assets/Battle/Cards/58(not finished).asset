@@ -12,16 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd715c39497b8f409754214f1f95a2d, type: 3}
   m_Name: 58(not finished)
   m_EditorClassIdentifier: 
-  id: 0
-  cardName: 
+  id: 58
+  cardName: "\u7D0D\u5200"
   image: {fileID: 0}
   cost_original: 0
   cost: 0
-  description: []
-  Args: 
+  description:
+  - "\u5F9E\u68C4\u724C\u5806\u6AA2\u7D22\u4E00\u5F35\u6D88\u8CBB\u70BA1\u7684\u653B\u64CA\u724C"
+  - '#upgrade_start'
+  - "\uFF0C\u88AB\u79FB\u9664\u6642\u7372\u5F971\u9EDE\u80FD\u91CF"
+  - '#upgrade_end'
+  Args: 00000000
   select: 0
   rarity: 0
-  type: 0
+  type: 1
   keep: 0
   keepBeforeUse: 0
   exhaust: 0

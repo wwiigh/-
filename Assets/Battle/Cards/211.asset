@@ -10,28 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bd715c39497b8f409754214f1f95a2d, type: 3}
-  m_Name: 47
+  m_Name: 211
   m_EditorClassIdentifier: 
-  id: 47
-  cardName: "\u62D4\u5200\u65AC"
-  image: {fileID: 0}
-  cost_original: 2
+  id: 211
+  cardName: "\u8B58\u7834"
+  image: {fileID: 21300000, guid: 7a8edcffe58cb4342b399c58139fb11e, type: 3}
+  cost_original: 0
   cost: 0
   description:
-  - "\u9020\u6210"
-  - '#A'
-  - "\u9EDE\u50B7\u5BB3\u3002\u529B\u91CF\u5728\u9019\u5F35\u724C\u4E0A\u67093\u500D\u6548\u679C"
-  - '#upgrade_start'
-  - "\uFF0C\u81E8\u6642\u529B\u91CF\u67095\u500D\u6548\u679C"
-  - '#upgrade_end'
-  - "\u3002\u82E5\u672C\u56DE\u5408\u5C1A\u672A\u6253\u51FA\u904E\u653B\u64CA\u724C\uFF0C\u7372\u5F971\u9EDE\u80FD\u91CF"
-  Args: 0b000000
+  - "\u7406\u667A+4\uFF0C\u79FB\u9664\u6700\u591A\u4E00\u5F35\u624B\u724C"
+  Args: 
   select: 0
-  rarity: 1
-  type: 0
+  rarity: 0
+  type: 2
   keep: 0
   keepBeforeUse: 0
-  exhaust: 0
+  exhaust: 1
   disappear: 0
   upgraded: 0
   once_used: 0

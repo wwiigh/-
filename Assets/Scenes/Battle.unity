@@ -2339,6 +2339,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 605a755b3fa2a1e4dbaf7ba832426fc1, type: 2}
   - {fileID: 11400000, guid: 0c8e0f07249473b46baf67ce91b4051e, type: 2}
   - {fileID: 11400000, guid: 68e8342b1ed5ded4ba9518d9a8243055, type: 2}
+  specialCards:
+  - {fileID: 11400000, guid: 9d1e4f4a3d5f4d948ad955b7451f29a4, type: 2}
+  - {fileID: 11400000, guid: 0b2eb845cd63200458cfed214aba07cc, type: 2}
+  - {fileID: 11400000, guid: 03eea090c6535024e9b2ba93d3126e67, type: 2}
+  - {fileID: 11400000, guid: 93b071caaaebb1746af9c089abcaa004, type: 2}
+  - {fileID: 11400000, guid: 7183ecce33a1c9745918fcb333860cea, type: 2}
+  - {fileID: 11400000, guid: 5a2ed2dd31296864f9d2d429530a15b6, type: 2}
+  - {fileID: 11400000, guid: 9294e1ef50696ca4a9a08a32647b5bcc, type: 2}
+  - {fileID: 11400000, guid: d495173d436a17c43a516e21a8bbfbd0, type: 2}
+  - {fileID: 11400000, guid: fa9be143b965b1f47a08dc0893e54c96, type: 2}
+  - {fileID: 11400000, guid: 3704a58eaf3346d4887bd3ac6cc91184, type: 2}
+  - {fileID: 11400000, guid: 531504f01a846f044b6163c16027a5ef, type: 2}
+  testOnlyCards:
+  - {fileID: 11400000, guid: a4c267a4367ebd545b782f80dd2f3c7d, type: 2}
 --- !u!4 &1137852958
 Transform:
   m_ObjectHideFlags: 0

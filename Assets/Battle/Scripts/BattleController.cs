@@ -203,7 +203,7 @@ public class BattleController : MonoBehaviour
         CardEffects.EnemySelected(enemy);
         deck.Rearrange();
     }
-    public GameObject ReturnRandomEnemy(){
+    public GameObject GetRandomEnemy(){
         List<GameObject> pool = new List<GameObject>();
         foreach(Transform child in characters.transform) 
             if (child.tag == "Enemy") pool.Add(child.gameObject);

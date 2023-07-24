@@ -15,6 +15,7 @@ public class CardDisplay : MonoBehaviour
     public TMP_Text nameText;
     public Image img;
     public TMP_Text descriptionText;
+    [SerializeField] GameObject costIcon;
     public TMP_Text costText;
     public Card thisCard;
 
@@ -32,7 +33,10 @@ public class CardDisplay : MonoBehaviour
         if (thisCard.rarity == Card.Rarity.common) cardBase.sprite = normal;
         else if (thisCard.rarity == Card.Rarity.uncommon) cardBase.sprite = uncommon;
         else cardBase.sprite = rare;
+
         nameText.text = thisCard.cardName;
+        if (thisCard.upgraded) nameText.text += "+";
+
         descriptionText.fontSize = thisCard.fontSize;
 
         if (thisCard.image == null) img.enabled = false;
@@ -42,7 +46,14 @@ public class CardDisplay : MonoBehaviour
         if (thisCard.keep || thisCard.keepBeforeUse) descriptionText.text += "保留。";
         if (thisCard.exhaust) descriptionText.text += "移除。";
         if (thisCard.disappear) descriptionText.text += "消逝。";
-        costText.text = thisCard.cost.ToString();
+
+        if (thisCard.cost != -1){
+            costText.text = thisCard.cost.ToString();
+        }
+        else{
+            costIcon.SetActive(false);
+        }
+        
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         int ArgIdx = 0;
@@ -51,13 +62,14 @@ public class CardDisplay : MonoBehaviour
         foreach (string s in thisCard.description){
             if (s == "#upgrade_start"){
                 upgraded_text = true;
+                continue;
             }
             else if (s == "#upgrade_end"){
                 upgraded_text = false;
                 continue;
             }
 
-            if (upgraded_text) continue;
+            if (upgraded_text && !thisCard.upgraded) continue;
 
             if (s == "#A"){
                 if (thisCard.id == 47){
@@ -85,6 +97,9 @@ public class CardDisplay : MonoBehaviour
             else if (s == "#N"){
                 //descriptionText.text += s + " ";
                 descriptionText.text += "\n";
+            }
+            else if (s == "#turn"){
+                descriptionText.text += Object.FindObjectOfType<BattleController>().GetCurrentTurn();
             }
             else if (s == "#once_start"){
                 if (thisCard.once_used) descriptionText.text += "<color=grey>";

@@ -18,13 +18,23 @@ MonoBehaviour:
   cost_original: 0
   cost: 0
   description:
-  - "\u7372\u5F972\u9EDE\u81E8\u6642\u529B\u91CF"
-  Args: 
+  - "\u7372\u5F97"
+  - '#O'
+  - "\u9EDE\u81E8\u6642\u529B\u91CF"
+  - '#upgrade_start'
+  - "\u8207"
+  - '#O'
+  - "\u9EDE\u81E8\u6642\u654F\u6377"
+  - '#upgrade_end'
+  Args: 0200000000000000
   select: 0
   rarity: 0
   type: 1
   keep: 0
   keepBeforeUse: 0
   exhaust: 0
+  disappear: 0
   upgraded: 0
+  once_used: 0
+  costDecreaseOnTurnEnd: 0
   fontSize: 10

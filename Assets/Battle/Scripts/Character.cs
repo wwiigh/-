@@ -161,7 +161,8 @@ public class Character : MonoBehaviour
         return armor;
     }
     public void AddArmor(int value){
-        armor += value;
+        if (tag == "Player") armor += BattleController.ComputeArmor(value);
+        else armor += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
             GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();
@@ -175,7 +176,8 @@ public class Character : MonoBehaviour
         return block;
     }
     public void AddBlock(int value){
-        block += value;
+        if (tag == "Player") block += BattleController.ComputeArmor(value);
+        else block += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
             GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();

@@ -27,7 +27,7 @@ MonoBehaviour:
   - "\u9EDE\u81E8\u6642\u8B77\u7532"
   - '#upgrade_end'
   - "\uFF0C\u6062\u5FA97%\u7406\u667A\uFF0C\u7ACB\u5373\u7D50\u675F\u56DE\u5408"
-  Args: 0a00000004000000
+  Args: 0a00000000000000
   select: 0
   rarity: 1
   type: 1

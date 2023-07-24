@@ -115,6 +115,7 @@ public class Global : MonoBehaviour
     }
 
 
+
     public delegate void MyDelegate(int n);
     static MyDelegate callback_saved;
     static List<GameObject> cardObjs = new List<GameObject>();
@@ -147,5 +148,218 @@ public class Global : MonoBehaviour
         Destroy(panelObj);
         Destroy(cancelButtonObj);
         callback_saved(n);
+    }
+
+
+
+    public static void UpgradeCard(GameObject cardObj){
+        UpgradeCard(cardObj.GetComponent<CardDisplay>().thisCard);
+    }
+    public static void UpgradeCard(Card card){
+        if (card.upgraded) return;
+
+        switch(card.id){
+            case 1:
+                card.Args[0] = 5;
+                break;
+            case 2:
+                card.cost_original = 0;
+                break;
+            case 3:
+                card.cost_original = 0;
+                break;
+            case 4:
+                card.Args[0] = 3;
+                break;
+            case 5:
+                card.Args[0] = 4;
+                break;
+            case 6:
+                card.Args[0] = 3;
+                break;
+            case 7:
+                card.Args[0] = 6;
+                break;
+            case 8:
+                card.cost_original = 0;
+                break;
+            case 9:
+                card.Args[0] = 8;
+                break;
+            case 10:
+                card.Args[0] = 8;
+                break;
+            case 11:
+                card.cost_original = 0;
+                break;
+            case 12:
+                card.Args[0] = 10;
+                break;
+            case 13:
+                card.Args[0] = 5;
+                break;
+            case 14:
+                card.Args[1] = 2;
+                break;
+            case 15:
+                card.cost_original = 2;
+                break;
+            case 16:
+                card.Args[0] = 16;
+                break;
+            case 17:
+                card.Args[0] = 12;
+                break;
+            case 18:
+                card.Args[0] = 40;
+                break;
+            case 19:
+                card.Args[0] = 20;
+                card.Args[1] = 12;
+                break;
+            case 20:
+                card.cost_original = 0;
+                break;
+            case 21:
+                card.Args[1] = 2;
+                break;
+            case 22:
+                card.Args[0] = 13;
+                card.Args[1] = 13;
+                break;
+            case 23:
+                card.Args[2] = 2;
+                break;
+            case 24:
+                card.Args[0] = 4;
+                card.Args[1] = 3;
+                break;
+            case 25:
+                card.keep = true;
+                break;
+            case 26:
+                card.cost_original = 1;
+                break;
+            case 27:
+                card.Args[1] = 7;
+                break;
+            case 28:
+                card.Args[0] = 4;
+                break;
+            case 29:
+                card.Args[0] = 2;
+                break;
+            case 30:
+                card.Args[0] = 10;
+                break;
+            case 31:
+                card.Args[0] = 13;
+                card.Args[1] = 5;
+                break;
+            case 32:
+                card.Args[0] = 3;
+                break;
+            case 33:
+                // not implemented yet
+                break;
+            case 34:
+                card.Args[1] = 3;
+                break;
+            case 35:
+                card.Args[1] = 7;
+                break;
+            case 36:
+                card.Args[0] = 9;
+                card.Args[1] = 27;
+                break;
+            case 37:
+                card.cost_original = 1;
+                break;
+            case 38:
+                card.Args[1] = 2;
+                card.Args[2] = 1;
+                break;
+            case 39:
+                // not implemented yet
+                break;
+            case 40:
+                card.Args[1] = 30;
+                break;
+            case 41:
+                card.Args[0] = 17;
+                break;
+            case 42:
+                card.Args[0] = 8;
+                break;
+            case 43:
+                card.Args[1] = 2;
+                break;
+            case 44:
+                card.Args[1] = 2;
+                break;
+            case 45:
+                card.Args[0] = 5;
+                break;
+            case 46:
+                break;
+            case 47:
+                break;
+            case 48:
+                card.cost_original = 0;
+                break;
+            case 49:
+                card.cost_original = 1;
+                break;
+            case 50:
+                card.cost_original = 1;
+                break;
+            case 51:
+                card.cost_original = 1;
+                break;
+            case 52:
+                card.Args[0] = 8;
+                break;
+            case 53:
+                card.Args[0] = 10;
+                break;
+            case 54:
+                card.Args[0] = 5;
+                card.Args[1] = 6;
+                break;
+            case 55:
+                card.Args[1] = 5;
+                break;
+            case 56:
+                card.Args[1] = 4;
+                break;
+            case 57:
+                card.Args[0] = 10;
+                break;
+            case 58:
+                card.Args[0] = 1;
+                break;
+            case 59:
+                card.Args[0] = 1;
+                card.Args[2] = 6;
+                break;
+            case 60:
+                card.Args[1] = 2;
+                break;
+
+            case 101:
+                card.Args[0] = 9;
+                break;
+            case 102:
+                card.Args[0] = 6;
+                break;
+            case 103:
+                card.Args[0] = 9;
+                break;
+            default:
+                Debug.Log("UpgradeCard: Unknown id " + card.id.ToString());
+                break;
+        }
+
+        card.upgraded = true;
     }
 }

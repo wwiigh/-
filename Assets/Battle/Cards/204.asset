@@ -10,25 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bd715c39497b8f409754214f1f95a2d, type: 3}
-  m_Name: 47
+  m_Name: 204
   m_EditorClassIdentifier: 
-  id: 47
-  cardName: "\u62D4\u5200\u65AC"
+  id: 204
+  cardName: "\u7A7A\u767D"
   image: {fileID: 0}
-  cost_original: 2
+  cost_original: -1
   cost: 0
   description:
-  - "\u9020\u6210"
-  - '#A'
-  - "\u9EDE\u50B7\u5BB3\u3002\u529B\u91CF\u5728\u9019\u5F35\u724C\u4E0A\u67093\u500D\u6548\u679C"
-  - '#upgrade_start'
-  - "\uFF0C\u81E8\u6642\u529B\u91CF\u67095\u500D\u6548\u679C"
-  - '#upgrade_end'
-  - "\u3002\u82E5\u672C\u56DE\u5408\u5C1A\u672A\u6253\u51FA\u904E\u653B\u64CA\u724C\uFF0C\u7372\u5F971\u9EDE\u80FD\u91CF"
-  Args: 0b000000
+  - "\u7121\u6CD5\u6253\u51FA\u3002"
+  Args: 
   select: 0
-  rarity: 1
-  type: 0
+  rarity: 0
+  type: 2
   keep: 0
   keepBeforeUse: 0
   exhaust: 0
