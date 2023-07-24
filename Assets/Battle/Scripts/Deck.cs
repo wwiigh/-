@@ -47,25 +47,27 @@ public class Deck : MonoBehaviour
         // foreach(Card card in allcards.GetSpecialCards()){
         //     drawPile.Add( Card.Copy( card ) );
         // }
-        Shuffle(drawPile);
+        // Shuffle(drawPile);
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
 
         // for testing
-        AddCardToHand(GetCard(25));
-        AddCardToHand(GetCard(210));
-        AddCardToHand(GetCard(24));
-        AddCardToHand(GetCard(21));
-        AddCardToHand(GetCard(47));
-        AddCardToHand(GetCard(22));
-        AddCardToHand(GetCard(999));
-        AddCardToHand(GetCard(1));
-        
-        // AddCardToHand(GetCard(101));
-        // Global.UpgradeCard(AddCardToHand(GetCard(101)));
-        // AddCardToHand(GetCard(102));
-        // Global.UpgradeCard(AddCardToHand(GetCard(102)));
-        // AddCardToHand(GetCard(103));
-        // Global.UpgradeCard(AddCardToHand(GetCard(103)));
-        // AddCardToHand(GetCard(59));
+        // AddCardToHand(GetCard(29));
+        // AddCardToHand(GetCard(29));
+        // AddCardToHand(GetCard(29));
     }
 
     // public void Init(){
