@@ -67,7 +67,7 @@ public class Card_List : MonoBehaviour
             a.GetComponent<CardDisplay>().thisCard = item;
             if(can_select == false) a.GetComponent<Card_Select>().NotSelect();
             a.tag = "Card";
-            show_card_text(a.GetComponent<CardDisplay>(),a.GetComponent<CardDisplay>().thisCard);
+            a.GetComponent<CardDisplay>().LoadCard(true);
             // card.GetComponent<CardDisplay>().Make(item,card_list.transform);
         }
         if(can_select == true)confirm_button.SetActive(true);
