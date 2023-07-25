@@ -30,6 +30,9 @@ public class CardDisplay : MonoBehaviour
     }
 
     public void LoadCard(){
+        LoadCard(false);
+    }
+    public void LoadCard(bool no_modification){
         if (thisCard.rarity == Card.Rarity.common) cardBase.sprite = normal;
         else if (thisCard.rarity == Card.Rarity.uncommon) cardBase.sprite = uncommon;
         else cardBase.sprite = rare;
@@ -72,6 +75,12 @@ public class CardDisplay : MonoBehaviour
             if (upgraded_text && !thisCard.upgraded) continue;
 
             if (s == "#A"){
+                if (no_modification){
+                    descriptionText.text += thisCard.Args[ArgIdx].ToString();
+                    ArgIdx++;
+                    continue;
+                }
+
                 if (thisCard.id == 47){
                     if (thisCard.upgraded) tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 5);
                     else tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 3);
@@ -84,6 +93,12 @@ public class CardDisplay : MonoBehaviour
                 ArgIdx++;
             }
             else if (s == "#D"){
+                if (no_modification){
+                    descriptionText.text += thisCard.Args[ArgIdx].ToString();
+                    ArgIdx++;
+                    continue;
+                }
+                
                 tmp = BattleController.ComputeArmor(thisCard.Args[ArgIdx]);
                 if (tmp > thisCard.Args[ArgIdx]) descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
                 else if (tmp < thisCard.Args[ArgIdx]) descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
