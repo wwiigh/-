@@ -22,6 +22,7 @@ public class Global : MonoBehaviour
     public static int sanity = 100;
     public static float money_addition = 1;
     public static List<Card> player_deck = new List<Card>();
+    public static Card select_card;
     public static void init()
     {
         player_hp = 100;
@@ -66,20 +67,20 @@ public class Global : MonoBehaviour
         AllCards allcards = GameObject.FindGameObjectWithTag("AllCards").GetComponent<AllCards>();
         List<Card> basicCards = allcards.GetBasicCards();
         for (int i = 0; i < 4; i++){
-            player_deck.Add(basicCards[0]);
+            player_deck.Add(Card.Copy(basicCards[0]));
         }
         for (int i = 0; i < 4; i++){
-            player_deck.Add(basicCards[1]);
+            player_deck.Add(Card.Copy(basicCards[1]));
         }
         for (int i = 0; i < 2; i++){
-            player_deck.Add(basicCards[2]);
+            player_deck.Add(Card.Copy(basicCards[2]));
         }
     }
     public static void PlayerDeck_Add(Card card){
-        player_deck.Add(card);
+        player_deck.Add(Card.Copy(card));
     }
     public static void PlayerDeck_Remove(Card card){
-        player_deck.Remove(card);
+        player_deck.Remove(Card.Copy(card));
     }
     public static List<Card> GetPlayerDeck(){
         return player_deck;
@@ -99,12 +100,18 @@ public class Global : MonoBehaviour
             money_addition = Global.money_addition
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
-        File.WriteAllText(Application.dataPath+"/Save_Data/Player_Data", jsonInfo);
+        PlayerPrefs.SetString("Player_Data",jsonInfo);
+        // File.WriteAllText(Application.dataPath+"/Save_Data/Player_Data", jsonInfo);
     }
     //用來讀檔
     public static void ReadData()
     {
-        string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/Player_Data");
+        string LoadData = PlayerPrefs.GetString("Player_Data","");
+        if(LoadData == "")
+        {
+            init();
+            return;
+        }
         Data Load = JsonUtility.FromJson<Data>(LoadData);
         Global.player_max_hp = Load.player_max_hp;
         Global.player_hp = Load.player_hp;
@@ -153,7 +160,9 @@ public class Global : MonoBehaviour
     ///</summary>
     public static  List<int> Return_All_Relic()
     {
+        
         Bag_System bag_System = FindObjectOfType<Bag_System>();
+       
         return bag_System.Return_All_Relic();
     }
     ///<summary>
@@ -170,7 +179,9 @@ public class Global : MonoBehaviour
 
 
     public delegate void MyDelegate(int n);
+    public delegate void CardFunction(Card card);
     static MyDelegate callback_saved;
+    static CardFunction card_function;
     static List<GameObject> cardObjs = new List<GameObject>();
     static GameObject panelObj;
     static GameObject cancelButtonObj;
@@ -406,6 +417,7 @@ public class Global : MonoBehaviour
                 card.Args[0] = 6;
                 break;
             case 103:
+                Debug.Log("test");
                 card.Args[0] = 9;
                 break;
             default:
@@ -414,5 +426,18 @@ public class Global : MonoBehaviour
         }
 
         card.upgraded = true;
+    
+    }
+    public static void ShowPlayerCards(List<Card> card_list, CardFunction card_fun,bool can_select)
+    {
+        select_card = null;
+        card_function = card_fun;
+        Card_List show_list = FindObjectOfType<Card_List>();
+        show_list.Init(card_list,card_fun,can_select);
+        
+    }
+    public static void DoCardAction(Card card)
+    {
+        card_function(card);
     }
 }

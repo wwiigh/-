@@ -126,4 +126,9 @@ public class UI_Control : MonoBehaviour
             new_box.GetComponent<Information_Box>().add_count(UI_information.texts[i].line_count);
         }
     }
+
+    public void Change_text(string change_text)
+    {
+        information_box_array[0].GetComponent<Information_Box>().information.text = change_text;
+    }
 }

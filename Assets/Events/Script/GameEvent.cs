@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -168,9 +169,11 @@ public class GameEvent : MonoBehaviour
                 break;
             case 401:   
                 this.gameObject.SetActive(false);
+                SceneManager.LoadScene("StartMenu");
                 break;
             case 501:   
                 this.gameObject.SetActive(false);
+                SceneManager.LoadScene("StartMenu");
                 break;
             case 1000:
                 FindObjectOfType<Bag_System>().Show_Equipment_list(1,1);
@@ -227,7 +230,8 @@ public class GameEvent : MonoBehaviour
                 break;
             case 5001:
                 Global.AddSan(-10);
-                FindObjectOfType<Bag_System>().Add_Item("6","relic");
+                Global.AddItemToBag(6,"relic");
+                // FindObjectOfType<Bag_System>().Add_Item("6","relic");
                 this.gameObject.SetActive(false);
                 break;
             case 6000:
