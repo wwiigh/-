@@ -24,8 +24,8 @@ public class Bag_Save
     {
         
         clear(type);
-        Debug.Log(type);
-        Debug.Log(list.Count);
+        // Debug.Log(type);
+        // Debug.Log(list.Count);
         for(int i=0;i<list.Count;i++)
         {
             Item_Effect tmp = list[i].GetComponent<Item_Effect>();

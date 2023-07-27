@@ -6,18 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class start : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Start is called before the first frame update 
     void Start()
     {
         this.GetComponent<Button>().onClick.AddListener(ClickToMap);
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
     void ClickToMap(){
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("loadlevel");
     }
 }
