@@ -14,6 +14,8 @@ public class Global : MonoBehaviour
         public int max_sanity;
         public int sanity;
         public float money_addition;
+        public List<int> card_id;
+        public List<bool> card_up;
     }
     public static int player_max_hp = 100;
     public static int player_hp = 100;
@@ -22,6 +24,8 @@ public class Global : MonoBehaviour
     public static int sanity = 100;
     public static float money_addition = 1;
     public static List<Card> player_deck = new List<Card>();
+    public static List<int> card_id;
+    public static List<bool> card_up;
     public static Card select_card;
     public static void init()
     {
@@ -80,7 +84,7 @@ public class Global : MonoBehaviour
         player_deck.Add(Card.Copy(card));
     }
     public static void PlayerDeck_Remove(Card card){
-        player_deck.Remove(Card.Copy(card));
+        player_deck.Remove(card);
     }
     public static List<Card> GetPlayerDeck(){
         return player_deck;
@@ -91,13 +95,22 @@ public class Global : MonoBehaviour
     //用來存檔
     public static void SaveData()
     {
+        Global.card_id = new List<int>();
+        Global.card_up = new List<bool>();
+        for(int i=0;i<Global.player_deck.Count;i++)
+        {
+            card_id.Add(Global.player_deck[i].id);
+            card_up.Add(Global.player_deck[i].upgraded);
+        }
         Data save_data = new Data{
             player_max_hp = Global.player_max_hp,
             player_hp = Global.player_hp,
             money = Global.money,
             max_sanity = Global.max_sanity,
             sanity = Global.sanity,
-            money_addition = Global.money_addition
+            money_addition = Global.money_addition,
+            card_id = Global.card_id,
+            card_up = Global.card_up
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
         PlayerPrefs.SetString("Player_Data",jsonInfo);
@@ -119,6 +132,14 @@ public class Global : MonoBehaviour
         Global.max_sanity = Load.max_sanity;
         Global.sanity = Load.sanity;
         Global.money_addition = Load.money_addition;
+        Global.card_id = Load.card_id;
+        Global.card_up = Load.card_up;
+        AllCards allcards = GameObject.FindGameObjectWithTag("AllCards").GetComponent<AllCards>();
+        for(int i=0;i<Global.card_id.Count;i++)
+        {
+            Global.player_deck.Add(allcards.GetCard(card_id[i]));
+            Global.player_deck[i].upgraded = Global.card_up[i];
+        }
     }
     /// <summary>
     /// 會回傳是否成功加入，有可能背包滿了放不了

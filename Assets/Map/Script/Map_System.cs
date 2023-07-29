@@ -17,8 +17,8 @@ public class Map_System : MonoBehaviour
         close,
         open
     }
-    public map_state now_state;
-    public map_ui now_ui;
+    public static map_state now_state;
+    public static map_ui now_ui;
     public void Change_state(map_state state)
     {
         now_state = state;
