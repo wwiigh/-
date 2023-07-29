@@ -123,7 +123,7 @@ public class Item_Effect : MonoBehaviour
         if(FindObjectOfType<Item_Implement>().use_count==3)use.interactable = false;
         else if(item_always_use.Contains(id))use.interactable = true;
         else if(item_no_effect.Contains(id))use.interactable = false;
-        else if(FindObjectOfType<Map_System>().now_state == Map_System.map_state.fight)use.interactable = true;
+        else if(Map_System.now_state == Map_System.map_state.fight)use.interactable = true;
         else use.interactable = false;
     }
 }

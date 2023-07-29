@@ -40,8 +40,8 @@ public class Map_Move : MonoBehaviour
     void Update()
     {
         bool canmove ;
-        if(FindObjectOfType<Map_System>().now_state == Map_System.map_state.normal || 
-        FindObjectOfType<Map_System>().now_ui == Map_System.map_ui.open)
+        if(Map_System.now_state == Map_System.map_state.normal || 
+        Map_System.now_ui == Map_System.map_ui.open)
         {
             canmove = true;
         }

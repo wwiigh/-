@@ -18,7 +18,10 @@ public class Shop_init : MonoBehaviour
     public GameObject Product;
     public int num_per_row;
     public GameObject background;
+    public GameObject card_background;
     public Product_Information[] product_list;
+    public GameObject Card_Prefab;
+    public Card[] cards;
     public List<GameObject> sell_list = new List<GameObject>();
     public Dictionary<string,UI_Show_Text> equipment = new Dictionary<string, UI_Show_Text>();
     public Dictionary<string,UI_Show_Text> relic = new Dictionary<string, UI_Show_Text>();
@@ -53,6 +56,24 @@ public class Shop_init : MonoBehaviour
     void Update()
     {
         
+    }
+    void Add_Card(Card card,int price)
+    {
+        // int index = sell_list.Count % num_per_row;
+        // float x = index * 1.8f;
+        // if(index == 8)x -= 0.4f;
+        // UI_Show_Text _item = item[name];
+        GameObject a =  Instantiate(Card_Prefab, card_background.transform);
+        card.cost = card.cost_original;
+        a.GetComponent<CardDisplay>().thisCard = Card.Copy(card);
+        a.tag = "Card";
+        a.GetComponent<CardDisplay>().LoadCard(true);
+        a.GetComponentInChildren<Shop_Buy>().shop_list_index = sell_list.Count;
+        a.GetComponent<Shop_Buy>().card_rarity = card.rarity;
+        a.GetComponent<Shop_Buy>().card_id = card.id;
+        a.GetComponent<Shop_Buy>().shop = this;
+        a.GetComponent<Shop_Buy>().price = price;
+        sell_list.Add(a);
     }
     void Add_Product(string name, string type,int price)
     {
@@ -166,6 +187,25 @@ public class Shop_init : MonoBehaviour
         }
         
     }
+    public void Buy_card(int index)
+    {
+        //扣掉錢
+        //..........
+        
+        GameObject o = sell_list[index];
+        Card.Rarity rarity = o.GetComponent<Shop_Buy>().card_rarity;
+        int id = o.GetComponent<Shop_Buy>().card_id;
+        int money = o.GetComponent<Shop_Buy>().price;
+        if(Global.money<money)return;
+        else Global.AddMoney(-money);
+        Global.PlayerDeck_Add(o.GetComponent<CardDisplay>().thisCard);
+        for (int i = o.transform.childCount - 1; i >= 0; i--){
+            o.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        // Button[] tmp = o.GetComponentsInChildren<Button>();
+        // for(int i=0;i<tmp.Length;i++)tmp[i].gameObject.SetActive(false);
+        
+    }
     //0 for bag 1 for shop
     bool Have_Relic(int position,string name)
     {
@@ -195,12 +235,19 @@ public class Shop_init : MonoBehaviour
         }
         return false;
     }
+    bool Have_Card(Card.Rarity rarity,int id)
+    {
+        
+        for(int i=0;i<sell_list.Count;i++)
+        {
+            Card.Rarity t = sell_list[i].GetComponentInChildren<Shop_Buy>().card_rarity;
+            int n = sell_list[i].GetComponentInChildren<Shop_Buy>().card_id;
+            if(t==rarity&&id==n)return true;
+        }
+        return false;
+    }
     void Generate_product()
     {
-        for(int i=0;i<5;i++)
-        {
-            //generate card
-        }
         for(int i=0;i<3;i++)
         {
             int index = Random.Range(0,11);
@@ -231,5 +278,35 @@ public class Shop_init : MonoBehaviour
             }
             Add_Product(product_list[index].name,product_list[index].type,product_list[index].price);
         }
+        for(int i=0;i<7;i++)
+        {
+            int index = Random.Range(0,cards.Length);
+            while(Have_Card(cards[index].rarity,cards[index].id))
+            {
+                index+=1;
+                if(index>=cards.Length)index=0;
+            }
+            Add_Card(cards[index],Get_Card_price(cards[index]));
+            // Add_Product(product_list[index].name,product_list[index].type,product_list[index].price);
+        }
+    }
+    int Get_Card_price(Card card)
+    {
+        int price = 0;
+        switch(card.rarity)
+        {
+            case Card.Rarity.common:
+                price = 150;
+                break;
+            case Card.Rarity.uncommon:
+                price = 300;
+                break;
+            case Card.Rarity.rare:
+                price = 600;
+                break;
+            default:
+                break;
+        }
+        return price;
     }
 }

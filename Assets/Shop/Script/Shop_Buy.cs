@@ -8,6 +8,8 @@ public class Shop_Buy : MonoBehaviour
     public int shop_list_index;
     public string _type;
     public string _name;
+    public Card.Rarity card_rarity;
+    public int card_id;
     public int price;
     public Shop_init shop;
     public TMP_Text _price;
@@ -25,5 +27,9 @@ public class Shop_Buy : MonoBehaviour
     public void Buy()
     {
         shop.Buy(shop_list_index);
+    }
+    public void Buy_card()
+    {
+        shop.Buy_card(shop_list_index);
     }
 }
