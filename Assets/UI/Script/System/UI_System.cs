@@ -19,7 +19,8 @@ public class UI_System : MonoBehaviour
             equipment_type = null           
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
-        File.WriteAllText(Application.dataPath+"/Save_Data/UI_Data", jsonInfo);
+        PlayerPrefs.SetString("UI_Data",jsonInfo);
+        // File.WriteAllText(Application.dataPath+"/Save_Data/UI_Data", jsonInfo);
         
     }
 }

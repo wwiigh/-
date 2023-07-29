@@ -53,13 +53,14 @@ public class CardMove : MonoBehaviour
         if (battleController.GetState() == BattleController.BattleState.SelectEnemy || 
             battleController.GetState() == BattleController.BattleState.SelectCard) return;
         dragging = false;
-        if (transform.localPosition.y > playCardThreshold && Cost.GetCost() >= GetComponent<CardDisplay>().thisCard.cost){
+        if (transform.localPosition.y > playCardThreshold && Cost.GetCost() >= GetComponent<CardDisplay>().thisCard.cost &&
+            GetComponent<CardDisplay>().thisCard.cost != -1){
             GetComponent<CardState>().state = CardState.State.ReadyToUse;
             CardEffects.Use(gameObject);
             Move(new Vector3(-700, 300, 0));
         }
         else{
-            Move(posSaved);
+            Object.FindObjectOfType<Deck>().Rearrange();
         }
     }
 

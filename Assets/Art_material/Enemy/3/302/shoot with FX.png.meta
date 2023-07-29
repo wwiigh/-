@@ -134,10 +134,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 78
-        width: 117
+        width: 50
         height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -155,10 +155,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 52
-        width: 117
+        width: 50
         height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -176,10 +176,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 26
-        width: 117
+        width: 50
         height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -197,10 +197,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 117
+        width: 50
         height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -208,6 +208,27 @@ TextureImporter:
       bones: []
       spriteID: d65a2f1c2b235ce49a6ddebf6541f853
       internalID: -2077950968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shoot with FX_4
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 93
+        width: 11
+        height: 1
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94b77e029215ea14ea084beded4415b4
+      internalID: -621993980
       vertices: []
       indices: 
       edges: []
@@ -227,6 +248,7 @@ TextureImporter:
       shoot with FX_1: 159596608
       shoot with FX_2: 593244966
       shoot with FX_3: -2077950968
+      shoot with FX_4: -621993980
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

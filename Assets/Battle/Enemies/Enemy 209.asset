@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 548caa84be730fa48afd04ee30fbe60c, type: 3}
+  m_Name: Enemy 209
+  m_EditorClassIdentifier: 
+  id: 209
+  mobName: "\u838E\u5E03\xB7\u5C3C\u53E4\u62C9\u7D72"
+  hp: 200
+  sizeX: 300
+  sizeY: 300
+  image: {fileID: -1718963503, guid: 05692954d64edcb4695a7d8f4b3fbbe0, type: 3}

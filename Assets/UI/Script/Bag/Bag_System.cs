@@ -41,7 +41,11 @@ public class Bag_System : MonoBehaviour
     {
         // int i = Random.Range(0,item_list.Length);
         Add_Item("107","item");
+        Add_Item("119","item");
         // Add_Item("s1","item");
+
+        // Map_System.New_Game();
+
     }
     // Start is called before the first frame update
     void Awake()
@@ -192,7 +196,7 @@ public class Bag_System : MonoBehaviour
         reset_pos();
     }
     /// <summary>
-    /// 若要刪除背包物品
+    /// 若要刪除背包物品用這個
     /// </summary>
     /// <param name="id">傳入物品 ID</param>
     /// <param name="type">relic or equipment or item</param>
@@ -216,6 +220,15 @@ public class Bag_System : MonoBehaviour
                     if(equipment_list[i].GetComponent<Item_Effect>()._name == id.ToString())
                     {
                         del_item(equipment_list[i].GetComponent<Item_Effect>().list_index);
+                        break;
+                    }
+                }
+                for(int i=0;i<bag_list.Count;i++)
+                {
+                    if(bag_list[i].GetComponent<Item_Effect>()._type == "item")continue;
+                    if(bag_list[i].GetComponent<Item_Effect>()._name == id.ToString())
+                    {
+                        del_item(bag_list[i].GetComponent<Item_Effect>().list_index);
                         break;
                     }
                 }
@@ -358,6 +371,32 @@ public class Bag_System : MonoBehaviour
             equipment.Add(int.Parse(n));
         }
         return equipment;
+    }
+    ///<summary>
+    ///回傳正在背包裡的所有物品，包含裝備和道具
+    ///其中回傳list<list<int>>
+    ///list[0]內放入背包內道具
+    ///list[1]內放入背包內裝備
+    ///</summary>
+    public List<List<int>> Return_All_Item_In_Bag()
+    {
+        List<List<int>> ans = new List<List<int>>();
+        ans[0] = new List<int>();
+        ans[1] = new List<int>();
+        for(int i=0;i<bag_list.Count;i++)
+        {
+            if(bag_list[i].GetComponent<Item_Effect>().item_type == Item_Effect.Type.equipment_off)
+            {
+                string n = bag_list[i].GetComponent<UI_Control>().UI_information.name;
+                ans[1].Add(int.Parse(n));
+            }
+            else if(bag_list[i].GetComponent<Item_Effect>().item_type == Item_Effect.Type.item)
+            {
+                string n = bag_list[i].GetComponent<UI_Control>().UI_information.name;
+                ans[0].Add(int.Parse(n));
+            }
+        }
+        return ans;
     }
     ///<summary>回傳所有裝備(包含未裝備)</summary>
     public List<int> Return_All_Equipment()

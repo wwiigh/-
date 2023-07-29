@@ -39,6 +39,10 @@ public class Status : MonoBehaviour
         fire_armor,
         fire_enchantment,
         doppelganger,
+        imitate,
+        remnant,
+        turtle_stance,
+        dragon_stance,
 
 
         burn,
@@ -128,6 +132,14 @@ public class Status : MonoBehaviour
                 return "火焰附魔";
             case status.doppelganger:
                 return "影子分身";
+            case status.imitate:
+                return "模仿";
+            case status.remnant:
+                return "殘心";
+            case status.turtle_stance:
+                return "玄武架勢";
+            case status.dragon_stance:
+                return "青龍架勢";
 
             case status.burn:
                 return "燃燒";
@@ -235,7 +247,15 @@ public class Status : MonoBehaviour
                 return "每次攻擊額外給予<color=green>" + level.ToString() + "</color>層燃燒";
             case status.doppelganger:
                 return "打出卡牌時，將一張消費為0、基礎攻擊、護甲減半、帶有移除和消逝的複製加入手中。還可觸發<color=green>" + level.ToString() + "</color>次。因此能力產生的卡牌不會觸發此效果";
-                
+            case status.imitate:
+                return "將下<color=green>" + level.ToString() + "</color>張打出的牌複製一張(「模仿」除外)";
+            case status.remnant:
+                return "臨時力量與臨時敏捷在回合結束時改為減少一半的層數，而不是全部層數";
+            case status.turtle_stance:
+                return "回合開始時，若上回合沒有打出過攻擊牌，獲得<color=green>" + level.ToString() + "</color>點臨時力量";
+            case status.dragon_stance:
+                return "回合開始時，若上回合沒有打出過技能牌，獲得<color=green>" + level.ToString() + "</color>點臨時敏捷";
+
             case status.burn:
                 return "回合開始時失去<color=red>" + level.ToString() + "</color>點生命，隨後層數減半";
             case status.weak:
@@ -278,7 +298,7 @@ public class Status : MonoBehaviour
         if (_status == status.hard_shell || _status == status.doom || _status == status.symbioticA || _status == status.symbioticB ||
             _status == status.absorb || _status == status.auto_guard || _status == status.energy_absorb || _status == status.fluid ||
             _status == status.blink || _status == status.summoned || _status == status.observe || _status == status.lock_on_prepare ||
-            _status == status.lock_on)
+            _status == status.lock_on || _status == status.remnant)
             return false;
         else return true;
     }

@@ -8,7 +8,7 @@ public class hide : MonoBehaviour
     public GameObject treasure;
     void Start()
     {
-        treasure.SetActive(false);
+        // treasure.SetActive(false);
     }
 
     // Update is called once per frame

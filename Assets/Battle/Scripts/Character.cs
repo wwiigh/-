@@ -131,6 +131,15 @@ public class Character : MonoBehaviour
         if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
         return target_alive;
     }
+    public bool Attack(GameObject target, int dmg, float strength_multiplier, float tmp_strength_multiplier){
+        int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg, strength_multiplier, tmp_strength_multiplier);
+        if (target.GetComponent<Character>().GetStatus(Status.status.invincible) > 0)
+            target.GetComponent<Character>().AddStatus(Status.status.invincible, -1);
+        bool target_alive = target.GetComponent<Character>().GetHit(final_dmg);
+        int fireLevel = GetStatus(Status.status.fire_enchantment);
+        if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
+        return target_alive;
+    }
 
     public int GetMaxHP(){
         return maxHP;
@@ -152,7 +161,8 @@ public class Character : MonoBehaviour
         return armor;
     }
     public void AddArmor(int value){
-        armor += value;
+        if (tag == "Player") armor += BattleController.ComputeArmor(value);
+        else armor += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
             GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();
@@ -166,7 +176,8 @@ public class Character : MonoBehaviour
         return block;
     }
     public void AddBlock(int value){
-        block += value;
+        if (tag == "Player") block += BattleController.ComputeArmor(value);
+        else block += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
             GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();
@@ -177,8 +188,10 @@ public class Character : MonoBehaviour
 
 
     public void HoverIn(){
+        Debug.Log("HoverIn");
         if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
             transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
+            Debug.Log("change color");
         }
     }
     public void Click(){
@@ -279,6 +292,21 @@ public class Character : MonoBehaviour
                 break;
             case 105:
                 GetComponent<Animator>().Play("105_idle");
+                break;
+            case 106:
+                GetComponent<Animator>().Play("106_idle");
+                break;
+            case 107:
+                GetComponent<Animator>().Play("107_idle");
+                break;
+            case 108:
+                GetComponent<Animator>().Play("108_idle");
+                break;
+            case 201:
+                GetComponent<Animator>().Play("201_idle");
+                break;
+            case 202:
+                GetComponent<Animator>().Play("202_idle");
                 break;
             default:
                 Debug.Log("Character.InitEnemy(): Unknown id " + enemy.id.ToString());

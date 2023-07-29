@@ -22,7 +22,11 @@ MonoBehaviour:
   - '#A'
   - "\u9EDE\u50B7\u5BB3\u3002"
   - '#once_start'
-  - "\u7368\u4E00\uFF1A\u5C07\u4E00\u5F35\u7D0D\u5200\u52A0\u5165\u624B\u724C\uFF0C\u4E26\u7D66\u4E88\u79FB\u9664\u3002"
+  - "\u7368\u4E00\uFF1A\u5C07\u4E00\u5F35\u7D0D\u5200"
+  - '#upgrade_start'
+  - +
+  - '#upgrade_end'
+  - "\u52A0\u5165\u624B\u724C\uFF0C\u4E26\u7D66\u4E88\u79FB\u9664\u3002"
   - '#once_end'
   - "\u82E5\u672C\u56DE\u5408\u6253\u51FA\u904E\u528D\u6C23\uFF0C\u6539\u70BA\u9020\u62102\u6B21\u50B7\u5BB3"
   Args: 05000000
@@ -36,4 +40,4 @@ MonoBehaviour:
   upgraded: 0
   once_used: 0
   costDecreaseOnTurnEnd: 0
-  fontSize: 10
+  fontSize: 8

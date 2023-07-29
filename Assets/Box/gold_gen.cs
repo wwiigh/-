@@ -15,7 +15,6 @@ public class gold_gen : MonoBehaviour
         Golden_number.text = "" + x;
         Global.AddMoney(x);
         // Debug.Log("you get "+x);
-
     }
 
     

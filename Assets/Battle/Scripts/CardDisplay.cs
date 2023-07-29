@@ -15,6 +15,7 @@ public class CardDisplay : MonoBehaviour
     public TMP_Text nameText;
     public Image img;
     public TMP_Text descriptionText;
+    [SerializeField] GameObject costIcon;
     public TMP_Text costText;
     public Card thisCard;
 
@@ -29,10 +30,16 @@ public class CardDisplay : MonoBehaviour
     }
 
     public void LoadCard(){
+        LoadCard(false);
+    }
+    public void LoadCard(bool no_modification){
         if (thisCard.rarity == Card.Rarity.common) cardBase.sprite = normal;
         else if (thisCard.rarity == Card.Rarity.uncommon) cardBase.sprite = uncommon;
         else cardBase.sprite = rare;
+
         nameText.text = thisCard.cardName;
+        if (thisCard.upgraded) nameText.text += "+";
+
         descriptionText.fontSize = thisCard.fontSize;
 
         if (thisCard.image == null) img.enabled = false;
@@ -42,20 +49,56 @@ public class CardDisplay : MonoBehaviour
         if (thisCard.keep || thisCard.keepBeforeUse) descriptionText.text += "保留。";
         if (thisCard.exhaust) descriptionText.text += "移除。";
         if (thisCard.disappear) descriptionText.text += "消逝。";
-        costText.text = thisCard.cost.ToString();
+
+        if (thisCard.cost != -1){
+            costText.text = thisCard.cost.ToString();
+        }
+        else{
+            costIcon.SetActive(false);
+        }
+        
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         int ArgIdx = 0;
         int tmp = 0;
+        bool upgraded_text = false;
         foreach (string s in thisCard.description){
+            if (s == "#upgrade_start"){
+                upgraded_text = true;
+                continue;
+            }
+            else if (s == "#upgrade_end"){
+                upgraded_text = false;
+                continue;
+            }
+
+            if (upgraded_text && !thisCard.upgraded) continue;
+
             if (s == "#A"){
-                tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx]);
+                if (no_modification){
+                    descriptionText.text += thisCard.Args[ArgIdx].ToString();
+                    ArgIdx++;
+                    continue;
+                }
+
+                if (thisCard.id == 47){
+                    if (thisCard.upgraded) tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 5);
+                    else tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 3);
+                }
+                else tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx]);
+
                 if (tmp > thisCard.Args[ArgIdx]) descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
                 else if (tmp < thisCard.Args[ArgIdx]) descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
                 else descriptionText.text += tmp;
                 ArgIdx++;
             }
             else if (s == "#D"){
+                if (no_modification){
+                    descriptionText.text += thisCard.Args[ArgIdx].ToString();
+                    ArgIdx++;
+                    continue;
+                }
+                
                 tmp = BattleController.ComputeArmor(thisCard.Args[ArgIdx]);
                 if (tmp > thisCard.Args[ArgIdx]) descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
                 else if (tmp < thisCard.Args[ArgIdx]) descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
@@ -70,11 +113,14 @@ public class CardDisplay : MonoBehaviour
                 //descriptionText.text += s + " ";
                 descriptionText.text += "\n";
             }
-            else if (s == "#once_start" && thisCard.once_used){
-                descriptionText.text += "<color=grey>";
+            else if (s == "#turn"){
+                descriptionText.text += Object.FindObjectOfType<BattleController>().GetCurrentTurn();
             }
-            else if (s == "#once_end" && thisCard.once_used){
-                descriptionText.text += "</color>";
+            else if (s == "#once_start"){
+                if (thisCard.once_used) descriptionText.text += "<color=grey>";
+            }
+            else if (s == "#once_end"){
+                if (thisCard.once_used) descriptionText.text += "</color>";
             }
             else{
                 descriptionText.text += s;

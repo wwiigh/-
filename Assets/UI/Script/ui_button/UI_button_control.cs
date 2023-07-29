@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class UI_button_control : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class UI_button_control : MonoBehaviour
     public void change_map_active()
     {
         // map.SetActive(!map.activeSelf);
+        if(FindObjectOfType<Map_System>().now_state == Map_System.map_state.normal)return;
         map_canvas.GetComponent<Canvas>().sortingOrder = (map_canvas.GetComponent<Canvas>().sortingOrder==0 ?2:0);
         map_disable_move.SetActive(!map_disable_move.activeSelf);
         if(map_disable_move.activeSelf)
@@ -29,6 +31,11 @@ public class UI_button_control : MonoBehaviour
     public void change_setting_active()
     {
         setting.SetActive(!setting.activeSelf);
+    }
+    public void Setting_Return_title()
+    {
+        FindObjectOfType<Save>().save();
+        SceneManager.LoadScene("StartMenu");
     }
     public void testhealth()
     {

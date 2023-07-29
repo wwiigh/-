@@ -52,11 +52,15 @@ public class Event_Select : MonoBehaviour
             last_event = last_event
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
-        File.WriteAllText(Application.dataPath+"/Save_Data/Events_Data", jsonInfo);
+        PlayerPrefs.SetString("Events_Data",jsonInfo);
+        // File.WriteAllText(Application.dataPath+"/Save_Data/Events_Data", jsonInfo);
     }
     static void Load_Data()
     {
-        string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/Events_Data");
+        string LoadData = PlayerPrefs.GetString("Events_Data","");
+
+        // string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/Events_Data");
+        
         Data Load = JsonUtility.FromJson<Data>(LoadData);
         Events_array = Load.Events_array;
         last_event = Load.last_event;

@@ -17,6 +17,7 @@ public class UI_San : MonoBehaviour
     void Update()
     {
         san_now = Global.sanity;
-        san_num.text = san_now.ToString();
+        san_num.text = san_now + "/" + Global.max_sanity;
+        GetComponent<UI_Control>().Change_text("理智 (" + san_now + "/" + Global.max_sanity + ")");
     }
 }

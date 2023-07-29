@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +21,8 @@ public class Global : MonoBehaviour
     public static int max_sanity = 100;
     public static int sanity = 100;
     public static float money_addition = 1;
+    public static List<Card> player_deck = new List<Card>();
+    public static Card select_card;
     public static void init()
     {
         player_hp = 100;
@@ -29,6 +31,7 @@ public class Global : MonoBehaviour
         max_sanity = 100;
         sanity = 100;
         money_addition = 1;
+        PlayerDeckInit();
         SaveData();
     }
 
@@ -56,6 +59,35 @@ public class Global : MonoBehaviour
             money += value;
         }
     }
+
+
+
+    public static void PlayerDeckInit(){
+        if (player_deck.Count != 0) return;
+        AllCards allcards = GameObject.FindGameObjectWithTag("AllCards").GetComponent<AllCards>();
+        List<Card> basicCards = allcards.GetBasicCards();
+        for (int i = 0; i < 4; i++){
+            player_deck.Add(Card.Copy(basicCards[0]));
+        }
+        for (int i = 0; i < 4; i++){
+            player_deck.Add(Card.Copy(basicCards[1]));
+        }
+        for (int i = 0; i < 2; i++){
+            player_deck.Add(Card.Copy(basicCards[2]));
+        }
+    }
+    public static void PlayerDeck_Add(Card card){
+        player_deck.Add(Card.Copy(card));
+    }
+    public static void PlayerDeck_Remove(Card card){
+        player_deck.Remove(Card.Copy(card));
+    }
+    public static List<Card> GetPlayerDeck(){
+        return player_deck;
+    }
+
+
+
     //用來存檔
     public static void SaveData()
     {
@@ -68,12 +100,18 @@ public class Global : MonoBehaviour
             money_addition = Global.money_addition
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
-        File.WriteAllText(Application.dataPath+"/Save_Data/Player_Data", jsonInfo);
+        PlayerPrefs.SetString("Player_Data",jsonInfo);
+        // File.WriteAllText(Application.dataPath+"/Save_Data/Player_Data", jsonInfo);
     }
     //用來讀檔
     public static void ReadData()
     {
-        string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/Player_Data");
+        string LoadData = PlayerPrefs.GetString("Player_Data","");
+        if(LoadData == "")
+        {
+            init();
+            return;
+        }
         Data Load = JsonUtility.FromJson<Data>(LoadData);
         Global.player_max_hp = Load.player_max_hp;
         Global.player_hp = Load.player_hp;
@@ -82,10 +120,68 @@ public class Global : MonoBehaviour
         Global.sanity = Load.sanity;
         Global.money_addition = Load.money_addition;
     }
+    /// <summary>
+    /// 會回傳是否成功加入，有可能背包滿了放不了
+    /// </summary>
+    /// <param name="id">傳入物品 ID</param>
+    /// <param name="type">relic or equipment or item</param>
+    
+    public static bool AddItemToBag(int id,string type)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        bool success_add = bag_System.Add_Item(id.ToString(),type);
+        return success_add;
+        
+    }
+    /// <summary>
+    /// 刪除物品(道具裝備遺物皆可)
+    /// </summary>
+    /// <param name="id">傳入物品 ID</param>
+    /// <param name="type">relic or equipment or item</param>
+    public static void RemoveItemFromBag(int id,string type)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        bag_System.Bag_del_item(id,type);
+    }
+    ///<summary>回傳正在裝備中的裝備</summary>
+    public static List<int> Return_Equipment()
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Return_Equipment();
+    }
+    ///<summary>回傳所有裝備(包含未裝備以及裝備中)</summary>
+    public static  List<int> Return_All_Equipment()
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Return_All_Equipment();
+    }
+    ///<summary>
+    ///回傳所有遺物
+    ///</summary>
+    public static  List<int> Return_All_Relic()
+    {
+        
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+       
+        return bag_System.Return_All_Relic();
+    }
+    ///<summary>
+    ///回傳正在背包裡的所有物品，包含裝備和道具
+    ///其中回傳list<list<int>>
+    ///list[0]內放入背包內道具
+    ///list[1]內放入背包內裝備
+    ///</summary>
+    public static List<List<int>> Return_All_Item_In_Bag()
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Return_All_Item_In_Bag();
+    }
 
 
     public delegate void MyDelegate(int n);
+    public delegate void CardFunction(Card card);
     static MyDelegate callback_saved;
+    static CardFunction card_function;
     static List<GameObject> cardObjs = new List<GameObject>();
     static GameObject panelObj;
     static GameObject cancelButtonObj;
@@ -116,5 +212,232 @@ public class Global : MonoBehaviour
         Destroy(panelObj);
         Destroy(cancelButtonObj);
         callback_saved(n);
+    }
+
+
+
+    public static void UpgradeCard(GameObject cardObj){
+        UpgradeCard(cardObj.GetComponent<CardDisplay>().thisCard);
+    }
+    public static void UpgradeCard(Card card){
+        if (card.upgraded) return;
+
+        switch(card.id){
+            case 1:
+                card.Args[0] = 5;
+                break;
+            case 2:
+                card.cost_original = 0;
+                break;
+            case 3:
+                card.cost_original = 0;
+                break;
+            case 4:
+                card.Args[0] = 3;
+                break;
+            case 5:
+                card.Args[0] = 4;
+                break;
+            case 6:
+                card.Args[0] = 3;
+                break;
+            case 7:
+                card.Args[0] = 6;
+                break;
+            case 8:
+                card.cost_original = 0;
+                break;
+            case 9:
+                card.Args[0] = 8;
+                break;
+            case 10:
+                card.Args[0] = 8;
+                break;
+            case 11:
+                card.cost_original = 0;
+                break;
+            case 12:
+                card.Args[0] = 10;
+                break;
+            case 13:
+                card.Args[0] = 5;
+                break;
+            case 14:
+                card.Args[1] = 2;
+                break;
+            case 15:
+                card.cost_original = 2;
+                break;
+            case 16:
+                card.Args[0] = 16;
+                break;
+            case 17:
+                card.Args[0] = 12;
+                break;
+            case 18:
+                card.Args[0] = 40;
+                break;
+            case 19:
+                card.Args[0] = 20;
+                card.Args[1] = 12;
+                break;
+            case 20:
+                card.cost_original = 0;
+                break;
+            case 21:
+                card.Args[1] = 2;
+                break;
+            case 22:
+                card.Args[0] = 13;
+                card.Args[1] = 13;
+                break;
+            case 23:
+                card.Args[2] = 2;
+                break;
+            case 24:
+                card.Args[0] = 4;
+                card.Args[1] = 3;
+                break;
+            case 25:
+                card.keep = true;
+                break;
+            case 26:
+                card.cost_original = 1;
+                break;
+            case 27:
+                card.Args[1] = 7;
+                break;
+            case 28:
+                card.Args[0] = 4;
+                break;
+            case 29:
+                card.Args[0] = 2;
+                break;
+            case 30:
+                card.Args[0] = 10;
+                break;
+            case 31:
+                card.Args[0] = 13;
+                card.Args[1] = 5;
+                break;
+            case 32:
+                card.Args[0] = 3;
+                break;
+            case 33:
+                // not implemented yet
+                break;
+            case 34:
+                card.Args[1] = 3;
+                break;
+            case 35:
+                card.Args[1] = 7;
+                break;
+            case 36:
+                card.Args[0] = 9;
+                card.Args[1] = 27;
+                break;
+            case 37:
+                card.cost_original = 1;
+                break;
+            case 38:
+                card.Args[1] = 2;
+                card.Args[2] = 1;
+                break;
+            case 39:
+                // not implemented yet
+                break;
+            case 40:
+                card.Args[1] = 30;
+                break;
+            case 41:
+                card.Args[0] = 17;
+                break;
+            case 42:
+                card.Args[0] = 8;
+                break;
+            case 43:
+                card.Args[1] = 2;
+                break;
+            case 44:
+                card.Args[1] = 2;
+                break;
+            case 45:
+                card.Args[0] = 5;
+                break;
+            case 46:
+                break;
+            case 47:
+                break;
+            case 48:
+                card.cost_original = 0;
+                break;
+            case 49:
+                card.cost_original = 1;
+                break;
+            case 50:
+                card.cost_original = 1;
+                break;
+            case 51:
+                card.cost_original = 1;
+                break;
+            case 52:
+                card.Args[0] = 8;
+                break;
+            case 53:
+                card.Args[0] = 10;
+                break;
+            case 54:
+                card.Args[0] = 5;
+                card.Args[1] = 6;
+                break;
+            case 55:
+                card.Args[1] = 5;
+                break;
+            case 56:
+                card.Args[1] = 4;
+                break;
+            case 57:
+                card.Args[0] = 10;
+                break;
+            case 58:
+                card.Args[0] = 1;
+                break;
+            case 59:
+                card.Args[0] = 1;
+                card.Args[2] = 6;
+                break;
+            case 60:
+                card.Args[1] = 2;
+                break;
+
+            case 101:
+                card.Args[0] = 9;
+                break;
+            case 102:
+                card.Args[0] = 6;
+                break;
+            case 103:
+                Debug.Log("test");
+                card.Args[0] = 9;
+                break;
+            default:
+                Debug.Log("UpgradeCard: Unknown id " + card.id.ToString());
+                break;
+        }
+
+        card.upgraded = true;
+    
+    }
+    public static void ShowPlayerCards(List<Card> card_list, CardFunction card_fun,bool can_select)
+    {
+        select_card = null;
+        card_function = card_fun;
+        Card_List show_list = FindObjectOfType<Card_List>();
+        show_list.Init(card_list,card_fun,can_select);
+        
+    }
+    public static void DoCardAction(Card card)
+    {
+        card_function(card);
     }
 }

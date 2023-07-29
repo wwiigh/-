@@ -21,7 +21,7 @@ public class Deck : MonoBehaviour
         allcards_class = allcards_obj.GetComponent<AllCards>();
         drawPileNumber = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         trashNumber = transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        Init();
+        // Init();
     }
 
     public void Init(List<Card> playerDeck){
@@ -32,16 +32,42 @@ public class Deck : MonoBehaviour
     }
 
     public void Init(){
-        List<Card> allcards = allcards_class.GetAllCards();
+        AllCards allcards = Object.FindObjectOfType<AllCards>();
         int totalCards = allcards_class.GetCount();
         RemoveChild();
         drawPile.Clear();
         hand.Clear();
         trash.Clear();
-        for (int i = 0; i < totalCards; i++){
-            drawPile.Add( Card.Copy( allcards[i] ) );
-        }
-        Shuffle(drawPile);
+        // foreach(Card card in allcards.GetAllCards()){
+        //     drawPile.Add( Card.Copy( card ) );
+        // }
+        // foreach(Card card in allcards.GetBasicCards()){
+        //     drawPile.Add( Card.Copy( card ) );
+        // }
+        // foreach(Card card in allcards.GetSpecialCards()){
+        //     drawPile.Add( Card.Copy( card ) );
+        // }
+        // Shuffle(drawPile);
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(29) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(102) );
+
+        // for testing
+        // AddCardToHand(GetCard(29));
+        // AddCardToHand(GetCard(29));
+        // AddCardToHand(GetCard(29));
     }
 
     // public void Init(){
@@ -72,6 +98,7 @@ public class Deck : MonoBehaviour
         Rearrange();
     }
 
+    // Triggers discard effects
     public void Discard(GameObject card){
         Character player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         hand.Remove(card);
@@ -84,12 +111,13 @@ public class Deck : MonoBehaviour
             GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw(tmp);
         
         tmp = player.GetStatus(Status.status.fast_hand);
-        if (tmp > 0) battleController.ReturnRandomEnemy().GetComponent<Character>().GetHit(tmp);
+        if (tmp > 0) battleController.GetRandomEnemy().GetComponent<Character>().GetHit(tmp);
         
         battleController.Discarded();
     }
 
-    void TurnEndDiscard(GameObject card){
+    // Does not trigger discard effects
+    public void SpecialDiscard(GameObject card){
         hand.Remove(card);
         trash.Add(card.GetComponent<CardDisplay>().thisCard);
         Destroy(card);
@@ -99,18 +127,30 @@ public class Deck : MonoBehaviour
     public void RemoveCard(GameObject card){
         Card card_info = card.GetComponent<CardDisplay>().thisCard;
         hand.Remove(card);
+
         if (card_info.id == 22){
             GameObject target = battleController.GetEnemyWithLowestHP();
             Character player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
             player.Attack(target, card_info.Args[1]);
         }
+
         if (card_info.id == 23){
             AddCardToHand(card_info);
         }
+
         if (card_info.id == 24){
             Character player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
             player.AddStatus(Status.status.strength, card_info.Args[1]);
         }
+
+        if (card_info.id == 209){
+            battleController.GetRandomEnemy().GetComponent<Character>().LoseHP(30);
+        }
+
+        if (card_info.id == 210){
+            AddCardToHand(GetCard(211));
+        }
+
         Destroy(card);
         Rearrange();
     }
@@ -147,7 +187,71 @@ public class Deck : MonoBehaviour
         }
     }
 
+    public GameObject card207InHand(){
+        GameObject cardFound = null;
+        foreach(GameObject card in hand){
+            if (card.GetComponent<CardDisplay>().thisCard.id == 207){
+                cardFound = card;
+                break;
+            }
+        }
+        return cardFound;
+    }
+
     public void TurnEnd(){
+        OnceEffectReactivate();
+        int idx = 0;
+        while(idx < hand.Count){
+            Card card_info = hand[idx].GetComponent<CardDisplay>().thisCard;
+
+            if (card_info.disappear){
+                RemoveCard(hand[idx]);
+                idx++;
+                continue;
+            }
+
+            if (card_info.costDecreaseOnTurnEnd) card_info.cost--;
+
+            if (card_info.id == 201 || card_info.id == 202){
+                if (hand.Count == 1){
+                    idx++;
+                    continue;
+                }
+                int removeIdx = Random.Range(0, hand.Count - 1);
+                if (removeIdx >= idx) removeIdx++;
+                RemoveCard(hand[removeIdx]);
+                if (removeIdx > idx) idx++;
+                continue;
+            }
+
+            if (card_info.id == 203){
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().AddStatus(Status.status.weak, 1);
+                idx++;
+                continue;
+            }
+
+            if (card_info.id == 205){
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().AddStatus(Status.status.burn, 2);
+                idx++;
+                continue;
+            }
+            
+            if (card_info.id == 206){
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().AddStatus(Status.status.burn, 5);
+                idx++;
+                continue;
+            }
+
+            idx++;
+        }
+        for (int i = hand.Count - 1; i >= 0; i--){
+            if (!hand[i].GetComponent<CardDisplay>().thisCard.keep && !hand[i].GetComponent<CardDisplay>().thisCard.keepBeforeUse){
+                SpecialDiscard(hand[i]);
+            }
+        }
+        UpdateHand();
+    }
+    void OnceEffectReactivate(){
         foreach(Card card in drawPile){
             if (card.once_used) card.once_used = false;
         }
@@ -155,15 +259,8 @@ public class Deck : MonoBehaviour
             if (card.once_used) card.once_used = false;
         }
         foreach(GameObject card in hand){
-            if (card.GetComponent<CardDisplay>().thisCard.costDecreaseOnTurnEnd) card.GetComponent<CardDisplay>().thisCard.cost--;
             if (card.GetComponent<CardDisplay>().thisCard.once_used) card.GetComponent<CardDisplay>().thisCard.once_used = false;
         }
-        for (int i = hand.Count - 1; i >= 0; i--){
-            if (!hand[i].GetComponent<CardDisplay>().thisCard.keep && !hand[i].GetComponent<CardDisplay>().thisCard.keepBeforeUse){
-                TurnEndDiscard(hand[i]);
-            }
-        }
-        UpdateHand();
     }
 
     public GameObject Draw(){

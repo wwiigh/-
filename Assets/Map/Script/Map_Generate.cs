@@ -62,7 +62,7 @@ public class Map_Generate : MonoBehaviour
     [Header("每層出現數目")]
     public node_num[] nodes_num;
     [Header("現在關卡")]
-    public int now_level;
+    public static int now_level;
     [Header("現在層數")]
     public int now_height;
 
@@ -78,6 +78,21 @@ public class Map_Generate : MonoBehaviour
     public UI_button_control ui_control;
     [Header("地圖點控制")]
     public Map_Node_Action node_action;
+
+    [Header("地圖控制")]
+    public Map_Generate map;
+    [Header("顯示商店")]
+    public GameObject shop_object;
+    [Header("顯示祭壇")]
+    public GameObject altar_object;
+    [Header("顯示戰鬥")]
+    public GameObject battle_object;
+    [Header("顯示寶箱")]
+    public GameObject treasure_object;
+    [Header("顯示事件")]
+    public GameObject event_object;
+
+
     private List<Node> nodes = new List<Node>();
     private List<Image> edges = new List<Image>();
     private int now_width = 0;
@@ -86,7 +101,7 @@ public class Map_Generate : MonoBehaviour
     // Start is called before the first frame update
     public void On_Click(char type)
     {
-        print("onclick");
+        // print("onclick");
         // map_save.save_node(nodes);
         // map_save.save_level_height(now_level,now_height);
         switch(type)
@@ -124,7 +139,7 @@ public class Map_Generate : MonoBehaviour
     {
         now_width = _width;
         now_height -=1;
-        print(now_width);
+        // print(now_width);
         save();
         
     }
@@ -159,7 +174,7 @@ public class Map_Generate : MonoBehaviour
         Regenerate_Point();
         Create_Edge();
         Visualize_Edge();
-        Generate_Special_events(node_height-1,'f');
+        Generate_Special_events(node_height-1,'h');
         Generate_Special_events(Random.Range(2,4),'f');
         Generate_Special_events(4,'m');
         Generate_Special_events(0,'b');
@@ -198,26 +213,27 @@ public class Map_Generate : MonoBehaviour
     }
     void Generate_Map()
     {
-        if(File.Exists(Application.dataPath+"/Save_Data/Map_Data")==true)
-        {
-            string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/Map_Data");
-            Map_Save  MyData = JsonUtility.FromJson<Map_Save>(LoadData);
-            if(MyData.is_new==0)
-            {
-                Init();
-                copy(MyData);
-                Regenerate_Point();
-                //map_save.copy(nodes);
-                now_height = MyData.return_height();
-                now_level = MyData.return_level()>3?1:MyData.return_level();
-                now_width = MyData.return_width();
-                Visualize_Edge();
-                Show_status();
-                check_status();
-                set_click_action();
-                return;
-            }
-        }
+        string LoadData = PlayerPrefs.GetString("Map_Data","");
+
+        // if(LoadData!="")
+        // {
+        //     Map_Save  MyData = JsonUtility.FromJson<Map_Save>(LoadData);
+        //     if(MyData.is_new==0)
+        //     {
+        //         Init();
+        //         copy(MyData);
+        //         Regenerate_Point();
+        //         //map_save.copy(nodes);
+        //         now_height = MyData.return_height();
+        //         now_level = MyData.return_level()>3?1:MyData.return_level();
+        //         now_width = MyData.return_width();
+        //         Visualize_Edge();
+        //         Show_status();
+        //         check_status();
+        //         set_click_action();
+        //         return;
+        //     }
+        // }
         
         //初始
         Init();
@@ -239,7 +255,7 @@ public class Map_Generate : MonoBehaviour
         // List<int> tmp_node_arr = new List<int>();
         // Generate_V3_set_route(node_arr,0,2,tmp_node_arr);
         // Generate_V3_set_event(node_arr);
-        Generate_Special_events(node_height-1,'f');
+        Generate_Special_events(node_height-1,'h');
         Generate_Special_events(Random.Range(2,4),'f');
         Generate_Special_events(4,'m');
         Generate_Special_events(0,'b');
@@ -441,8 +457,8 @@ public class Map_Generate : MonoBehaviour
                 if (nodes[i * node_width + node_arr[i]].Return_type() == 'f') need_fight--;
                 if (nodes[i * node_width + node_arr[i]].Return_type() == 'e') need_event--;
             }
-            print(need_event);
-            print(need_fight);
+            // print(need_event);
+            // print(need_fight);
             for (int i = 0; i < need_fight; i++)
             {
                 int x = Random.Range(1, node_height);
@@ -673,7 +689,7 @@ public class Map_Generate : MonoBehaviour
                     counts++;
                     x = x + 1;
                     if (x >= node_height) x = 1;
-                    print(x);
+                    // print(x);
                     if (counts > 10) break;
                 }
                 nodes[x * node_width + node_arr[node_index][x - 1]].can_assign = false;
@@ -808,7 +824,8 @@ public class Map_Generate : MonoBehaviour
             node_type_arr = node_type_arr
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
-        File.WriteAllText(Application.dataPath+"/Save_Data/Map_Data", jsonInfo);
+        PlayerPrefs.SetString("Map_Data",jsonInfo);
+        // File.WriteAllText(Application.dataPath+"/Save_Data/Map_Data", jsonInfo);
 
     }
     public void copy(Map_Save data)
@@ -890,51 +907,57 @@ public class Map_Generate : MonoBehaviour
 
     public void set_click_action()
     {
-        print("set button");
+        // print("set button");
         for(int i=0;i<nodes.Count;i++)
         {
             Node n = nodes[i];
             Button b = n.node;
             if(n.Return_valid()==false)continue;
-            switch (n.Return_type())
-            {
-                case 's':
-                    // node.GetComponent<Image>().sprite = shop;
-                    b.onClick.AddListener(delegate { node_action.click_action_shop(); });
-                    break;
-                case 'f':
-                    // node.GetComponent<Image>().sprite = little_monster;
-                    b.onClick.AddListener(delegate { node_action.click_action_battle(); });
-                    break;
-                case 'F':
-                    // node.GetComponent<Image>().sprite = big_monster;
-                    b.onClick.AddListener(delegate { node_action.click_action_battle(); });
-                    break;
-                case 'e':
-                    // node.GetComponent<Image>().sprite = events;
-                    b.onClick.AddListener(delegate { node_action.click_action_event(); });
-                    break;
-                case 'm':
-                    // node.GetComponent<Image>().sprite = events;
-                    b.onClick.AddListener(delegate { node_action.click_action_story(now_level); });
-                    break;
-                case 't':
-                    // node.GetComponent<Image>().sprite = treasure;
-                    b.onClick.AddListener(delegate { node_action.click_action_treasure(); });
-                    break;
-                case 'n':
-                    // node.GetComponent<Image>().sprite = null;
-                    // b.onClick.AddListener(delegate { node_action.click_action_battle(); });
-                    break;
-                case 'b':
-                    // node.GetComponent<Image>().sprite = boss;
-                    b.onClick.AddListener(delegate { node_action.click_action_battle(); });
-                    break;
-                case 'h':
-                    // node.GetComponent<Image>().sprite = altar;
-                    b.onClick.AddListener(delegate { node_action.click_action_altar(); });
-                    break;
-            }
+            n.map = map;
+            n.shop_object = shop_object;
+            n.altar_object = altar_object;
+            n.battle_object = battle_object;
+            n.treasure_object = treasure_object;
+            n.event_object = event_object;
+            // switch (n.Return_type())
+            // {
+            //     case 's':
+            //         // node.GetComponent<Image>().sprite = shop;
+            //         b.onClick.AddListener(delegate { node_action.click_action_shop(); });
+            //         break;
+            //     case 'f':
+            //         // node.GetComponent<Image>().sprite = little_monster;
+            //         b.onClick.AddListener(delegate { node_action.click_action_battle(); });
+            //         break;
+            //     case 'F':
+            //         // node.GetComponent<Image>().sprite = big_monster;
+            //         b.onClick.AddListener(delegate { node_action.click_action_battle(); });
+            //         break;
+            //     case 'e':
+            //         // node.GetComponent<Image>().sprite = events;
+            //         b.onClick.AddListener(delegate { node_action.click_action_event(); });
+            //         break;
+            //     case 'm':
+            //         // node.GetComponent<Image>().sprite = events;
+            //         b.onClick.AddListener(delegate { node_action.click_action_story(now_level); });
+            //         break;
+            //     case 't':
+            //         // node.GetComponent<Image>().sprite = treasure;
+            //         b.onClick.AddListener(delegate { node_action.click_action_treasure(); });
+            //         break;
+            //     case 'n':
+            //         // node.GetComponent<Image>().sprite = null;
+            //         // b.onClick.AddListener(delegate { node_action.click_action_battle(); });
+            //         break;
+            //     case 'b':
+            //         // node.GetComponent<Image>().sprite = boss;
+            //         b.onClick.AddListener(delegate { node_action.click_action_battle(); });
+            //         break;
+            //     case 'h':
+            //         // node.GetComponent<Image>().sprite = altar;
+            //         b.onClick.AddListener(delegate { node_action.click_action_altar(); });
+            //         break;
+            // }
         }
     }
     // public void click_action_shop()

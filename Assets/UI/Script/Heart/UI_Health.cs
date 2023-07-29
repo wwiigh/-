@@ -20,7 +20,8 @@ public class UI_Health : MonoBehaviour
     {
         health_max = Global.player_max_hp;
         health_now = Global.player_hp;
-        health_num.text = health_now.ToString();
+        health_num.text = health_now + "/" + health_max ;
         health_bar.fillAmount = (float)health_now / (float)health_max;
+        GetComponent<UI_Control>().Change_text("生命值 (" + health_now + "/" + health_max + ")");
     }
 }
