@@ -15,5 +15,8 @@ public class start : MonoBehaviour
     // Update is called once per frame
     void ClickToMap(){
         SceneManager.LoadScene("loadlevel");
+        Map_System.New_Game();
+        UI_System.New_Game();
+        Event_System.New_Game();
     }
 }

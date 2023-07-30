@@ -9,6 +9,11 @@ public class get_items : MonoBehaviour
     public Image img;
     public Sprite[] items_IMGs;
     private int current_index = 0;
+    public Button button;
+    public int id;
+    void Start(){
+        button.onClick.AddListener(item_onClick);
+    }
     void OnEnable()
     {
         got_items();
@@ -25,8 +30,11 @@ public class get_items : MonoBehaviour
             img.sprite = items_IMGs[current_index];
             // print("item idx id is " + current_index);
             // print("item name is " + items_IMGs[current_index].name);
-            int id = Int32.Parse(items_IMGs[current_index].name);
-            Global.AddItemToBag(id, "item");
+            id = Int32.Parse(items_IMGs[current_index].name);
+            
         }
+    }
+    public void item_onClick(){
+        Global.AddItemToBag(id, "item");
     }
 }

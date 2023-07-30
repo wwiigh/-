@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-public class load : MonoBehaviour
+public class continue_game : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.LoadScene("Map");
+        this.GetComponent<Button>().onClick.AddListener(toLoad);
+    }
+
+    // Update is called once per frame
+    void toLoad(){
+        SceneManager.LoadScene("loadlevel");
     }
 }
