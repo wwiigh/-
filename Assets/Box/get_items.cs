@@ -17,7 +17,7 @@ public class get_items : MonoBehaviour
     public void got_items(){
         if(items_IMGs.Length > 0){
             long currentTicks = DateTime.Now.Ticks;
-            current_index = (int)(currentTicks) % 47;
+            current_index = (int)(currentTicks) % items_IMGs.Length;
             if(current_index < 0){
                 current_index -= 2 * current_index;
             }
@@ -25,7 +25,8 @@ public class get_items : MonoBehaviour
             img.sprite = items_IMGs[current_index];
             // print("item idx id is " + current_index);
             // print("item name is " + items_IMGs[current_index].name);
-            // Global.AddItemToBag(current_index, "item");
+            int id = Int32.Parse(items_IMGs[current_index].name);
+            Global.AddItemToBag(id, "item");
         }
     }
 }

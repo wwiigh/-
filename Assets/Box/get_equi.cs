@@ -29,7 +29,7 @@ public class get_equi : MonoBehaviour
             equiIMG.sprite = equiSprite[current_equi_index];
             int id = Int32.Parse(equiSprite[current_equi_index].name);
             print(id);
-            // Global.AddItemToBag(id, "equipment");
+            Global.AddItemToBag(id, "equipment");
         }
     }
 }
