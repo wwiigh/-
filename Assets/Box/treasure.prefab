@@ -225,6 +225,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 31d066ed8702d7648a6c489cfc50c924, type: 3}
   - {fileID: 21300000, guid: 01d73e974cbcdb041b4176791d6f017e, type: 3}
   - {fileID: 21300000, guid: ea3465d37815f6347bd4b500172f455c, type: 3}
+  button: {fileID: 0}
+  id: 0
 --- !u!1 &5598147556219343438
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +391,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 64afd1c468f5d5848803b28cfb2c30cd, type: 3}
   - {fileID: 21300000, guid: 7a8edcffe58cb4342b399c58139fb11e, type: 3}
   cards: []
+  id: 0
+  button: {fileID: 0}
 --- !u!1 &5598147556710135134
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,6 +819,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1355947e0f4b443448e6fc450c8ea933, type: 3}
   - {fileID: 21300000, guid: a3e3fcabab34fe64baf4e460f19a7451, type: 3}
   - {fileID: 21300000, guid: 3ab5bb7ff2b65a348aa147f865dde492, type: 3}
+  id: 0
+  button: {fileID: 0}
 --- !u!1001 &6523579649914809321
 PrefabInstance:
   m_ObjectHideFlags: 0
