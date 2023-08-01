@@ -24,8 +24,8 @@ public class Bag_Save
     {
         
         clear(type);
-        Debug.Log(type);
-        Debug.Log(list.Count);
+        // Debug.Log(type);
+        // Debug.Log(list.Count);
         for(int i=0;i<list.Count;i++)
         {
             Item_Effect tmp = list[i].GetComponent<Item_Effect>();
@@ -54,13 +54,17 @@ public class Bag_Save
             equipment_type = equipment_type           
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
-        File.WriteAllText(Application.dataPath+"/Save_Data/UI_Data", jsonInfo);
+        PlayerPrefs.SetString("UI_Data",jsonInfo);
+        // File.WriteAllText(Application.dataPath+"/Save_Data/UI_Data", jsonInfo);
     }
     public static void  Load_Data(Bag_System bag_System)
     {
-        if(!File.Exists(Application.dataPath+"/Save_Data/UI_Data"))return;
+
+        
+        
+        string LoadData = PlayerPrefs.GetString("UI_Data","");
+        if(LoadData == "")return;
         bag_System.clear();
-        string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/UI_Data");
         Data Load = JsonUtility.FromJson<Data>(LoadData);
         bag_name = Load.bag_name;
         bag_type = Load.bag_type;

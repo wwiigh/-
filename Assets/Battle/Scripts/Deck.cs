@@ -21,7 +21,7 @@ public class Deck : MonoBehaviour
         allcards_class = allcards_obj.GetComponent<AllCards>();
         drawPileNumber = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         trashNumber = transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        Init();
+        // Init();
     }
 
     public void Init(List<Card> playerDeck){

@@ -3,7 +3,21 @@ guid: 1bfbf85550a3be34d90b2eac8e7b8153
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - node: {instanceID: 0}
+  - little_monster: {instanceID: 0}
+  - big_monster: {instanceID: 0}
+  - events: {instanceID: 0}
+  - treasure: {instanceID: 0}
+  - altar: {instanceID: 0}
+  - boss: {instanceID: 0}
+  - shop: {instanceID: 0}
+  - map: {instanceID: 0}
+  - shop_object: {instanceID: 0}
+  - altar_object: {instanceID: 0}
+  - battle_object: {instanceID: 0}
+  - treasure_object: {instanceID: 0}
+  - event_object: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -20,7 +20,12 @@ public class Altar : MonoBehaviour
     }
     public void Up_Card()
     {
+        Global.PlayerDeckInit();
+        Global.ShowPlayerCards(Global.GetPlayerDeck(),Up_Card_Implement,true);
+    }
+    public void Up_Card_Implement(Card card)
+    {
+        Global.UpgradeCard(card);
         gameObject.SetActive(false);
     }
-    
 }

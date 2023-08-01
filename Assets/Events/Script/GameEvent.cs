@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -14,6 +15,8 @@ public class GameEvent : MonoBehaviour
     [SerializeField] TMP_Text description;
     int optionCount;
     [SerializeField] List<EventClass> all_events;
+    [SerializeField] List<Card> all_attack_cards;
+    [SerializeField] List<Card> all_skill_cards;
 
     List<EventClass> normal_events = new List<EventClass>();
     List<EventClass> story_events = new List<EventClass>();
@@ -168,9 +171,11 @@ public class GameEvent : MonoBehaviour
                 break;
             case 401:   
                 this.gameObject.SetActive(false);
+                SceneManager.LoadScene("StartMenu");
                 break;
             case 501:   
                 this.gameObject.SetActive(false);
+                SceneManager.LoadScene("StartMenu");
                 break;
             case 1000:
                 FindObjectOfType<Bag_System>().Show_Equipment_list(1,1);
@@ -227,28 +232,32 @@ public class GameEvent : MonoBehaviour
                 break;
             case 5001:
                 Global.AddSan(-10);
-                FindObjectOfType<Bag_System>().Add_Item("6","relic");
+                Global.AddItemToBag(6,"relic");
+                // FindObjectOfType<Bag_System>().Add_Item("6","relic");
                 this.gameObject.SetActive(false);
                 break;
             case 6000:
-                //待處理卡片
                 if(FindObjectOfType<Bag_System>().Bag_Full())return;
-                Global.AddMaxHp(10);
                 FindObjectOfType<Bag_System>().Add_Item("301","item");
+                // random_value = 0;
+                // Debug.Log("random value"+random_value);
+                if(random_value>0.5f) Global.AddMaxHp(10);
+                else Update_Card();
                 this.gameObject.SetActive(false);
                 break;
             case 6001:
-                //待處理卡片
                 if(FindObjectOfType<Bag_System>().Bag_Full())return;
-                Global.AddMaxHp(10);
                 FindObjectOfType<Bag_System>().Add_Item("302","item");
+                if(random_value>0.5f) Global.AddMaxHp(10);
+                else Update_Card();
                 this.gameObject.SetActive(false);
                 break;
             case 6002:
-                //待處理卡片
                 if(FindObjectOfType<Bag_System>().Bag_Full())return;
-                Global.AddMaxHp(10);
                 FindObjectOfType<Bag_System>().Add_Item("303","item");
+                if(random_value>0.5f) Global.AddMaxHp(10);
+                else Update_Card();
+                
                 bool relic_1 = FindObjectOfType<Bag_System>().Have_Item("item",301.ToString());
                 bool relic_2 = FindObjectOfType<Bag_System>().Have_Item("item",302.ToString());
                 bool relic_3 = FindObjectOfType<Bag_System>().Have_Item("item",303.ToString());
@@ -280,15 +289,17 @@ public class GameEvent : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case 9000:
-                //卡片待做
                 Reset();
                 if(random_value<0.5)
                 {
                     Global.AddSan(-10);
+                    Update_Card();
+                    Update_Card();
                     LoadEvent(9001,EventClass.Type.normal);
                 }
                 else
                 {
+                    Update_Card();
                     Global.AddHp(-10);
                     LoadEvent(9002,EventClass.Type.normal);
                 }
@@ -319,29 +330,38 @@ public class GameEvent : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case 11002:
-                //卡片待做
+                Update_Card();
                 Global.AddSan(-10);
                 this.gameObject.SetActive(false);
                 break;
             case 12000:
-                //待處理卡片
                 if(FindObjectOfType<Bag_System>().Bag_Full())return;
-                Global.AddMaxHp(10);
                 FindObjectOfType<Bag_System>().Add_Item("304","item");
+                // random_value = 0;
+                // Debug.Log("random value"+random_value);
+                if(random_value>0.5f) Global.AddMaxHp(10);
+                else Update_Card();
                 this.gameObject.SetActive(false);
+                
                 break;
             case 12001:
-                //待處理卡片
                 if(FindObjectOfType<Bag_System>().Bag_Full())return;
-                Global.AddMaxHp(10);
                 FindObjectOfType<Bag_System>().Add_Item("305","item");
+                // random_value = 0;
+                // Debug.Log("random value"+random_value);
+                if(random_value>0.5f) Global.AddMaxHp(10);
+                else Update_Card();
                 this.gameObject.SetActive(false);
+                
                 break;
             case 12002:
-                //待處理卡片
                 if(FindObjectOfType<Bag_System>().Bag_Full())return;
-                Global.AddMaxHp(10);
                 FindObjectOfType<Bag_System>().Add_Item("306","item");
+                // random_value = 0;
+                // Debug.Log("random value"+random_value);
+                if(random_value>0.5f) Global.AddMaxHp(10);
+                else Update_Card();
+                
                 bool item_1 = FindObjectOfType<Bag_System>().Have_Item("item",304.ToString());
                 bool item_2 = FindObjectOfType<Bag_System>().Have_Item("item",305.ToString());
                 bool item_3 = FindObjectOfType<Bag_System>().Have_Item("item",306.ToString());
@@ -392,7 +412,7 @@ public class GameEvent : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case 18000:
-                //卡片
+                Update_Card();
                 Global.AddSan(-10);
                 this.gameObject.SetActive(false);
                 break;
@@ -402,7 +422,7 @@ public class GameEvent : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case 20000:
-                //待做
+                Add_Attack_Card();
                 this.gameObject.SetActive(false);
                 break;
             case 21000:
@@ -438,7 +458,7 @@ public class GameEvent : MonoBehaviour
                 if(p>0.5)Global.AddSan(-10);
                 else
                 {
-                    //卡片
+                    Add_Card();
                     Global.AddMoney(100);
                 }
                 this.gameObject.SetActive(false);
@@ -533,7 +553,7 @@ public class GameEvent : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case 11002:
-                //卡片待做
+                Remove_Card();
                 Global.AddSan(-15);
                 FindObjectOfType<Bag_System>().Remove_Random_Equipment();
                 this.gameObject.SetActive(false);
@@ -572,7 +592,7 @@ public class GameEvent : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case 20000:
-                //待做
+                Add_Skill_Card();
                 this.gameObject.SetActive(false);
                 break;
             case 25000:
@@ -612,8 +632,9 @@ public class GameEvent : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case 19000:
-                //卡片
-                FindObjectOfType<Bag_System>().Add_Random_Relic();
+                float rv = Random.value;
+                if(rv > 0.5f)FindObjectOfType<Bag_System>().Add_Random_Relic();
+                else Add_Card();
                 this.gameObject.SetActive(false);
                 break;
             case 28000:
@@ -648,8 +669,8 @@ public class GameEvent : MonoBehaviour
         switch (event_loaded.id)
         {
             case 19000:
-                //卡牌
-                this.gameObject.SetActive(false);
+                Global.ShowPlayerCards(Global.GetPlayerDeck(),Remove_Card_19000,true);
+                // this.gameObject.SetActive(false);
                 break;
             default:
                 break;
@@ -701,5 +722,41 @@ public class GameEvent : MonoBehaviour
     IEnumerator wait_one_frame()
     {
         yield return new WaitForEndOfFrame();
+    }
+
+    void Update_Card()
+    {
+        List<Card> player_deck = Global.GetPlayerDeck();
+        Card card = player_deck[Random.Range(0,player_deck.Count)];
+        Global.UpgradeCard(card);
+    }
+    void Add_Card()
+    {
+        float rv = Random.value;
+        if(rv > 0.4)Add_Skill_Card();
+        else Add_Attack_Card();
+    }
+    void Add_Attack_Card()
+    {
+        int index = Random.Range(0,all_attack_cards.Count);
+        Card card = all_attack_cards[index];
+        Global.PlayerDeck_Add(card);
+    }
+    void Add_Skill_Card()
+    {
+        int index = Random.Range(0,all_skill_cards.Count);
+        Card card = all_skill_cards[index];
+        Global.PlayerDeck_Add(card);
+    }
+    void Remove_Card()
+    {
+        List<Card> player_deck = Global.GetPlayerDeck();
+        Card card = player_deck[Random.Range(0,player_deck.Count)];
+        Global.PlayerDeck_Remove(card);
+    }
+    public void Remove_Card_19000(Card card)
+    {
+        Global.PlayerDeck_Remove(card);
+        this.gameObject.SetActive(false);
     }
 }
