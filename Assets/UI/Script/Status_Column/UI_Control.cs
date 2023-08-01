@@ -11,7 +11,7 @@ public class UI_Control : MonoBehaviour
     public GameObject information_box;
     List<GameObject> information_box_array = new List<GameObject>();
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if(start_set == true)
         {
@@ -130,5 +130,21 @@ public class UI_Control : MonoBehaviour
     public void Change_text(string change_text)
     {
         information_box_array[0].GetComponent<Information_Box>().information.text = change_text;
+    }
+    public void Add_text(string change_text)
+    {
+        int index = information_box_array.Count;
+        GameObject new_box = Instantiate(information_box);
+        // if(information.box!=null)new_box.GetComponent<Information_Box>().box = information.box;
+        new_box.GetComponent<Information_Box>().information.text = change_text;
+        new_box.GetComponent<Information_Box>().add_count(3);
+            // print(new_box.GetComponent<Information_Box>().information.textInfo.lineCount.ToString()+" "+Time.time.ToString());
+            // new_box.GetComponent<Information_Box>().set_box_size();
+        new_box.SetActive(false);
+        new_box.GetComponent<Transform>().SetParent(Information_Show_Gameobject.transform);
+        Debug.Log(index);
+        new_box.transform.localPosition = Vector3.zero;
+        new_box.transform.position = new_box.transform.position  + new Vector3(positon_offset.x,positon_offset.y-index*1.2f,0);
+        information_box_array.Add(new_box);
     }
 }
