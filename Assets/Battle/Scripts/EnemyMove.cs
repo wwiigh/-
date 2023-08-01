@@ -592,6 +592,43 @@ public class EnemyMove : MonoBehaviour
                 break;
         }
     }
+    int GetDamage(int value){
+        return BattleController.ComputeDamage(gameObject, GetPlayer(), value);
+    }
+    public (string name, string description) GetIntention(){
+        int id = GetComponent<Character>().GetEnemyID();
+        switch(id){
+            case 101:
+                if (intention == 0) return ("黏液撞擊", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害，給予<color=red>1</color>層虛弱");
+                if (intention == 1) return ("撞擊", "造成<color=red>" + GetDamage(10).ToString() + "</color>點傷害");
+                if (intention == 2) return ("腐蝕", "給予<color=red>1</color>層虛弱、<color=red>1</color>層脆弱");
+                break;
+            case 102:
+                if (intention == 0) return ("戳刺", "造成<color=red>" + GetDamage(10).ToString() + "</color>點傷害");
+                if (intention == 1) return ("發怒", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害，獲得<color=green>2</color>點力量");
+                if (intention == 2) return ("躲閃", "獲得<color=green>8</color>點護甲");
+                break;
+            case 103:
+                if (intention == 0) return ("模糊輪廓", "免疫下次受到的傷害");
+                if (intention == 1) return ("攻擊", "造成<color=red>" + GetDamage(8).ToString() + "</color>點傷害");
+                if (intention == 2) return ("驚嚇", "理智<color=red>-2</color>");
+                break;
+            case 104:
+                if (intention == 0) return ("躲藏", "恢復<color=green>2</color>點生命，獲得<color=green>5</color>點護甲");
+                if (intention == 1) return ("揮擊", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害");
+                if (intention == 2) return ("利螯", "造成<color=red>" + GetDamage(3).ToString() + "</color>點傷害，給予<color=red>3</color>層流血");
+                break;
+            case 105:
+                if (intention == 0) return ("路障", "獲得嘲諷與<color=green>3</color>點荊棘");
+                if (intention == 1) return ("修補", "獲得<color=green>5</color>點護甲");
+                if (intention == 2) return ("強化", "獲得<color=green>3</color>點荊棘");
+                break;
+            default:
+                Debug.Log("GetIntention: Unknown enemy id " + id.ToString());
+                break;
+        }
+        return (null, null);
+    }
     public void Move(){
         StartCoroutine(_Move());
     }
@@ -659,7 +696,7 @@ public class EnemyMove : MonoBehaviour
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("104_attack2");
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.71f);
                     GetComponent<Character>().Attack(player, 3);
                     player.GetComponent<Character>().AddStatus(Status.status.bleed, 3);
                 }

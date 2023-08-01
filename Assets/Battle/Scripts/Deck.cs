@@ -48,21 +48,23 @@ public class Deck : MonoBehaviour
         //     drawPile.Add( Card.Copy( card ) );
         // }
         // Shuffle(drawPile);
-        drawPile.Add( GetCard(29) );
-        drawPile.Add( GetCard(29) );
-        drawPile.Add( GetCard(29) );
-        drawPile.Add( GetCard(29) );
-        drawPile.Add( GetCard(29) );
+        
+        drawPile.Add( GetCard(903) );
+        drawPile.Add( GetCard(101) );
+        drawPile.Add( GetCard(46) );
+        drawPile.Add( GetCard(27) );
         drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(102) );
+        drawPile.Add( GetCard(902) );
+
+        // drawPile.Add( GetCard(903) );
+        // drawPile.Add( GetCard(46) );
+        // drawPile.Add( GetCard(46) );
+        // drawPile.Add( GetCard(46) );
+        // drawPile.Add( GetCard(101) );
+        // drawPile.Add( GetCard(101) );
+        // drawPile.Add( GetCard(101) );
+        // drawPile.Add( GetCard(27) );
+        // drawPile.Add( GetCard(27) );
 
         // for testing
         // AddCardToHand(GetCard(29));
@@ -266,6 +268,11 @@ public class Deck : MonoBehaviour
     public GameObject Draw(){
         if (hand.Count == hand_limit) return null;
         GameObject cardObj = null;
+        if (drawPile.Count == 0){
+            foreach(Card card in trash) drawPile.Add(card);
+            trash.Clear();
+            Shuffle(drawPile);
+        }
         if (drawPile.Count > 0){
             cardObj = MakeCard(drawPile[0]);
             hand.Add(cardObj);

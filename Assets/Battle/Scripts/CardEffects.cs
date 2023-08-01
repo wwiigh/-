@@ -13,6 +13,7 @@ public class CardEffects : MonoBehaviour
         card_saved = card;
         int id = card_saved.GetComponent<CardDisplay>().thisCard.id;
         Card card_info = card_saved.GetComponent<CardDisplay>().thisCard;
+        BattleEffects effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
         
         GameObject card207 = deck.card207InHand();
         if (card207 != null && card_info.type == Card.Type.attack){
@@ -130,6 +131,8 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 27:
+                Debug.Log("call effects by card 27, " + effects.GetInstanceID());
+                effects.Play(null, "sting_AOE");
                 foreach(GameObject enemy in battleController.GetAllEnemy()){
                     player_character.Attack(enemy, card_info.Args[0]);
                     enemy.GetComponent<Character>().AddStatus(Status.status.burn, card_info.Args[1]);
@@ -236,21 +239,23 @@ public class CardEffects : MonoBehaviour
                 Global.SelectCardsFrom(GameObject.FindGameObjectWithTag("Player").transform.parent.parent, list45, Callback_45, true);
                 break;
             case 46:
-                foreach(GameObject enemy in battleController.GetAllEnemy()){
-                    player_character.Attack(enemy, card_info.Args[0]);
-                }
-                if (!card_info.once_used){
-                    GameObject tmp = deck.AddCardToHand(deck.GetCard(58));
-                    if (card_info.upgraded) tmp.GetComponent<CardDisplay>().thisCard.upgraded = true;
-                    tmp.GetComponent<CardDisplay>().thisCard.exhaust = true;
-                    card_info.once_used = true;
-                }
-                if (battleController.Played46ThisTurn()){
-                    foreach(GameObject enemy in battleController.GetAllEnemy()){
-                        player_character.Attack(enemy, card_info.Args[0]);
-                    }
-                }
-                EffectEnd();
+                GameObject obj46 = GameObject.Find("Battle effects handler");
+                obj46.GetComponent<CardEffects>().Effect_46(card_info);
+                // foreach(GameObject enemy in battleController.GetAllEnemy()){
+                //     player_character.Attack(enemy, card_info.Args[0]);
+                // }
+                // if (!card_info.once_used){
+                //     GameObject tmp = deck.AddCardToHand(deck.GetCard(58));
+                //     if (card_info.upgraded) tmp.GetComponent<CardDisplay>().thisCard.upgraded = true;
+                //     tmp.GetComponent<CardDisplay>().thisCard.exhaust = true;
+                //     card_info.once_used = true;
+                // }
+                // if (battleController.Played46ThisTurn()){
+                //     foreach(GameObject enemy in battleController.GetAllEnemy()){
+                //         player_character.Attack(enemy, card_info.Args[0]);
+                //     }
+                // }
+                // EffectEnd();
                 break;
             case 47:
                 battleController.SelectEnemy();
@@ -335,8 +340,17 @@ public class CardEffects : MonoBehaviour
                 battleController.SelectCard(1, false, false);
                 break;
 
-            case 999:
+            case 901:
                 battleController.SelectCard(8, false, true);
+                break;
+            case 902:
+                player_character.Heal(9);
+                EffectEnd();
+                break;
+            case 903:
+                Cost.ChangeCost(90);
+                deck.Draw(99);
+                EffectEnd();
                 break;
             default:
                 Debug.Log("CardEffects Use(): Unknown id " + id.ToString());
@@ -349,13 +363,15 @@ public class CardEffects : MonoBehaviour
         Character player_character = battleController.GetPlayer().GetComponent<Character>();
         Character enemy_character = enemy.GetComponent<Character>();
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
-        int t1;
+        BattleEffects effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
+
         int id = card_saved.GetComponent<CardDisplay>().thisCard.id;
         Card card_info = card_saved.GetComponent<CardDisplay>().thisCard;
+
         switch(id){
             case 2:
-                t1 = enemy_character.GetStatus(Status.status.burn);
-                enemy_character.AddStatus(Status.status.burn, t1);
+                int tmp2 = enemy_character.GetStatus(Status.status.burn);
+                enemy_character.AddStatus(Status.status.burn, tmp2);
                 EffectEnd();
                 break;
             case 3:
@@ -363,12 +379,13 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 8:
-                t1 = enemy.GetComponent<EnemyMove>().GetIntentionType();
-                if (t1 == 1) deck.AddCardToHand(deck.GetRandomSkillCard());
+                int tmp3 = enemy.GetComponent<EnemyMove>().GetIntentionType();
+                if (tmp3 == 1) deck.AddCardToHand(deck.GetRandomSkillCard());
                 else deck.AddCardToHand(deck.GetRandomAttackCard());
                 EffectEnd();
                 break;
             case 9:
+                effects.Play(enemy, "slash1");
                 player_character.Attack(enemy, card_info.Args[0]);
                 if (battleController.PlayedAttackAndSkillThisTurn()){
                     Cost.ChangeCost(1);
@@ -473,6 +490,7 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 101:
+                effects.Play(enemy, "slash1");
                 player_character.Attack(enemy, card_info.Args[0]);
                 EffectEnd();
                 break;
@@ -583,6 +601,41 @@ public class CardEffects : MonoBehaviour
         if (tmp){
             tmp.GetComponent<CardDisplay>().thisCard.exhaust = true;
             tmp.GetComponent<CardDisplay>().thisCard.disappear = true;
+        }
+        EffectEnd();
+    }
+
+
+    void Effect_46(Card card_info){
+        StartCoroutine(_Effect_46(card_info));
+    }
+    IEnumerator _Effect_46(Card card_info){
+        BattleController battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+        Character player_character = battleController.GetPlayer().GetComponent<Character>();
+        Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
+        BattleEffects effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
+
+        battleController.GetPlayer().GetComponent<Animator>().Play("player_attack");
+        yield return new WaitForSeconds(0.25f);
+        effects.Play(null, "sword wave");
+        foreach(GameObject enemy in battleController.GetAllEnemy()){
+            player_character.Attack(enemy, card_info.Args[0]);
+        }
+        if (!card_info.once_used){
+            GameObject tmp = deck.AddCardToHand(deck.GetCard(58));
+            if (card_info.upgraded) tmp.GetComponent<CardDisplay>().thisCard.upgraded = true;
+            tmp.GetComponent<CardDisplay>().thisCard.exhaust = true;
+            card_info.once_used = true;
+        }
+        yield return new WaitForSeconds(0.25f);
+
+        if (battleController.Played46ThisTurn()){
+            battleController.GetPlayer().GetComponent<Animator>().Play("player_attack");
+            yield return new WaitForSeconds(0.25f);
+            effects.Play(null, "sword wave");
+            foreach(GameObject enemy in battleController.GetAllEnemy()){
+                player_character.Attack(enemy, card_info.Args[0]);
+            }
         }
         EffectEnd();
     }

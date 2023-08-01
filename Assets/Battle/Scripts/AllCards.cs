@@ -29,7 +29,7 @@ public class AllCards : MonoBehaviour
     }
 
     public Card GetCard(int id){
-        if (id == 999) return testOnlyCards[0];
+        if (id >= 900) return testOnlyCards[id - testOnlyCards[0].id];
         if (id > 200 && id <= specialCards.Count + 200) return specialCards[id - 201];
         if (id >= 101 && id <= 103) return basicCards[id - 101];
         if (id > 0 && id <= allCards.Count) return allCards[id - 1];

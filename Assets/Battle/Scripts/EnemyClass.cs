@@ -8,7 +8,7 @@ public class EnemyClass : ScriptableObject
     public int id;
     public string mobName;
     public int hp;
-    public float sizeX;
-    public float sizeY;
+    public Vector2 size;
+    public Vector2 offset;
     public Sprite image;
 }

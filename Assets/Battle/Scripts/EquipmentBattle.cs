@@ -17,7 +17,7 @@ public class EquipmentBattle : MonoBehaviour
         int equipment_count = 3;
         for (int i = 0; i < equipment_count; i++){
             GameObject tmp = Instantiate(equipmentIconObj, transform);
-            tmp.transform.localPosition = new Vector3(850, -170 + i * 170, 0);
+            tmp.transform.localPosition = new Vector3(-450 - i * 200, 200, 0);
             tmp.GetComponent<EquipmentIcon>().SetEquipment(equipments[i]);
             equipmentObjs.Add(tmp);
         }

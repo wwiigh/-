@@ -32,7 +32,7 @@ public class CardMove : MonoBehaviour
         if (battleController.GetState() == BattleController.BattleState.SelectEnemy || 
             battleController.GetState() == BattleController.BattleState.SelectCard) return;
         if (!draggable || dragging) return;
-        Debug.Log("is dragging");
+        // Debug.Log("is dragging");
         moving = false;
         dragging = true;
         positionOffset = transform.localPosition - Input.mousePosition;
@@ -102,6 +102,9 @@ public class CardMove : MonoBehaviour
             transform.localScale = Vector3.Lerp(transform.localScale, targetSize, speed);
             yield return new WaitForSeconds(0.02f);
         }
-        if (scalingState == originalState) scalingState = ScalingState.None;
+        if (scalingState == originalState) {
+            scalingState = ScalingState.None;
+            transform.localScale = targetSize;
+        }
     }
 }

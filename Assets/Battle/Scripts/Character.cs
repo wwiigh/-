@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     [SerializeField] GameObject hpBarTemplate;
     [SerializeField] GameObject statusIconTemplate;
     [SerializeField] GameObject damageTextTemplate;
+    BattleEffects effects;
     GameObject hpBar;
     EnemyClass enemyClass;
     int maxHP = 100;
@@ -22,6 +23,7 @@ public class Character : MonoBehaviour
     void Start()
     {
         battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+        effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
         Init_HP();
         UpdateStatus();
     }
@@ -70,6 +72,7 @@ public class Character : MonoBehaviour
 
 
     public bool GetHit(int damage){
+        if (damage > 0) GetComponent<HitAnimation>().Play();
         GameObject dmgText = Instantiate(damageTextTemplate, transform);
         dmgText.GetComponent<DamageText>().Show(damage);
         if (block < damage){
@@ -153,6 +156,7 @@ public class Character : MonoBehaviour
         if (hp + value > maxHP) hp = maxHP;
         else hp += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
+        effects.Play(gameObject, "heal");
     }
 
 
@@ -164,6 +168,7 @@ public class Character : MonoBehaviour
         if (tag == "Player") armor += BattleController.ComputeArmor(value);
         else armor += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
+        effects.Play(gameObject, "get_armor");
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
             GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();
             AddStatus(Status.status.fortify, -1);
@@ -179,6 +184,7 @@ public class Character : MonoBehaviour
         if (tag == "Player") block += BattleController.ComputeArmor(value);
         else block += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
+        effects.Play(gameObject, "get_armor");
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
             GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();
             AddStatus(Status.status.fortify, -1);
@@ -217,17 +223,6 @@ public class Character : MonoBehaviour
         }
     }
     public void TurnEnd(){
-        // List<(Status.status _status, int level)> tmp_list = new List<(Status.status _status, int level)>();
-        // foreach(var pack in status){
-        //     if (Status.DecreaseOnTurnEnd(pack._status)) tmp_list.Add(pack);
-        //     // if (Status.ClearOnTurnEnd(pack._status)) AddStatus(Status.status.temporary_dexterity, -pack.level);
-        // }
-        // for (int i = tmp_list.Count - 1; i >= 0; i--){
-        //     status.Remove(tmp_list[i]);
-        //     AddStatus(tmp_list[i]._status, tmp_list[i].level - 1);
-        // }
-        // UpdateStatus();
-
         List<(Status.status _status, int level)> decreaseList = new List<(Status.status _status, int level)>();
         List<(Status.status _status, int level)> clearList = new List<(Status.status _status, int level)>();
         foreach(var pack in status){
@@ -251,19 +246,27 @@ public class Character : MonoBehaviour
         }
         return dead;
     }
-    // public void Select(){
-    //     if (GS.GetComponent<GameState>().GetState() == GameState.State.SelectEnemy){
-    //         GS.GetComponent<Broadcast>().UseCardSelected(gameObject);
-    //         HoverOut();
-    //     }
-    // }
 
     public void InitPlayer(){
         nameText.text = "玩家";
         maxHP = Global.player_max_hp;
         hp = Global.player_hp;
-        // for (int i = 0; i < 12; i++){
-        //     GetComponent<Character>().AddStatus((Status.status) Random.Range(0, 38), Random.Range(1, 20));
+        GetComponent<Animator>().Play("player_idle");
+        // AddStatus(Status.status.absorb, 9);
+        // AddStatus(Status.status.accumulation, 9);
+        // AddStatus(Status.status.auto_guard, 9);
+        // AddStatus(Status.status.bleed, 9);
+        // AddStatus(Status.status.blink, 9);
+        // AddStatus(Status.status.bounce_back, 9);
+        // AddStatus(Status.status.burn, 9);
+        // AddStatus(Status.status.compress, 9);
+        // AddStatus(Status.status.counter, 9);
+        // AddStatus(Status.status.damage_adjust, 9);
+        // AddStatus(Status.status.dexterity, 9);
+        // AddStatus(Status.status.doom, 9);
+        // AddStatus(Status.status.doppelganger, 9);
+        // for(int i = 0; i < 15; i++){
+        //     AddStatus(Random.Range(0, 53), Random.Range(0, 10));
         // }
     }
 
@@ -272,10 +275,16 @@ public class Character : MonoBehaviour
         nameText.text = enemy.mobName;
         maxHP = enemy.hp;
         hp = enemy.hp;
+
+        Vector2 enemysize = enemy.size;
+        if (enemysize.x == 0) enemysize.x = 300;
+        if (enemysize.y == 0) enemysize.y = 300;
+
         imageObj.GetComponent<Image>().sprite = enemy.image;
-        imageObj.transform.localPosition += new Vector3(0, (enemy.sizeY - 300) / 2, 0);
+        imageObj.transform.localPosition += Vector3.down * (enemysize.y - 300) / 2;
+        imageObj.transform.localPosition += (Vector3) enemy.offset;
         var rectT = imageObj.transform as RectTransform;
-        rectT.sizeDelta = new Vector2(enemy.sizeX, enemy.sizeY);
+        rectT.sizeDelta = enemysize;
 
         switch(enemy.id){
             case 101:

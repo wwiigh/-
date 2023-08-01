@@ -21,6 +21,7 @@ public class Global : MonoBehaviour
     public static int max_sanity = 100;
     public static int sanity = 100;
     public static float money_addition = 1;
+    public static int current_level = 1;
     public static List<Card> player_deck = new List<Card>();
     public static void init()
     {
@@ -43,7 +44,7 @@ public class Global : MonoBehaviour
     }
     public static void AddHp(int value){
         player_hp += value;
-        if(player_hp>player_max_hp)player_hp = player_max_hp;
+        if(player_hp > player_max_hp) player_hp = player_max_hp;
     }
     public static void AddMaxHp(int value){
         player_max_hp += value;
@@ -66,17 +67,17 @@ public class Global : MonoBehaviour
         AllCards allcards = GameObject.FindGameObjectWithTag("AllCards").GetComponent<AllCards>();
         List<Card> basicCards = allcards.GetBasicCards();
         for (int i = 0; i < 4; i++){
-            player_deck.Add(basicCards[0]);
+            player_deck.Add(Card.Copy(basicCards[0]));
         }
         for (int i = 0; i < 4; i++){
-            player_deck.Add(basicCards[1]);
+            player_deck.Add(Card.Copy(basicCards[1]));
         }
         for (int i = 0; i < 2; i++){
-            player_deck.Add(basicCards[2]);
+            player_deck.Add(Card.Copy(basicCards[2]));
         }
     }
     public static void PlayerDeck_Add(Card card){
-        player_deck.Add(card);
+        player_deck.Add(Card.Copy(card));
     }
     public static void PlayerDeck_Remove(Card card){
         player_deck.Remove(card);

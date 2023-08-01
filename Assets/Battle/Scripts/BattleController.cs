@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleController : MonoBehaviour
 {
+    [SerializeField] GameObject background;
+    [SerializeField] List<Sprite> backgroundImages;
     [SerializeField] GameObject deck_obj;
     [SerializeField] GameObject characters;
     [SerializeField] GameObject character_template;
@@ -45,14 +48,18 @@ public class BattleController : MonoBehaviour
         for (int i = characters.transform.childCount - 1; i >= 0; i--){
             Destroy(characters.transform.GetChild(i).gameObject);
         }
-        EnterBattle_id(Random.Range(101, 107 + 1));
+
+        EnterBattle(BattleType.Normal);
     }
 
-    // public void EnterBattle(BattleType type){
-    //     if (type == BattleType.normal){
-    //         EnterBattle_id(Random.Range(101, 109 + 1));
-    //     }
-    // }
+    public void EnterBattle(BattleType type){
+        if (type == BattleType.Normal){
+            EnterBattle_id(Random.Range(101, 107 + 1));
+        }
+        
+        background.GetComponent<Image>().sprite = backgroundImages[Global.current_level - 1];
+        background.GetComponent<RectTransform>().offsetMin = new Vector2(0, 390);
+    }
     
     public void EnterBattle_id(int id){
         InitPlayer();
@@ -283,7 +290,7 @@ public class BattleController : MonoBehaviour
     void InitPlayer(){
         // GameObject player = Instantiate(character, transform);
         player = Instantiate(character_template, characters.transform);
-        player.transform.localPosition = new Vector3(-480, 0, 0);
+        player.transform.localPosition = new Vector3(-350, 0, 0);
         player.tag = "Player";
         player.GetComponent<Character>().InitPlayer();
     }
