@@ -34,7 +34,7 @@ public class Equipment_Control : MonoBehaviour
             int id = equipment_list[i];
             equipments[i].GetComponent<Image>().sprite = equipments_description[id-1].image;
             equipments[i].GetComponent<UI_Control>().UI_information = equipments_description[id-1].information_Box;
-            equipments[i].GetComponent<UI_Control>().Change_description();
+            equipments[i].GetComponent<UI_Control>().reset_pos();
             charge_Control.Add_text(i,equipments[i].GetComponent<UI_Control>(), equipments_description[id-1].max_charge);
             // equipments[i].GetComponent<UI_Control>().Change_description();
         }
