@@ -497,12 +497,12 @@ GameObject:
   - component: {fileID: 6976274915266437708}
   - component: {fileID: 6976274915266437709}
   m_Layer: 5
-  m_Name: DescriptionBox
+  m_Name: DescriptionBox(old)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6976274915266437708
 RectTransform:
   m_ObjectHideFlags: 0
@@ -536,13 +536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24459d409dbbe764c9ad6667f0d53e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
-  box: {fileID: 6976274915266437711}
-  nameText: {fileID: 6976274915969681792}
-  typeText: {fileID: 3650242607918484672}
-  rarityText: {fileID: 6976274914589843578}
-  effectText: {fileID: 6976274915099544566}
-  descriptionText: {fileID: 6976274914669034520}
 --- !u!1 &6976274915969681794
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,14 +10,10 @@ public class StatusIcon : MonoBehaviour
     GameObject parent;
     [SerializeField] Image img;
     [SerializeField] TMP_Text levelText;
-    // [SerializeField] GameObject descriptionBoxTemplate;
-    [SerializeField] GameObject descriptionBox;
     Status.status status;
     int level;
     private void Start() {
         if (parent == null) Init();
-        // descriptionBox = Instantiate(descriptionBoxTemplate, transform);
-        // descriptionBox.SetActive(false);
     }
     void Init(){
         battleController = GameObject.FindGameObjectWithTag("BattleController");
@@ -41,19 +37,19 @@ public class StatusIcon : MonoBehaviour
         }
     }
 
-    public void PointerIn(){
-        // descriptionBox.SetActive(true);
-        Item item = ScriptableObject.CreateInstance<Item>();
-        // Item item = new Item();
-        item.itemName = Status.GetName(status);
-        item.type = "";
-        item.effectText = Status.GetDescription(status, level);
-        item.description = "";
-        item.rarity = -1;
-        descriptionBox.GetComponent<DescriptionBox>().Show(item, transform);
-    }
 
+
+    GameObject descriptionBox;
+    bool showing = false;
+    public void PointerIn(){
+        descriptionBox = DescriptionBox.Show(Status.GetName(status), Status.GetDescription(status, level));
+        showing = true;
+    }
     public void PointerOut(){
-        descriptionBox.GetComponent<DescriptionBox>().Hide();
+        if (descriptionBox != null) Destroy(descriptionBox);
+        showing = false;
+    }
+    private void Update() {
+        if (showing) descriptionBox.GetComponent<DescriptionBox>().UpdatePosition();
     }
 }

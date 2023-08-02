@@ -4018,6 +4018,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ForEquipMent
       objectReference: {fileID: 0}
+    - target: {fileID: 7070242333745185220, guid: 23ff5a5888973a74fa0324035f364549, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23ff5a5888973a74fa0324035f364549, type: 3}
 --- !u!222 &3317681353628227441
@@ -6998,6 +7002,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45adcc278ecc2ee45bad5f19f09b0d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 0}
+  backgroundImages: []
   deck_obj: {fileID: 3317681354153264447}
   characters: {fileID: 3317681355543042397}
   character_template: {fileID: 1013566804284671106, guid: 282ef3cc73e40fc4e81903a27f9638fe, type: 3}
