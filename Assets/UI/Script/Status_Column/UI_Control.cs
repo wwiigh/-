@@ -15,7 +15,8 @@ public class UI_Control : MonoBehaviour
     {
         if(start_set == true)
         {
-        int index = 0;
+            int index = 0;
+            float addi = 0;
             foreach (var information in UI_information.texts)
             {
                 GameObject new_box = Instantiate(information_box);
@@ -26,7 +27,8 @@ public class UI_Control : MonoBehaviour
                 new_box.SetActive(false);
                 new_box.GetComponent<Transform>().SetParent(Information_Show_Gameobject.transform);
                 new_box.transform.localPosition = Vector3.zero;
-                new_box.transform.position = new_box.transform.position + new Vector3(positon_offset.x,positon_offset.y-index*1.2f,0);
+                new_box.transform.position = new_box.transform.position + new Vector3(positon_offset.x,positon_offset.y-index*1.2f-addi,0);
+                if(information.line_count>3)addi+=(information.line_count-3)*0.4f;
                 information_box_array.Add(new_box);
                 index++;
 
@@ -34,9 +36,37 @@ public class UI_Control : MonoBehaviour
         }
         
     }
+    public void reset_pos()
+    {
+        foreach(var i in information_box_array)
+        {
+            Destroy(i);
+        }
+        information_box_array.Clear();
+        int index = 0;
+        float addi = 0;
+        foreach (var information in UI_information.texts)
+        {
+            GameObject new_box = Instantiate(information_box);
+            if(information.box!=null)new_box.GetComponent<Information_Box>().box = information.box;
+            new_box.GetComponent<Information_Box>().information.text = information.information;
+            new_box.GetComponent<Information_Box>().add_count(information.line_count);
+            // new_box.GetComponent<Information_Box>().set_box_size();
+            new_box.SetActive(false);
+            new_box.GetComponent<Transform>().SetParent(Information_Show_Gameobject.transform);
+            new_box.transform.localPosition = Vector3.zero;
+            new_box.transform.position = new_box.transform.position + new Vector3(positon_offset.x,positon_offset.y-index*1.2f-addi,0);
+            if(information.line_count>3)addi+=(information.line_count-3)*0.4f;
+            information_box_array.Add(new_box);
+            index++;
+
+        }
+    }
     public void reset_pos(Transform t,Vector3 pos)
     {
+        
         int index = 0;
+        float addi = 0;
         foreach (var information in UI_information.texts)
         {
             GameObject new_box = Instantiate(information_box);
@@ -47,7 +77,8 @@ public class UI_Control : MonoBehaviour
             // new_box.GetComponent<Information_Box>().set_box_size();
             new_box.SetActive(false);
             new_box.GetComponent<Transform>().SetParent(t);
-            new_box.transform.position = new_box.transform.position + pos + new Vector3(positon_offset.x,positon_offset.y-index*1.2f,0);
+            new_box.transform.position = new_box.transform.position + pos + new Vector3(positon_offset.x,positon_offset.y-index*1.2f-addi,0);
+            if(information.line_count>3)addi+=(information.line_count-3)*0.4f;
             information_box_array.Add(new_box);
             index++;
 
@@ -69,6 +100,7 @@ public class UI_Control : MonoBehaviour
         }
         information_box_array.Clear();
         int index = 0;
+        float addi = 0;
         foreach (var information in UI_information.texts)
         {
             GameObject new_box = Instantiate(information_box);
@@ -78,7 +110,8 @@ public class UI_Control : MonoBehaviour
             // new_box.GetComponent<Information_Box>().set_box_size();
             new_box.SetActive(false);
             new_box.GetComponent<Transform>().SetParent(t);
-            new_box.transform.position = new_box.transform.position + pos + new Vector3(positon_offset.x,positon_offset.y-index*1.2f,0);
+            new_box.transform.position = new_box.transform.position + pos + new Vector3(positon_offset.x,positon_offset.y-index*1.2f-addi,0);
+            if(information.line_count>3)addi+=(information.line_count-3)*0.4f;
             information_box_array.Add(new_box);
             index++;
 
@@ -133,7 +166,13 @@ public class UI_Control : MonoBehaviour
     }
     public void Add_text(string change_text)
     {
+
         int index = information_box_array.Count;
+        float addi = 0;
+        foreach (var information in UI_information.texts)
+        {
+            if(information.line_count>3)addi+=(information.line_count-3)*0.4f;
+        }
         GameObject new_box = Instantiate(information_box);
         // if(information.box!=null)new_box.GetComponent<Information_Box>().box = information.box;
         new_box.GetComponent<Information_Box>().information.text = change_text;
@@ -144,7 +183,7 @@ public class UI_Control : MonoBehaviour
         new_box.GetComponent<Transform>().SetParent(Information_Show_Gameobject.transform);
         Debug.Log(index);
         new_box.transform.localPosition = Vector3.zero;
-        new_box.transform.position = new_box.transform.position  + new Vector3(positon_offset.x,positon_offset.y-index*1.2f,0);
+        new_box.transform.position = new_box.transform.position  + new Vector3(positon_offset.x,positon_offset.y-index*1.2f-addi,0);
         information_box_array.Add(new_box);
     }
 }

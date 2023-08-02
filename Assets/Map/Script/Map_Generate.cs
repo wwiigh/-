@@ -174,7 +174,7 @@ public class Map_Generate : MonoBehaviour
         Regenerate_Point();
         Create_Edge();
         Visualize_Edge();
-        Generate_Special_events(node_height-1,'h');
+        Generate_Special_events(node_height-1,'f');
         Generate_Special_events(Random.Range(2,4),'f');
         Generate_Special_events(4,'m');
         Generate_Special_events(0,'b');
@@ -214,27 +214,28 @@ public class Map_Generate : MonoBehaviour
     void Generate_Map()
     {
         string LoadData = PlayerPrefs.GetString("Map_Data","");
-
-        // if(LoadData!="")
-        // {
-        //     Map_Save  MyData = JsonUtility.FromJson<Map_Save>(LoadData);
-        //     if(MyData.is_new==0)
-        //     {
-        //         Init();
-        //         copy(MyData);
-        //         Regenerate_Point();
-        //         //map_save.copy(nodes);
-        //         now_height = MyData.return_height();
-        //         now_level = MyData.return_level()>3?1:MyData.return_level();
-        //         now_width = MyData.return_width();
-        //         Visualize_Edge();
-        //         Show_status();
-        //         check_status();
-        //         set_click_action();
-        //         return;
-        //     }
-        // }
-        
+        // LoadData = "";
+        if(LoadData!="")
+        {
+            Map_Save  MyData = JsonUtility.FromJson<Map_Save>(LoadData);
+            if(MyData.is_new==0)
+            {
+                Global.ReadData();
+                Init();
+                copy(MyData);
+                Regenerate_Point();
+                //map_save.copy(nodes);
+                now_height = MyData.return_height();
+                now_level = MyData.return_level()>3?1:MyData.return_level();
+                now_width = MyData.return_width();
+                Visualize_Edge();
+                Show_status();
+                check_status();
+                set_click_action();
+                return;
+            }
+        }
+        Global.init();
         //初始
         Init();
         //顯示點
@@ -255,7 +256,7 @@ public class Map_Generate : MonoBehaviour
         // List<int> tmp_node_arr = new List<int>();
         // Generate_V3_set_route(node_arr,0,2,tmp_node_arr);
         // Generate_V3_set_event(node_arr);
-        Generate_Special_events(node_height-1,'h');
+        Generate_Special_events(node_height-1,'f');
         Generate_Special_events(Random.Range(2,4),'f');
         Generate_Special_events(4,'m');
         Generate_Special_events(0,'b');

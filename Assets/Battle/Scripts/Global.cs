@@ -25,8 +25,8 @@ public class Global : MonoBehaviour
     public static float money_addition = 1;
     public static int current_level = 1;
     public static List<Card> player_deck = new List<Card>();
-    public static List<int> card_id;
-    public static List<bool> card_up;
+    public static List<int> card_id = new List<int>();
+    public static List<bool> card_up = new List<bool>();
     public static Card select_card;
     public static void init()
     {
@@ -36,6 +36,9 @@ public class Global : MonoBehaviour
         max_sanity = 100;
         sanity = 100;
         money_addition = 1;
+        player_deck.Clear();
+        card_id.Clear();
+        card_up.Clear();
         PlayerDeckInit();
         SaveData();
     }
@@ -136,10 +139,12 @@ public class Global : MonoBehaviour
         Global.card_id = Load.card_id;
         Global.card_up = Load.card_up;
         AllCards allcards = GameObject.FindGameObjectWithTag("AllCards").GetComponent<AllCards>();
+        Global.player_deck.Clear();
         for(int i=0;i<Global.card_id.Count;i++)
         {
-            Global.player_deck.Add(allcards.GetCard(card_id[i]));
-            Global.player_deck[i].upgraded = Global.card_up[i];
+            Global.player_deck.Add(Card.Copy(allcards.GetCard(card_id[i])));
+            if(Global.card_up[i]==true)UpgradeCard(player_deck[i]);
+            // Global.player_deck[i].upgraded = Global.card_up[i];
         }
     }
     /// <summary>

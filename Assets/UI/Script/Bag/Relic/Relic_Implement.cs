@@ -21,86 +21,92 @@ public class Relic_Implement : MonoBehaviour
     void Awake()
     {
     }
-    void Use_Relic(int id)
-    {
-        switch (id)
-        {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                //力量
-                Global.AddHp(5);
-                break;
-            case 7:
-                Global.AddMaxHp(10);
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
-            case 10:
-                break;
-            case 11:
-                //力量
-                Global.AddMaxHp(4);
-                break;
-            case 12:
-                //力量
-                Global.AddMaxHp(6);
-                break;
-            case 13:
-                break;
-            case 14:
-                break;
-            case 15:
-                break;
-            case 16:
-                //力量
-                Global.AddMaxSan(-10);
-                Global.AddMaxHp(10);
-                break;
-            case 17:
-                break;
-            case 18:
-                break;
-            case 19:
-                break;
-            case 20:
-                break;
-            case 21:
-                break;
-            case 22:
-                break;
-            case 23:
-                break;
-            case 24:
-                break;
-            case 25:
-                break;
-            case 26:
-                break;
-            case 27:
-                break;
-            case 28:
-                break;
-            case 29:
-                break;
-            case 30:
-                Global.AddMaxSan(10);
-                break;
-            default:
-                break;
-        }
-    }
+    // void Use_Relic(int id)
+    // {
+    //     switch (id)
+    //     {
+    //         case 1:
+    //             break;
+    //         case 2:
+    //             break;
+    //         case 3:
+    //             break;
+    //         case 4:
+    //             break;
+    //         case 5:
+    //             break;
+    //         case 6:
+    //             //力量
+    //             Global.AddHp(5);
+    //             break;
+    //         case 7:
+    //             Global.AddMaxHp(10);
+    //             break;
+    //         case 8:
+    //             break;
+    //         case 9:
+    //             break;
+    //         case 10:
+    //             break;
+    //         case 11:
+    //             //力量
+    //             Global.AddMaxHp(4);
+    //             break;
+    //         case 12:
+    //             //力量
+    //             Global.AddMaxHp(6);
+    //             break;
+    //         case 13:
+    //             break;
+    //         case 14:
+    //             break;
+    //         case 15:
+    //             break;
+    //         case 16:
+    //             //力量
+    //             Global.AddMaxSan(-10);
+    //             Global.AddMaxHp(10);
+    //             break;
+    //         case 17:
+    //             break;
+    //         case 18:
+    //             break;
+    //         case 19:
+    //             break;
+    //         case 20:
+    //             break;
+    //         case 21:
+    //             break;
+    //         case 22:
+    //             break;
+    //         case 23:
+    //             break;
+    //         case 24:
+    //             break;
+    //         case 25:
+    //             break;
+    //         case 26:
+    //             break;
+    //         case 27:
+    //             break;
+    //         case 28:
+    //             break;
+    //         case 29:
+    //             break;
+    //         case 30:
+    //             Global.AddMaxSan(10);
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
     ///<summary>玩家打出一張牌後</summary>
+    /// <param name="_player">傳入玩家</param>
+    /// <param name="_enemys">傳入所有敵人</param>
+    /// <param name="_all_hands_cards">傳入玩家手牌</param>
+    /// <param name="_now_turn">傳入當前回合數</param>
+    /// <param name="_kill_enemy">傳入打出這張牌後擊殺敵人數</param>
+    /// <param name="_throw_card">傳入打出的牌</param>
     public void Handle_Relic_After_Card(
         GameObject _player,
         List<GameObject> _enemys,
@@ -123,13 +129,17 @@ public class Relic_Implement : MonoBehaviour
             if(Relic_After_Card.Contains(id)==true)
             {
                 Use_Relic_After_Card(id);
-                break;
+                // break;
             }
         }
 
     }
     ///<summary>玩家結束回合後，敵人行動前</summary>
-    public List<int> Handle_Relic_After_Action(
+    /// <param name="_player">傳入玩家</param>
+    /// <param name="_enemys">傳入所有敵人</param>
+    /// <param name="_all_hands_cards">傳入玩家手牌</param>
+    /// <param name="_now_turn">傳入當前回合數</param>
+    public void Handle_Relic_After_Action(
         GameObject _player,
         List<GameObject> _enemys,
         List<GameObject> _all_hands_cards,
@@ -139,18 +149,32 @@ public class Relic_Implement : MonoBehaviour
         enemys = _enemys;
         all_hands_cards = _all_hands_cards;
         now_turn = _now_turn;
-        List<int> need_to_handle = new List<int>();
-        for(int i=0;i<Relic_Before_Action.Count;i++)
+        // List<int> need_to_handle = new List<int>();
+        List<int> relic_list = GetComponent<Bag_System>().Return_All_Relic();
+        foreach(int id in relic_list)
         {
-            if(GetComponent<Bag_System>().Have_Item("relic",Relic_Before_Action[i].ToString())==true)
+            
+            if(Relic_After_Action.Contains(id)==true)
             {
-                need_to_handle.Add(Relic_Before_Action[i]);
+                Use_Relic_After_Action(id);
+                // break;
             }
         }
-        return need_to_handle;
+        // for(int i=0;i<Relic_Before_Action.Count;i++)
+        // {
+        //     if(GetComponent<Bag_System>().Have_Item("relic",Relic_Before_Action[i].ToString())==true)
+        //     {
+        //         need_to_handle.Add(Relic_Before_Action[i]);
+        //     }
+        // }
 
     }
     ///<summary>玩家開始出牌前</summary>
+    /// <param name="_player">傳入玩家</param>
+    /// <param name="_enemys">傳入所有敵人</param>
+    /// <param name="_all_hands_cards">傳入玩家手牌</param>
+    /// <param name="_first_card">本回合抽到的第一張牌</param>
+    /// <param name="_now_turn">傳入當前回合數</param>
     public void Handle_Relic_Before_Action(
         GameObject _player,
         List<GameObject> _enemys,
@@ -170,7 +194,7 @@ public class Relic_Implement : MonoBehaviour
             if(Relic_Before_Action.Contains(id)==true)
             {
                 Use_Relic_Before_Action(id);
-                break;
+                // break;
             }
         }
 
@@ -243,7 +267,6 @@ public class Relic_Implement : MonoBehaviour
                 break;
             case 11:
                 if(now_turn==1)player.GetComponent<Character>().AddStatus(Status.status.strength,6);
-                //燃燒待做
                 break;
             case 12:
                 if(now_turn==1)player.GetComponent<Character>().AddStatus(Status.status.strength,4);
@@ -253,7 +276,7 @@ public class Relic_Implement : MonoBehaviour
                 {
                     foreach (var enemy in enemys)
                     {
-                        //進行攻擊
+                        enemy.GetComponent<Character>().GetHit(3);
                     }
                 }
                 else 
@@ -265,10 +288,27 @@ public class Relic_Implement : MonoBehaviour
                 if(now_turn==1)player.GetComponent<Character>().AddStatus(Status.status.strength,2);
                 break;
             case 17:
-                if(now_turn==1);//升級卡片
+                if(now_turn==1)
+                {
+                    List<Card> player_deck = Global.GetPlayerDeck();
+                    int index = Random.Range(0,player_deck.Count);
+                    int init = index;
+                    while(player_deck[index].upgraded == true)
+                    {
+                        index ++;
+                        if(index >= player_deck.Count)index = 0;
+                        if(init == index)break;
+                    }
+                    if(player_deck[index].upgraded == true)break;
+                    Global.UpgradeCard(player_deck[index]);
+                }
                 break;
             case 21:
-                if(now_turn==1);//隨機獲得增強虛弱
+                if(now_turn==1)
+                {
+                    player.GetComponent<Character>().AddStatus((Status.status)Random.Range(0,37),1);
+                    player.GetComponent<Character>().AddStatus((Status.status)Random.Range(37,48),1);
+                }
                 break;
             case 23:
                 //2費以上變2費
@@ -326,9 +366,21 @@ public class Relic_Implement : MonoBehaviour
                 {
                     foreach (var enemy in enemys)
                     {
-                        //扣血
+                        enemy.GetComponent<Character>().GetHit(3);
                     }
                 }
+                break;
+            default:
+                break;
+        }
+    }
+    void Use_Relic_After_Action(int id)
+    {
+        switch (id)
+        {
+            case 5:
+                break;
+            case 22:
                 break;
             default:
                 break;

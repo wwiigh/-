@@ -6,6 +6,7 @@ public class Item_Implement : MonoBehaviour
 {
     public int use_count = 0;
     GameObject player;
+    List<GameObject> enemys;
     void Start()
     {
         use_count = 0;
@@ -26,7 +27,10 @@ public class Item_Implement : MonoBehaviour
         {
             case 101:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.weak,2);
+                }
                 break;
             case 102:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -34,11 +38,17 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 103:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                player.GetComponent<Character>().AddStatus(Status.status.invincible,1);
                 break;
             case 104:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    int hp = enemy.GetComponent<Character>().GetHP();
+                    int attack = (int)(hp * 0.15f);
+                    enemy.GetComponent<Character>().GetHit(attack);
+                    player.GetComponent<Character>().Heal(attack);
+                }
                 break;
             case 105:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -46,14 +56,20 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 106:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().GetHit(10);
+                }
                 break;
             case 107:
                 Global.AddHp(15);
                 break;
             case 108:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.weak,5);
+                }
                 break;
             case 109:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -69,7 +85,12 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 112:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    int hp = enemy.GetComponent<Character>().GetHP();
+                    int attack = (int)(hp * 0.1f);
+                    enemy.GetComponent<Character>().GetHit(attack);
+                }
                 break;
             case 113:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -77,11 +98,18 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 114:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.burn,10);
+                }
                 break;
             case 115:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    int rv_115 = Random.Range(0,36);
+                    enemy.GetComponent<Character>().AddStatus(Status.status.damage_adjust,rv_115);
+                }
                 break;
             case 116:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -114,7 +142,11 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 204:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    int hp = enemy.GetComponent<Character>().GetHP();
+                    enemy.GetComponent<Character>().GetHit((int)(hp * 0.15f));
+                }
                 break;
             case 205:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -135,12 +167,17 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 209:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //傷害
+                int rv_209 = Random.Range(0,41);
+                player.GetComponent<Character>().AddStatus(Status.status.damage_adjust,rv_209);
                 Global.AddSan(-10);
                 break;
             case 210:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //傷害
+                foreach (var enemy in enemys)
+                {
+                    int rv_210 = Random.Range(0,41);
+                    enemy.GetComponent<Character>().AddStatus(Status.status.damage_adjust,rv_210);
+                }
                 Global.AddSan(-10);
                 break;
             case 211:

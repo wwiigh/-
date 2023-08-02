@@ -11,6 +11,7 @@ TagManager:
   - Deck
   - Cost
   - BattleEffects
+  - AllCards
   layers:
   - Default
   - TransparentFX

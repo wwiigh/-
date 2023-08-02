@@ -6,6 +6,7 @@ public class Equipment_Implement : MonoBehaviour
 {
     [SerializeField] List<int> normal_equipment_list = new List<int>();
     GameObject player;
+    List<GameObject> enemys;
 
     public void Use_Equipment(int id)
     {
@@ -21,7 +22,7 @@ public class Equipment_Implement : MonoBehaviour
                 player.GetComponent<Character>().AddArmor(5);
                 break;
             case 4:
-                //待做
+                player.GetComponent<Character>().AddStatus(Status.status.fire_enchantment,1);
                 break;
             case 5:
                 player.GetComponent<Character>().AddStatus(Status.status.strength,1);
@@ -65,7 +66,7 @@ public class Equipment_Implement : MonoBehaviour
                 //待做
                 break;
             case 18:
-                player.GetComponent<Character>().AddStatus(Status.status.dexterity,1);
+                player.GetComponent<Character>().AddStatus(Status.status.dexterity,3);
                 break;
             case 19:
                 //待做
@@ -95,7 +96,10 @@ public class Equipment_Implement : MonoBehaviour
                 break;
             case 25:
                 Global.AddSan(-10);
-                //敵人扣血
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().GetHit(10);
+                }
                 break;
             case 26:
                 player.GetComponent<Character>().AddStatus(Status.status.strength,1);
@@ -105,9 +109,31 @@ public class Equipment_Implement : MonoBehaviour
                 break;
             case 28:
                 //給敵人狀態
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.burn,13);
+                }
+                List<int> equipment_list_28 = GetComponent<Bag_System>().Return_All_Equipment();
+                if(equipment_list_28.Contains(29))
+                {
+                    foreach (var enemy in enemys)
+                    {
+                        enemy.GetComponent<Character>().AddStatus(Status.status.weak,1);
+                    }
+                }
                 break;
             case 29:
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    List<(Status.status,int)> allstatus = enemy.GetComponent<Character>().GetAllStatus();
+                    for(int i=0;i<allstatus.Count;i++)
+                    {
+                        if(allstatus[i].Item1 < Status.status.compress && allstatus[i].Item1 >= Status.status.burn)
+                        {
+                            player.GetComponent<Character>().AddArmor(4);
+                        }
+                    }
+                }
                 break;
             case 30:
                 //抽牌

@@ -1266,7 +1266,7 @@ GameObject:
   - component: {fileID: 4135313096345461179}
   - component: {fileID: 3931670765691385381}
   m_Layer: 0
-  m_Name: bag_button
+  m_Name: bag_bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3984,7 +3984,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 424, y: 306}
+  m_AnchoredPosition: {x: 424, y: 350}
   m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4022496202279078259
@@ -4221,7 +4221,7 @@ GameObject:
   - component: {fileID: 4022496202479915097}
   - component: {fileID: 2287358899943366458}
   m_Layer: 0
-  m_Name: ui_buttom
+  m_Name: ui_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6080,7 +6080,7 @@ GameObject:
   - component: {fileID: 4317575017049724035}
   - component: {fileID: 2720433820335513372}
   m_Layer: 0
-  m_Name: equipment_button
+  m_Name: equipment_buttom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

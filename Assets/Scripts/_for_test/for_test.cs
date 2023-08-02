@@ -14,6 +14,10 @@ public class for_test : MonoBehaviour
     {
         Global.ReadData();
     }
+    public void leave()
+    {
+        this.gameObject.SetActive(false);
+    }
     void Start()
     {
         

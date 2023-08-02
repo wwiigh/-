@@ -6,7 +6,7 @@ public class UI_System : MonoBehaviour
 {
     void OnEnable()
     {
-        Global.ReadData();
+        // Global.ReadData();
     }
     public static void New_Game()
     {
