@@ -56,6 +56,7 @@ public class Node:MonoBehaviour
     public GameObject treasure_object;
     [Header("顯示事件")]
     public GameObject event_object;
+    public List<GameObject> All_Battle_Obj;
     public void check()
     {
         // print("check");
@@ -225,6 +226,10 @@ public class Node:MonoBehaviour
     public void click_action_battle()
     {
         battle_object.SetActive(true);
+        foreach (var item in All_Battle_Obj)
+        {
+            item.SetActive(true);
+        }
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
         StartCoroutine(wait_finish(battle_object));
     }
@@ -283,7 +288,27 @@ public class Node:MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
         }
+        foreach (var item in All_Battle_Obj)
+        {
+            item.SetActive(false);
+        }
+        GameObject[] tmp = GameObject.FindGameObjectsWithTag("Card");
+        foreach (var item in tmp)
+        {
+            Destroy(item);
+        }
+        tmp = GameObject.FindGameObjectsWithTag("Player");
+        foreach (var item in tmp)
+        {
+            Destroy(item);
+        }
+        tmp = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var item in tmp)
+        {
+            Destroy(item);
+        }
         map.Go_to_next();
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.normal);
     }
+    
 }

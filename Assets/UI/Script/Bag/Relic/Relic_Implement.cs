@@ -264,6 +264,7 @@ public class Relic_Implement : MonoBehaviour
                 break;
             case 10:
                 //多抽卡待做
+                FindObjectOfType<Deck>().Draw(1);
                 break;
             case 11:
                 if(now_turn==1)player.GetComponent<Character>().AddStatus(Status.status.strength,6);

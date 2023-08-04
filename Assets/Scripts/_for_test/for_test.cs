@@ -10,6 +10,11 @@ public class for_test : MonoBehaviour
         Global.SaveData();
         Global.AddHp(-10);
     }
+    public void Set_false(GameObject ob)
+    {
+        ob.SetActive(false);
+        // this.gameObject.SetActive(false);
+    }
     public void load()
     {
         Global.ReadData();

@@ -136,7 +136,7 @@ public class Equipment_Implement : MonoBehaviour
                 }
                 break;
             case 30:
-                //抽牌
+                FindObjectOfType<Deck>().Draw(2);
                 break;
             default:
                 break;
