@@ -11,12 +11,16 @@ public class get_items : MonoBehaviour
     private int current_index = 0;
     public Button button;
     public int id;
+    public GameObject item;
+    public int is_gotten = 0;
     void Start(){
         button.onClick.AddListener(item_onClick);
     }
     void OnEnable()
     {
+        item.SetActive(true);
         got_items();
+        is_gotten = 0;
     }
     
     public void got_items(){
@@ -35,6 +39,9 @@ public class get_items : MonoBehaviour
         }
     }
     public void item_onClick(){
-        Global.AddItemToBag(id, "item");
+        if(is_gotten == 0){
+            Global.AddItemToBag(id, "item");
+            is_gotten = 1;
+        }
     }
 }
