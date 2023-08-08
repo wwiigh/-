@@ -305,7 +305,13 @@ public class Status : MonoBehaviour
 
     public static bool DecreaseOnTurnEnd(status _status){
         if (_status == status.taunt || _status == status.prepare || _status == status.weak || _status == status.frail ||
-            _status == status.vulnerable || _status == status.dream || _status == status.information_erase || _status == status.swallow )
+            _status == status.dream || _status == status.information_erase || _status == status.swallow )
+            return true;
+        else return false;
+    }
+
+    public static bool DecreaseOnTurnStart(status _status){
+        if (_status == status.vulnerable)
             return true;
         else return false;
     }
