@@ -13,12 +13,16 @@ public class get_card : MonoBehaviour
     int current_card_index = 0;
     public int id;
     public Button button;
+    public GameObject c;
+    public int is_gotten = 0;
     void Start (){
         button.onClick.AddListener(cardonClick);
     }
     void OnEnable()
     {
+        c.SetActive(true);
         got_cards();
+        is_gotten = 0;
     }
     public void got_cards(){
         if(cardsprite.Length > 0){
@@ -39,11 +43,14 @@ public class get_card : MonoBehaviour
             }
             // print("id is "+id);
             // print("cards id is"+cards[id].id); 
-            
         }
     }
     public void cardonClick(){
-        Global.PlayerDeck_Add(cards[id-1]);
+        if(is_gotten == 0){
+            Global.PlayerDeck_Add(cards[id-1]);
+            is_gotten = 1;
+        }
+
     }
     
 }
