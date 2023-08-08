@@ -60,7 +60,7 @@ public class CardMove : MonoBehaviour
             Move(new Vector3(-700, 300, 0));
         }
         else{
-            Object.FindObjectOfType<Deck>().Rearrange();
+            Deck.Rearrange();
         }
     }
 

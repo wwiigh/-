@@ -18,6 +18,7 @@ public class Character : MonoBehaviour
     int hp = 100;
     int armor = 0;
     int block = 0;
+    public bool vulnerable_buffer = false;
     List<(Status.status _status, int level)> status = new List<(Status.status _status, int level)>();
     List<GameObject> statusIcons = new List<GameObject>();
     void Start()
@@ -170,7 +171,7 @@ public class Character : MonoBehaviour
         hpBar.GetComponent<HPBar>().UpdateHP();
         effects.Play(gameObject, "get_armor");
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
-            GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();
+            Deck.Draw();
             AddStatus(Status.status.fortify, -1);
         }
     }
@@ -186,7 +187,7 @@ public class Character : MonoBehaviour
         hpBar.GetComponent<HPBar>().UpdateHP();
         effects.Play(gameObject, "get_armor");
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
-            GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>().Draw();
+            Deck.Draw();
             AddStatus(Status.status.fortify, -1);
         }
     }
@@ -238,7 +239,7 @@ public class Character : MonoBehaviour
 
     public bool TriggerBurn(bool decrease){
         int level = GetStatus(Status.status.burn);
-        bool dead = LoseHP(level);
+        bool dead = LoseHP(level - GetStatus(Status.status.rock_solid));
         if (decrease){
             if (level % 2 == 1) level = level / 2 + 1;
             else level = level / 2;
@@ -283,44 +284,26 @@ public class Character : MonoBehaviour
         imageObj.GetComponent<Image>().sprite = enemy.image;
         imageObj.transform.localPosition += Vector3.down * (enemysize.y - 300) / 2;
         imageObj.transform.localPosition += (Vector3) enemy.offset;
-        var rectT = imageObj.transform as RectTransform;
-        rectT.sizeDelta = enemysize;
+        // var rectT = imageObj.transform as RectTransform;
+        // rectT.sizeDelta = enemysize;
 
         switch(enemy.id){
-            case 101:
-                GetComponent<Animator>().Play("101_idle");
-                break;
-            case 102:
-                GetComponent<Animator>().Play("102_idle");
-                break;
-            case 103:
-                GetComponent<Animator>().Play("103_idle");
-                break;
             case 104:
-                GetComponent<Animator>().Play("104_idle");
-                break;
-            case 105:
-                GetComponent<Animator>().Play("105_idle");
+                AddStatus(Status.status.hard_shell, 1);
                 break;
             case 106:
-                GetComponent<Animator>().Play("106_idle");
-                break;
-            case 107:
-                GetComponent<Animator>().Play("107_idle");
-                break;
-            case 108:
-                GetComponent<Animator>().Play("108_idle");
+                AddStatus(Status.status.rock_solid, 1);
                 break;
             case 201:
-                GetComponent<Animator>().Play("201_idle");
-                break;
-            case 202:
-                GetComponent<Animator>().Play("202_idle");
+                AddStatus(Status.status.taunt, 99);
+                AddStatus(Status.status.doom, 1);
                 break;
             default:
-                Debug.Log("Character.InitEnemy(): Unknown id " + enemy.id.ToString());
+                // Debug.Log("Character.InitEnemy(): Unknown id " + enemy.id.ToString());
                 break;
         }
+
+        GetComponent<Animator>().Play(enemy.id.ToString() + "_idle");
     }
 
     public int GetEnemyID(){
@@ -347,6 +330,7 @@ public class Character : MonoBehaviour
                 break;
             }
         }
+        if (target == Status.status.vulnerable && tag == "Player" && origin_level == 0 && level > 0) vulnerable_buffer = true;
         if (origin_level + level != 0) status.Add((target, origin_level + level));
         status.Sort();
         UpdateStatus();

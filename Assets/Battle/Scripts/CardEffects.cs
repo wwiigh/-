@@ -15,7 +15,7 @@ public class CardEffects : MonoBehaviour
         Card card_info = card_saved.GetComponent<CardDisplay>().thisCard;
         BattleEffects effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
         
-        GameObject card207 = deck.card207InHand();
+        GameObject card207 = deck.Card207InHand();
         if (card207 != null && card_info.type == Card.Type.attack){
             Cost.ChangeCost(-card_info.cost);
             deck.SpecialDiscard(card);
@@ -25,17 +25,17 @@ public class CardEffects : MonoBehaviour
 
         switch(id){
             case 1:
-                battleController.SelectCard(1, true, true);
+                battleController.SelectCard(CardSelected, 1, true, true);
                 break;
             case 2:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 3:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 4:
-                deck.Draw(card_info.Args[0]);
-                battleController.SelectCard(1, true, false);
+                Deck.Draw(card_info.Args[0]);
+                battleController.SelectCard(CardSelected, 1, true, false);
                 break;
             case 5:
                 player_character.AddStatus(Status.status.prepare, card_info.Args[0]);
@@ -47,14 +47,14 @@ public class CardEffects : MonoBehaviour
                 break;
             case 7:
                 player_character.AddArmor(card_info.Args[0]);
-                deck.Draw();
-                battleController.SelectCard(1, true, false);
+                Deck.Draw();
+                battleController.SelectCard(CardSelected, 1, true, false);
                 break;
             case 8:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 9:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 10:
                 player_character.AddStatus(Status.status.fast_hand, card_info.Args[0]);
@@ -65,16 +65,16 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 12:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 13:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 14:
                 player_character.AddArmor(card_info.Args[0]);
                 if (!battleController.PlayedCardThisTurn()){
                     Cost.ChangeCost(1);
-                    deck.Draw(card_info.Args[1]);
+                    Deck.Draw(card_info.Args[1]);
                 }
                 EffectEnd();
                 break;
@@ -83,14 +83,14 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 16:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 17:
                 player_character.AddStatus(Status.status.counter, card_info.Args[0]);
                 EffectEnd();
                 break;
             case 18:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 19:
                 t1 = player_character.GetArmor();
@@ -113,7 +113,7 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 23:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 24:
                 for (int i = 0; i < 2; i++){
@@ -124,7 +124,7 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 25:
-                battleController.SelectCard(1, true, true);
+                battleController.SelectCard(CardSelected, 1, true, true);
                 break;
             case 26:
                 player_character.AddStatus(Status.status.lock_on_prepare, 1);
@@ -140,7 +140,7 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 28:
-                List<GameObject> cardsDrawn = deck.Draw(card_info.Args[0]);
+                List<GameObject> cardsDrawn = Deck.Draw(card_info.Args[0]);
                 if (cardsDrawn.Count > 0) deck.Discard(cardsDrawn[Random.Range(0, cardsDrawn.Count)]);
                 EffectEnd();
                 break;
@@ -166,7 +166,7 @@ public class CardEffects : MonoBehaviour
                 Global.SelectCardsFrom(GameObject.FindGameObjectWithTag("Player").transform.parent.parent, list, Callback_29, true);
                 break;
             case 30:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 31:
                 player_character.AddBlock(card_info.Args[0]);
@@ -178,13 +178,13 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 34:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 35:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 36:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 37:
                 player_character.AddStatus(Status.status.doppelganger, 3);
@@ -207,7 +207,7 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 41:
-                List<GameObject> drawnCards = deck.Draw(3);
+                List<GameObject> drawnCards = Deck.Draw(3);
                 int costSaved = -9;
                 bool success = true;
                 foreach(GameObject cardObj in drawnCards){
@@ -224,13 +224,13 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 42:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 43:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 44:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 45:
                 List<Card> list45 = new List<Card>();
@@ -258,7 +258,7 @@ public class CardEffects : MonoBehaviour
                 // EffectEnd();
                 break;
             case 47:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 48:
                 player_character.AddStatus(Status.status.imitate, 1);
@@ -283,13 +283,13 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 53:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 54:
-                battleController.SelectCard(1, true, true);
+                battleController.SelectCard(CardSelected, 1, true, true);
                 break;
             case 55:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 56:
                 player_character.AddArmor(card_info.Args[0]);
@@ -299,17 +299,17 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 57:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 59:
-                battleController.SelectCard(card_info.Args[0], true, true);
+                battleController.SelectCard(CardSelected, card_info.Args[0], true, true);
                 break;
             case 60:  
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
 
             case 101:
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 102:
                 player_character.AddArmor(card_info.Args[0]);
@@ -337,11 +337,11 @@ public class CardEffects : MonoBehaviour
                 break;
             case 211:
                 Global.AddSan(4);
-                battleController.SelectCard(1, false, false);
+                battleController.SelectCard(CardSelected, 1, false, false);
                 break;
 
             case 901:
-                battleController.SelectCard(8, false, true);
+                battleController.SelectCard(CardSelected, 8, false, true);
                 break;
             case 902:
                 player_character.Heal(9);
@@ -349,7 +349,7 @@ public class CardEffects : MonoBehaviour
                 break;
             case 903:
                 Cost.ChangeCost(90);
-                deck.Draw(99);
+                Deck.Draw(99);
                 EffectEnd();
                 break;
             default:
@@ -389,7 +389,7 @@ public class CardEffects : MonoBehaviour
                 player_character.Attack(enemy, card_info.Args[0]);
                 if (battleController.PlayedAttackAndSkillThisTurn()){
                     Cost.ChangeCost(1);
-                    deck.Draw();
+                    Deck.Draw();
                 }
                 EffectEnd();
                 break;
@@ -407,13 +407,13 @@ public class CardEffects : MonoBehaviour
                 player_character.Attack(enemy, card_info.Args[0]);
                 if (battleController.TookDmgLastTurn()){
                     Cost.ChangeCost(1);
-                    deck.Draw();
+                    Deck.Draw();
                 }
                 EffectEnd();
                 break;
             case 18:
                 player_character.Attack(enemy, card_info.Args[0]);
-                battleController.SelectCard(3, false, false);
+                battleController.SelectCard(CardSelected, 3, false, false);
                 break;
             case 23:
                 player_character.Attack(enemy, card_info.Args[0]);
@@ -424,8 +424,8 @@ public class CardEffects : MonoBehaviour
                 break;
             case 30:
                 player_character.Attack(enemy, card_info.Args[0]);
-                deck.Draw();
-                battleController.SelectCard(1, true, false);
+                Deck.Draw();
+                battleController.SelectCard(CardSelected, 1, true, false);
                 break;
             case 34:
                 player_character.Attack(enemy, card_info.Args[0]);
@@ -437,7 +437,7 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 36:
-                if (card_saved == deck.GetHand()[0]) player_character.Attack(enemy, card_info.Args[1]);
+                if (card_saved == Deck.GetHand()[0]) player_character.Attack(enemy, card_info.Args[1]);
                 else player_character.Attack(enemy, card_info.Args[0]);
                 EffectEnd();
                 break;
@@ -550,7 +550,7 @@ public class CardEffects : MonoBehaviour
                 break;
             case 59:
                 foreach(GameObject card in cards) deck.Discard(card);
-                battleController.SelectEnemy();
+                battleController.SelectEnemy(EnemySelected);
                 break;
 
             case 211:
@@ -584,10 +584,10 @@ public class CardEffects : MonoBehaviour
     static void Callback_29(int n){
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         // Debug.Log("Callback_29, selected number " + n.ToString());
-        GameObject tmp = deck.Draw();
+        GameObject tmp = Deck.Draw();
         if (!card_saved.GetComponent<CardDisplay>().thisCard.once_used && n == tmp.GetComponent<CardDisplay>().thisCard.cost){
             Cost.ChangeCost(1);
-            deck.Draw();
+            Deck.Draw();
             card_saved.GetComponent<CardDisplay>().thisCard.once_used = true;
         }
         EffectEnd();

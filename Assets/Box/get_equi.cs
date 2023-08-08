@@ -12,12 +12,15 @@ public class get_equi : MonoBehaviour
     private int current_equi_index;
     public int id;
     public Button button;
+    public GameObject equi;
+    public int is_gotten = 0;
     void Start(){
         button.onClick.AddListener(equi_onClick);
     }
     void OnEnable()
     {
         got_equi();
+        is_gotten = 0;
     }
     public void got_equi(){
         if(equiSprite.Length > 0){
@@ -34,6 +37,10 @@ public class get_equi : MonoBehaviour
         }
     }
     public void equi_onClick(){
-        Global.AddItemToBag(id, "equipment");
+        if(is_gotten == 0){
+            Global.AddItemToBag(id, "equipment");
+            is_gotten = 1;
+        }
+        
     }
 }
