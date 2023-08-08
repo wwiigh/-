@@ -40,8 +40,7 @@ public class Bag_System : MonoBehaviour
     public void _add_item()
     {
         // int i = Random.Range(0,item_list.Length);
-        Add_Item("107","item");
-        Add_Item("119","item");
+        
         // Add_Item("s1","item");
 
         // Map_System.New_Game();
@@ -60,7 +59,11 @@ public class Bag_System : MonoBehaviour
     }
     void OnEnable()
     {
-        Bag_Save.Load_Data(this);
+        // Bag_Save.Load_Data(this);
+        for(int i=13;i<=23;i++)
+        {
+            Add_Item(i.ToString(),"equipment");
+        }
         // List<int> tmp = Return_Equipment();
         // foreach(var i in tmp)
         // {

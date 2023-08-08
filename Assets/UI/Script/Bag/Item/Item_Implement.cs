@@ -6,7 +6,7 @@ public class Item_Implement : MonoBehaviour
 {
     public int use_count = 0;
     GameObject player;
-    List<GameObject> enemys;
+    GameObject[] enemys;
     void Start()
     {
         use_count = 0;
@@ -22,7 +22,8 @@ public class Item_Implement : MonoBehaviour
     }
     public bool Use_Item(int id)
     {
-       
+        enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        player = GameObject.FindGameObjectWithTag("Player");
         switch (id)
         {
             case 101:
@@ -45,8 +46,8 @@ public class Item_Implement : MonoBehaviour
                 foreach (var enemy in enemys)
                 {
                     int hp = enemy.GetComponent<Character>().GetHP();
-                    int attack = (int)(hp * 0.15f);
-                    enemy.GetComponent<Character>().GetHit(attack);
+                    int attack = (int)(hp * 0.1f);
+                    enemy.GetComponent<Character>().LoseHP(attack);
                     player.GetComponent<Character>().Heal(attack);
                 }
                 break;
@@ -58,7 +59,7 @@ public class Item_Implement : MonoBehaviour
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
                 foreach (var enemy in enemys)
                 {
-                    enemy.GetComponent<Character>().GetHit(10);
+                    enemy.GetComponent<Character>().LoseHP(10);
                 }
                 break;
             case 107:
@@ -89,12 +90,25 @@ public class Item_Implement : MonoBehaviour
                 {
                     int hp = enemy.GetComponent<Character>().GetHP();
                     int attack = (int)(hp * 0.1f);
-                    enemy.GetComponent<Character>().GetHit(attack);
+                    enemy.GetComponent<Character>().LoseHP(attack);
                 }
                 break;
             case 113:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    List<(Status.status _status, int level)> status = enemy.GetComponent<Character>().GetAllStatus();
+                    List<(Status.status _status, int level)> status_copy = new List<(Status.status _status, int level)>();
+                    foreach (var item in status)
+                    {
+                        status_copy.Add(item);
+                        // enemy.GetComponent<Character>().AddStatus(item._status,-item.level);
+                    }
+                    foreach (var item in status_copy)
+                    {
+                        enemy.GetComponent<Character>().AddStatus(item._status,-item.level);
+                    }
+                }
                 break;
             case 114:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -107,7 +121,7 @@ public class Item_Implement : MonoBehaviour
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
                 foreach (var enemy in enemys)
                 {
-                    int rv_115 = Random.Range(0,36);
+                    int rv_115 = -35;
                     enemy.GetComponent<Character>().AddStatus(Status.status.damage_adjust,rv_115);
                 }
                 break;
@@ -176,7 +190,7 @@ public class Item_Implement : MonoBehaviour
                 foreach (var enemy in enemys)
                 {
                     int rv_210 = Random.Range(0,41);
-                    enemy.GetComponent<Character>().AddStatus(Status.status.damage_adjust,rv_210);
+                    enemy.GetComponent<Character>().AddStatus(Status.status.damage_adjust,-rv_210);
                 }
                 Global.AddSan(-10);
                 break;

@@ -160,9 +160,9 @@ public class UI_Control : MonoBehaviour
         }
     }
 
-    public void Change_text(string change_text)
+    public void Change_text(string change_text,int index = 0)
     {
-        information_box_array[0].GetComponent<Information_Box>().information.text = change_text;
+        information_box_array[index].GetComponent<Information_Box>().information.text = change_text;
     }
     public void Add_text(string change_text)
     {

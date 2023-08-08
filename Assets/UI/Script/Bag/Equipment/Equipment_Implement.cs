@@ -5,18 +5,47 @@ using UnityEngine;
 public class Equipment_Implement : MonoBehaviour
 {
     [SerializeField] List<int> normal_equipment_list = new List<int>();
+    int use_2 = -1;
+    bool infight = false;
     GameObject player;
-    List<GameObject> enemys;
+    GameObject[] enemys;
+    void Update()
+    {
+        if(Map_System.now_state == Map_System.map_state.fight)
+        {
+            if(infight==false)
+            {
+                infight = true;
+            }
+        }
+        else 
+        {
+            if(infight == true)
+            {
+                infight = false;
+                if(use_2!=-1)
+                {
+                    player.GetComponent<Character>().Heal(use_2);
+                    use_2 = -1;
+                }
+            }
+        }
+    }
 
     public void Use_Equipment(int id)
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        enemys = GameObject.FindGameObjectsWithTag("Enemy");
         switch (id)
         {
             case 1:
                 //待做
                 break;
             case 2:
-                //待做
+                int demage = (int)(Global.player_max_hp * 0.05f);
+                player.GetComponent<Character>().LoseHP(demage);
+                player.GetComponent<Character>().AddArmor(demage * 2);
+                use_2 = demage;
                 break;
             case 3:
                 player.GetComponent<Character>().AddArmor(5);
@@ -51,7 +80,17 @@ public class Equipment_Implement : MonoBehaviour
                 //待做
                 break;
             case 13:
-                //待做
+                List<(Status.status _status,int level)> status = player.GetComponent<Character>().GetAllStatus();
+                List<(Status.status _status,int level)> tmp = new List<(Status.status, int level)>();
+                foreach (var item in status)
+                {
+                    if(item._status >= Status.status.burn && item._status <= Status.status.compress)
+                    {
+                        tmp.Add(item);
+                    }
+                }
+                int random_13 = Random.Range(0,tmp.Count);
+                player.GetComponent<Character>().AddStatus(tmp[random_13]._status,-tmp[random_13].level);
                 break;
             case 14:
                 player.GetComponent<Character>().AddStatus(Status.status.temporary_strength,1);
@@ -63,13 +102,24 @@ public class Equipment_Implement : MonoBehaviour
                 player.GetComponent<Character>().AddArmor(4);
                 break;
             case 17:
-                //待做
+                Cost.ChangeCost(1);
                 break;
             case 18:
                 player.GetComponent<Character>().AddStatus(Status.status.dexterity,3);
                 break;
             case 19:
-                //待做
+                Deck deck = FindObjectOfType<Deck>();
+                List<GameObject> handcard_19 = deck.GetHand();
+                List<GameObject> handcard_19_copy = new List<GameObject>();
+                foreach (var item in handcard_19)
+                {
+                    handcard_19_copy.Add(item);
+                }
+                foreach (var item in handcard_19_copy)
+                {
+                    deck.Discard(item);
+                }
+                deck.Draw(7);
                 break;
             case 20:
                 //待做
@@ -85,14 +135,28 @@ public class Equipment_Implement : MonoBehaviour
                 break;
             case 22:
                 int s = player.GetComponent<Character>().GetStatus(Status.status.strength);
-                //移除力量
+                player.GetComponent<Character>().AddStatus(Status.status.strength,-s);
                 player.GetComponent<Character>().AddStatus(Status.status.temporary_strength,3*s);
                 break;
             case 23:
-                //待做
+                Deck deck_23 = FindObjectOfType<Deck>();
+                List<GameObject> handcard_23 = deck_23.GetHand();
+                deck_23.RemoveCard(handcard_23[Random.Range(0,handcard_23.Count)]);
                 break;
             case 24:
-                //待做
+                Deck deck_24 = FindObjectOfType<Deck>();
+                List<GameObject> handcard_24 = deck_24.GetHand();
+                List<GameObject> handcard_24_copy = new List<GameObject>();
+                int num = handcard_24_copy.Count;
+                foreach (var item in handcard_24)
+                {
+                    handcard_24_copy.Add(item);
+                }
+                foreach (var item in handcard_24_copy)
+                {
+                    deck_24.Discard(item);
+                }
+                Global.AddSan(num*2);
                 break;
             case 25:
                 Global.AddSan(-10);

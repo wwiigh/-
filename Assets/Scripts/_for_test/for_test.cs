@@ -5,6 +5,7 @@ using UnityEngine;
 public class for_test : MonoBehaviour
 {
     // Start is called before the first frame update
+    // public GameObject equipment;
     public void save()
     {
         Global.SaveData();
@@ -13,6 +14,7 @@ public class for_test : MonoBehaviour
     public void Set_false(GameObject ob)
     {
         ob.SetActive(false);
+        // equipment.SetActive(false);
         // this.gameObject.SetActive(false);
     }
     public void load()

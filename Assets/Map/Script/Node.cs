@@ -52,6 +52,8 @@ public class Node:MonoBehaviour
     public GameObject altar_object;
     [Header("顯示戰鬥")]
     public GameObject battle_object;
+    [Header("顯示戰鬥裝備")]
+    public GameObject battle_object_equipment;
     [Header("顯示寶箱")]
     public GameObject treasure_object;
     [Header("顯示事件")]
@@ -226,11 +228,13 @@ public class Node:MonoBehaviour
     public void click_action_battle()
     {
         battle_object.SetActive(true);
+        battle_object_equipment.SetActive(true);
         foreach (var item in All_Battle_Obj)
         {
             item.SetActive(true);
         }
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
+        FindObjectOfType<BattleController>().EnterBattle();
         StartCoroutine(wait_finish(battle_object));
     }
     public void click_action_treasure()
@@ -286,6 +290,10 @@ public class Node:MonoBehaviour
     {
         while(_ob.activeSelf == true)
         {
+            if(Map_System.now_state == Map_System.map_state.fight)
+            {
+                FindObjectOfType<Map_Node_Action>().Check_Battle_State();
+            }
             yield return new WaitForEndOfFrame();
         }
         foreach (var item in All_Battle_Obj)
