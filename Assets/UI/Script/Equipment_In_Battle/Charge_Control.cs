@@ -56,6 +56,7 @@ public class Charge_Control : MonoBehaviour
             {
                 total = 0;
                 texts[i].text = "0";
+                images[i].fillAmount = i/3.0f;
             }
             else 
             {
@@ -88,11 +89,13 @@ public class Charge_Control : MonoBehaviour
     public void Add_text(int id,UI_Control uI_Control,int max_charge)
     {
         uI_Control.Add_text("目前充能 "+equipment_charge_now[id] + "\r\n" + 
-        "最大充能 " + max_charge + "\r\n" + "每次消耗 "+equipment_charge_use[id]);
+        "最大充能 " + max_charge + "\r\n" + "每次消耗 "+equipment_charge_use[id] + "\r\n" + 
+        "冷卻回合 " + 0,4);
     }
-    public void Update_text(int id,UI_Control uI_Control,int max_charge)
+    public void Update_text(int id,UI_Control uI_Control,int max_charge,int cold_time)
     {
         uI_Control.Change_text("目前充能 "+equipment_charge_now[id] + "\r\n" + 
-        "最大充能 " + max_charge + "\r\n" + "每次消耗 "+equipment_charge_use[id],2);
+        "最大充能 " + max_charge + "\r\n" + "每次消耗 "+equipment_charge_use[id]+ "\r\n" + 
+        "冷卻回合 " + cold_time,2,4);
     }
 }

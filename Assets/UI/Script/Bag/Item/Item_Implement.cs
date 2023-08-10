@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Item_Implement : MonoBehaviour
 {
+    // public delegate void ReturnEnemy(GameObject enemy);
+    // ReturnEnemy selectEnemy_callback = null;
     public int use_count = 0;
     GameObject player;
     GameObject[] enemys;
@@ -74,7 +76,7 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 109:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                FindObjectOfType<BattleController>().SelectEnemy(KillEnemy);
                 break;
             case 110:
                 Global.AddHp(10);
@@ -204,4 +206,14 @@ public class Item_Implement : MonoBehaviour
         use_count+=1;
         return true;
     }
+
+   
+    public void KillEnemy(GameObject enemy)
+    {
+        if(enemy.GetComponent<Character>().GetMaxHP()*0.15f > enemy.GetComponent<Character>().GetHP())
+        {
+            enemy.GetComponent<Character>().LoseHP( enemy.GetComponent<Character>().GetHP());
+        }
+    }
+
 }

@@ -160,11 +160,12 @@ public class UI_Control : MonoBehaviour
         }
     }
 
-    public void Change_text(string change_text,int index = 0)
+    public void Change_text(string change_text,int index = 0,int line_count = 3)
     {
         information_box_array[index].GetComponent<Information_Box>().information.text = change_text;
+        information_box_array[index].GetComponent<Information_Box>().add_count(line_count);
     }
-    public void Add_text(string change_text)
+    public void Add_text(string change_text,int line_count = 3)
     {
 
         int index = information_box_array.Count;
@@ -176,7 +177,7 @@ public class UI_Control : MonoBehaviour
         GameObject new_box = Instantiate(information_box);
         // if(information.box!=null)new_box.GetComponent<Information_Box>().box = information.box;
         new_box.GetComponent<Information_Box>().information.text = change_text;
-        new_box.GetComponent<Information_Box>().add_count(3);
+        new_box.GetComponent<Information_Box>().add_count(line_count);
             // print(new_box.GetComponent<Information_Box>().information.textInfo.lineCount.ToString()+" "+Time.time.ToString());
             // new_box.GetComponent<Information_Box>().set_box_size();
         new_box.SetActive(false);

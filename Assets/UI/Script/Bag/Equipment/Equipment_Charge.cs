@@ -32,8 +32,14 @@ public class Equipment_Charge : MonoBehaviour
     {
         FindObjectOfType<Equipment_Control>().Update_Equipment_Charge(charge_Type,num);
     }
+    public static void Update_Equipment_Cold()
+    {
+        FindObjectOfType<Equipment_Control>().Update_Equipment_Cold();
+    }
     public void test_charge()
     {
-        Equipment_Charge.Update_Equipment_Charge(Charge_Type.UseCard,2);
+        Equipment_Charge.Update_Equipment_Charge(Charge_Type.GetDemage,2);
+        Equipment_Charge.Update_Equipment_Cold();
+
     }
 }

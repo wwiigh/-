@@ -53,6 +53,10 @@ public class Item_Effect : MonoBehaviour
                 use.onClick.AddListener(delegate {clear_equipment();});
                 close.GetComponentInChildren<TMP_Text>().text = "關閉";
                 close.onClick.AddListener(delegate {clear_button();});
+                if(Map_System.now_state == Map_System.map_state.fight)
+                {
+                    use.interactable = false;
+                }
                 break;
             case Type.item:
                 use.gameObject.SetActive(true);

@@ -389,7 +389,7 @@ MonoBehaviour:
     type: equipment
     name: 18
     description: {fileID: 11400000, guid: a2a62ad83e57b3f48a57a2f814d00cc1, type: 2}
-  - picture: {fileID: 21300000, guid: 5f193fec12909ef41b24868a82212293, type: 3}
+  - picture: {fileID: 21300000, guid: 2483b488c66f8cc4086f36319b56c39c, type: 3}
     type: equipment
     name: 19
     description: {fileID: 11400000, guid: a52dc9a49c17e5740a04f484a487fdb8, type: 2}

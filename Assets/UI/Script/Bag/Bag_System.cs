@@ -64,6 +64,8 @@ public class Bag_System : MonoBehaviour
         {
             Add_Item(i.ToString(),"equipment");
         }
+        Add_Item(20.ToString(),"equipment");
+        Add_Item(109.ToString(),"item");
         // List<int> tmp = Return_Equipment();
         // foreach(var i in tmp)
         // {
@@ -260,6 +262,20 @@ public class Bag_System : MonoBehaviour
                 relic_list.Remove(relic_list[i]);
                 break;
             }
+        }
+        reset_pos();
+    }
+    public void Relic_Del_All_item()
+    {
+        List<GameObject> tmp = new List<GameObject>();
+        for(int i=0;i<relic_list.Count;i++)
+        {
+            tmp.Add(relic_list[i]);
+        }
+        for(int i=0;i<tmp.Count;i++)
+        {
+            Destroy(relic_list[i]);
+            relic_list.Remove(relic_list[i]);
         }
         reset_pos();
     }

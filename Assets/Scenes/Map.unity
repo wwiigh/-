@@ -559,6 +559,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5598147556844449056, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
   m_PrefabInstance: {fileID: 561243251}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &201139453 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8999893233107441553, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+  m_PrefabInstance: {fileID: 561243251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &205875083 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3938651304374419270, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
@@ -2634,6 +2639,7 @@ MonoBehaviour:
   hpBarTemplate: {fileID: 847914946362446725, guid: fc622e81e1a089a47babd7335f865839, type: 3}
   statusIconTemplate: {fileID: 6388753893328993479, guid: 3b55cdbf78f42c540b394b58a0083f18, type: 3}
   damageTextTemplate: {fileID: 5471795892976421915, guid: c92164f69a63db54993e0fa2f763d9cc, type: 3}
+  vulnerable_buffer: 0
 --- !u!1 &404272404
 GameObject:
   m_ObjectHideFlags: 0
@@ -3317,6 +3323,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 598467720285883817, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: equi
+      value: 
+      objectReference: {fileID: 1723960155}
+    - target: {fileID: 598467720285883817, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
       propertyPath: buttom
       value: 
       objectReference: {fileID: 274819522}
@@ -3328,6 +3338,10 @@ PrefabInstance:
       propertyPath: equiSprite.Array.data[30]
       value: 
       objectReference: {fileID: 21300000, guid: 3ab5bb7ff2b65a348aa147f865dde492, type: 3}
+    - target: {fileID: 3166999228090599405, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: c
+      value: 
+      objectReference: {fileID: 1768829721}
     - target: {fileID: 3166999228090599405, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
       propertyPath: button
       value: 
@@ -3640,6 +3654,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -117
       objectReference: {fileID: 0}
+    - target: {fileID: 7531714324788626581, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 201139453}
     - target: {fileID: 7531714324788626581, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
       propertyPath: button
       value: 
@@ -8075,6 +8093,11 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1723960155 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5598147557126850424, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+  m_PrefabInstance: {fileID: 561243251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1725746163 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3589646883603608102, guid: 6e212f1ff7f368f40b39e78feb289edb, type: 3}
@@ -8741,6 +8764,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
+--- !u!1 &1768829721 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5598147556219343438, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+  m_PrefabInstance: {fileID: 561243251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1795549847
 GameObject:
   m_ObjectHideFlags: 0
@@ -10216,7 +10244,7 @@ MonoBehaviour:
   panelTemplate: {fileID: 5422367140459719804, guid: a71ff062522aef24ba0f55b79c2badbf, type: 3}
   cancelButtonTemplate: {fileID: 2946692941200208504, guid: 72ea6201857bd0f4091535a502e5e934, type: 3}
   cardTemplate: {fileID: 7236554932518560697, guid: c07b96994362f9540be08a62da251a48, type: 3}
-  descriptionBoxTemplate: {fileID: 4048720986479955020, guid: b46d2511ced5d4342857621acc396d41, type: 3}
+  descriptionBoxTemplate: {fileID: 4048720986479955020, guid: 8bff04be2b724934b9705219aa1692bc, type: 3}
 --- !u!1 &2063064235
 GameObject:
   m_ObjectHideFlags: 0
