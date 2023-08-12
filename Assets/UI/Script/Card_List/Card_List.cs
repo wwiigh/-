@@ -51,6 +51,7 @@ public class Card_List : MonoBehaviour
     }
     public void Init(List<Card> player_deck,Global.CardFunction card_fun,bool can_select)
     {
+        if(player_deck.Count==0&&can_select==true)return;
         now_select = 0;
         this.card_fun = card_fun;
         // player_deck = Global.GetPlayerDeck();

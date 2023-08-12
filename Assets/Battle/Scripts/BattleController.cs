@@ -15,7 +15,6 @@ public class BattleController : MonoBehaviour
     [SerializeField] EnemyClass[] enemyClass;
     [SerializeField] EquipmentClass[] equipmentClass;
     GameObject player;
-    GameObject caller_saved;
     Deck deck;
     public enum BattleType{
         Normal,
@@ -39,8 +38,41 @@ public class BattleController : MonoBehaviour
     int currentTurn = 0;
 
 
+    List<int> notEncounterdYet_normal = new List<int>();
+    List<int> notEncounterdYet_elite = new List<int>();
+    List<int> notEncounterdYet_boss = new List<int>();
+
+
     private void Start() {
+        Global.current_level = 1;
+        EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
+    }
+
+
+    public void EnterNewLevel(){
+        Debug.Log("current level: " + Global.current_level);
+        notEncounterdYet_normal.Clear();
+        notEncounterdYet_elite.Clear();
+        notEncounterdYet_boss.Clear();
+        if (Global.current_level == 1){
+            for(int i = 0; i < 7; i++) notEncounterdYet_normal.Add(101 + i);
+            notEncounterdYet_elite.Add(111);
+            notEncounterdYet_elite.Add(112);
+            notEncounterdYet_boss.Add(121);
+        }
+        if (Global.current_level == 2){
+            for(int i = 0; i < 7; i++) notEncounterdYet_normal.Add(201 + i);
+            notEncounterdYet_elite.Add(211);
+            notEncounterdYet_elite.Add(212);
+            notEncounterdYet_boss.Add(221);
+        }
+        if (Global.current_level == 3){
+            for(int i = 0; i < 5; i++) notEncounterdYet_normal.Add(301 + i);
+            notEncounterdYet_elite.Add(311);
+            notEncounterdYet_elite.Add(312);
+            notEncounterdYet_boss.Add(321);
+        }
     }
 
 
@@ -53,9 +85,32 @@ public class BattleController : MonoBehaviour
     }
 
     public void EnterBattle(BattleType type){
+        int tmp = -1;
         if (type == BattleType.Normal){
-            EnterBattle_id(Random.Range(101, 107 + 1));
+            if (notEncounterdYet_normal.Count == 0){
+                Debug.Log("EnterBattle: no more normal battles");
+                return;
+            }
+            tmp = notEncounterdYet_normal[Random.Range(0, notEncounterdYet_normal.Count)];
+            notEncounterdYet_normal.Remove(tmp);
         }
+        if (type == BattleType.Elite){
+            if (notEncounterdYet_elite.Count == 0){
+                Debug.Log("EnterBattle: no more elite battles");
+                return;
+            }
+            tmp = notEncounterdYet_elite[Random.Range(0, notEncounterdYet_elite.Count)];
+            notEncounterdYet_elite.Remove(tmp);
+        }
+        if (type == BattleType.Boss){
+            if (notEncounterdYet_boss.Count == 0){
+                Debug.Log("EnterBattle: no more boss battles");
+                return;
+            }
+            tmp = notEncounterdYet_boss[Random.Range(0, notEncounterdYet_boss.Count)];
+            notEncounterdYet_boss.Remove(tmp);
+        }
+        EnterBattle_id(tmp);
         
         background.GetComponent<Image>().sprite = backgroundImages[Global.current_level - 1];
         background.GetComponent<RectTransform>().offsetMin = new Vector2(0, 390);
@@ -94,6 +149,66 @@ public class BattleController : MonoBehaviour
                 break;
             case 121:
                 enemyID = new int[]{7};
+                break;
+            
+            case 201:
+                enemyID = new int[]{9, 9, 9};
+                break;
+            case 202:
+                enemyID = new int[]{8, 8, 8};
+                break;
+            case 203:
+                enemyID = new int[]{8, 12};
+                break;
+            case 204:
+                enemyID = new int[]{11, 10};
+                break;
+            case 205:
+                enemyID = new int[]{11, 12};
+                break;
+            case 206:
+                enemyID = new int[]{8, 10, 10};
+                break;
+            case 207:
+                enemyID = new int[]{8, 9};
+                break;
+            case 211:
+                enemyID = new int[]{13};
+                break;
+            case 212:
+                enemyID = new int[]{14, 15};
+                break;
+            case 221:
+                enemyID = new int[]{16};
+                break;
+                
+            case 301:
+                enemyID = new int[]{17, 17, 17};
+                break;
+            case 302:
+                enemyID = new int[]{19, 20, 18};
+                break;
+            case 303:
+                enemyID = new int[]{21, 22, 23};
+                break;
+            case 304:
+                enemyID = new int[]{24};
+                break;
+            case 305:
+                enemyID = new int[]{25, 26};
+                break;
+            case 311:
+                enemyID = new int[]{27};
+                break;
+            case 312:
+                enemyID = new int[]{28};
+                break;
+            case 321:
+                enemyID = new int[]{29};
+                break;
+
+            case 401:
+                enemyID = new int[]{32};
                 break;
             default:
                 Debug.Log("Enter battle: Unknown id " + id.ToString());
@@ -157,8 +272,9 @@ public class BattleController : MonoBehaviour
     }
 
     IEnumerator _EndTurn(){
+        Character player_character = characters.transform.GetChild(0).GetComponent<Character>();
         deck.TurnEnd();
-        characters.transform.GetChild(0).GetComponent<Character>().TurnEnd();
+        player_character.TurnEnd();
         // yield return new WaitForSeconds(0.1f);
         foreach(Transform child in characters.transform){
             if (child.tag == "Enemy"){
@@ -166,6 +282,10 @@ public class BattleController : MonoBehaviour
                 child.GetComponent<EnemyMove>().Move();
             }
             yield return new WaitForSeconds(1f);
+        }
+        if (player_character.GetStatus(Status.status.vulnerable) > 0){
+            if (player_character.vulnerable_buffer) player_character.vulnerable_buffer = false;
+            else player_character.AddStatus(Status.status.vulnerable, -1);
         }
         StartCoroutine(_StartTurn());
     }
@@ -180,7 +300,9 @@ public class BattleController : MonoBehaviour
         foreach(Transform child in characters.transform){
             if (child.tag == "Enemy") child.GetComponent<EnemyMove>().SetIntention();
         }
-        deck.Draw(5);
+        int draw_less_level = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().GetStatus(Status.status.draw_less);
+        Deck.Draw(5 - draw_less_level);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().AddStatus(Status.status.draw_less, -draw_less_level);
         Cost.Refill(0);
         player.GetComponent<Character>().TurnStart();
         yield return new WaitForSeconds(0);
@@ -198,26 +320,24 @@ public class BattleController : MonoBehaviour
 
 
 
-    public void SelectEnemy(GameObject caller){ // to be revised
-        caller_saved = caller;
-        EnterState(BattleState.SelectEnemy);
-    }
-    public void SelectEnemy(){ // to be revised
+    public delegate void ReturnEnemy(GameObject enemy);
+    ReturnEnemy selectEnemy_callback = null;
+    public void SelectEnemy(ReturnEnemy callback){
+        selectEnemy_callback = callback;
         EnterState(BattleState.SelectEnemy);
     }
     public void EnemySelected(GameObject enemy){
         EnterState(BattleState.Normal);
-        CardEffects.EnemySelected(enemy);
-        deck.Rearrange();
+        selectEnemy_callback(enemy);
     }
     public GameObject GetRandomEnemy(){
-        List<GameObject> pool = new List<GameObject>();
+        List<GameObject> pool = new();
         foreach(Transform child in characters.transform) 
             if (child.tag == "Enemy") pool.Add(child.gameObject);
         return pool[Random.Range(0, pool.Count)];
     }
     public List<GameObject> GetAllEnemy(){
-        List<GameObject> ret = new List<GameObject>();
+        List<GameObject> ret = new();
         foreach(Transform child in characters.transform) 
             if (child.tag == "Enemy") ret.Add(child.gameObject);
         return ret;
@@ -239,8 +359,11 @@ public class BattleController : MonoBehaviour
     bool isEqual = true;
     bool cancellable = true;
     int targetCardNumber = 0;
-    List<GameObject> selectedCards = new List<GameObject>();
-    public void SelectCard(int count, bool _isEqual, bool _cancellable){
+    List<GameObject> selectedCards = new();
+    public delegate void ReturnListOfGameObject(List<GameObject> obj);
+    ReturnListOfGameObject selectCard_callback = null;
+    public void SelectCard(ReturnListOfGameObject callback, int count, bool _isEqual, bool _cancellable){
+        selectCard_callback = callback;
         selectedCards.Clear();
         targetCardNumber = count;
         isEqual = _isEqual;
@@ -259,12 +382,14 @@ public class BattleController : MonoBehaviour
     public void SelectCard_Confirm(){
         if (isEqual && selectedCards.Count == targetCardNumber){
             EnterState(BattleState.Normal);
-            CardEffects.CardSelected(selectedCards);
+            // CardEffects.CardSelected(selectedCards);
+            selectCard_callback(selectedCards);
             panel.GetComponent<Panel>().Hide();
         }
         if (!isEqual && selectedCards.Count <= targetCardNumber){
             EnterState(BattleState.Normal);
-            CardEffects.CardSelected(selectedCards);
+            // CardEffects.CardSelected(selectedCards);
+            selectCard_callback(selectedCards);
             panel.GetComponent<Panel>().Hide();
         }
     }
@@ -274,7 +399,7 @@ public class BattleController : MonoBehaviour
             EnterState(BattleState.Normal);
             panel.GetComponent<Panel>().Hide();
             deck.ResetHand();
-            deck.Rearrange();
+            Deck.Rearrange();
         }
     }
     public bool SelectCard_Availible(){

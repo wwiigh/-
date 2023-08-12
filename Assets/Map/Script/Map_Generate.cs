@@ -87,10 +87,13 @@ public class Map_Generate : MonoBehaviour
     public GameObject altar_object;
     [Header("顯示戰鬥")]
     public GameObject battle_object;
+    [Header("顯示戰鬥")]
+    public GameObject battle_object_equipment;
     [Header("顯示寶箱")]
     public GameObject treasure_object;
     [Header("顯示事件")]
     public GameObject event_object;
+    public List<GameObject> All_Battle_Obj;
 
 
     private List<Node> nodes = new List<Node>();
@@ -161,6 +164,7 @@ public class Map_Generate : MonoBehaviour
     {
         // print(Application.dataPath);
         Generate_Map();
+        Clear_Battle();
     }
     void Play_Animation()
     {
@@ -920,6 +924,8 @@ public class Map_Generate : MonoBehaviour
             n.battle_object = battle_object;
             n.treasure_object = treasure_object;
             n.event_object = event_object;
+            n.All_Battle_Obj = All_Battle_Obj;
+            n.battle_object_equipment = battle_object_equipment;
             // switch (n.Return_type())
             // {
             //     case 's':
@@ -970,5 +976,11 @@ public class Map_Generate : MonoBehaviour
     // {
     //     altar_object.SetActive(true);
     // }
-
+    void Clear_Battle()
+    {
+        foreach (var item in All_Battle_Obj)
+        {
+            item.SetActive(false);
+        }
+    }
 }
