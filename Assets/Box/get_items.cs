@@ -18,7 +18,7 @@ public class get_items : MonoBehaviour
     }
     void OnEnable()
     {
-        item.SetActive(true);
+        // item.SetActive(true);
         got_items();
         is_gotten = 0;
     }

@@ -20,7 +20,7 @@ public class get_card : MonoBehaviour
     }
     void OnEnable()
     {
-        c.SetActive(true);
+        // c.SetActive(true);
         got_cards();
         is_gotten = 0;
     }
