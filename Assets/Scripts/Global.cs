@@ -203,7 +203,33 @@ public class Global : MonoBehaviour
         Bag_System bag_System = FindObjectOfType<Bag_System>();
         return bag_System.Return_All_Item_In_Bag();
     }
-
+    ///<summary>
+    ///回傳某遺物玩家是否擁有
+    /// <param name="id">傳入物品 ID</param>
+    ///</summary>
+    public static bool Check_Relic_In_Bag(int id)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Have_Item("relic",id.ToString());
+    }
+    ///<summary>
+    ///回傳某道具玩家是否擁有
+    /// <param name="id">傳入物品 ID</param>
+    ///</summary>
+    public static bool Check_Item_In_Bag(int id)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Have_Item("item",id.ToString());
+    }
+    ///<summary>
+    ///回傳某裝備玩家是否擁有
+    /// <param name="id">傳入物品 ID</param>
+    ///</summary>
+    public static bool Check_Equipment_In_Bag(int id)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Have_Item("epuipment",id.ToString());
+    }
 
     public delegate void MyDelegate(int n);
     public delegate void CardFunction(Card card);

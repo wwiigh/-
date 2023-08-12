@@ -154,16 +154,24 @@ public class Relic_Implement : MonoBehaviour
         }
 
     }
-    ///<summary>玩家死亡</summary>
-    public void Handle_Relic_Dead()
+    public enum DeadType
+    {
+        Enemy,Player
+    }
+    ///<summary>玩家或敵人死亡</summary>
+    public static void Handle_Relic_Dead(DeadType deadType)
     {
         List<int> relic_list = bag_System.Return_All_Relic();
         player = GameObject.FindGameObjectWithTag("Player");
         enemys = GameObject.FindGameObjectsWithTag("Enemy");
         all_hands_cards = Deck.GetHand();
-        if(relic_list.Contains(8)==true)
+        if(deadType == DeadType.Player &&relic_list.Contains(8)==true)
         {
             Use_Relic_Dead(8);
+        }
+        else if(deadType == DeadType.Enemy &&relic_list.Contains(18)==true)
+        {
+            Use_Relic_Dead(18);
         }
 
     }
@@ -261,7 +269,11 @@ public class Relic_Implement : MonoBehaviour
                 
                 break;
             case 23:
-                //2費以上變2費
+                List<Card> player_deck_23 = Deck.GetDeck();
+                foreach (var item in player_deck_23)
+                {
+                    if(item.cost>=2)item.cost = 2;
+                }
                 break;
             case 27:
                 player.GetComponent<Character>().AddStatus(Status.status.dexterity,2);
@@ -279,13 +291,16 @@ public class Relic_Implement : MonoBehaviour
                 break;
         }
     }
-    void Use_Relic_Dead(int id)
+    static void  Use_Relic_Dead(int id)
     {
         switch (id)
         {
             case 8:
                 Global.player_hp = Global.player_max_hp;
                 bag_System.Relic_Del_All_item();
+                break;
+            case 18:
+                player.GetComponent<Character>().AddStatus(Status.status.strength,1);
                 break;
             default:
                 break;

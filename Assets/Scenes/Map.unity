@@ -780,6 +780,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2210581684937897679, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2255559486987927386, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1170,6 +1174,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4476043052457359942, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
       propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854296818491551396, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5053500044280199543, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
@@ -2096,6 +2104,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 274819522}
   m_CullTransparentMesh: 1
+--- !u!1 &317344857 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4854296818491551396, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
+  m_PrefabInstance: {fileID: 214044401}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &319831191
 GameObject:
   m_ObjectHideFlags: 0
@@ -3771,7 +3784,7 @@ PrefabInstance:
     - target: {fileID: 672700605276238036, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: battle_object_equipment
       value: 
-      objectReference: {fileID: 1725746163}
+      objectReference: {fileID: 317344857}
     - target: {fileID: 672700605276238036, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: All_Battle_Obj.Array.size
       value: 9
@@ -3879,7 +3892,7 @@ PrefabInstance:
     - target: {fileID: 1785095041147377950, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: battle_object_equipment
       value: 
-      objectReference: {fileID: 1725746163}
+      objectReference: {fileID: 317344857}
     - target: {fileID: 2363538471735435067, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: m_LocalPosition.z
       value: -17
@@ -5853,7 +5866,7 @@ MonoBehaviour:
         m_MethodName: Set_false
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1725746163}
+          m_ObjectArgument: {fileID: 317344857}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -8097,11 +8110,6 @@ MonoBehaviour:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5598147557126850424, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
   m_PrefabInstance: {fileID: 561243251}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1725746163 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3589646883603608102, guid: 6e212f1ff7f368f40b39e78feb289edb, type: 3}
-  m_PrefabInstance: {fileID: 123830502}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1728060433
 PrefabInstance:
@@ -11503,7 +11511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4560843220547928576, guid: d046c0738f1be644d81a8922d143dd04, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6493026633818653294, guid: d046c0738f1be644d81a8922d143dd04, type: 3}
       propertyPath: m_AnchorMax.x

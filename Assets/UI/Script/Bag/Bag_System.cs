@@ -64,7 +64,7 @@ public class Bag_System : MonoBehaviour
         {
             Add_Item(i.ToString(),"equipment");
         }
-        Add_Item(20.ToString(),"equipment");
+        Add_Item(5.ToString(),"equipment");
         Add_Item(109.ToString(),"item");
         // List<int> tmp = Return_Equipment();
         // foreach(var i in tmp)

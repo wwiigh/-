@@ -175,7 +175,11 @@ public class Item_Implement : MonoBehaviour
             case 207:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
                 Global.AddMaxHp(-10);
-                //手牌
+                List<GameObject> hand = Deck.GetHand();
+                foreach (var item in hand)
+                {
+                    item.GetComponent<Card>().cost_change = item.GetComponent<Card>().cost - 1;
+                }
                 break;
             case 208:
                 Global.AddHp((int)(Global.player_hp*Random.Range(0.0f,0.4f)));
