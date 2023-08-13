@@ -14,6 +14,11 @@ public class Global : MonoBehaviour
         public int max_sanity;
         public int sanity;
         public float money_addition;
+        public int current_level;
+        public int kill_enemys;
+        public int kill_elites;
+        public int kill_leaders;
+        public int get_relics;
         public List<int> card_id;
         public List<bool> card_up;
     }
@@ -24,10 +29,15 @@ public class Global : MonoBehaviour
     public static int sanity = 100;
     public static float money_addition = 1;
     public static int current_level = 1;
+    public static int kill_enemys = 0;
+    public static int kill_elites = 0;
+    public static int kill_leaders = 0;
+    public static int get_relics = 0;
     public static List<Card> player_deck = new List<Card>();
     public static List<int> card_id = new List<int>();
     public static List<bool> card_up = new List<bool>();
     public static Card select_card;
+
     public static void init()
     {
         player_hp = 100;
@@ -36,6 +46,11 @@ public class Global : MonoBehaviour
         max_sanity = 100;
         sanity = 100;
         money_addition = 1;
+        current_level = 1;
+        kill_enemys = 0;
+        kill_elites = 0;
+        kill_leaders = 0;
+        get_relics = 0;
         player_deck.Clear();
         card_id.Clear();
         card_up.Clear();
@@ -114,7 +129,12 @@ public class Global : MonoBehaviour
             sanity = Global.sanity,
             money_addition = Global.money_addition,
             card_id = Global.card_id,
-            card_up = Global.card_up
+            card_up = Global.card_up,
+            current_level = Global.current_level,
+            kill_enemys = Global.kill_enemys,
+            kill_elites = Global.kill_elites,
+            kill_leaders = Global.kill_leaders,
+            get_relics = Global.get_relics
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
         PlayerPrefs.SetString("Player_Data",jsonInfo);
@@ -138,6 +158,11 @@ public class Global : MonoBehaviour
         Global.money_addition = Load.money_addition;
         Global.card_id = Load.card_id;
         Global.card_up = Load.card_up;
+        Global.current_level = Load.current_level;
+        Global.kill_enemys = Load.kill_enemys;
+        Global.kill_elites = Load.kill_elites;
+        Global.kill_leaders = Load.kill_leaders;
+        Global.get_relics = Load.get_relics;
         AllCards allcards = GameObject.FindGameObjectWithTag("AllCards").GetComponent<AllCards>();
         Global.player_deck.Clear();
         for(int i=0;i<Global.card_id.Count;i++)
@@ -203,7 +228,33 @@ public class Global : MonoBehaviour
         Bag_System bag_System = FindObjectOfType<Bag_System>();
         return bag_System.Return_All_Item_In_Bag();
     }
-
+    ///<summary>
+    ///回傳某遺物玩家是否擁有
+    /// <param name="id">傳入物品 ID</param>
+    ///</summary>
+    public static bool Check_Relic_In_Bag(int id)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Have_Item("relic",id.ToString());
+    }
+    ///<summary>
+    ///回傳某道具玩家是否擁有
+    /// <param name="id">傳入物品 ID</param>
+    ///</summary>
+    public static bool Check_Item_In_Bag(int id)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Have_Item("item",id.ToString());
+    }
+    ///<summary>
+    ///回傳某裝備玩家是否擁有
+    /// <param name="id">傳入物品 ID</param>
+    ///</summary>
+    public static bool Check_Equipment_In_Bag(int id)
+    {
+        Bag_System bag_System = FindObjectOfType<Bag_System>();
+        return bag_System.Have_Item("epuipment",id.ToString());
+    }
 
     public delegate void MyDelegate(int n);
     public delegate void CardFunction(Card card);

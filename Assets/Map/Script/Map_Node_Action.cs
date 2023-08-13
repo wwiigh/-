@@ -12,10 +12,40 @@ public class Map_Node_Action : MonoBehaviour
     public GameObject altar_object;
     [Header("顯示戰鬥")]
     public GameObject battle_object;
+    [Header("顯示戰鬥")]
+    public GameObject battle_object_equipment;
     [Header("顯示寶箱")]
     public GameObject treasure_object;
     [Header("顯示事件")]
     public GameObject event_object;
+
+    public void Check_Battle_State()
+    {
+        GameObject tmp = GameObject.FindGameObjectWithTag("Player");
+        if(tmp!=null)
+        {
+            if(tmp.GetComponent<Character>().GetHP()==0)
+            {
+                Destroy(tmp);
+            }
+        }
+        GameObject[] tmps = GameObject.FindGameObjectsWithTag("Enemy");
+        if(Map_System.now_state == Map_System.map_state.fight && tmps.Length == 0)
+        {
+            battle_object.SetActive(false);
+            battle_object_equipment.SetActive(false);
+        }
+        if(tmps!=null)
+        {
+            foreach (var item in tmps)
+            {
+                if(item.GetComponent<Character>().GetHP()==0)
+                {
+                    Destroy(item);
+                }
+            }
+        }
+    }
    
     public void click_action_shop()
     {

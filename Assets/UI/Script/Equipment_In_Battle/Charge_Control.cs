@@ -18,7 +18,7 @@ public class Charge_Control : MonoBehaviour
     {
         equipment_charge_use = use_charge;
         equipment_charge_now = now_charge;
-
+        Debug.Log(now_charge[0]+" "+now_charge[1]+" "+now_charge[2]);
         set_equipment_charge(now_charge,use_charge);
     }
 
@@ -52,14 +52,25 @@ public class Charge_Control : MonoBehaviour
         float total = 0;
         for(int i=0;i<images.Length;i++)
         {
-            total = set_equipment_percentage(now_charge[i]%use_charge[i],use_charge[i]);   
-            images[i].fillAmount = total / 3 + i / 3.0f;
-            texts[i].text = (now_charge[i] / use_charge[i]).ToString();
+            if(use_charge[i]==0)
+            {
+                total = 0;
+                texts[i].text = "0";
+                images[i].fillAmount = i/3.0f;
+            }
+            else 
+            {
+                total = set_equipment_percentage(now_charge[i]%use_charge[i],use_charge[i]);   
+                images[i].fillAmount = total / 3 + i / 3.0f;
+                texts[i].text = (now_charge[i] / use_charge[i]).ToString();
+            }
         }
     }
 
     float set_equipment_percentage(float set_values, float total_charge)
     {
+        Debug.Log("total_charge "+total_charge);
+        if(Mathf.Abs(total_charge-0)<0.001f)return 0;
         return set_values / total_charge;
     }
 
@@ -78,6 +89,13 @@ public class Charge_Control : MonoBehaviour
     public void Add_text(int id,UI_Control uI_Control,int max_charge)
     {
         uI_Control.Add_text("目前充能 "+equipment_charge_now[id] + "\r\n" + 
-        "最大充能 " + max_charge + "\r\n" + "每次消耗 "+equipment_charge_use[id]);
+        "最大充能 " + max_charge + "\r\n" + "每次消耗 "+equipment_charge_use[id] + "\r\n" + 
+        "冷卻回合 " + 0,4);
+    }
+    public void Update_text(int id,UI_Control uI_Control,int max_charge,int cold_time)
+    {
+        uI_Control.Change_text("目前充能 "+equipment_charge_now[id] + "\r\n" + 
+        "最大充能 " + max_charge + "\r\n" + "每次消耗 "+equipment_charge_use[id]+ "\r\n" + 
+        "冷卻回合 " + cold_time,2,4);
     }
 }

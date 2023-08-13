@@ -40,8 +40,7 @@ public class Bag_System : MonoBehaviour
     public void _add_item()
     {
         // int i = Random.Range(0,item_list.Length);
-        Add_Item("107","item");
-        Add_Item("119","item");
+        
         // Add_Item("s1","item");
 
         // Map_System.New_Game();
@@ -60,7 +59,13 @@ public class Bag_System : MonoBehaviour
     }
     void OnEnable()
     {
-        Bag_Save.Load_Data(this);
+        // Bag_Save.Load_Data(this);
+        for(int i=13;i<=23;i++)
+        {
+            Add_Item(i.ToString(),"equipment");
+        }
+        Add_Item(5.ToString(),"equipment");
+        Add_Item(109.ToString(),"item");
         // List<int> tmp = Return_Equipment();
         // foreach(var i in tmp)
         // {
@@ -257,6 +262,20 @@ public class Bag_System : MonoBehaviour
                 relic_list.Remove(relic_list[i]);
                 break;
             }
+        }
+        reset_pos();
+    }
+    public void Relic_Del_All_item()
+    {
+        List<GameObject> tmp = new List<GameObject>();
+        for(int i=0;i<relic_list.Count;i++)
+        {
+            tmp.Add(relic_list[i]);
+        }
+        for(int i=0;i<tmp.Count;i++)
+        {
+            Destroy(relic_list[i]);
+            relic_list.Remove(relic_list[i]);
         }
         reset_pos();
     }

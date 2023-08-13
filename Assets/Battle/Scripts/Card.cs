@@ -10,6 +10,7 @@ public class Card : ScriptableObject
     public string cardName;
     public Sprite image;
     public int cost_original;
+    public int cost_change;
     public int cost;
     public List<string> description;
     public List<int> Args;
@@ -46,6 +47,7 @@ public class Card : ScriptableObject
             cardName = c.cardName,
             image = c.image,
             cost_original = c.cost_original,
+            cost_change = c.cost_change,
             cost = c.cost,
             description = c.description.ToList<string>(),
             Args =c.Args.ToList<int>(),
