@@ -518,4 +518,5 @@ public class Global : MonoBehaviour
     {
         card_function(card);
     }
+    
 }

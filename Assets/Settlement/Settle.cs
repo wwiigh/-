@@ -13,7 +13,11 @@ public class Settle : MonoBehaviour
     public TextMeshProUGUI Relic;
     public TextMeshProUGUI Victory;
     bool is_win = false;
-    string end_layer = "87", end_enemy = "87", end_elite = "87", end_boss = "87", end_relic = "87";
+    string end_layer = Global.current_level.ToString();
+    string end_enemy = Global.kill_enemys.ToString();
+    string end_elite = Global.kill_elites.ToString();
+    string end_boss = Global.kill_leaders.ToString();
+    string end_relic = Global.kill_leaders.ToString();
     
     void Start()
     {

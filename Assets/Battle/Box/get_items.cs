@@ -10,9 +10,10 @@ public class get_items : MonoBehaviour
     public Sprite[] items_IMGs;
     private int current_index = 0;
     public Button button;
-    public int id;
+    int id;
     public GameObject item;
-    public int is_gotten = 0;
+    int is_gotten = 0;
+    bool bag_full = false;
     void Start(){
         button.onClick.AddListener(item_onClick);
     }
@@ -40,8 +41,11 @@ public class get_items : MonoBehaviour
     }
     public void item_onClick(){
         if(is_gotten == 0){
-            Global.AddItemToBag(id, "item");
-            is_gotten = 1;
+            if(Global.AddItemToBag(id, "item"))
+                is_gotten = 1;
+            else{
+                is_gotten = 0;
+            }
         }
     }
 }

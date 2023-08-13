@@ -13,14 +13,14 @@ public class get_card : MonoBehaviour
     int current_card_index = 0;
     public int id;
     public Button button;
-    public GameObject c;
+    public GameObject card;
     public int is_gotten = 0;
     void Start (){
         button.onClick.AddListener(cardonClick);
     }
     void OnEnable()
     {
-        // c.SetActive(true);
+        card.SetActive(true);
         got_cards();
         is_gotten = 0;
     }
@@ -41,16 +41,14 @@ public class get_card : MonoBehaviour
                 id = 10 * (cardname[0] - '0') + (cardname[1] - '0');
                 
             }
-            // print("id is "+id);
-            // print("cards id is"+cards[id].id); 
         }
     }
     public void cardonClick(){
         if(is_gotten == 0){
             Global.PlayerDeck_Add(cards[id-1]);
             is_gotten = 1;
+            card.SetActive(false);
         }
-
     }
     
 }
