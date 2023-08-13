@@ -52,4 +52,11 @@ public class StatusIcon : MonoBehaviour
     private void Update() {
         if (showing) descriptionBox.GetComponent<DescriptionBox>().UpdatePosition();
     }
+
+
+
+    public void Destroy(){
+        if (descriptionBox != null) Destroy(descriptionBox);
+        Destroy(gameObject);
+    }
 }

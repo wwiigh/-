@@ -44,7 +44,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 1;
+        Global.current_level = 2;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -81,7 +81,7 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Normal);
+        EnterBattle(BattleType.Boss);
     }
 
     public void EnterBattle(BattleType type){
@@ -116,6 +116,9 @@ public class BattleController : MonoBehaviour
         background.GetComponent<RectTransform>().offsetMin = new Vector2(0, 390);
     }
     
+
+
+    int enemyCount = 0;
     public void EnterBattle_id(int id){
         InitPlayer();
         int[] enemyID;
@@ -152,7 +155,7 @@ public class BattleController : MonoBehaviour
                 break;
             
             case 201:
-                enemyID = new int[]{9, 9, 9};
+                enemyID = new int[]{9, 9};
                 break;
             case 202:
                 enemyID = new int[]{8, 8, 8};
@@ -214,11 +217,25 @@ public class BattleController : MonoBehaviour
                 Debug.Log("Enter battle: Unknown id " + id.ToString());
                 return;
         }
+        enemyCount = enemyID.Length;
         SpawnEnemies(enemyID);
         Cost.Init();
         deck.Init();
         currentTurn = 0;
         StartCoroutine(_StartTurn());
+    }
+
+
+
+    public void EnemyDie(){
+        enemyCount -= 1;
+        if (enemyCount == 0){
+            Debug.Log("battle end: you win");
+        }
+        // else ReorderEnemy();
+    }
+    public void PlayerDie(){
+        Debug.Log("battle end: you lose");
     }
 
 
@@ -276,13 +293,21 @@ public class BattleController : MonoBehaviour
         deck.TurnEnd();
         player_character.TurnEnd();
         // yield return new WaitForSeconds(0.1f);
-        foreach(Transform child in characters.transform){
-            if (child.tag == "Enemy"){
-                child.GetComponent<Character>().TurnStart();
-                child.GetComponent<EnemyMove>().Move();
-            }
+        List<GameObject> enemylist = new();
+        foreach(Transform child in characters.transform)
+            if (child.tag == "Enemy" && child.GetComponent<Character>().IsAlive()) enemylist.Add(child.gameObject);
+        foreach(GameObject child in enemylist){
+            child.GetComponent<Character>().TurnStart();
+            if (child.GetComponent<Character>().IsAlive()) child.GetComponent<EnemyMove>().Move();
             yield return new WaitForSeconds(1f);
         }
+        // foreach(Transform child in characters.transform){
+        //     if (child.tag == "Enemy"){
+        //         child.GetComponent<Character>().TurnStart();
+        //         if (child.GetComponent<Character>().IsAlive()) child.GetComponent<EnemyMove>().Move();
+        //     }
+        //     yield return new WaitForSeconds(1f);
+        // }
         if (player_character.GetStatus(Status.status.vulnerable) > 0){
             if (player_character.vulnerable_buffer) player_character.vulnerable_buffer = false;
             else player_character.AddStatus(Status.status.vulnerable, -1);
@@ -330,15 +355,15 @@ public class BattleController : MonoBehaviour
         EnterState(BattleState.Normal);
         selectEnemy_callback(enemy);
     }
-    public GameObject GetRandomEnemy(){
+    static public GameObject GetRandomEnemy(){
         List<GameObject> pool = new();
-        foreach(Transform child in characters.transform) 
+        foreach(Transform child in FindObjectOfType<BattleController>().characters.transform) 
             if (child.tag == "Enemy") pool.Add(child.gameObject);
         return pool[Random.Range(0, pool.Count)];
     }
-    public List<GameObject> GetAllEnemy(){
+    static public List<GameObject> GetAllEnemy(){
         List<GameObject> ret = new();
-        foreach(Transform child in characters.transform) 
+        foreach(Transform child in FindObjectOfType<BattleController>().characters.transform) 
             if (child.tag == "Enemy") ret.Add(child.gameObject);
         return ret;
     }
@@ -427,9 +452,39 @@ public class BattleController : MonoBehaviour
         enemy.GetComponent<Character>().InitEnemy(enemyClass[id]);
     }
 
+    public GameObject SpwanEnemyAt(int id, Vector2 position){
+        GameObject enemy = Instantiate(character_template, characters.transform);
+        enemy.transform.localPosition = position;
+        enemy.tag = "Enemy";
+        enemy.GetComponent<Character>().InitEnemy(enemyClass[id]);
+        return enemy;
+    }
     void SpawnEnemies(int[] id){
         for (int i = 0; i < id.Length; i++)
             InitEnemy(id[i], i);
+        // ReorderEnemy();
+    }
+
+    public void ReorderEnemy(){
+        int idx = 0;
+        foreach(Transform child in characters.transform){
+            if (child.tag != "Enemy" || !child.GetComponent<Character>().IsAlive()) continue;
+            StartCoroutine(_Move(child.gameObject, new Vector3(180 + idx*300, 0, 0)));
+            // MoveCharacter(child.gameObject, new Vector3(180 + idx*300, 0, 0));
+            idx++;
+        }
+    }
+
+    // void MoveCharacter(GameObject obj, Vector3 destination){
+
+    // }
+    IEnumerator _Move(GameObject obj, Vector3 destination){
+        Debug.Log("_Move() is called");
+        while(obj != null && (obj.transform.localPosition - destination).magnitude > 0.0001f){
+            obj.transform.localPosition = Vector3.Lerp(obj.transform.localPosition, destination, 0.1f);
+            yield return new WaitForSeconds(0.02f);
+        }
+        if (obj != null) obj.transform.localPosition = destination;
     }
 
     public EquipmentClass[] GetEquipments(){

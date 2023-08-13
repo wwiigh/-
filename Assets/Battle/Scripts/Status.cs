@@ -284,7 +284,7 @@ public class Status : MonoBehaviour
             case status.accumulation:
                 return "已積蓄<color=green>" + level.ToString() + "</color>點能量，到達一定層數可能會有特殊效果";
             case status.power_compete:
-                return "每次受到生命值傷害時減少相應層數，層數因傷害降至0時獲得<color=red>2</color>層易傷";
+                return "每次受到生命值傷害時減少相應層數，\n層數因傷害降至0時獲得<color=red>2</color>層易傷";
             case status.damage_adjust:
                 return "造成的傷害" + ( (level > 0)? "<color=green>+":"<color=red>") + level.ToString() + "%</color>";
             case status.observe:

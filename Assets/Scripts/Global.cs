@@ -506,12 +506,15 @@ public class Global : MonoBehaviour
         card.upgraded = true;
     
     }
-    public static void ShowPlayerCards(List<Card> card_list, CardFunction card_fun,bool can_select)
+
+
+
+    public static void ShowPlayerCards(List<Card> card_list, CardFunction card_fun, bool can_select)
     {
         select_card = null;
         card_function = card_fun;
         Card_List show_list = FindObjectOfType<Card_List>();
-        show_list.Init(card_list,card_fun,can_select);
+        show_list.Init(card_list, card_fun, can_select);
         
     }
     public static void DoCardAction(Card card)
