@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class EnemyMove : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class EnemyMove : MonoBehaviour
     public void SetIntention(){
         int id = GetComponent<Character>().GetEnemyID();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Character player_character = player.GetComponent<Character>();
 
         switch(id){
             case 101: // 史萊姆
@@ -207,19 +209,19 @@ public class EnemyMove : MonoBehaviour
                 }
                 break;
             case 203: // 冷蛛
-                if(state==-1 || state == 2)
+                if(state == -1 || state == 2)
                 {
                     state = 0;
                     intention = 2;
                     ShowIntention(3, 0);
                 }
-                else if(state==0)
+                else if(state == 0)
                 {
-                    state += 1;
+                    state = 1;
                     intention = 0;
                     ShowIntention(3,0);
                 }
-                else if(state==1)
+                else if(state == 1)
                 {
                     state = 2;
                     intention = 1;
@@ -227,20 +229,19 @@ public class EnemyMove : MonoBehaviour
                 }
                 break;
             case 204: // 樹妖
-                if(state==-1 || state == 2)
+                if(state == -1 || state == 2)
                 {
                     state = 0;
                     intention = 0;
                     ShowIntention(2, 10);
                 }
-                else if(state==0)
+                else if(state == 0)
                 {
-                    state += 1;
+                    state = 1;
                     intention = 2;
-                    ShowIntention(3,0);
-                    //多段攻擊
+                    ShowIntention(1, 4, 3);
                 }
-                else if(state==1)
+                else if(state == 1)
                 {
                     state = 2;
                     intention = 1;
@@ -249,17 +250,17 @@ public class EnemyMove : MonoBehaviour
                 break;
             case 205: // 盜匪
                 intention = Random.Range(1,4);
-                if(player.GetComponent<Character>().GetStatus(Status.status.bleed)==0 && intention == 1)
+                if(player_character.GetStatus(Status.status.bleed) == 0 && intention == 1)
                 {
                     intention = 0;
                 }
                 if (intention == 0) ShowIntention(1, 9);
                 else if (intention == 1) ShowIntention(1, 13);
-                else if (intention == 2) ShowIntention(1, 12);//多段攻擊
+                else if (intention == 2) ShowIntention(3, 0);
                 else if (intention == 3) ShowIntention(2, 8);
                 break;
             case 206: // 烈火屠夫
-                if(state == -1 || state == 2)
+                if(state == -1 || state == 3)
                 {
                     intention = 0;
                     state = 0;
@@ -269,19 +270,25 @@ public class EnemyMove : MonoBehaviour
                 {
                     intention = 1;
                     state = 1;
-                    ShowIntention(3,0);
+                    ShowIntention(2,20);
                 }
                 else if(state == 1)
                 {
+                    intention = 2;
                     state = 2;
-                    if(GetComponent<Character>().GetStatus(Status.status.power_compete)>0)
+                    ShowIntention(3,0);
+                }
+                else if(state == 2)
+                {
+                    state = 3;
+                    if(GetComponent<Character>().GetStatus(Status.status.power_compete) > 0)
                     {
-                        intention = 2;
+                        intention = 3;
                         ShowIntention(1,20);
                     }
                     else
                     {
-                        intention = 3;
+                        intention = 4;
                         ShowIntention(3,0);
                     } 
                 }
@@ -292,7 +299,7 @@ public class EnemyMove : MonoBehaviour
                     intention = 0;
                     state += 1;
                     if(state == 4)state = 0;
-                    ShowIntention(1,12);//多次攻擊
+                    ShowIntention(1, 4, 3);//多次攻擊
                 }
                 else if(state == 0)
                 {
@@ -313,13 +320,13 @@ public class EnemyMove : MonoBehaviour
                     intention = 0;
                     state += 1;
                     if(state == 4)state = 0;
-                    ShowIntention(3,0);//多次攻擊
+                    ShowIntention(3,0);
                 }
                 else if(state == 0 || state == 2)
                 {
                     intention = 1;
                     state += 1;
-                    ShowIntention(3,0);
+                    ShowIntention(1,5);
                 }
                 else if(state == 1)
                 {
@@ -534,7 +541,7 @@ public class EnemyMove : MonoBehaviour
                 }
                 else if(state == 0 )
                 {
-                    state += 1;
+                    state = 1;
                     intention = 1;
                     ShowIntention(2,8);
                 }
@@ -657,6 +664,50 @@ public class EnemyMove : MonoBehaviour
                 if (intention == 1) return ("飛翔", "免疫下次受到的傷害");
                 if (intention == 2) return ("噴火", "造成<color=red>" + GetDamage(16).ToString() + "</color>點傷害，將玩家手中所有「火苗」變為「烈焰」");
                 break;
+            case 203:
+                if (intention == 0) return ("結網", "將1張「蜘蛛網」加入玩家手中");
+                if (intention == 1) return ("毒液注入", "造成<color=red>" + GetDamage(11).ToString() + "</color>點傷害，隨後，若玩家沒有護甲，給予<color=red>1</color>層易傷");
+                if (intention == 2) return ("神經毒素", "給予<color=red>3</color>層虛弱");
+                break;
+            case 204:
+                if (intention == 0) return ("樹根纏繞", "獲得<color=green>10</color>點護甲，給予<color=red>2</color>層虛弱");
+                if (intention == 1) return ("爪擊", "造成<color=red>" + GetDamage(10).ToString() + "</color>點傷害，獲得<color=green>1</color>點力量");
+                if (intention == 2) return ("藤蔓長鞭", "造成<color=red>" + GetDamage(4).ToString() + "</color>點傷害<color=red>3</color>次");
+                break;
+            case 205:
+                if (intention == 0) return ("刺擊", "造成<color=red>" + GetDamage(9).ToString() + "</color>點傷害，給予<color=red>3</color>層流血");
+                if (intention == 1) return ("攻擊弱點", "造成<color=red>" + GetDamage(13).ToString() + "</color>點傷害，給予<color=green>1</color>層易傷");
+                if (intention == 2) return ("更換箭矢", "獲得<color=green>2</color>點力量，下次造成的傷害<color=green>+5</color>");
+                if (intention == 3) return ("躲閃", "獲得<color=green>8</color>點護甲");
+                break;
+            case 206:
+                if (intention == 0) return ("召喚隨從", "給予所有已在場的「火精靈」<color=green>10</color>點護甲與<color=green>5</color>點力量\n召喚<color=green>2</color>個「火精靈」");
+                if (intention == 1) return ("烈焰焚身", "獲得<color=green>20</color>點護甲、<color=green>" + (20+2*GetComponent<Character>().GetStatus(Status.status.strength)).ToString() + "</color>層較勁");
+                if (intention == 2) return ("伸展肌肉", "獲得<color=green>5</color>點力量");
+                if (intention == 3) return ("碎顱擊", "造成<color=red>" + GetDamage(20).ToString() + "</color>點傷害\n若擁有較勁狀態，清空層數並獲得<color=green>10</color>點力量");
+                if (intention == 4) return ("重整旗鼓", "所有友軍恢復<color=green>12</color>點生命");
+                break;
+            case 207:
+                if (intention == 0) return ("切割", "造成<color=red>" + GetDamage(4).ToString() + "</color>點傷害<color=red>3</color>次");
+                if (intention == 1) return ("詭譎氣息", "給予<color=red>2</color>層脆弱");
+                if (intention == 2) return ("暗影庇護", "所有友軍獲得<color=green>10</color>點護甲");
+                break;
+            case 208:
+                if (intention == 0) return ("力竭詛咒", "給予<color=red>2</color>層虛弱");
+                if (intention == 1) return ("噩夢斬擊", "造成<color=red>" + GetDamage(5).ToString() + "</color>點傷害，理智<color=red>-5</color>");
+                if (intention == 2) return ("精神入侵", "將<color=red>2</color>張「失憶」加入抽牌堆");
+                break;
+            case 209:
+                if (intention == 0) return ("孕育", "增加所有「羔羊」13點生命值上限\n召喚兩隻「羔羊」，每召喚一隻就失去<color=red>20</color>點生命\n若生命不足則不會召喚");
+                if (intention == 1) return ("祝福", "所有友軍獲得<color=green>12</color>點護甲與<color=green>3</color>點力量");
+                if (intention == 2) return ("觸手鞭笞", "造成<color=red>" + GetDamage(23).ToString() + "</color>點傷害，給予<color=red>2</color>層虛弱");
+                if (intention == 3) return ("褻語", "理智<color=red>-6</color>");
+                if (intention == 4) return ("次聲波", "給予「每回合理智<color=red>-1</color>」效果");
+                break;
+            case 401:
+                if (intention == 0) return ("火焰彈", "造成<color=red>" + GetDamage(5).ToString() + "</color>點傷害，隨後，若玩家沒有護甲，給予<color=red>3</color>層燃燒");
+                if (intention == 1) return ("防護", "獲得<color=green>8</color>點護甲");
+                break;
             default:
                 Debug.Log("GetIntention: Unknown enemy id " + id.ToString());
                 break;
@@ -669,6 +720,7 @@ public class EnemyMove : MonoBehaviour
     IEnumerator _Move(){
         int id = GetComponent<Character>().GetEnemyID();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Character player_character = player.GetComponent<Character>();
         Deck deck = Object.FindAnyObjectByType<Deck>();
         BattleEffects effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
 
@@ -678,7 +730,7 @@ public class EnemyMove : MonoBehaviour
                     GetComponent<Animator>().Play("101_strike");
                     yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 6);
-                    player.GetComponent<Character>().AddStatus(Status.status.weak, 1);
+                    player_character.AddStatus(Status.status.weak, 1);
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("101_strike");
@@ -688,8 +740,8 @@ public class EnemyMove : MonoBehaviour
                 else if (intention == 2){
                     GetComponent<Animator>().Play("101_spit");
                     yield return new WaitForSeconds(0.5f);
-                    player.GetComponent<Character>().AddStatus(Status.status.weak, 1);
-                    player.GetComponent<Character>().AddStatus(Status.status.frail, 1);
+                    player_character.AddStatus(Status.status.weak, 1);
+                    player_character.AddStatus(Status.status.frail, 1);
                 }
                 break;
             case 102: // 哥布林
@@ -739,7 +791,7 @@ public class EnemyMove : MonoBehaviour
                     GetComponent<Animator>().Play("104_attack2");
                     yield return new WaitForSeconds(0.71f);
                     GetComponent<Character>().Attack(player, 3);
-                    player.GetComponent<Character>().AddStatus(Status.status.bleed, 3);
+                    player_character.AddStatus(Status.status.bleed, 3);
                 }
                 break;
             case 105: // 石像
@@ -770,8 +822,8 @@ public class EnemyMove : MonoBehaviour
                     GetComponent<Animator>().Play("106_spit");
                     yield return new WaitForSeconds(0.666f);
                     GetComponent<Character>().Attack(player, 5);
-                    player.GetComponent<Character>().AddStatus(Status.status.vulnerable, 1);
-                    player.GetComponent<Character>().AddStatus(Status.status.frail, 1);
+                    player_character.AddStatus(Status.status.vulnerable, 1);
+                    player_character.AddStatus(Status.status.frail, 1);
                 }
                 else if (intention == 2){
                     GetComponent<Animator>().Play("106_swing");
@@ -799,8 +851,8 @@ public class EnemyMove : MonoBehaviour
                 else if (intention == 2){
                     GetComponent<Animator>().Play("107_attack");
                     yield return new WaitForSeconds(0.5f);
-                    player.GetComponent<Character>().AddStatus(Status.status.weak, 2);
-                    player.GetComponent<Character>().AddStatus(Status.status.frail, 2);
+                    player_character.AddStatus(Status.status.weak, 2);
+                    player_character.AddStatus(Status.status.frail, 2);
                 }
                 else if (intention == 3){
                     GetComponent<Animator>().Play("107_attack");
@@ -815,28 +867,28 @@ public class EnemyMove : MonoBehaviour
                     effects.Play(player, "thief hand");
                     yield return new WaitForSeconds(0.375f);
                     if (GetComponent<Character>().GetArmor() > 0 || GetComponent<Character>().GetBlock() > 0)
-                        player.GetComponent<Character>().AddStatus(Status.status.draw_less, 2);
-                    else player.GetComponent<Character>().AddStatus(Status.status.draw_less, 1);
+                        player_character.AddStatus(Status.status.draw_less, 2);
+                    else player_character.AddStatus(Status.status.draw_less, 1);
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("108_attack");
                     yield return new WaitForSeconds(0.4f);
                     GetComponent<Character>().Attack(player, 9);
-                    player.GetComponent<Character>().AddStatus(Status.status.weak, 1);
+                    player_character.AddStatus(Status.status.weak, 1);
                     GetComponent<Character>().AddArmor(15);
                 }
                 else if (intention == 2){
                     GetComponent<Animator>().Play("108_attack");
                     yield return new WaitForSeconds(0.4f);
                     GetComponent<Character>().Attack(player, 16);
-                    player.GetComponent<Character>().AddStatus(Status.status.vulnerable, 2);
+                    player_character.AddStatus(Status.status.vulnerable, 2);
                 }
                 else if (intention == 3){
                     GetComponent<Animator>().Play("108_attack2");
                     yield return new WaitForSeconds(0.555f);
                     effects.Play(player, "thief hand");
                     yield return new WaitForSeconds(0.375f);
-                    player.GetComponent<Character>().AddStatus(Status.status.information_erase, 1);
+                    player_character.AddStatus(Status.status.information_erase, 1);
                 }
                 else if (intention == 4){
                     // GetComponent<Animator>().Play("108_attack2");
@@ -874,8 +926,10 @@ public class EnemyMove : MonoBehaviour
                     // GetComponent<Animator>().Play("108_attack2");
                     yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 16);
-                    List<GameObject> tmp = Deck.GetHand();
-                    foreach(GameObject card in tmp){
+                    List<GameObject> list202 = new();
+                    foreach(GameObject card in Deck.GetHand())
+                        if (card.GetComponent<CardDisplay>().thisCard.id == 205) list202.Add(card);
+                    foreach(GameObject card in list202){
                         deck.RemoveCard(card);
                         deck.AddCardToHand(deck.GetCard(206));
                     }
@@ -885,26 +939,26 @@ public class EnemyMove : MonoBehaviour
                 if(intention == 0){
                     // GetComponent<Animator>().Play("108_attack2");
                     yield return new WaitForSeconds(0.5f);
-                    //卡片未做
+                    deck.AddCardToHand(deck.GetCard(207));
                 }
                 else if (intention == 1){
                     // GetComponent<Animator>().Play("108_attack");
                     yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 11);
-                    //給予中毒未做
+                    if (player_character.GetArmor() == 0) player_character.AddStatus(Status.status.vulnerable, 1);
                 }
                 else if(intention == 2){
                     // GetComponent<Animator>().Play("108_attack2");
                     yield return new WaitForSeconds(0.5f);
-                    player.GetComponent<Character>().AddStatus(Status.status.weak, 3);
+                    player_character.AddStatus(Status.status.weak, 3);
                 }
                 break;
             case 204: // 樹妖
                 if(intention == 0){
-                    GetComponent<Animator>().Play("204_demage");
-                    yield return new WaitForSeconds(0.5f);
-                    player.GetComponent<Character>().AddStatus(Status.status.weak, 2);
+                    GetComponent<Animator>().Play("204_skill");
+                    yield return new WaitForSeconds(0.4f);
                     GetComponent<Character>().AddArmor(10);
+                    player_character.AddStatus(Status.status.weak, 2);
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("204_attack");
@@ -913,10 +967,12 @@ public class EnemyMove : MonoBehaviour
                     GetComponent<Character>().AddStatus(Status.status.strength, 1);
                 }
                 else if(intention == 2){
-                    GetComponent<Animator>().Play("204_attack");
-                    yield return new WaitForSeconds(0.5f);
+                    GetComponent<Animator>().Play("204_triple attack");
+                    yield return new WaitForSeconds(3 / 14f);
                     GetComponent<Character>().Attack(player, 4);
+                    yield return new WaitForSeconds(4 / 14f);
                     GetComponent<Character>().Attack(player, 4);
+                    yield return new WaitForSeconds(4 / 14f);
                     GetComponent<Character>().Attack(player, 4);
                 }
                 break;
@@ -925,7 +981,7 @@ public class EnemyMove : MonoBehaviour
                     GetComponent<Animator>().Play("205_attack1");
                     yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 9);
-                    player.GetComponent<Character>().AddStatus(Status.status.bleed, 3);
+                    player_character.AddStatus(Status.status.bleed, 3);
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("205_attack1");
@@ -934,47 +990,77 @@ public class EnemyMove : MonoBehaviour
                     GetComponent<Character>().AddStatus(Status.status.vulnerable, 1);
                 }
                 else if(intention == 2){
-                    GetComponent<Animator>().Play("205_attack1");
+                    GetComponent<Animator>().Play("205_attack2");
                     yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Attack(player, 6);
-                    GetComponent<Character>().Attack(player, 6);
+                    GetComponent<Character>().AddStatus(Status.status.strength, 2);
+                    //下次造成的傷害+5
                 }
                 else if(intention == 3){
-                    GetComponent<Animator>().Play("205_attack2");
+                    // GetComponent<Animator>().Play("205_attack2");
                     yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().AddArmor(8);
                 }
                 break;
             case 206: // 烈火屠夫
                 if(intention == 0){
-                    GetComponent<Animator>().Play("206_attack");
+                    // GetComponent<Animator>().Play("206_attack");
                     yield return new WaitForSeconds(0.5f);
-                    //召喚
+                    if (GameObject.Find("Fire spirit 1") == null){
+                        GameObject fireSpirit1 = FindObjectOfType<BattleController>().SpwanEnemyAt(30, new Vector3(180 + 300, 0, 0));
+                        fireSpirit1.name = "Fire spirit 1";
+                    }
+                    else{
+                        GameObject.Find("Fire spirit 1").GetComponent<Character>().AddArmor(10);
+                        GameObject.Find("Fire spirit 1").GetComponent<Character>().AddStatus(Status.status.strength, 5);
+                    }
+                    if (GameObject.Find("Fire spirit 2") == null){
+                        GameObject fireSpirit2 = FindObjectOfType<BattleController>().SpwanEnemyAt(30, new Vector3(180 + 600, 0, 0));
+                        fireSpirit2.name = "Fire spirit 2";
+                    }
+                    else{
+                        GameObject.Find("Fire spirit 2").GetComponent<Character>().AddArmor(10);
+                        GameObject.Find("Fire spirit 2").GetComponent<Character>().AddStatus(Status.status.strength, 5);
+                    }
                 }
                 else if (intention == 1){
-                    GetComponent<Animator>().Play("206_attack");
+                    GetComponent<Animator>().Play("206_buff");
+                    yield return new WaitForSeconds(9 / 23f);
+                    GetComponent<Character>().AddArmor(20);
+                    int power_level206_1 = GetComponent<Character>().GetStatus(Status.status.strength);
+                    GetComponent<Character>().AddStatus(Status.status.power_compete, 20+2*power_level206_1);
+                }
+                else if (intention == 2){
+                    // GetComponent<Animator>().Play("206_attack");
                     yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().AddStatus(Status.status.strength, 5);
-                    int power_level = GetComponent<Character>().GetStatus(Status.status.strength);
-                    GetComponent<Character>().AddStatus(Status.status.power_compete, 2*(20+power_level));
-                }
-                else if(intention == 2){
-                    GetComponent<Animator>().Play("206_attack");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Attack(player, 20);
                 }
                 else if(intention == 3){
-                    GetComponent<Animator>().Play("206_demage");
+                    GetComponent<Animator>().Play("206_attack");
+                    yield return new WaitForSeconds(0.6f);
+                    GetComponent<Character>().Attack(player, 20);
+                    int power_level206_2 = GetComponent<Character>().GetStatus(Status.status.power_compete);
+                    if (power_level206_2 > 0){
+                        GetComponent<Character>().AddStatus(Status.status.power_compete, -power_level206_2);
+                        GetComponent<Character>().AddStatus(Status.status.strength, 10);
+                    }
+                }
+                else if(intention == 4){
+                    // GetComponent<Animator>().Play("206_demage");
                     yield return new WaitForSeconds(0.5f);
+                    foreach(GameObject enemy in BattleController.GetAllEnemy()){
+                        enemy.GetComponent<Character>().Heal(12);
+                    }
                     //所有人恢復血量
                 }
                 break;
             case 207: // 雙生暗影(A)
                 if(intention == 0){
                     GetComponent<Animator>().Play("207_attack");
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(2 / 18f);
                     GetComponent<Character>().Attack(player, 4);
+                    yield return new WaitForSeconds(7 / 18f);
                     GetComponent<Character>().Attack(player, 4);
+                    yield return new WaitForSeconds(5 / 18f);
                     GetComponent<Character>().Attack(player, 4);
                 }
                 else if (intention == 1){
@@ -983,39 +1069,60 @@ public class EnemyMove : MonoBehaviour
                     player.GetComponent<Character>().AddStatus(Status.status.frail, 2);
                 }
                 else if(intention == 2){
-                    GetComponent<Animator>().Play("207_summon");
+                    GetComponent<Animator>().Play("207_skill");
                     yield return new WaitForSeconds(0.5f);
-                    //所有人獲得護甲
+                    foreach(GameObject enemy in BattleController.GetAllEnemy()){
+                        enemy.GetComponent<Character>().AddArmor(10);
+                    }
                 }
                 break;
-            case 208: // 雙生暗影(A)
+            case 208: // 雙生暗影(B)
                 if(intention == 0){
-                    GetComponent<Animator>().Play("208_attack");
+                    GetComponent<Animator>().Play("208_attack2");
                     yield return new WaitForSeconds(0.5f);
                     player.GetComponent<Character>().AddStatus(Status.status.weak, 2);
                 }
                 else if (intention == 1){
-                    GetComponent<Animator>().Play("208_attack2");
-                    yield return new WaitForSeconds(0.5f);
-                    Global.AddSan(-4);
+                    GetComponent<Animator>().Play("208_attack");
+                    yield return new WaitForSeconds(1 / 3f);
+                    GetComponent<Character>().Attack(player, 5);
+                    Global.AddSan(-5);
                 }
                 else if(intention == 2){
                     GetComponent<Animator>().Play("208_attack2");
                     yield return new WaitForSeconds(0.5f);
-                    //抽卡片
+                    deck.AddCardToDrawPile(deck.GetCard(201));
+                    deck.AddCardToDrawPile(deck.GetCard(201));
                 }
                 break;
             case 209: // 莎布·尼古拉絲
                 if(intention == 0){
                     GetComponent<Animator>().Play("209_hurt");
-                    yield return new WaitForSeconds(0.5f);
-                    //自己扣40
-                    //召喚
+                    yield return new WaitForSeconds(0.25f);
+                    if (GameObject.Find("lamb 1") == null && GetComponent<Character>().GetHP() > 20){
+                        GameObject lamb1 = FindObjectOfType<BattleController>().SpwanEnemyAt(8, new Vector3(180 + 300, 0, 0));
+                        lamb1.name = "lamb 1";
+                        GetComponent<Character>().LoseHP(20);
+                    }
+                    else if (GameObject.Find("lamb 1")){
+                        GameObject.Find("lamb 1").GetComponent<Character>().AddMaxHP(13);
+                    }
+                    if (GameObject.Find("lamb 2") == null && GetComponent<Character>().GetHP() > 20){
+                        GameObject fireSpirit2 = FindObjectOfType<BattleController>().SpwanEnemyAt(8, new Vector3(180 + 600, 0, 0));
+                        fireSpirit2.name = "lamb 2";
+                        GetComponent<Character>().LoseHP(20);
+                    }
+                    else if (GameObject.Find("lamb 2")){
+                        GameObject.Find("lamb 2").GetComponent<Character>().AddMaxHP(13);
+                    }
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("209_walk");
                     yield return new WaitForSeconds(0.5f);
-                    //所有人獲得力量3和12護甲
+                    foreach(GameObject enemy in BattleController.GetAllEnemy()){
+                        enemy.GetComponent<Character>().AddArmor(12);
+                        enemy.GetComponent<Character>().AddStatus(Status.status.strength, 3);
+                    }
                 }
                 else if(intention == 2){
                     GetComponent<Animator>().Play("209_attack");
@@ -1026,9 +1133,9 @@ public class EnemyMove : MonoBehaviour
                 else if(intention == 3){
                     GetComponent<Animator>().Play("209_walk");
                     yield return new WaitForSeconds(0.5f);
-                    Global.AddSan(-5);
+                    Global.AddSan(-6);
                 }
-                else if(intention == 3){
+                else if(intention == 4){
                     GetComponent<Animator>().Play("209_walk");
                     yield return new WaitForSeconds(0.5f);
                     player.GetComponent<Character>().AddStatus(Status.status.mental_weak, 1);
@@ -1297,9 +1404,9 @@ public class EnemyMove : MonoBehaviour
             case 401: // 火精靈
                 if(intention == 0){
                     GetComponent<Animator>().Play("401_attack");
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(8 / 13f);
                     GetComponent<Character>().Attack(player,5);
-                    //確認傷害待做
+                    if (player_character.GetArmor() == 0) player_character.AddStatus(Status.status.burn, 3);
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("401_run");
@@ -1367,12 +1474,12 @@ public class EnemyMove : MonoBehaviour
             case 1:
                 intentionObj.GetComponent<Image>().sprite = attackImg;
                 if (value > 0)
-                    intentionObj.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = (BattleController.ComputeDamage(gameObject, GetPlayer(), value)).ToString();
+                    intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = BattleController.ComputeDamage(gameObject, GetPlayer(), value).ToString();
                 break;
             case 2:
                 intentionObj.GetComponent<Image>().sprite = defendImg;
                 if (value > 0)
-                    intentionObj.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = value.ToString();
+                    intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = value.ToString();
                 break;
             case 3:
                 intentionObj.GetComponent<Image>().sprite = othersImg;
@@ -1381,7 +1488,18 @@ public class EnemyMove : MonoBehaviour
                 Debug.Log("ShowIntention: Unknown type " + type.ToString());
                 break;
         }
-        if (value == 0) intentionObj.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "";
+        if (value == 0) intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
+    }
+    void ShowIntention(int type, int value, int times){
+        if (intentionObj == null){
+            intentionObj = Instantiate(intentionTemplate, transform);
+            intentionObj.transform.localPosition = new Vector3(0, 200, 0);
+        }
+        if (type != 1) return;
+        intentionObj.GetComponent<Image>().sprite = attackImg;
+        if (value > 0)
+            intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = BattleController.ComputeDamage(gameObject, GetPlayer(), value).ToString() + " x " + times.ToString();
+        if (value == 0) intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
     }
 
     public int GetIntentionType(){

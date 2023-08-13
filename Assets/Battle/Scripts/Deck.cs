@@ -102,7 +102,7 @@ public class Deck : MonoBehaviour
             Draw(tmp);
         
         tmp = player.GetStatus(Status.status.fast_hand);
-        if (tmp > 0) battleController.GetRandomEnemy().GetComponent<Character>().GetHit(tmp);
+        if (tmp > 0) BattleController.GetRandomEnemy().GetComponent<Character>().GetHit(tmp);
         
         battleController.Discarded();
     }
@@ -135,7 +135,7 @@ public class Deck : MonoBehaviour
         }
 
         if (card_info.id == 209){
-            battleController.GetRandomEnemy().GetComponent<Character>().LoseHP(30);
+            BattleController.GetRandomEnemy().GetComponent<Character>().LoseHP(30);
         }
 
         if (card_info.id == 210){
@@ -155,6 +155,7 @@ public class Deck : MonoBehaviour
     }
     public void AddCardToDrawPile(Card card){
         drawPile.Add(card);
+        Shuffle(drawPile);
     }
 
     public void MoveFromHandToDrawPile(GameObject card){
@@ -162,6 +163,11 @@ public class Deck : MonoBehaviour
         drawPile.Insert(0, card.GetComponent<CardDisplay>().thisCard);
         Destroy(card);
         Rearrange();
+    }
+
+    public void MoveFromDrawPileToHand(Card card){
+        drawPile.Remove(card);
+        AddCardToHand(card);
     }
 
     public Card GetRandomSkillCard(){

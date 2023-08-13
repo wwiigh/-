@@ -679,13 +679,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 216658800}
     m_Modifications:
+    - target: {fileID: 1013566803230974428, guid: 282ef3cc73e40fc4e81903a27f9638fe, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1013566804284671106, guid: 282ef3cc73e40fc4e81903a27f9638fe, type: 3}
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
     - target: {fileID: 1013566804284671106, guid: 282ef3cc73e40fc4e81903a27f9638fe, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1013566804284671107, guid: 282ef3cc73e40fc4e81903a27f9638fe, type: 3}
       propertyPath: m_Pivot.x
