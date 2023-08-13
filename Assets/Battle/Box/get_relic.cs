@@ -10,18 +10,17 @@ public class get_relic : MonoBehaviour
     // Start is called before the first frame update
     public Image relic_img;
     public Sprite[] relic_sprite;
-    int relic_index;
     public GameObject relic;
-    int is_gotten = 0;
     public Button button;
+    int relic_index;
+    int is_gotten = 0;
     int id;
     void Start()
     {
         button.onClick.AddListener(relic_onClick);       
     }
 
-    void OnEnable()
-    {
+    void OnEnable() {
         got_relic();
         is_gotten = 0;
     }
@@ -34,8 +33,10 @@ public class get_relic : MonoBehaviour
     }
     public void relic_onClick(){
         if(is_gotten == 0){
-            Global.AddItemToBag(id, "relic");
-            is_gotten = 1;
+            if(Global.AddItemToBag(id, "relic")){
+                is_gotten = 1;
+                relic.SetActive(false);
+            }
         }
     }
 }

@@ -5,7 +5,10 @@ using UnityEngine;
 public class change_pos : MonoBehaviour
 {
     // Start is called before the first frame update
-    public
+    public GameObject card;
+    public GameObject item;
+    public GameObject equi;
+    public GameObject relic;
     void Start()
     {
         

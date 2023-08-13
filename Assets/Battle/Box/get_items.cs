@@ -41,10 +41,9 @@ public class get_items : MonoBehaviour
     }
     public void item_onClick(){
         if(is_gotten == 0){
-            if(Global.AddItemToBag(id, "item"))
+            if(Global.AddItemToBag(id, "item")){
                 is_gotten = 1;
-            else{
-                is_gotten = 0;
+                item.SetActive(false);
             }
         }
     }

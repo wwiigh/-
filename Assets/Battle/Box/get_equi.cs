@@ -10,10 +10,10 @@ public class get_equi : MonoBehaviour
     public Image equiIMG;
     public Sprite[] equiSprite;
     private int current_equi_index;
-    public int id;
+    int id;
     public Button button;
     public GameObject equi;
-    public int is_gotten = 0;
+    int is_gotten = 0;
     void Start(){
         button.onClick.AddListener(equi_onClick);
     }
@@ -38,8 +38,10 @@ public class get_equi : MonoBehaviour
     }
     public void equi_onClick(){
         if(is_gotten == 0){
-            Global.AddItemToBag(id, "equipment");
-            is_gotten = 1;
+            if(Global.AddItemToBag(id, "equipment")){
+                is_gotten = 1;
+                equi.SetActive(false);
+            }
         }
         
     }

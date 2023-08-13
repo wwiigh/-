@@ -288,7 +288,7 @@ public class Map_Generate : MonoBehaviour
     // Update is called once per frame
     void check_status()
     {
-        if(SceneManager.GetActiveScene().name != "Map")
+        if(SceneManager.GetActiveScene().name != "map2")
         {
             foreach(var n in nodes)
             {
