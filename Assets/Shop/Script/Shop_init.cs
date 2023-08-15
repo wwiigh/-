@@ -309,4 +309,15 @@ public class Shop_init : MonoBehaviour
         }
         return price;
     }
+    public void Press_Del_Card()
+    {
+        if(Global.money < 100)return;
+        Global.ShowPlayerCards(Global.GetPlayerDeck(),Del_Card,true);
+        Global.AddMoney(-100);
+        FindObjectOfType<Shop_page>().Disable_Page3();
+    }
+    public void Del_Card(Card card)
+    {
+        Global.PlayerDeck_Remove(card);
+    }
 }

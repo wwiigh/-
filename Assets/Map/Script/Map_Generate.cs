@@ -165,6 +165,7 @@ public class Map_Generate : MonoBehaviour
         // print(Application.dataPath);
         Generate_Map();
         Clear_Battle();
+        FindObjectOfType<BattleController>().EnterNewLevel();
     }
     void Play_Animation()
     {
@@ -196,11 +197,13 @@ public class Map_Generate : MonoBehaviour
             Global.init();
             now_level=1;
         }
+        Global.current_level = now_level;
         now_height = 9;
         save();
         Show_status();
         check_status();
         set_click_action();
+        FindObjectOfType<BattleController>().EnterNewLevel();
     }
     void clear()
     {
@@ -236,6 +239,7 @@ public class Map_Generate : MonoBehaviour
                 Show_status();
                 check_status();
                 set_click_action();
+                Global.current_level = now_level;
                 return;
             }
         }
@@ -277,6 +281,7 @@ public class Map_Generate : MonoBehaviour
         Event_System.New_Game();
         Bag_Save.Load_Data(FindObjectOfType<Bag_System>());
         now_height = 9;
+        Global.current_level = now_level;
         save();
         // map_save.save_node(nodes);
         // map_save.save_level_height(now_level,now_height);

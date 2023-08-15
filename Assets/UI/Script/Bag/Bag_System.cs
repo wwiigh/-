@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class Bag_System : MonoBehaviour
 {
     [System.Serializable]
@@ -103,6 +103,7 @@ public class Bag_System : MonoBehaviour
             GameObject new_item = Instantiate(grid,new Vector3(0,0,0),Quaternion.identity,Bag.transform);
             new_item.GetComponent<UI_Control>().UI_information = _item;
             new_item.GetComponent<Image>().sprite = equipment_image[name];
+            new_item.GetComponentsInChildren<Image>()[1].gameObject.SetActive(false);
             new_item.GetComponent<Transform>().SetParent(Bag.transform);
             new_item.GetComponent<Item_Effect>().item_type = Item_Effect.Type.equipment_off;
             new_item.GetComponent<Item_Effect>().use = buttons[0];
@@ -126,6 +127,7 @@ public class Bag_System : MonoBehaviour
             GameObject new_item = Instantiate(grid,new Vector3(0,0,0),Quaternion.identity,Bag.transform);
             new_item.GetComponent<UI_Control>().UI_information = _item;
             new_item.GetComponent<Image>().sprite = item_image[name];
+            new_item.GetComponentsInChildren<Image>()[1].gameObject.SetActive(false);
             new_item.GetComponent<Transform>().SetParent(Bag.transform);
             new_item.GetComponent<Item_Effect>().item_type = Item_Effect.Type.item;
             new_item.GetComponent<Item_Effect>().use = buttons[0];
@@ -150,6 +152,8 @@ public class Bag_System : MonoBehaviour
             GameObject new_item = Instantiate(grid,new Vector3(0,0,0),Quaternion.identity,Relic.transform);
             new_item.GetComponent<UI_Control>().UI_information = _item;
             new_item.GetComponent<Image>().sprite = relic_image[name];
+            if(name!="19")new_item.GetComponentsInChildren<Image>()[1].gameObject.SetActive(false);
+            if(name=="19")new_item.GetComponentInChildren<TMP_Text>().text = "0";
             new_item.GetComponent<Transform>().SetParent(Relic.transform);
             new_item.GetComponent<Item_Effect>().item_type = Item_Effect.Type.relic;
             new_item.GetComponent<Item_Effect>().use = buttons[0];
@@ -585,5 +589,16 @@ public class Bag_System : MonoBehaviour
             if(e_id>30)e_id = 1;
         }
         Add_Item(e_id.ToString(),"relic");
+    }
+    public void Update_Relic_Count(int count)
+    {
+        for(int i=0;i<relic_list.Count;i++)
+        {
+            string n = relic_list[i].GetComponent<UI_Control>().UI_information.name;
+            if(n=="19")
+            {
+                relic_list[i].gameObject.GetComponentInChildren<TMP_Text>().text = count.ToString();
+            }
+        }
     }
 }
