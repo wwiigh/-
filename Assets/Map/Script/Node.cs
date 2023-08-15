@@ -69,10 +69,10 @@ public class Node:MonoBehaviour
                 click_action_shop();
                 break;
             case 'f':
-                click_action_battle();
+                click_action_battle_normal();
                 break;
             case 'F':
-                click_action_battle(); 
+                click_action_battle_Elite(); 
                 break;
             case 'e':
                 click_action_event();
@@ -87,7 +87,7 @@ public class Node:MonoBehaviour
                 
                 break;
             case 'b':
-                click_action_battle();
+                click_action_battle_Boss();
                 break;
             case 'h':
                 click_action_altar();
@@ -225,7 +225,7 @@ public class Node:MonoBehaviour
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.altar);
         StartCoroutine(wait_finish(altar_object));
     }
-    public void click_action_battle()
+    public void click_action_battle_normal()
     {
         battle_object.SetActive(true);
         battle_object_equipment.SetActive(true);
@@ -234,7 +234,31 @@ public class Node:MonoBehaviour
             item.SetActive(true);
         }
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
-        FindObjectOfType<BattleController>().EnterBattle();
+        FindObjectOfType<BattleController>().EnterBattle(BattleController.BattleType.Normal);
+        StartCoroutine(wait_finish(battle_object));
+    }
+    public void click_action_battle_Elite()
+    {
+        battle_object.SetActive(true);
+        battle_object_equipment.SetActive(true);
+        foreach (var item in All_Battle_Obj)
+        {
+            item.SetActive(true);
+        }
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
+        FindObjectOfType<BattleController>().EnterBattle(BattleController.BattleType.Elite);
+        StartCoroutine(wait_finish(battle_object));
+    }
+    public void click_action_battle_Boss()
+    {
+        battle_object.SetActive(true);
+        battle_object_equipment.SetActive(true);
+        foreach (var item in All_Battle_Obj)
+        {
+            item.SetActive(true);
+        }
+        FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
+        FindObjectOfType<BattleController>().EnterBattle(BattleController.BattleType.Boss);
         StartCoroutine(wait_finish(battle_object));
     }
     public void click_action_treasure()
@@ -290,10 +314,10 @@ public class Node:MonoBehaviour
     {
         while(_ob.activeSelf == true)
         {
-            if(Map_System.now_state == Map_System.map_state.fight)
-            {
-                FindObjectOfType<Map_Node_Action>().Check_Battle_State();
-            }
+            // if(Map_System.now_state == Map_System.map_state.fight)
+            // {
+            //     FindObjectOfType<Map_Node_Action>().Check_Battle_State();
+            // }
             yield return new WaitForEndOfFrame();
         }
         foreach (var item in All_Battle_Obj)

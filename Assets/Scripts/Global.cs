@@ -19,6 +19,7 @@ public class Global : MonoBehaviour
         public int kill_elites;
         public int kill_leaders;
         public int get_relics;
+        public int relic_19;
         public List<int> card_id;
         public List<bool> card_up;
     }
@@ -33,6 +34,7 @@ public class Global : MonoBehaviour
     public static int kill_elites = 0;
     public static int kill_leaders = 0;
     public static int get_relics = 0;
+    public static int relic_19 = 0;
     public static List<Card> player_deck = new List<Card>();
     public static List<int> card_id = new List<int>();
     public static List<bool> card_up = new List<bool>();
@@ -134,7 +136,8 @@ public class Global : MonoBehaviour
             kill_enemys = Global.kill_enemys,
             kill_elites = Global.kill_elites,
             kill_leaders = Global.kill_leaders,
-            get_relics = Global.get_relics
+            get_relics = Global.get_relics,
+            relic_19 = Global.relic_19
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
         PlayerPrefs.SetString("Player_Data",jsonInfo);
@@ -163,6 +166,7 @@ public class Global : MonoBehaviour
         Global.kill_elites = Load.kill_elites;
         Global.kill_leaders = Load.kill_leaders;
         Global.get_relics = Load.get_relics;
+        Global.relic_19 = Load.relic_19;
         AllCards allcards = GameObject.FindGameObjectWithTag("AllCards").GetComponent<AllCards>();
         Global.player_deck.Clear();
         for(int i=0;i<Global.card_id.Count;i++)
@@ -521,5 +525,13 @@ public class Global : MonoBehaviour
     {
         card_function(card);
     }
+<<<<<<< HEAD
     
+=======
+    public static void LeaveBattle()
+    {
+        FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
+        FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
+    }
+>>>>>>> 7755db0d8421521975455c468d48f10a408b6c09
 }

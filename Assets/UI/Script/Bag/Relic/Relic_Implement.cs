@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Relic_Implement : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public enum Type
+    {
+        UseAttackCard,UseSkillCard,TurnStart
+    }
     [SerializeField] static List<int> Relic_Immediate = new List<int>();
     [SerializeField] static List<int> Relic_After_Card = new List<int>();
     [SerializeField] static List<int> Relic_After_Action = new List<int>();
@@ -23,40 +26,57 @@ public class Relic_Implement : MonoBehaviour
     int attack_card_num = 0;
     void Awake()
     {
+        Relic_Immediate.Add(6);
+        Relic_Immediate.Add(7);
+        Relic_Immediate.Add(11);
+        Relic_Immediate.Add(12);
+        Relic_Immediate.Add(13);
+        Relic_Immediate.Add(16);
+        Relic_Immediate.Add(26);
+        Relic_Immediate.Add(30);
     }
     
-    // ///<summary>玩家打出一張牌後</summary>
-    // /// <param name="_player">傳入玩家</param>
-    // /// <param name="_enemys">傳入所有敵人</param>
-    // /// <param name="_all_hands_cards">傳入玩家手牌</param>
-    // /// <param name="_now_turn">傳入當前回合數</param>
-    // /// <param name="_kill_enemy">傳入打出這張牌後擊殺敵人數</param>
-    // /// <param name="_throw_card">傳入打出的牌</param>
-    // public void Handle_Relic_After_Card(
-    //     GameObject _player,
-    //     List<GameObject> _enemys,
-    //     List<GameObject> _all_hands_cards,
-    //     int _now_turn,
-    //     int _kill_enemy,
-    //     Card _throw_card)
-    // {
-    //     player = _player;
-    //     enemys = _enemys;
-    //     all_hands_cards = _all_hands_cards;
-    //     now_turn = _now_turn;
-    //     kill_enemy = _kill_enemy;
-    //     throw_card = _throw_card;
-    //     List<int> relic_list = GetComponent<Bag_System>().Return_All_Relic();
-    //     if(relic_list.Contains(19))attack_card_num+=1;
-    //     foreach(int id in relic_list)
-    //     {
-            
-    //         if(Relic_After_Card.Contains(id)==true)
-    //         {
-    //             Use_Relic_After_Card(id);
-    //             // break;
-    //         }
-    //     }
+    public static void Update_Relic(Type type)
+    {
+        List<int> relic_list = bag_System.Return_All_Relic();
+        player = GameObject.FindGameObjectWithTag("Player");
+        enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        all_hands_cards = Deck.GetHand();
+        BattleController battleController = FindObjectOfType<BattleController>();
+        if(battleController.PlayedCardThisTurn()==false && relic_list.Contains(14))
+        {
+            if(type == Type.UseAttackCard)
+            {
+                player.GetComponent<Character>().AddStatus(Status.status.temporary_dexterity,1);
+            }
+            else
+            {
+                player.GetComponent<Character>().AddStatus(Status.status.temporary_strength,1);
+            }
+        }
+        if(relic_list.Contains(19)&&type == Type.UseAttackCard)
+        {
+            Global.relic_19+=1;
+            if(Global.relic_19==2)
+            {
+                player.GetComponent<Character>().AddStatus(Status.status.strength,1);
+                Global.relic_19 = 0;
+            }
+            bag_System.Update_Relic_Count(Global.relic_19);
+        }
+        if(relic_list.Contains(25)&&type == Type.UseAttackCard)
+        {
+            foreach (var item in enemys)
+            {
+                item.GetComponent<Character>().LoseHP(3);
+            }
+        }
+        if(relic_list.Contains(28)&&type == Type.TurnStart)
+        {
+            int relic_28 = Random.Range(-4,6);
+        }
+
+    }
 
     // }
     // ///<summary>玩家結束回合後，敵人行動前</summary>
