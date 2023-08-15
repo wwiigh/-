@@ -44,7 +44,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 2;
+        Global.current_level = 3;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -81,7 +81,7 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Boss);
+        EnterBattle(BattleType.Normal);
     }
 
     public void EnterBattle(BattleType type){
