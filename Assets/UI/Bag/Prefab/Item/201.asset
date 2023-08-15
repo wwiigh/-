@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texts:
   - box: {fileID: 0}
-    information: "\u751F\u547D\u85E5\u6C34 \u666E\u901A\n\u88DC15"
+    information: "\u751F\u547D\u85E5\u6C34 \u666E\u901A\n\u88DC15\u8840\u91CF"
     line_count: 2
   rarity: 1

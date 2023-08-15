@@ -34,7 +34,7 @@ public class for_test : MonoBehaviour
     }
     public void Set_false(GameObject ob)
     {
-        ob.SetActive(false);
+        Global.LeaveBattle();
         // equipment.SetActive(false);
         // this.gameObject.SetActive(false);
     }

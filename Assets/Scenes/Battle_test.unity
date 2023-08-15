@@ -1941,9 +1941,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3f25a4ead117b4c86a512fe68c8630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: 6500000066000000670000006800000069000000
-  equipments: 0100000002000000030000000400000005000000
-  relics: 0100000002000000030000000400000005000000
+  items: 650000006900000067000000680000006a000000
+  equipments: 07000000080000000c000000
+  relics: 1e000000070000001a000000
 --- !u!114 &858850751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3005,7 +3005,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1708405250}
         m_TargetAssemblyTypeName: Equipment_Control, Assembly-CSharp
         m_MethodName: Enable_Equipment
         m_Mode: 1
@@ -4367,6 +4367,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7236554932518560696, guid: c07b96994362f9540be08a62da251a48, type: 3}
   m_PrefabInstance: {fileID: 1637400531}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1708405250 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4854296818491551402, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
+  m_PrefabInstance: {fileID: 1503176874}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd71fecd16f424443ba28bbf22413f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1761555675
 GameObject:
   m_ObjectHideFlags: 0
