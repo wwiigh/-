@@ -314,10 +314,10 @@ public class Node:MonoBehaviour
     {
         while(_ob.activeSelf == true)
         {
-            if(Map_System.now_state == Map_System.map_state.fight)
-            {
-                FindObjectOfType<Map_Node_Action>().Check_Battle_State();
-            }
+            // if(Map_System.now_state == Map_System.map_state.fight)
+            // {
+            //     FindObjectOfType<Map_Node_Action>().Check_Battle_State();
+            // }
             yield return new WaitForEndOfFrame();
         }
         foreach (var item in All_Battle_Obj)
