@@ -47,7 +47,7 @@ public class Character : MonoBehaviour
             for (int i = 0; i < a-b; i++) statusIcons.Add(Instantiate(statusIconTemplate, transform));
         if (b > a)
             for (int i = 0; i < b-a; i++) {
-                Destroy(statusIcons[statusIcons.Count - 1]);
+                statusIcons[statusIcons.Count - 1].GetComponent<StatusIcon>().Destroy();
                 statusIcons.RemoveAt(statusIcons.Count - 1);
             }
 
@@ -58,58 +58,70 @@ public class Character : MonoBehaviour
         }
     }
 
-    // IEnumerator Die(){
-    //     GetComponent<Animator>().Play("die");
-    //     yield return new WaitForSeconds(1.0f);
-    //     if (name == "Enemy"){
-    //         GS.GetComponent<GameState>().EnemyDie();
-    //         Destroy(gameObject);
-    //     }
-    //     else{
-    //         GS.GetComponent<GameState>().GameOver();
-    //     }
-    // }
+    bool dying = false;
+    IEnumerator Die(){
+        // Debug.Log("Die() is called");
+        if (dying) yield break;
+        dying = true;
+        // for (int i = 0; i < 10; i++){
+        //     transform.GetChild(0).GetComponent<Image>().color -= new Color(0, 0, 0, 0.1f);
+        //     yield return new WaitForSeconds(0.1f);
+        // }
+        // GetComponent<Animator>().Play("die");
+        yield return new WaitForSeconds(1.0f);
+        if (tag == "Enemy"){
+            FindObjectOfType<BattleController>().EnemyDie();
+            Destroy(gameObject);
+        }
+        else{
+            FindObjectOfType<BattleController>().PlayerDie();
+        }
+    }
 
 
 
     public bool GetHit(int damage){
-        if (damage > 0) GetComponent<HitAnimation>().Play();
+        if (hp == 0) return true;
+        
+        bool dead = false;
         GameObject dmgText = Instantiate(damageTextTemplate, transform);
         dmgText.GetComponent<DamageText>().Show(damage);
-        if (block < damage){
+        if (damage >= block + armor + hp){
+            dead = true;
+            block = 0;
+            armor = 0;
+            hp = 0;
+        }
+        else if (damage >= block + armor){
+            damage -= block + armor;
+            block = 0;
+            armor = 0;
+            hp -= damage;
+        }
+        else if (damage >= block){
             damage -= block;
             block = 0;
-            if (armor < damage){
-                damage -= armor;
-                armor = 0;
-                if (hp <= damage){
-                    hp = 0;
-                    hpBar.GetComponent<HPBar>().UpdateHP();
-                    return false;
-                }
-                else{
-                    hp -= damage;
-                    hpBar.GetComponent<HPBar>().UpdateHP();
-                    AnEyeForAnEye(damage);
-                    return true;
-                }
-            }else{
-                armor -= damage;
-                hpBar.GetComponent<HPBar>().UpdateHP();
-                AnEyeForAnEye(damage);
-                return true;
-            }
-        }else{
-            block -= damage;
-            hpBar.GetComponent<HPBar>().UpdateHP();
-            AnEyeForAnEye(damage);
-            return true;
+            armor -= damage;
         }
+        else{
+            block -= damage;
+        }
+        hpBar.GetComponent<HPBar>().UpdateHP();
+        if (!dead) AnEyeForAnEye(damage);
+        if (damage > 0) GetComponent<HitAnimation>().Play(dead);
+        if (dead) Debug.Log("GetHit called Die()");
+        if (dead) StartCoroutine(Die());
+        return dead;
     }
     public bool LoseHP(int value){
+        if (hp == 0) return true;
+
         if (hp <= value){
             hp = 0;
             hpBar.GetComponent<HPBar>().UpdateHP();
+            Debug.Log("LoseHP called Die()");
+            StartCoroutine(Die());
+            GetComponent<HitAnimation>().Play(true);
             return false;
         }
         else{
@@ -127,13 +139,14 @@ public class Character : MonoBehaviour
 
 
     public bool Attack(GameObject target, int dmg){
-        int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg);
-        if (target.GetComponent<Character>().GetStatus(Status.status.invincible) > 0)
-            target.GetComponent<Character>().AddStatus(Status.status.invincible, -1);
-        bool target_alive = target.GetComponent<Character>().GetHit(final_dmg);
-        int fireLevel = GetStatus(Status.status.fire_enchantment);
-        if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
-        return target_alive;
+        // int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg);
+        // if (target.GetComponent<Character>().GetStatus(Status.status.invincible) > 0)
+        //     target.GetComponent<Character>().AddStatus(Status.status.invincible, -1);
+        // bool target_alive = target.GetComponent<Character>().GetHit(final_dmg);
+        // int fireLevel = GetStatus(Status.status.fire_enchantment);
+        // if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
+        // return target_alive;
+        return Attack(target, dmg, 1, 1);
     }
     public bool Attack(GameObject target, int dmg, float strength_multiplier, float tmp_strength_multiplier){
         int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg, strength_multiplier, tmp_strength_multiplier);
@@ -148,10 +161,18 @@ public class Character : MonoBehaviour
     public int GetMaxHP(){
         return maxHP;
     }
-
+    public void AddMaxHP(int value){
+        maxHP += value;
+        Heal(value);
+    }
     public int GetHP(){
         return hp;
     }
+    public bool IsAlive(){
+        return hp > 0;
+    }
+
+
 
     public void Heal(int value){
         if (hp + value > maxHP) hp = maxHP;
@@ -297,6 +318,17 @@ public class Character : MonoBehaviour
             case 201:
                 AddStatus(Status.status.taunt, 99);
                 AddStatus(Status.status.doom, 1);
+                break;
+            case 207:
+                AddStatus(Status.status.symbioticA, 1);
+                AddStatus(Status.status.rage, 4);
+                break;
+            case 208:
+                AddStatus(Status.status.symbioticB, 1);
+                AddStatus(Status.status.grief, 30);
+                break;
+            case 209:
+                AddStatus(Status.status.absorb, 1);
                 break;
             default:
                 // Debug.Log("Character.InitEnemy(): Unknown id " + enemy.id.ToString());

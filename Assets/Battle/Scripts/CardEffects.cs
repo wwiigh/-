@@ -109,7 +109,7 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 22:
-                player_character.Attack(battleController.GetRandomEnemy(), card_info.Args[0]);
+                player_character.Attack(BattleController.GetRandomEnemy(), card_info.Args[0]);
                 EffectEnd();
                 break;
             case 23:
@@ -117,7 +117,7 @@ public class CardEffects : MonoBehaviour
                 break;
             case 24:
                 for (int i = 0; i < 2; i++){
-                    foreach(GameObject enemy in battleController.GetAllEnemy()){
+                    foreach(GameObject enemy in BattleController.GetAllEnemy()){
                         player_character.Attack(enemy, card_info.Args[0]);
                     }
                 }
@@ -133,7 +133,7 @@ public class CardEffects : MonoBehaviour
             case 27:
                 Debug.Log("call effects by card 27, " + effects.GetInstanceID());
                 effects.Play(null, "sting_AOE");
-                foreach(GameObject enemy in battleController.GetAllEnemy()){
+                foreach(GameObject enemy in BattleController.GetAllEnemy()){
                     player_character.Attack(enemy, card_info.Args[0]);
                     enemy.GetComponent<Character>().AddStatus(Status.status.burn, card_info.Args[1]);
                 }
@@ -196,7 +196,7 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
             case 40:
-                foreach(GameObject enemy in battleController.GetAllEnemy()){
+                foreach(GameObject enemy in BattleController.GetAllEnemy()){
                     enemy.GetComponent<Character>().AddStatus(Status.status.burn, card_info.Args[0]);
                     int tmp = enemy.GetComponent<Character>().GetStatus(Status.status.burn);
                     if (tmp >= card_info.Args[1]){
@@ -218,7 +218,7 @@ public class CardEffects : MonoBehaviour
                     }
                 }
                 if (success)
-                    foreach(GameObject enemy in battleController.GetAllEnemy()){
+                    foreach(GameObject enemy in BattleController.GetAllEnemy()){
                         player_character.Attack(enemy, card_info.Args[0]);
                     }
                 EffectEnd();
@@ -509,10 +509,18 @@ public class CardEffects : MonoBehaviour
         Card card_info = card_saved.GetComponent<CardDisplay>().thisCard;
         switch(id){
             case 1:
-                player_character.AddArmor(card_info.Args[0]);
                 deck.Discard(cards[0]);
+                player_character.AddArmor(card_info.Args[0]);
+                List<Card> cardList1 = new();
+                foreach(Card card in Deck.GetDeck())
+                    if (card.cost == 0) cardList1.Add(card);
+                if (cardList1.Count != 0){
+                    foreach(Card card in cardList1) Debug.Log(card.cardName + " is in list");
+                    Global.ShowPlayerCards(cardList1, Callback_1, true);
+                }
+                else EffectEnd();
                 // not finished
-                EffectEnd();
+                // EffectEnd();
                 break;
             case 4:
                 cards[0].GetComponent<CardDisplay>().thisCard.keep = true;
@@ -581,6 +589,12 @@ public class CardEffects : MonoBehaviour
         Cost.ChangeCost(-card_saved.GetComponent<CardDisplay>().thisCard.cost);
     }
 
+
+
+    static void Callback_1(Card card){
+        FindObjectOfType<Deck>().MoveFromDrawPileToHand(card);
+        EffectEnd();
+    }
     static void Callback_29(int n){
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         // Debug.Log("Callback_29, selected number " + n.ToString());
@@ -618,7 +632,7 @@ public class CardEffects : MonoBehaviour
         battleController.GetPlayer().GetComponent<Animator>().Play("player_attack");
         yield return new WaitForSeconds(0.25f);
         effects.Play(null, "sword wave");
-        foreach(GameObject enemy in battleController.GetAllEnemy()){
+        foreach(GameObject enemy in BattleController.GetAllEnemy()){
             player_character.Attack(enemy, card_info.Args[0]);
         }
         if (!card_info.once_used){
@@ -633,7 +647,7 @@ public class CardEffects : MonoBehaviour
             battleController.GetPlayer().GetComponent<Animator>().Play("player_attack");
             yield return new WaitForSeconds(0.25f);
             effects.Play(null, "sword wave");
-            foreach(GameObject enemy in battleController.GetAllEnemy()){
+            foreach(GameObject enemy in BattleController.GetAllEnemy()){
                 player_character.Attack(enemy, card_info.Args[0]);
             }
         }
