@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class Card_List : MonoBehaviour
 {
     [SerializeField] Sprite normal;
@@ -16,6 +16,7 @@ public class Card_List : MonoBehaviour
     public GameObject confirm_button;
     public static int now_select = 0;
     public static Card now_select_card;
+    bool needtoselect = false;
     List<GameObject> cards = new List<GameObject>();
     Global.CardFunction card_fun;
     // void OnEnable()
@@ -33,7 +34,8 @@ public class Card_List : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(now_select == 1)confirm_button.GetComponent<Button>().interactable = true;
+        if(needtoselect==false)confirm_button.GetComponent<Button>().interactable = true;
+        else if(now_select == 1)confirm_button.GetComponent<Button>().interactable = true;
         else confirm_button.GetComponent<Button>().interactable = false;
     }
     public void Clear()
@@ -51,6 +53,7 @@ public class Card_List : MonoBehaviour
     }
     public void Init(List<Card> player_deck,Global.CardFunction card_fun,bool can_select)
     {
+        needtoselect = can_select;
         if(player_deck.Count==0&&can_select==true)return;
         now_select = 0;
         this.card_fun = card_fun;
@@ -71,8 +74,16 @@ public class Card_List : MonoBehaviour
             a.GetComponent<CardDisplay>().LoadCard(true);
             // card.GetComponent<CardDisplay>().Make(item,card_list.transform);
         }
-        if(can_select == true)confirm_button.SetActive(true);
-        else confirm_button.SetActive(false);
+        if(can_select == true)
+        {
+            confirm_button.SetActive(true);
+            confirm_button.GetComponentInChildren<TMP_Text>().text = "確認";
+        }
+        else 
+        {
+            confirm_button.SetActive(true);
+            confirm_button.GetComponentInChildren<TMP_Text>().text = "關閉";
+        }
     }
 
     public void OnClick()
