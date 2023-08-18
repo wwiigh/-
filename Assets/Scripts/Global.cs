@@ -1,4 +1,4 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -525,9 +525,13 @@ public class Global : MonoBehaviour
     {
         card_function(card);
     }
+<<<<<<< HEAD
+    
+=======
     public static void LeaveBattle()
     {
         FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
         FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
     }
+>>>>>>> 7755db0d8421521975455c468d48f10a408b6c09
 }
