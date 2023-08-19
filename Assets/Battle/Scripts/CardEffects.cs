@@ -338,10 +338,12 @@ public class CardEffects : MonoBehaviour
                 break;
             case 209:
                 player_character.GetHit(20);
+                card_info.exhaust = true;
                 EffectEnd();
                 break;
             case 210:
                 Global.AddSan(-10);
+                card_info.exhaust = true;
                 EffectEnd();
                 break;
             case 211:

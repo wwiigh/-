@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
+// using System;
 
 public class EnemyMove : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class EnemyMove : MonoBehaviour
     GameObject player = null;
     int intention = -1;
     int state = -1;
+    public List<int> list = new();
     GameObject GetPlayer(){
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
         return player;
@@ -678,7 +679,7 @@ public class EnemyMove : MonoBehaviour
                 }
                 break;
             case 403: // 編劇家
-                if(state == -1 || state == 1 || state == 4)
+                if(state == -1 || state == 1)
                 {
                     state += 1;
                     if(state == 5)state = 0;
@@ -703,9 +704,9 @@ public class EnemyMove : MonoBehaviour
                     intention = 3;
                     ShowIntention(2,18);
                 }
-                else if(state == 4 )
+                else if(state == 4)
                 {
-                    state += 1;
+                    state = -1;
                     intention = 4;
                     ShowIntention(3,0);
                 }
@@ -893,6 +894,13 @@ public class EnemyMove : MonoBehaviour
                 if (intention == 0) return ("撞擊", "造成<color=red>" + GetDamage(10).ToString() + "</color>點傷害");
                 if (intention == 1) return ("精神干擾", "理智<color=red>-3</color>");
                 if (intention == 2) return ("爆燃", "給予<color=red>10</color>層燃燒，自身死亡");
+                break;
+            case 403:
+                if (intention == 0) return ("惡魔詠唱", "給予<color=red>2</color>層虛弱");
+                if (intention == 1) return ("褻瀆", "給予<color=red>1</color>層精神衰弱");
+                if (intention == 2) return ("惡咒", "造成<color=red>" + GetDamage(15).ToString() + "</color>點傷害");
+                if (intention == 3) return ("魔力障壁", "獲得<color=green>18</color>點護甲");
+                if (intention == 4) return ("改寫歷史", "將自身生命值變回2回合前的狀態(" + list[list.Count - 2] + ")");
                 break;
             default:
                 Debug.Log("GetIntention: Unknown enemy id " + id.ToString());
@@ -1570,7 +1578,7 @@ public class EnemyMove : MonoBehaviour
                 break;
             case 313: // 阿薩托斯
                 if(intention == 0){
-                    GetComponent<Animator>().Play("313_fly");
+                    GetComponent<Animator>().Play("313_attack1");
                     yield return new WaitForSeconds(0.5f);
                     Global.AddSan(-30);
                     List<Card> cardList313_0 = Deck.GetAll();
@@ -1590,7 +1598,7 @@ public class EnemyMove : MonoBehaviour
                     deck.UpdateHand();
                 }
                 else if (intention == 1){
-                    GetComponent<Animator>().Play("313_fly");
+                    GetComponent<Animator>().Play("313_attack1");
                     yield return new WaitForSeconds(0.5f);
                     List<Card> cardList313_1 = Deck.GetAll();
                     for (int i = 0; i < 3; i++){
@@ -1600,7 +1608,7 @@ public class EnemyMove : MonoBehaviour
                     }
                 }
                 else if (intention == 2){
-                    GetComponent<Animator>().Play("313_fly");
+                    GetComponent<Animator>().Play("313_attack1");
                     yield return new WaitForSeconds(0.5f);
                     List<Card> cardList313_2 = Deck.GetAll();
                     for (int i = 0; i < 3; i++){
@@ -1610,32 +1618,32 @@ public class EnemyMove : MonoBehaviour
                     }
                 }
                 else if (intention == 3){
-                    GetComponent<Animator>().Play("313_fly");
-                    yield return new WaitForSeconds(0.5f);
+                    GetComponent<Animator>().Play("313_attack2");
+                    yield return new WaitForSeconds(5 / 8f);
                     GetComponent<Character>().Attack(player,21);
                     if (player_character.GetArmor() == 0) player_character.AddStatus(Status.status.dream, 2);
                 }
                 else if (intention == 4){
-                    GetComponent<Animator>().Play("313_fly");
+                    GetComponent<Animator>().Play("313_attack1");
                     yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().AddArmor(18);
                     GetComponent<Character>().AddStatus(Status.status.invincible,1);
                 }
                 else if (intention == 5){
-                    GetComponent<Animator>().Play("313_fly");
+                    GetComponent<Animator>().Play("313_attack1");
                     yield return new WaitForSeconds(0.5f);
                     if (Global.sanity > 30) Global.AddSan(-8);
                     else player_character.AddStatus(Status.status.vulnerable, 7);
                 }
                 else if (intention == 6){
-                    GetComponent<Animator>().Play("313_fly");
-                    yield return new WaitForSeconds(0.5f);
+                    GetComponent<Animator>().Play("313_attack2");
+                    yield return new WaitForSeconds(5 / 8f);
                     GetComponent<Character>().Attack(player,14);
                     player_character.AddStatus(Status.status.compress, 1);
                 }
                 else if (intention == 7){
-                    GetComponent<Animator>().Play("313_fly");
-                    yield return new WaitForSeconds(0.5f);
+                    GetComponent<Animator>().Play("313_attack2");
+                    yield return new WaitForSeconds(5 / 8f);
                     List<Card> cardList313_7 = Deck.GetAll();
                     int count = 0;
                     foreach(Card card in cardList313_7)
@@ -1683,17 +1691,17 @@ public class EnemyMove : MonoBehaviour
                 if(intention == 0){
                     // GetComponent<Animator>().Play("401_attack");
                     yield return new WaitForSeconds(0.5f);
-                    player.GetComponent<Character>().AddStatus(Status.status.weak,2);
+                    player.GetComponent<Character>().AddStatus(Status.status.weak, 2);
                 }
                 else if (intention == 1){
                     // GetComponent<Animator>().Play("401_run");
                     yield return new WaitForSeconds(0.5f);
-                    player.GetComponent<Character>().AddStatus(Status.status.mental_weak,1);
+                    player.GetComponent<Character>().AddStatus(Status.status.mental_weak, 1);
                 }
                 else if (intention == 2){
                     // GetComponent<Animator>().Play("402_attack");
                     yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Attack(player,15);
+                    GetComponent<Character>().Attack(player, 15);
                 }
                 else if (intention == 3){
                     // GetComponent<Animator>().Play("402_attack");
@@ -1703,7 +1711,7 @@ public class EnemyMove : MonoBehaviour
                 else if (intention == 4){
                     // GetComponent<Animator>().Play("402_attack");
                     yield return new WaitForSeconds(0.5f);
-                    //改寫待做
+                    GetComponent<Character>().SetHP(list[list.Count - 3]);
                 }
                 break;
             default:

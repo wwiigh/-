@@ -115,6 +115,9 @@ public class Character : MonoBehaviour
         if (dead) StartCoroutine(Die());
 
         if (hp != 0 && GetEnemyID() == 305) GetComponent<EnemyMove>().Enemy305_Detect();
+
+        if (GetEnemyID() == 313) GetComponent<Animator>().Play("313_hit");
+
         return dead;
     }
     public bool LoseHP(int value){
@@ -171,6 +174,10 @@ public class Character : MonoBehaviour
     }
     public int GetHP(){
         return hp;
+    }
+    public void SetHP(int value){
+        if (value > hp) Heal(value - hp);
+        if (value < hp) LoseHP(hp - value);
     }
     public bool IsAlive(){
         return hp > 0;
@@ -241,6 +248,7 @@ public class Character : MonoBehaviour
 
 
     public void TurnStart(){
+        if (GetEnemyID() == 403) GetComponent<EnemyMove>().list.Add(GetHP());
         if (GetStatus(Status.status.auto_guard) > 0) AddStatus(Status.status.taunt, 1);
         if (GetStatus(Status.status.burn) > 0) TriggerBurn(true);
         if (hpBar != null){

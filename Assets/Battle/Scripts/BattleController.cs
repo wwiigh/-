@@ -19,7 +19,8 @@ public class BattleController : MonoBehaviour
     public enum BattleType{
         Normal,
         Elite,
-        Boss
+        Boss,
+        Special
     }
     public enum BattleState{
         Normal,
@@ -111,6 +112,9 @@ public class BattleController : MonoBehaviour
             }
             tmp = notEncounterdYet_boss[Random.Range(0, notEncounterdYet_boss.Count)];
             notEncounterdYet_boss.Remove(tmp);
+        }
+        if (type == BattleType.Special){
+            tmp = 401;
         }
         EnterBattle_id(tmp);
         

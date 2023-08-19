@@ -12,6 +12,7 @@ TagManager:
   - Cost
   - BattleEffects
   - AllCards
+  - UI canvas
   layers:
   - Default
   - TransparentFX
