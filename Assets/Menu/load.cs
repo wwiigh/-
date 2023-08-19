@@ -8,6 +8,6 @@ public class load : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("map2");
     }
 }
