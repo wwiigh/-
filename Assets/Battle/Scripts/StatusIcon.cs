@@ -21,12 +21,13 @@ public class StatusIcon : MonoBehaviour
         Debug.Log("battleController is " + battleController.ToString());
         descriptionBox = battleController.GetComponent<BattleController>().descriptionBox;
     }
-    public void UpdateIcon(int idx, (Status.status _status, int level) pack){
+    public void UpdateIcon(int idx, (Status.status _status, int level) pack, int numberPerRow){
         if (parent == null) Init();
         status = pack._status;
         level = pack.level;
         Vector3 defaultPosotion = new Vector3(-100, -215, 0);
-        transform.localPosition = defaultPosotion + Vector3.right * 50 * (idx % 5) + Vector3.down * 60 * (idx / 5);
+        if (numberPerRow == 3) defaultPosotion = new Vector3(-50, -215, 0);
+        transform.localPosition = defaultPosotion + Vector3.right * 50 * (idx % numberPerRow) + Vector3.down * 60 * (idx / numberPerRow);
         img.sprite = battleController.GetComponent<Status>().GetImage(status);
         if (Status.IsCountable(status)){
             levelText.enabled = true;

@@ -37,4 +37,8 @@ public class HPBar : MonoBehaviour
             }
         }
     }
+    public void AdjustLength(float value){
+        transform.localScale = new Vector3(value, transform.localScale.y, transform.localScale.z);
+        transform.GetChild(3).localScale = new Vector3(1 / value, transform.GetChild(3).localScale.x, transform.GetChild(3).localScale.z);
+    }
 }

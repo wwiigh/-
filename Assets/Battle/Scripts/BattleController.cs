@@ -36,6 +36,8 @@ public class BattleController : MonoBehaviour
     Card lastCardPlayed = null;
     bool played46ThisTurn = false;
     int currentTurn = 0;
+    int currentBattleID = 0;
+    Card swallowedCard = null;
 
 
     List<int> notEncounterdYet_normal = new List<int>();
@@ -81,7 +83,7 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Normal);
+        EnterBattle(BattleType.Boss);
     }
 
     public void EnterBattle(BattleType type){
@@ -120,6 +122,7 @@ public class BattleController : MonoBehaviour
 
     int enemyCount = 0;
     public void EnterBattle_id(int id){
+        currentBattleID = id;
         InitPlayer();
         int[] enemyID;
         switch(id){
@@ -221,6 +224,7 @@ public class BattleController : MonoBehaviour
         SpawnEnemies(enemyID);
         Cost.Init();
         deck.Init();
+        swallowedCard = null;
         currentTurn = 0;
         StartCoroutine(_StartTurn());
     }
@@ -231,6 +235,14 @@ public class BattleController : MonoBehaviour
         enemyCount -= 1;
         if (enemyCount == 0){
             Debug.Log("battle end: you win");
+        }
+
+        if (currentBattleID == 311){
+            foreach(Transform child in characters.transform){
+                if (child.GetComponent<Character>().GetEnemyID() == 311){
+                    child.GetComponent<EnemyMove>().Enemy311_Detect();
+                }
+            }
         }
         // else ReorderEnemy();
     }
@@ -264,19 +276,26 @@ public class BattleController : MonoBehaviour
     public bool PlayedAttackThisTurn(){
         return playedAttackThisTurn;
     }
-
-
-
-    public void PlayedAttack(){
-        playedAttackThisTurn = true;
+    static public int GetEnemyCount(){
+        return FindObjectOfType<BattleController>().enemyCount;
     }
-    public void PlayedSkill(){
-        playedSkillThisTurn = true;
-    }
+
+
+
     public void PlayedCard(Card card){
         playedCardThisTurn = true;
         lastCardPlayed = card;
+        if (card.type == Card.Type.attack) playedAttackThisTurn = true;
+        if (card.type == Card.Type.skill) playedSkillThisTurn = true;
         if (card.id == 46) played46ThisTurn = true;
+
+        if (currentBattleID == 302){
+            foreach(Transform child in characters.transform){
+                if (child.tag == "Enemy" && child.GetComponent<Character>().GetEnemyID() == 302){
+                    child.GetComponent<EnemyMove>().Enemy302_Detect(card);
+                }
+            }
+        }
     }
     public void Discarded(){
         discardedThisTurn = true;
@@ -296,16 +315,24 @@ public class BattleController : MonoBehaviour
         List<GameObject> enemylist = new();
         foreach(Transform child in characters.transform)
             if (child.tag == "Enemy" && child.GetComponent<Character>().IsAlive()) enemylist.Add(child.gameObject);
-        foreach(GameObject child in enemylist){
-            child.GetComponent<Character>().TurnStart();
-            if (child.GetComponent<Character>().IsAlive()) child.GetComponent<EnemyMove>().Move();
+        while(enemylist.Count > 0){
+            float x = 10000;
+            GameObject chosen = null;
+            foreach(GameObject child in enemylist){
+                if (child.transform.localPosition.x < x){
+                    x = child.transform.localPosition.x;
+                    chosen = child;
+                }
+            }
+
+            chosen.GetComponent<Character>().TurnStart();
+            if (chosen.GetComponent<Character>().IsAlive()) chosen.GetComponent<EnemyMove>().Move();
+            enemylist.Remove(chosen);
             yield return new WaitForSeconds(1f);
         }
-        // foreach(Transform child in characters.transform){
-        //     if (child.tag == "Enemy"){
-        //         child.GetComponent<Character>().TurnStart();
-        //         if (child.GetComponent<Character>().IsAlive()) child.GetComponent<EnemyMove>().Move();
-        //     }
+        // foreach(GameObject child in enemylist){
+        //     child.GetComponent<Character>().TurnStart();
+        //     if (child.GetComponent<Character>().IsAlive()) child.GetComponent<EnemyMove>().Move();
         //     yield return new WaitForSeconds(1f);
         // }
         if (player_character.GetStatus(Status.status.vulnerable) > 0){
@@ -325,9 +352,7 @@ public class BattleController : MonoBehaviour
         foreach(Transform child in characters.transform){
             if (child.tag == "Enemy") child.GetComponent<EnemyMove>().SetIntention();
         }
-        int draw_less_level = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().GetStatus(Status.status.draw_less);
-        Deck.Draw(5 - draw_less_level);
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().AddStatus(Status.status.draw_less, -draw_less_level);
+        deck.TurnStart();
         Cost.Refill(0);
         player.GetComponent<Character>().TurnStart();
         yield return new WaitForSeconds(0);
@@ -437,6 +462,17 @@ public class BattleController : MonoBehaviour
         return player;
     }
 
+
+
+    public void SetSwallowedCard(Card card){
+        swallowedCard = card;
+    }
+    public Card GetSwallowedCard(){
+        return swallowedCard;
+    }
+
+
+
     void InitPlayer(){
         // GameObject player = Instantiate(character, transform);
         player = Instantiate(character_template, characters.transform);
@@ -450,9 +486,12 @@ public class BattleController : MonoBehaviour
         enemy.transform.localPosition = new Vector3(180 + idx*300, 0, 0);
         enemy.tag = "Enemy";
         enemy.GetComponent<Character>().InitEnemy(enemyClass[id]);
+
+        if (id == 17) enemy.GetComponent<EnemyMove>().SetState(idx - 1);
     }
 
-    public GameObject SpwanEnemyAt(int id, Vector2 position){
+    public GameObject SpawnEnemyAt(int id, Vector2 position){
+        enemyCount++;
         GameObject enemy = Instantiate(character_template, characters.transform);
         enemy.transform.localPosition = position;
         enemy.tag = "Enemy";
