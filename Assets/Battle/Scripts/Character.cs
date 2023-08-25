@@ -37,6 +37,7 @@ public class Character : MonoBehaviour
         if (HP_Initialized()) return;
         hpBar =  Instantiate(hpBarTemplate, transform);
         hpBar.transform.localPosition = hpBar.transform.localPosition + Vector3.down*185;
+        if (GetEnemyID() == 402) hpBar.GetComponent<HPBar>().AdjustLength(0.5f);
     }
 
     public void UpdateStatus(){
@@ -53,7 +54,8 @@ public class Character : MonoBehaviour
 
         int idx = 0;
         foreach(var _status in status){
-            statusIcons[idx].GetComponent<StatusIcon>().UpdateIcon(idx, _status);
+            if (GetEnemyID() == 402) statusIcons[idx].GetComponent<StatusIcon>().UpdateIcon(idx, _status, 3);
+            else statusIcons[idx].GetComponent<StatusIcon>().UpdateIcon(idx, _status, 5);
             idx++;
         }
     }
@@ -111,6 +113,11 @@ public class Character : MonoBehaviour
         if (damage > 0) GetComponent<HitAnimation>().Play(dead);
         if (dead) Debug.Log("GetHit called Die()");
         if (dead) StartCoroutine(Die());
+
+        if (hp != 0 && GetEnemyID() == 305) GetComponent<EnemyMove>().Enemy305_Detect();
+
+        if (GetEnemyID() == 313) GetComponent<Animator>().Play("313_hit");
+
         return dead;
     }
     public bool LoseHP(int value){
@@ -168,6 +175,10 @@ public class Character : MonoBehaviour
     public int GetHP(){
         return hp;
     }
+    public void SetHP(int value){
+        if (value > hp) Heal(value - hp);
+        if (value < hp) LoseHP(hp - value);
+    }
     public bool IsAlive(){
         return hp > 0;
     }
@@ -216,7 +227,7 @@ public class Character : MonoBehaviour
 
 
     public void HoverIn(){
-        Debug.Log("HoverIn");
+        // Debug.Log("HoverIn");
         if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
             transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
             Debug.Log("change color");
@@ -237,6 +248,7 @@ public class Character : MonoBehaviour
 
 
     public void TurnStart(){
+        if (GetEnemyID() == 403) GetComponent<EnemyMove>().list.Add(GetHP());
         if (GetStatus(Status.status.auto_guard) > 0) AddStatus(Status.status.taunt, 1);
         if (GetStatus(Status.status.burn) > 0) TriggerBurn(true);
         if (hpBar != null){
@@ -330,15 +342,32 @@ public class Character : MonoBehaviour
             case 209:
                 AddStatus(Status.status.absorb, 1);
                 break;
+            case 301:
+                AddStatus(Status.status.grudge, 2);
+                break;
+            case 303:
+                AddStatus(Status.status.auto_guard, 1);
+                AddStatus(Status.status.energy_absorb, 1);
+                break;
+            case 309:
+            case 310:
+                AddStatus(Status.status.fluid, 1);
+                break;
+            case 312:
+                AddStatus(Status.status.blink, 1);
+                AddStatus(Status.status.oppress, 8);
+                break;
             default:
                 // Debug.Log("Character.InitEnemy(): Unknown id " + enemy.id.ToString());
                 break;
         }
 
-        GetComponent<Animator>().Play(enemy.id.ToString() + "_idle");
+        if (enemy.id == 310) GetComponent<Animator>().Play("309_idle");
+        else GetComponent<Animator>().Play(enemy.id.ToString() + "_idle");
     }
 
     public int GetEnemyID(){
+        if (tag == "Player") return -1;
         return enemyClass.id;
     }
 
@@ -351,6 +380,14 @@ public class Character : MonoBehaviour
             if (item._status == target) return item.level;
         }
         return 0;
+    }
+
+    public int GetNegativeStatusCount(){
+        int count = 0;
+        foreach(var item in status){
+            if (Status.IsNegative(item._status)) count++;
+        }
+        return count;
     }
 
     public void AddStatus(Status.status target, int level){

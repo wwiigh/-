@@ -16,6 +16,7 @@ public class Deck : MonoBehaviour
     TMP_Text drawPileNumber;
     TMP_Text trashNumber;
     int hand_limit = 8;
+
     private void Start() {
         battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         allcards_class = allcards_obj.GetComponent<AllCards>();
@@ -59,6 +60,19 @@ public class Deck : MonoBehaviour
         drawPile.Add( GetCard(10) );
         drawPile.Add( GetCard(10) );
         drawPile.Add( GetCard(10) );
+    }
+
+
+    
+    bool Enemy312_Effect1 = false;
+    bool Enemy312_Effect2 = false;
+    bool Enemy312_Effect3 = false;
+
+    static public void Use312Effect(int n){
+        Deck deck = FindObjectOfType<Deck>();
+        if (n == 1) deck.Enemy312_Effect1 = true;
+        if (n == 2) deck.Enemy312_Effect2 = true;
+        if (n == 3) deck.Enemy312_Effect3 = true;
     }
 
     // public void Init(){
@@ -146,6 +160,8 @@ public class Deck : MonoBehaviour
         Rearrange();
     }
 
+
+
     public GameObject AddCardToHand(Card card){
         if (hand.Count == hand_limit) return null;
         GameObject tmp = MakeCard(card);
@@ -153,10 +169,13 @@ public class Deck : MonoBehaviour
         Rearrange();
         return tmp;
     }
-    public void AddCardToDrawPile(Card card){
+    public Card AddCardToDrawPile(Card card){
         drawPile.Add(card);
         Shuffle(drawPile);
+        return card;
     }
+
+
 
     public void MoveFromHandToDrawPile(GameObject card){
         hand.Remove(card);
@@ -164,11 +183,16 @@ public class Deck : MonoBehaviour
         Destroy(card);
         Rearrange();
     }
-
     public void MoveFromDrawPileToHand(Card card){
         drawPile.Remove(card);
         AddCardToHand(card);
     }
+    public void MoveFromTrashToHand(Card card){
+        trash.Remove(card);
+        AddCardToHand(card);
+    }
+
+
 
     public Card GetRandomSkillCard(){
         return allcards_obj.GetComponent<AllCards>().GetRandomSkillCard();
@@ -176,6 +200,8 @@ public class Deck : MonoBehaviour
     public Card GetRandomAttackCard(){
         return allcards_obj.GetComponent<AllCards>().GetRandomAttackCard();
     }
+
+
 
     public void AnEyeForAnEye(int dmgReceived){
         foreach(GameObject card in hand){
@@ -198,6 +224,40 @@ public class Deck : MonoBehaviour
         return cardFound;
     }
 
+
+
+    public void TurnStart(){
+        int draw_less_level = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().GetStatus(Status.status.draw_less);
+        Draw(5 - draw_less_level);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().AddStatus(Status.status.draw_less, -draw_less_level);
+
+        if (Enemy312_Effect1){
+            foreach(GameObject card in hand) card.GetComponent<CardDisplay>().thisCard.cost_change_before_play++;
+            Enemy312_Effect1 = false;
+        }
+        if (Enemy312_Effect2){
+            hand[Random.Range(0, hand.Count)].GetComponent<CardDisplay>().thisCard.cost_change += 10;
+            Enemy312_Effect2 = false;
+        }
+        if (Enemy312_Effect3){
+            List<GameObject> unmodified_cards = new(hand);
+            int randomIdx = Random.Range(0, unmodified_cards.Count);
+            GameObject cardSaved = unmodified_cards[randomIdx];
+            unmodified_cards.RemoveAt(randomIdx);
+            while(unmodified_cards.Count > 0){
+                randomIdx = Random.Range(0, unmodified_cards.Count);
+                Card card1 = cardSaved.GetComponent<CardDisplay>().thisCard;
+                Card card2 = unmodified_cards[randomIdx].GetComponent<CardDisplay>().thisCard;
+                (card1.cost_change, card2.cost_change) = (card2.cost_change, card1.cost_change);
+                (card1.cost_change_before_play, card2.cost_change_before_play) = (card2.cost_change_before_play, card1.cost_change_before_play);
+                (card1.cost, card2.cost) = (card2.cost, card1.cost);
+                cardSaved = unmodified_cards[randomIdx];
+                unmodified_cards.RemoveAt(randomIdx);
+            }
+            Enemy312_Effect3 = false;
+        }
+        UpdateHand();
+    }
     public void TurnEnd(){
         OnceEffectReactivate();
         int idx = 0;
@@ -329,6 +389,13 @@ public class Deck : MonoBehaviour
     }
     static public List<Card> GetTrash(){
         return FindObjectOfType<Deck>().trash;
+    }
+    static public List<Card> GetAll(){
+        List<Card> list = new();
+        foreach(Card card in GetDeck()) list.Add(card);
+        foreach(Card card in GetTrash()) list.Add(card);
+        foreach(GameObject card in GetHand()) list.Add(card.GetComponent<CardDisplay>().thisCard);
+        return list;
     }
 
     static void Shuffle(List<Card> deck){

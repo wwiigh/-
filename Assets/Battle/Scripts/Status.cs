@@ -295,19 +295,59 @@ public class Status : MonoBehaviour
     }
 
     public static bool IsCountable(status _status){
-        if (_status == status.hard_shell || _status == status.doom || _status == status.symbioticA || _status == status.symbioticB ||
-            _status == status.absorb || _status == status.auto_guard || _status == status.energy_absorb || _status == status.fluid ||
-            _status == status.blink || _status == status.summoned || _status == status.observe || _status == status.lock_on_prepare ||
-            _status == status.lock_on || _status == status.remnant)
-            return false;
-        else return true;
+        switch(_status){
+            case status.hard_shell:
+            case status.doom:
+            case status.symbioticA:
+            case status.symbioticB:
+            case status.absorb:
+            case status.auto_guard:
+            case status.energy_absorb:
+            case status.fluid:
+            case status.blink:
+            case status.summoned:
+            case status.observe:
+            case status.lock_on_prepare:
+            case status.lock_on:
+            case status.remnant:
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    public static bool IsNegative(status _status){
+        switch(_status){
+            case status.burn:
+            case status.weak:
+            case status.bleed:
+            case status.frail:
+            case status.vulnerable:
+            case status.mental_weak:
+            case status.dream:
+            case status.draw_less:
+            case status.information_erase:
+            case status.swallow:
+            case status.compress:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public static bool DecreaseOnTurnEnd(status _status){
-        if (_status == status.taunt || _status == status.prepare || _status == status.weak || _status == status.frail ||
-            _status == status.dream || _status == status.information_erase || _status == status.swallow )
-            return true;
-        else return false;
+        switch(_status){
+            case status.taunt:
+            case status.prepare:
+            case status.weak:
+            case status.frail:
+            case status.dream:
+            case status.information_erase:
+            case status.swallow:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public static bool DecreaseOnTurnStart(status _status){
@@ -317,10 +357,15 @@ public class Status : MonoBehaviour
     }
 
     public static bool ClearOnTurnEnd(status _status){
-        if (_status == status.temporary_strength || _status == status.temporary_dexterity || _status == status.fortify ||
-            _status == status.fire_armor)
-            return true;
-        else return false;
+        switch(_status){
+            case status.temporary_strength:
+            case status.temporary_dexterity:
+            case status.fortify:
+            case status.fire_armor:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public Sprite GetImage(status _status){

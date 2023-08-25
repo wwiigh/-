@@ -301,6 +301,15 @@ public class CardEffects : MonoBehaviour
             case 57:
                 battleController.SelectEnemy(EnemySelected);
                 break;
+            case 58:
+                List<Card> cardList58 = new();
+                foreach(Card _card in Deck.GetTrash())
+                    if (_card.type == Card.Type.attack &&_card.cost == 1) cardList58.Add(_card);
+                if (cardList58.Count != 0){
+                    Global.ShowPlayerCards(cardList58, Callback_58, true);
+                }
+                else EffectEnd();
+                break;
             case 59:
                 battleController.SelectCard(CardSelected, card_info.Args[0], true, true);
                 break;
@@ -329,10 +338,12 @@ public class CardEffects : MonoBehaviour
                 break;
             case 209:
                 player_character.GetHit(20);
+                card_info.exhaust = true;
                 EffectEnd();
                 break;
             case 210:
                 Global.AddSan(-10);
+                card_info.exhaust = true;
                 EffectEnd();
                 break;
             case 211:
@@ -519,8 +530,6 @@ public class CardEffects : MonoBehaviour
                     Global.ShowPlayerCards(cardList1, Callback_1, true);
                 }
                 else EffectEnd();
-                // not finished
-                // EffectEnd();
                 break;
             case 4:
                 cards[0].GetComponent<CardDisplay>().thisCard.keep = true;
@@ -582,11 +591,10 @@ public class CardEffects : MonoBehaviour
     static void EffectEnd(){
         BattleController battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
-        if (card_saved.GetComponent<CardDisplay>().thisCard.type == Card.Type.attack) battleController.PlayedAttack();
-        if (card_saved.GetComponent<CardDisplay>().thisCard.type == Card.Type.skill) battleController.PlayedSkill();
         battleController.PlayedCard(card_saved.GetComponent<CardDisplay>().thisCard);
         deck.CardUsed(card_saved);
-        Cost.ChangeCost(-card_saved.GetComponent<CardDisplay>().thisCard.cost);
+        Cost.ChangeCost(-card_saved.GetComponent<CardDisplay>().GetCost());
+        card_saved.GetComponent<CardDisplay>().thisCard.cost_change_before_play = 0;
     }
 
 
@@ -606,7 +614,6 @@ public class CardEffects : MonoBehaviour
         }
         EffectEnd();
     }
-
     static void Callback_45(int n){
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         GameObject tmp = null;
@@ -616,6 +623,10 @@ public class CardEffects : MonoBehaviour
             tmp.GetComponent<CardDisplay>().thisCard.exhaust = true;
             tmp.GetComponent<CardDisplay>().thisCard.disappear = true;
         }
+        EffectEnd();
+    }
+    static void Callback_58(Card card){
+        FindObjectOfType<Deck>().MoveFromTrashToHand(card);
         EffectEnd();
     }
 

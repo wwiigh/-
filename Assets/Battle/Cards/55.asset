@@ -16,7 +16,9 @@ MonoBehaviour:
   cardName: "\u7834\u90AA"
   image: {fileID: 0}
   cost_original: 1
-  cost: 0
+  cost_change: 0
+  cost_change_before_play: 0
+  cost: 1
   description:
   - "\u9020\u6210"
   - '#A'

@@ -21,12 +21,16 @@ public class CardDisplay : MonoBehaviour
 
     public GameObject Make(Card c, Transform t){
         GameObject a =  Instantiate(gameObject, t);
-        c.cost = c.cost_original;
+        // c.cost = c.cost_original;
         a.GetComponent<CardDisplay>().thisCard = Card.Copy(c);
         a.tag = "Card";
         a.GetComponent<CardDisplay>().LoadCard();
         // a.SetActive(true);
         return a;
+    }
+
+    public int GetCost(){
+        return thisCard.cost + thisCard.cost_change + thisCard.cost_change_before_play;
     }
 
     public void LoadCard(){
@@ -51,7 +55,7 @@ public class CardDisplay : MonoBehaviour
         if (thisCard.disappear) descriptionText.text += "消逝。";
 
         if (thisCard.cost != -1){
-            costText.text = thisCard.cost.ToString();
+            costText.text = GetCost().ToString();
         }
         else{
             costIcon.SetActive(false);

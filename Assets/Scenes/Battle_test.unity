@@ -3673,6 +3673,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4022496201264725920, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
+      propertyPath: m_TagString
+      value: UI canvas
+      objectReference: {fileID: 0}
     - target: {fileID: 4022496201264725924, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
       propertyPath: m_Camera
       value: 

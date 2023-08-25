@@ -260,6 +260,8 @@ public class Global : MonoBehaviour
         return bag_System.Have_Item("epuipment",id.ToString());
     }
 
+
+
     public delegate void MyDelegate(int n);
     public delegate void CardFunction(Card card);
     static MyDelegate callback_saved;
@@ -525,13 +527,9 @@ public class Global : MonoBehaviour
     {
         card_function(card);
     }
-<<<<<<< HEAD
-    
-=======
     public static void LeaveBattle()
     {
         FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
         FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
     }
->>>>>>> 7755db0d8421521975455c468d48f10a408b6c09
 }
