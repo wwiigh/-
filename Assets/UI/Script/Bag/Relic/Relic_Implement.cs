@@ -56,7 +56,7 @@ public class Relic_Implement : MonoBehaviour
         enemys = GameObject.FindGameObjectsWithTag("Enemy");
         all_hands_cards = Deck.GetHand();
         BattleController battleController = FindObjectOfType<BattleController>();
-        if(battleController.PlayedCardThisTurn()==false && relic_list.Contains(14))
+        if(BattleController.PlayedCardThisTurn()==false && relic_list.Contains(14))
         {
             if(type == Type.UseAttackCard)
             {

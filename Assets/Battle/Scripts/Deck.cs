@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Deck : MonoBehaviour
 {
@@ -51,15 +52,10 @@ public class Deck : MonoBehaviour
         // Shuffle(drawPile);
         
         drawPile.Add( GetCard(903) );
-        drawPile.Add( GetCard(101) );
         drawPile.Add( GetCard(46) );
-        drawPile.Add( GetCard(27) );
+        drawPile.Add( GetCard(59) );
+        drawPile.Add( GetCard(101) );
         drawPile.Add( GetCard(102) );
-        drawPile.Add( GetCard(902) );
-        drawPile.Add( GetCard(1) );
-        drawPile.Add( GetCard(10) );
-        drawPile.Add( GetCard(10) );
-        drawPile.Add( GetCard(10) );
     }
 
 
@@ -97,25 +93,42 @@ public class Deck : MonoBehaviour
     }
 
     public void CardUsed(GameObject card){
+        Character player_character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         hand.Remove(card);
-        if (!card.GetComponent<CardDisplay>().thisCard.exhaust) trash.Add(card.GetComponent<CardDisplay>().thisCard);
+
+        if (Global.Check_Relic_In_Bag(20) && !BattleController.PlayedCardThisTurn()){
+            drawPile.Add(card.GetComponent<CardDisplay>().thisCard);
+            Shuffle(drawPile);
+        }
+        else if (player_character.GetStatus(Status.status.bounce_back) > 0 && card.GetComponent<CardDisplay>().thisCard.id != 12){
+            player_character.AddStatus(Status.status.bounce_back, -1);
+            drawPile.Add(card.GetComponent<CardDisplay>().thisCard);
+            Shuffle(drawPile);
+        }
+        else if (!card.GetComponent<CardDisplay>().thisCard.exhaust) trash.Add(card.GetComponent<CardDisplay>().thisCard);
+
+        if (player_character.GetStatus(Status.status.imitate) > 0 && card.GetComponent<CardDisplay>().thisCard.id != 48){
+            AddCardToHand(card.GetComponent<CardDisplay>().thisCard);
+            player_character.AddStatus(Status.status.imitate, -1);
+        }
+
         Destroy(card);
         Rearrange();
     }
 
     // Triggers discard effects
     public void Discard(GameObject card){
-        Character player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
+        Character player_character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         hand.Remove(card);
         trash.Add(card.GetComponent<CardDisplay>().thisCard);
         Destroy(card);
         Rearrange();
         
-        int tmp = player.GetStatus(Status.status.second_weapon);
+        int tmp = player_character.GetStatus(Status.status.second_weapon);
         if (tmp > 0 && !battleController.DiscardedThisTurn())
             Draw(tmp);
         
-        tmp = player.GetStatus(Status.status.fast_hand);
+        tmp = player_character.GetStatus(Status.status.fast_hand);
         if (tmp > 0) BattleController.GetRandomEnemy().GetComponent<Character>().GetHit(tmp);
         
         battleController.Discarded();
@@ -226,9 +239,12 @@ public class Deck : MonoBehaviour
 
 
 
+    static bool firstCardDrawn = false;
     public void TurnStart(){
+        firstCardDrawn = false;
         int draw_less_level = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().GetStatus(Status.status.draw_less);
         Draw(5 - draw_less_level);
+        if (Global.Check_Relic_In_Bag(10)) Draw();
         GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().AddStatus(Status.status.draw_less, -draw_less_level);
 
         if (Enemy312_Effect1){
@@ -259,6 +275,19 @@ public class Deck : MonoBehaviour
         UpdateHand();
     }
     public void TurnEnd(){
+        Character player_character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
+
+        int tmp = Random.Range(0, hand.Count);
+        if (player_character.GetStatus(Status.status.information_erase) > 0)
+            hand[tmp].GetComponent<CardDisplay>().thisCard = GetCard(204);
+
+        tmp = Random.Range(0, hand.Count);
+        if (player_character.GetStatus(Status.status.swallow) > 0){
+            FindObjectOfType<BattleController>().SetSwallowedCard(hand[tmp].GetComponent<CardDisplay>().thisCard);
+            Destroy(hand[tmp]);
+            hand.RemoveAt(tmp);
+        }
+
         OnceEffectReactivate();
         int idx = 0;
         while(idx < hand.Count){
@@ -342,6 +371,14 @@ public class Deck : MonoBehaviour
             drawPile.RemoveAt(0);
         }
         Rearrange();
+        if (firstCardDrawn == false){
+            firstCardDrawn = true;
+            if (cardObj.GetComponent<CardDisplay>().thisCard.type == Card.Type.attack){
+                foreach(GameObject enemy in BattleController.GetAllEnemy())
+                    enemy.GetComponent<Character>().GetHit(3);
+            }
+            else GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().AddArmor(4);
+        }
         return cardObj;
     }
 

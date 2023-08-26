@@ -235,11 +235,14 @@ public class BattleController : MonoBehaviour
 
 
 
-    public void EnemyDie(){
+    public void EnemyDie(GameObject deadEnemy){
         enemyCount -= 1;
         if (enemyCount == 0){
             Debug.Log("battle end: you win");
         }
+
+        Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Enemy);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.KillEnemy);
 
         if (currentBattleID == 311){
             foreach(Transform child in characters.transform){
@@ -248,10 +251,30 @@ public class BattleController : MonoBehaviour
                 }
             }
         }
+
+        foreach(GameObject enemy in GetAllEnemy()){
+            int tmp = enemy.GetComponent<Character>().GetStatus(Status.status.rage);
+            if (tmp > 0) enemy.GetComponent<Character>().AddStatus(Status.status.strength, tmp);
+
+            tmp = enemy.GetComponent<Character>().GetStatus(Status.status.grief);
+            if (tmp > 0) enemy.GetComponent<Character>().AddArmor(tmp);
+
+            tmp = enemy.GetComponent<Character>().GetStatus(Status.status.absorb);
+            if (tmp > 0){
+                enemy.GetComponent<Character>().Heal(10);
+                enemy.GetComponent<Character>().AddStatus(Status.status.strength, 3);
+            }
+        }
+
+        int grudgeLevel = deadEnemy.GetComponent<Character>().GetStatus(Status.status.grudge);
+        if (grudgeLevel > 0)
+            foreach(GameObject enemy in GetAllEnemy())
+                enemy.GetComponent<Character>().AddStatus(Status.status.strength, grudgeLevel);
         // else ReorderEnemy();
     }
     public void PlayerDie(){
-        Debug.Log("battle end: you lose");
+        Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
+        if (!player.GetComponent<Character>().IsAlive()) Debug.Log("battle end: you lose");
     }
 
 
@@ -259,11 +282,11 @@ public class BattleController : MonoBehaviour
     public bool PlayedAttackAndSkillThisTurn(){
         return playedAttackThisTurn && playedSkillThisTurn;
     }
-    public bool PlayedCardThisTurn(){
-        return playedCardThisTurn;
+    static public bool PlayedCardThisTurn(){
+        return FindObjectOfType<BattleController>().playedCardThisTurn;
     }
-    public int GetCurrentTurn(){
-        return currentTurn;
+    static public int GetCurrentTurn(){
+        return FindObjectOfType<BattleController>().currentTurn;
     }
     public bool TookDmgLastTurn(){
         return tookDmgLastTurn;
@@ -283,15 +306,32 @@ public class BattleController : MonoBehaviour
     static public int GetEnemyCount(){
         return FindObjectOfType<BattleController>().enemyCount;
     }
+    static public bool HasTauntEnemy(){
+        foreach(GameObject enemy in GetAllEnemy()){
+            if (enemy.GetComponent<Character>().GetStatus(Status.status.taunt) > 0) return true;
+        }
+        return false;
+    }
+    static public int GetBattleID(){
+        return FindObjectOfType<BattleController>().currentBattleID;
+    }
 
 
 
     public void PlayedCard(Card card){
         playedCardThisTurn = true;
         lastCardPlayed = card;
-        if (card.type == Card.Type.attack) playedAttackThisTurn = true;
-        if (card.type == Card.Type.skill) playedSkillThisTurn = true;
+        if (card.rarity == Card.Rarity.common) Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseNormalCard);
+        if (card.type == Card.Type.attack){
+            playedAttackThisTurn = true;
+            Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseAttackCard);
+        }
+        if (card.type == Card.Type.skill){
+            playedSkillThisTurn = true;
+            Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseSkillCard);
+        }
         if (card.id == 46) played46ThisTurn = true;
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseCard);
 
         if (currentBattleID == 302){
             foreach(Transform child in characters.transform){
@@ -308,9 +348,10 @@ public class BattleController : MonoBehaviour
 
 
     public void EndTurn(){
-        StartCoroutine(_EndTurn());
+        Character player_character = characters.transform.GetChild(0).GetComponent<Character>();
+        if (player_character.GetStatus(Status.status.prepare) > 0 && Deck.GetHand().Count >= 1) PrepareEffect();
+        else StartCoroutine(_EndTurn());
     }
-
     IEnumerator _EndTurn(){
         Character player_character = characters.transform.GetChild(0).GetComponent<Character>();
         deck.TurnEnd();
@@ -346,8 +387,24 @@ public class BattleController : MonoBehaviour
         StartCoroutine(_StartTurn());
     }
 
+    void PrepareEffect(){
+        SelectCard(Callback_prepare, 1, false, false);
+    }
+    public void Callback_prepare(List<GameObject> list){
+        if (list.Count > 0) list[0].GetComponent<CardDisplay>().thisCard.keepBeforeUse = true;
+        StartCoroutine(_EndTurn());
+    }
+
     IEnumerator _StartTurn(){
+        Character player_character = player.GetComponent<Character>();
         currentTurn += 1;
+
+        int tmp = player_character.GetStatus(Status.status.turtle_stance);
+        if (tmp > 0 && !playedAttackThisTurn) player_character.AddStatus(Status.status.temporary_strength, tmp);
+
+        tmp = player_character.GetStatus(Status.status.dragon_stance);
+        if (tmp > 0 && !playedSkillThisTurn) player_character.AddStatus(Status.status.temporary_dexterity, tmp);
+
         playedAttackThisTurn = false;
         playedSkillThisTurn = false;
         playedCardThisTurn = false;
@@ -357,7 +414,14 @@ public class BattleController : MonoBehaviour
             if (child.tag == "Enemy") child.GetComponent<EnemyMove>().SetIntention();
         }
         deck.TurnStart();
-        Cost.Refill(0);
+
+        tmp = player_character.GetStatus(Status.status.compress);
+        if (tmp > 0){
+            Cost.Refill(-tmp);
+            player_character.AddStatus(Status.status.compress, -tmp);
+        }
+        else Cost.Refill(0);
+
         player.GetComponent<Character>().TurnStart();
         yield return new WaitForSeconds(0);
     }
@@ -393,7 +457,7 @@ public class BattleController : MonoBehaviour
     static public List<GameObject> GetAllEnemy(){
         List<GameObject> ret = new();
         foreach(Transform child in FindObjectOfType<BattleController>().characters.transform) 
-            if (child.tag == "Enemy") ret.Add(child.gameObject);
+            if (child.tag == "Enemy" && child.GetComponent<Character>().GetHP() > 0) ret.Add(child.gameObject);
         return ret;
     }
     public GameObject GetEnemyWithLowestHP(){
@@ -439,12 +503,16 @@ public class BattleController : MonoBehaviour
             // CardEffects.CardSelected(selectedCards);
             selectCard_callback(selectedCards);
             panel.GetComponent<Panel>().Hide();
+            deck.ResetHand();
+            Deck.Rearrange();
         }
         if (!isEqual && selectedCards.Count <= targetCardNumber){
             EnterState(BattleState.Normal);
             // CardEffects.CardSelected(selectedCards);
             selectCard_callback(selectedCards);
             panel.GetComponent<Panel>().Hide();
+            deck.ResetHand();
+            Deck.Rearrange();
         }
     }
     public void SelectCard_Cancel(){
@@ -543,6 +611,8 @@ public class BattleController : MonoBehaviour
         float multiplier = 1.0f;
 
         if (to_character.GetStatus(Status.status.invincible) > 0) return 0;
+        if (to_character.GetStatus(Status.status.symbioticA) > 0 && GetCurrentTurn() % 2 == 1) return 0;
+        if (to_character.GetStatus(Status.status.symbioticB) > 0 && GetCurrentTurn() % 2 == 0) return 0;
 
         int strength = (int)(from_character.GetStatus(Status.status.strength) * strength_multiplier) + 
                        (int)(from_character.GetStatus(Status.status.temporary_strength) * tmp_strength_multiplier);
@@ -551,6 +621,12 @@ public class BattleController : MonoBehaviour
         multiplier += from_character.GetStatus(Status.status.damage_adjust) * 0.01f;
 
         int final_dmg = (int) ((dmg + strength) * multiplier);
+        
+        if (from_character.GetStatus(Status.status.lock_on) > 0) final_dmg *= 2;
+        if (from_character.GetStatus(Status.status.lock_on) > 0) Debug.Log("lock on");
+
+        Debug.Log("all status: ");
+        foreach(var x in from_character.GetAllStatus()) Debug.Log("status: " + x._status.ToString() + ", level: " + x.level.ToString());
 
         int rock_solid = to_character.GetStatus(Status.status.rock_solid);
         final_dmg -= rock_solid;
@@ -573,6 +649,8 @@ public class BattleController : MonoBehaviour
         multiplier += from_character.GetStatus(Status.status.damage_adjust) * 0.01f;
 
         int final_dmg = (int) ((dmg + strength) * multiplier);
+
+        if (from_character.GetStatus(Status.status.lock_on) > 0) final_dmg *= 2;
 
         return final_dmg;
     }

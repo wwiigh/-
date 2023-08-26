@@ -358,9 +358,15 @@ public class Status : MonoBehaviour
 
     public static bool ClearOnTurnEnd(status _status){
         switch(_status){
-            case status.temporary_strength:
-            case status.temporary_dexterity:
             case status.fortify:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public static bool ClearOnTurnStart(status _status){
+        switch(_status){
             case status.fire_armor:
                 return true;
             default:
@@ -370,5 +376,14 @@ public class Status : MonoBehaviour
 
     public Sprite GetImage(status _status){
         return image[(int) _status];
+    }
+
+    static public bool Is_SymboticA_Active(GameObject obj){
+        if (obj.GetComponent<Character>().GetStatus(status.symbioticA) > 0 && BattleController.GetCurrentTurn() % 2 == 1) return true;
+        return false;
+    }
+    static public bool Is_SymboticB_Active(GameObject obj){
+        if (obj.GetComponent<Character>().GetStatus(status.symbioticB) > 0 && BattleController.GetCurrentTurn() % 2 == 0) return true;
+        return false;
     }
 }

@@ -1202,6 +1202,7 @@ public class EnemyMove : MonoBehaviour
                     if (GameObject.Find("Fire spirit 1") == null){
                         GameObject fireSpirit1 = FindObjectOfType<BattleController>().SpawnEnemyAt(30, new Vector3(180 + 300, 0, 0));
                         fireSpirit1.name = "Fire spirit 1";
+                        fireSpirit1.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
                     }
                     else{
                         GameObject.Find("Fire spirit 1").GetComponent<Character>().AddArmor(10);
@@ -1210,6 +1211,7 @@ public class EnemyMove : MonoBehaviour
                     if (GameObject.Find("Fire spirit 2") == null){
                         GameObject fireSpirit2 = FindObjectOfType<BattleController>().SpawnEnemyAt(30, new Vector3(180 + 600, 0, 0));
                         fireSpirit2.name = "Fire spirit 2";
+                        fireSpirit2.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
                     }
                     else{
                         GameObject.Find("Fire spirit 2").GetComponent<Character>().AddArmor(10);
@@ -1244,7 +1246,6 @@ public class EnemyMove : MonoBehaviour
                     foreach(GameObject enemy in BattleController.GetAllEnemy()){
                         enemy.GetComponent<Character>().Heal(12);
                     }
-                    //所有人恢復血量
                 }
                 break;
             case 207: // 雙生暗影(A)
@@ -1296,14 +1297,16 @@ public class EnemyMove : MonoBehaviour
                     if (GameObject.Find("lamb 1") == null && GetComponent<Character>().GetHP() > 20){
                         GameObject lamb1 = FindObjectOfType<BattleController>().SpawnEnemyAt(8, new Vector3(180 + 300, 0, 0));
                         lamb1.name = "lamb 1";
+                        lamb1.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
                         GetComponent<Character>().LoseHP(20);
                     }
                     else if (GameObject.Find("lamb 1")){
                         GameObject.Find("lamb 1").GetComponent<Character>().AddMaxHP(13);
                     }
                     if (GameObject.Find("lamb 2") == null && GetComponent<Character>().GetHP() > 20){
-                        GameObject fireSpirit2 = FindObjectOfType<BattleController>().SpawnEnemyAt(8, new Vector3(180 + 600, 0, 0));
-                        fireSpirit2.name = "lamb 2";
+                        GameObject lamb2 = FindObjectOfType<BattleController>().SpawnEnemyAt(8, new Vector3(180 + 600, 0, 0));
+                        lamb2.name = "lamb 2";
+                        lamb2.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
                         GetComponent<Character>().LoseHP(20);
                     }
                     else if (GameObject.Find("lamb 2")){
@@ -1787,6 +1790,9 @@ public class EnemyMove : MonoBehaviour
             ShowIntention(1, 23);
         }
     }
+    public void Enemy303_Detect(){
+        if (intention == 1) ShowIntention(1, GetComponent<Character>().GetStatus(Status.status.accumulation));
+    }
     public void Enemy305_Detect(){
         if (state == 2) ShowIntention(1, GetComponent<Character>().GetArmor());
     }
@@ -1802,21 +1808,25 @@ public class EnemyMove : MonoBehaviour
         if (GameObject.Find("malice 1") == null && count > 0){
             tmp = FindObjectOfType<BattleController>().SpawnEnemyAt(31, new Vector3(400, 0, 0));
             tmp.name = "malice 1";
+            tmp.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
             count--;
         }
         if (GameObject.Find("malice 2") == null && count > 0){
             tmp = FindObjectOfType<BattleController>().SpawnEnemyAt(31, new Vector3(550, 0, 0));
             tmp.name = "malice 2";
+            tmp.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
             count--;
         }
         if (GameObject.Find("malice 3") == null && count > 0){
             tmp = FindObjectOfType<BattleController>().SpawnEnemyAt(31, new Vector3(700, 0, 0));
             tmp.name = "malice 3";
+            tmp.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
             count--;
         }
         if (GameObject.Find("malice 4") == null && count > 0){
             tmp = FindObjectOfType<BattleController>().SpawnEnemyAt(31, new Vector3(850, 0, 0));
             tmp.name = "malice 4";
+            tmp.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
             count--;
         }
     }

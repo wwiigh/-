@@ -27,7 +27,7 @@ MonoBehaviour:
   type: 1
   keep: 0
   keepBeforeUse: 0
-  exhaust: 0
+  exhaust: 1
   disappear: 0
   upgraded: 0
   once_used: 0
