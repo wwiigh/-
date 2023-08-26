@@ -18,7 +18,11 @@ public class Character : MonoBehaviour
     int hp = 100;
     int armor = 0;
     int block = 0;
+
     public bool vulnerable_buffer = false;
+    bool tookDmgLastTurn = false;
+    bool tookDmgThisTurn = false;
+
     List<(Status.status _status, int level)> status = new List<(Status.status _status, int level)>();
     List<GameObject> statusIcons = new List<GameObject>();
     void Start()
@@ -72,7 +76,7 @@ public class Character : MonoBehaviour
         // GetComponent<Animator>().Play("die");
         yield return new WaitForSeconds(1.0f);
         if (tag == "Enemy"){
-            FindObjectOfType<BattleController>().EnemyDie();
+            FindObjectOfType<BattleController>().EnemyDie(gameObject);
             Destroy(gameObject);
         }
         else{
@@ -84,7 +88,11 @@ public class Character : MonoBehaviour
 
     public bool GetHit(int damage){
         if (hp == 0) return true;
+
+        if (damage > 0) tookDmgThisTurn = true;
         
+        int block_diff = armor + block;
+        int hp_diff = hp;
         bool dead = false;
         GameObject dmgText = Instantiate(damageTextTemplate, transform);
         dmgText.GetComponent<DamageText>().Show(damage);
@@ -109,12 +117,31 @@ public class Character : MonoBehaviour
             block -= damage;
         }
         hpBar.GetComponent<HPBar>().UpdateHP();
-        if (!dead) AnEyeForAnEye(damage);
         if (damage > 0) GetComponent<HitAnimation>().Play(dead);
-        if (dead) Debug.Log("GetHit called Die()");
-        if (dead) StartCoroutine(Die());
+        if (dead){
+            Debug.Log("GetHit called Die()");
+            StartCoroutine(Die());
+            return dead;
+        }
 
-        if (hp != 0 && GetEnemyID() == 305) GetComponent<EnemyMove>().Enemy305_Detect();
+        block_diff -= armor + block;
+        hp_diff -= hp;
+
+        AnEyeForAnEye(damage);
+        PowerCompete(hp_diff);
+
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, damage);
+
+        if (GetComponent<Character>().GetStatus(Status.status.energy_absorb) > 0){
+            AddStatus(Status.status.accumulation, block_diff);
+            GetComponent<EnemyMove>().Enemy303_Detect();
+        }
+
+        if (GetComponent<Character>().GetStatus(Status.status.fluid) > 0){
+            AddBlock(hp_diff);
+        }
+
+        if (GetEnemyID() == 305) GetComponent<EnemyMove>().Enemy305_Detect();
 
         if (GetEnemyID() == 313) GetComponent<Animator>().Play("313_hit");
 
@@ -122,6 +149,12 @@ public class Character : MonoBehaviour
     }
     public bool LoseHP(int value){
         if (hp == 0) return true;
+
+        if (value > 0) tookDmgThisTurn = true;
+
+        PowerCompete(value);
+        
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, value);
 
         if (hp <= value){
             hp = 0;
@@ -142,6 +175,16 @@ public class Character : MonoBehaviour
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         deck.AnEyeForAnEye(dmgReceived);
     }
+    void PowerCompete(int hp_diff){
+        int powerCompeteLevel = GetStatus(Status.status.power_compete);
+        if (hp_diff == 0 && powerCompeteLevel == 0) return;
+
+        if (hp_diff >= powerCompeteLevel){
+            AddStatus(Status.status.power_compete, -powerCompeteLevel);
+            AddStatus(Status.status.vulnerable, 2);
+        }
+        else AddStatus(Status.status.power_compete, -hp_diff);
+    }
 
 
 
@@ -156,13 +199,39 @@ public class Character : MonoBehaviour
         return Attack(target, dmg, 1, 1);
     }
     public bool Attack(GameObject target, int dmg, float strength_multiplier, float tmp_strength_multiplier){
+        int armor_before = target.GetComponent<Character>().GetArmor() + target.GetComponent<Character>().GetBlock();
+        int hp_before = target.GetComponent<Character>().GetHP();
+
         int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg, strength_multiplier, tmp_strength_multiplier);
         if (target.GetComponent<Character>().GetStatus(Status.status.invincible) > 0)
             target.GetComponent<Character>().AddStatus(Status.status.invincible, -1);
-        bool target_alive = target.GetComponent<Character>().GetHit(final_dmg);
+        bool target_dead = target.GetComponent<Character>().GetHit(final_dmg);
+
+        int spike_level = target.GetComponent<Character>().GetStatus(Status.status.spike);
+        if (spike_level > 0) GameObject.FindWithTag("Player").GetComponent<Character>().GetHit(spike_level);
+
+        if (target.GetComponent<Character>().GetStatus(Status.status.doom) > 0) GameObject.FindWithTag("Player").GetComponent<Character>().GetHit(final_dmg / 2);
+
+        int counter_level = target.GetComponent<Character>().GetStatus(Status.status.counter);
+        if (target.tag == "Player" && counter_level > 0 && target.GetComponent<Character>().GetArmor() == 0 && armor_before > 0){
+            GetHit(counter_level);
+            AddStatus(Status.status.vulnerable, 1);
+        }
+
+        int fireArmor_level = target.GetComponent<Character>().GetStatus(Status.status.fire_armor);
+        if (fireArmor_level > 0) AddStatus(Status.status.burn, fireArmor_level);
+
         int fireLevel = GetStatus(Status.status.fire_enchantment);
-        if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
-        return target_alive;
+        if (tag == "Player" && fireLevel > 0 && !target_dead) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
+        
+        if (target.GetComponent<Character>().GetStatus(Status.status.bleed) > 0 && target.GetComponent<Character>().GetHP() != GetHP()){
+            target.GetComponent<Character>().LoseHP(2);
+            target.GetComponent<Character>().AddStatus(Status.status.bleed, -1);
+        }
+
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.Attack, final_dmg);
+
+        return target_dead;
     }
 
     public int GetMaxHP(){
@@ -206,6 +275,8 @@ public class Character : MonoBehaviour
             Deck.Draw();
             AddStatus(Status.status.fortify, -1);
         }
+
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetArmor, value);
     }
 
 
@@ -217,11 +288,13 @@ public class Character : MonoBehaviour
         if (tag == "Player") block += BattleController.ComputeArmor(value);
         else block += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
-        effects.Play(gameObject, "get_armor");
+        if (value > 0) effects.Play(gameObject, "get_armor");
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
             Deck.Draw();
             AddStatus(Status.status.fortify, -1);
         }
+        
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetArmor, value);
     }
 
 
@@ -229,14 +302,18 @@ public class Character : MonoBehaviour
     public void HoverIn(){
         // Debug.Log("HoverIn");
         if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
-            transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
-            Debug.Log("change color");
+            if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
+                transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
+                // Debug.Log("change color");
+            }
         }
     }
     public void Click(){
         if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
-            battleController.EnemySelected(gameObject);
-            transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
+                battleController.EnemySelected(gameObject);
+                transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            }
         }
     }
     public void HoverOut(){
@@ -248,17 +325,56 @@ public class Character : MonoBehaviour
 
 
     public void TurnStart(){
+        tookDmgLastTurn = tookDmgThisTurn;
+        tookDmgThisTurn = false;
+
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.TurnStart);
+
         if (GetEnemyID() == 403) GetComponent<EnemyMove>().list.Add(GetHP());
-        if (GetStatus(Status.status.auto_guard) > 0) AddStatus(Status.status.taunt, 1);
+        if (GetStatus(Status.status.auto_guard) > 0 && !tookDmgLastTurn) AddStatus(Status.status.taunt, 1);
         if (GetStatus(Status.status.burn) > 0) TriggerBurn(true);
+        if (GetStatus(Status.status.lock_on_prepare) > 0){
+            AddStatus(Status.status.lock_on_prepare, -1);
+            AddStatus(Status.status.lock_on, 1);
+        }
+        if (GetStatus(Status.status.fire_armor) > 0) AddStatus(Status.status.fire_armor, -GetStatus(Status.status.fire_armor));
         if (hpBar != null){
             block = 0;
             hpBar.GetComponent<HPBar>().UpdateHP();
         }
+
+        if (tag == "Enemy") Invoke("TurnEnd", 1);
     }
     public void TurnEnd(){
+        if (GetStatus(Status.status.remnant) > 0){
+            int tmp = GetStatus(Status.status.temporary_strength);
+            if (tmp % 2 == 1) tmp++;
+            AddStatus(Status.status.temporary_strength, -tmp / 2);
+
+            tmp = GetStatus(Status.status.temporary_dexterity);
+            if (tmp % 2 == 1) tmp++;
+            AddStatus(Status.status.temporary_dexterity, -tmp / 2);
+        }
+        else{
+            int tmp = GetStatus(Status.status.temporary_strength);
+            AddStatus(Status.status.temporary_strength, -tmp);
+            
+            tmp = GetStatus(Status.status.temporary_dexterity);
+            AddStatus(Status.status.temporary_dexterity, -tmp);
+        }
+
         List<(Status.status _status, int level)> decreaseList = new List<(Status.status _status, int level)>();
         List<(Status.status _status, int level)> clearList = new List<(Status.status _status, int level)>();
+
+        int rampartLevel = GetStatus(Status.status.rampart);
+        if (rampartLevel > 0) AddBlock(rampartLevel);
+
+        int oppressLevel = GetStatus(Status.status.oppress);
+        if (oppressLevel > 0) GameObject.FindWithTag("Player").GetComponent<Character>().GetHit(oppressLevel);
+
+        int mentalWeakLevel = GetStatus(Status.status.mental_weak);
+        if (mentalWeakLevel > 0) Global.AddSan(-mentalWeakLevel);
+
         foreach(var pack in status){
             if (Status.DecreaseOnTurnEnd(pack._status)) decreaseList.Add(pack);
             if (Status.ClearOnTurnEnd(pack._status)) clearList.Add(pack);
@@ -272,12 +388,21 @@ public class Character : MonoBehaviour
 
     public bool TriggerBurn(bool decrease){
         int level = GetStatus(Status.status.burn);
-        bool dead = LoseHP(level - GetStatus(Status.status.rock_solid));
+        int tmp = 0;
         if (decrease){
-            if (level % 2 == 1) level = level / 2 + 1;
-            else level = level / 2;
-            AddStatus(Status.status.burn, -level);
+            if (level % 2 == 1) tmp = level / 2 + 1;
+            else tmp = level / 2;
+            AddStatus(Status.status.burn, -tmp);
         }
+
+        if (GetComponent<Character>().GetStatus(Status.status.invincible) > 0){
+            GetComponent<Character>().AddStatus(Status.status.invincible, -1);
+            return false;
+        }
+        if (Status.Is_SymboticA_Active(gameObject) || Status.Is_SymboticB_Active(gameObject)) return false;
+        
+        int extraDmg = Global.Check_Relic_In_Bag(13)? 3:0;
+        bool dead = LoseHP(level - GetStatus(Status.status.rock_solid) + extraDmg);
         return dead;
     }
 
@@ -286,22 +411,8 @@ public class Character : MonoBehaviour
         maxHP = Global.player_max_hp;
         hp = Global.player_hp;
         GetComponent<Animator>().Play("player_idle");
-        // AddStatus(Status.status.absorb, 9);
-        // AddStatus(Status.status.accumulation, 9);
-        // AddStatus(Status.status.auto_guard, 9);
-        // AddStatus(Status.status.bleed, 9);
-        // AddStatus(Status.status.blink, 9);
-        // AddStatus(Status.status.bounce_back, 9);
-        // AddStatus(Status.status.burn, 9);
-        // AddStatus(Status.status.compress, 9);
-        // AddStatus(Status.status.counter, 9);
-        // AddStatus(Status.status.damage_adjust, 9);
-        // AddStatus(Status.status.dexterity, 9);
-        // AddStatus(Status.status.doom, 9);
-        // AddStatus(Status.status.doppelganger, 9);
-        // for(int i = 0; i < 15; i++){
-        //     AddStatus(Random.Range(0, 53), Random.Range(0, 10));
-        // }
+        AddStatus(Status.status.temporary_dexterity, 10);
+        AddStatus(Status.status.temporary_strength, 10);
     }
 
     public void InitEnemy(EnemyClass enemy){

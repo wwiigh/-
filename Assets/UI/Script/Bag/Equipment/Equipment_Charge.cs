@@ -10,7 +10,7 @@ public class Equipment_Charge : MonoBehaviour
         GetArmor,
         Attack,
         UseEnegy,
-        GetDemage,
+        GetDamage,
         UseNormalCard,
         TurnStart,
         UseAttackCard,
@@ -38,7 +38,7 @@ public class Equipment_Charge : MonoBehaviour
     }
     public void test_charge()
     {
-        Equipment_Charge.Update_Equipment_Charge(Charge_Type.GetDemage,2);
+        Equipment_Charge.Update_Equipment_Charge(Charge_Type.GetDamage, 2);
         Equipment_Charge.Update_Equipment_Cold();
 
     }

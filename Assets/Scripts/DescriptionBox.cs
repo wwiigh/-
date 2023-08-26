@@ -7,7 +7,7 @@ using TMPro;
 public class DescriptionBox : MonoBehaviour
 {
     static public GameObject Show(string name, string description){
-        Debug.Log("Show() is called");
+        // Debug.Log("Show() is called");
         GameObject boxObj = Instantiate(FindAnyObjectByType<GlobalAssets>().descriptionBoxTemplate, GameObject.FindGameObjectWithTag("UI canvas").transform);
         boxObj.transform.GetChild(0).gameObject.SetActive(true);
         DescriptionBox box = boxObj.GetComponent<DescriptionBox>();

@@ -177,7 +177,7 @@ public class Card_List : MonoBehaviour
                 a.descriptionText.text += "\n";
             }
             else if (s == "#turn"){
-                a.descriptionText.text += Object.FindObjectOfType<BattleController>().GetCurrentTurn();
+                // a.descriptionText.text += Object.FindObjectOfType<BattleController>().GetCurrentTurn();
             }
             else if (s == "#once_start"){
                 if (thisCard.once_used) a.descriptionText.text += "<color=grey>";

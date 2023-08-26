@@ -55,7 +55,9 @@ public class CardDisplay : MonoBehaviour
         if (thisCard.disappear) descriptionText.text += "消逝。";
 
         if (thisCard.cost != -1){
-            costText.text = GetCost().ToString();
+            if (GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().GetStatus(Status.status.dream) > 0)
+                costText.text = "";
+            else costText.text = GetCost().ToString();
         }
         else{
             costIcon.SetActive(false);
@@ -118,7 +120,7 @@ public class CardDisplay : MonoBehaviour
                 descriptionText.text += "\n";
             }
             else if (s == "#turn"){
-                descriptionText.text += Object.FindObjectOfType<BattleController>().GetCurrentTurn();
+                descriptionText.text += BattleController.GetCurrentTurn();
             }
             else if (s == "#once_start"){
                 if (thisCard.once_used) descriptionText.text += "<color=grey>";
