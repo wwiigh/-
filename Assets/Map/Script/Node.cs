@@ -234,6 +234,9 @@ public class Node:MonoBehaviour
             item.SetActive(true);
         }
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
+        // Map_System.now_state = Map_System.map_state.fight;
+        Relic_Implement.Handle_Relic_Before_Battle();
+        FindObjectOfType<Equipment_Control>().Enable_Equipment();
         FindObjectOfType<BattleController>().EnterBattle(BattleController.BattleType.Normal);
         StartCoroutine(wait_finish(battle_object));
     }
@@ -245,6 +248,9 @@ public class Node:MonoBehaviour
         {
             item.SetActive(true);
         }
+        // Map_System.now_state = Map_System.map_state.fight;
+        Relic_Implement.Handle_Relic_Before_Battle();
+        FindObjectOfType<Equipment_Control>().Enable_Equipment();
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
         FindObjectOfType<BattleController>().EnterBattle(BattleController.BattleType.Elite);
         StartCoroutine(wait_finish(battle_object));
@@ -257,6 +263,9 @@ public class Node:MonoBehaviour
         {
             item.SetActive(true);
         }
+        // Map_System.now_state = Map_System.map_state.fight;
+        Relic_Implement.Handle_Relic_Before_Battle();
+        FindObjectOfType<Equipment_Control>().Enable_Equipment();
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
         FindObjectOfType<BattleController>().EnterBattle(BattleController.BattleType.Boss);
         StartCoroutine(wait_finish(battle_object));
