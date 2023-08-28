@@ -371,7 +371,7 @@ public class Deck : MonoBehaviour
             drawPile.RemoveAt(0);
         }
         Rearrange();
-        if (firstCardDrawn == false){
+        if (Global.Check_Relic_In_Bag(15) && firstCardDrawn == false){
             firstCardDrawn = true;
             if (cardObj.GetComponent<CardDisplay>().thisCard.type == Card.Type.attack){
                 foreach(GameObject enemy in BattleController.GetAllEnemy())

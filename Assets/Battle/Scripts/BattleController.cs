@@ -47,7 +47,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 3;
+        Global.current_level = 1;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -84,7 +84,7 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Boss);
+        EnterBattle(BattleType.Normal);
     }
 
     public void EnterBattle(BattleType type){
@@ -616,11 +616,12 @@ public class BattleController : MonoBehaviour
 
         int strength = (int)(from_character.GetStatus(Status.status.strength) * strength_multiplier) + 
                        (int)(from_character.GetStatus(Status.status.temporary_strength) * tmp_strength_multiplier);
+        int additional = from_character.GetStatus(Status.status.explosive_force);
         if (from_character.GetStatus(Status.status.weak) > 0) multiplier -= 0.25f;
         if (to_character.GetStatus(Status.status.vulnerable) > 0) multiplier += 0.25f;
         multiplier += from_character.GetStatus(Status.status.damage_adjust) * 0.01f;
 
-        int final_dmg = (int) ((dmg + strength) * multiplier);
+        int final_dmg = (int) ((dmg + strength + additional) * multiplier);
         
         if (from_character.GetStatus(Status.status.lock_on) > 0) final_dmg *= 2;
         if (from_character.GetStatus(Status.status.lock_on) > 0) Debug.Log("lock on");
@@ -645,10 +646,11 @@ public class BattleController : MonoBehaviour
 
         int strength = (int)(from_character.GetStatus(Status.status.strength) * strength_multiplier) + 
                        (int)(from_character.GetStatus(Status.status.temporary_strength) * tmp_strength_multiplier);
+        int additional = from_character.GetStatus(Status.status.explosive_force);
         if (from_character.GetStatus(Status.status.weak) > 0) multiplier -= 0.25f;
         multiplier += from_character.GetStatus(Status.status.damage_adjust) * 0.01f;
 
-        int final_dmg = (int) ((dmg + strength) * multiplier);
+        int final_dmg = (int) ((dmg + strength + additional) * multiplier);
 
         if (from_character.GetStatus(Status.status.lock_on) > 0) final_dmg *= 2;
 

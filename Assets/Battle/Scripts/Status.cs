@@ -43,6 +43,9 @@ public class Status : MonoBehaviour
         remnant,
         turtle_stance,
         dragon_stance,
+        explosive_force,
+        evade,
+        blood_drain,
 
 
         burn,
@@ -56,6 +59,7 @@ public class Status : MonoBehaviour
         information_erase,
         swallow,
         compress,
+        decay,
 
 
         summoned,
@@ -140,6 +144,12 @@ public class Status : MonoBehaviour
                 return "玄武架勢";
             case status.dragon_stance:
                 return "青龍架勢";
+            case status.explosive_force:
+                return "爆發力";
+            case status.evade:
+                return "迴避";
+            case status.blood_drain:
+                return "吸血";
 
             case status.burn:
                 return "燃燒";
@@ -163,6 +173,8 @@ public class Status : MonoBehaviour
                 return "吞噬";
             case status.compress:
                 return "空間壓縮";
+            case status.decay:
+                return "腐朽";
                 
             case status.summoned:
                 return "召喚物";
@@ -255,6 +267,12 @@ public class Status : MonoBehaviour
                 return "回合開始時，若上回合沒有打出過攻擊牌，獲得<color=green>" + level.ToString() + "</color>點臨時力量";
             case status.dragon_stance:
                 return "回合開始時，若上回合沒有打出過技能牌，獲得<color=green>" + level.ToString() + "</color>點臨時敏捷";
+            case status.explosive_force:
+                return "下一次造成的傷害<color=green>+" + level.ToString() + "</color>";
+            case status.evade:
+                return "有<color=green>" + level.ToString() + "%</color>機率無視受到的傷害";
+            case status.blood_drain:
+                return "造成攻擊傷害時回復等同造成傷害<color=green>50%</color>的生命值，還可觸發<color=green>" + level.ToString() + "</color>次";
 
             case status.burn:
                 return "回合開始時失去<color=red>" + level.ToString() + "</color>點生命，隨後層數減半";
@@ -278,6 +296,8 @@ public class Status : MonoBehaviour
                 return "回合結束時，隨機移除一張手牌，持續<color=red>" + level.ToString() + "</color>回合";
             case status.compress:
                 return "下回合少獲得<color=red>" + level.ToString() + "</color>點能量";
+            case status.decay:
+                return "回合開始時，失去等同於最大生命值<color=red>" + level.ToString() + "%</color>的生命";
                 
             case status.summoned:
                 return "被召喚出的生物。不可解除";

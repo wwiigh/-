@@ -1731,16 +1731,22 @@ public class EnemyMove : MonoBehaviour
         switch(type){
             case 1:
                 intentionObj.GetComponent<Image>().sprite = attackImg;
+                intentionObj.GetComponent<Image>().color = new Color(1, 0, 0, 1);
+                intentionObj.GetComponentInChildren<TMP_Text>().color = new Color(1, 0, 0, 1);
                 if (value > 0)
                     intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = BattleController.ComputeDamage(gameObject, GetPlayer(), value).ToString();
                 break;
             case 2:
                 intentionObj.GetComponent<Image>().sprite = defendImg;
+                intentionObj.GetComponent<Image>().color = new Color(0.3333f, 1, 1, 1);
+                intentionObj.GetComponentInChildren<TMP_Text>().color = new Color(0.3333f, 1, 1, 1);
                 if (value > 0)
                     intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = value.ToString();
                 break;
             case 3:
                 intentionObj.GetComponent<Image>().sprite = othersImg;
+                intentionObj.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                intentionObj.GetComponentInChildren<TMP_Text>().color = new Color(1, 1, 1, 1);
                 break;
             default:
                 Debug.Log("ShowIntention: Unknown type " + type.ToString());

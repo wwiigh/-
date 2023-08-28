@@ -89,6 +89,10 @@ public class Character : MonoBehaviour
     public bool GetHit(int damage){
         if (hp == 0) return true;
 
+        int evadeLevel = GetComponent<Character>().GetStatus(Status.status.evade);
+        if (evadeLevel > 0)
+            if (Random.Range(0, 100) < evadeLevel) damage = 0;
+
         if (damage > 0) tookDmgThisTurn = true;
         
         int block_diff = armor + block;
@@ -150,6 +154,10 @@ public class Character : MonoBehaviour
     public bool LoseHP(int value){
         if (hp == 0) return true;
 
+        int evadeLevel = GetComponent<Character>().GetStatus(Status.status.evade);
+        if (evadeLevel > 0)
+            if (Random.Range(0, 100) < evadeLevel) value = 0;
+
         if (value > 0) tookDmgThisTurn = true;
 
         PowerCompete(value);
@@ -171,11 +179,16 @@ public class Character : MonoBehaviour
             return true;
         }
     }
+    public bool LoseHP(float value){
+        if (value % 1 >= 0.5f) return LoseHP((int)(value / 1) + 1);
+        return LoseHP((int)(value / 1));
+    }
     void AnEyeForAnEye(int dmgReceived){
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         deck.AnEyeForAnEye(dmgReceived);
     }
     void PowerCompete(int hp_diff){
+        if (GetStatus(Status.status.power_compete) == 0) return;
         int powerCompeteLevel = GetStatus(Status.status.power_compete);
         if (hp_diff == 0 && powerCompeteLevel == 0) return;
 
@@ -208,9 +221,9 @@ public class Character : MonoBehaviour
         bool target_dead = target.GetComponent<Character>().GetHit(final_dmg);
 
         int spike_level = target.GetComponent<Character>().GetStatus(Status.status.spike);
-        if (spike_level > 0) GameObject.FindWithTag("Player").GetComponent<Character>().GetHit(spike_level);
+        if (spike_level > 0) GetComponent<Character>().GetHit(spike_level);
 
-        if (target.GetComponent<Character>().GetStatus(Status.status.doom) > 0) GameObject.FindWithTag("Player").GetComponent<Character>().GetHit(final_dmg / 2);
+        if (target.GetComponent<Character>().GetStatus(Status.status.doom) > 0) GetComponent<Character>().GetHit(final_dmg / 2);
 
         int counter_level = target.GetComponent<Character>().GetStatus(Status.status.counter);
         if (target.tag == "Player" && counter_level > 0 && target.GetComponent<Character>().GetArmor() == 0 && armor_before > 0){
@@ -227,6 +240,15 @@ public class Character : MonoBehaviour
         if (target.GetComponent<Character>().GetStatus(Status.status.bleed) > 0 && target.GetComponent<Character>().GetHP() != GetHP()){
             target.GetComponent<Character>().LoseHP(2);
             target.GetComponent<Character>().AddStatus(Status.status.bleed, -1);
+        }
+
+        int explosive_force_level = GetStatus(Status.status.explosive_force);
+        if (explosive_force_level > 0) AddStatus(Status.status.explosive_force, -explosive_force_level);
+
+        int blood_drain_level = GetStatus(Status.status.blood_drain);
+        if (blood_drain_level > 0){
+            Heal(final_dmg / 2);
+            AddStatus(Status.status.blood_drain, -1);
         }
 
         if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.Attack, final_dmg);
@@ -333,6 +355,7 @@ public class Character : MonoBehaviour
         if (GetEnemyID() == 403) GetComponent<EnemyMove>().list.Add(GetHP());
         if (GetStatus(Status.status.auto_guard) > 0 && !tookDmgLastTurn) AddStatus(Status.status.taunt, 1);
         if (GetStatus(Status.status.burn) > 0) TriggerBurn(true);
+        if (GetStatus(Status.status.decay) > 0) LoseHP(GetMaxHP() * GetStatus(Status.status.decay) * 0.01f);
         if (GetStatus(Status.status.lock_on_prepare) > 0){
             AddStatus(Status.status.lock_on_prepare, -1);
             AddStatus(Status.status.lock_on, 1);
@@ -411,8 +434,7 @@ public class Character : MonoBehaviour
         maxHP = Global.player_max_hp;
         hp = Global.player_hp;
         GetComponent<Animator>().Play("player_idle");
-        AddStatus(Status.status.temporary_dexterity, 10);
-        AddStatus(Status.status.temporary_strength, 10);
+        // AddStatus(Status.status.decay, 10);
     }
 
     public void InitEnemy(EnemyClass enemy){
