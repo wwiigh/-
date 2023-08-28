@@ -225,7 +225,7 @@ public class Map_Generate : MonoBehaviour
         if(LoadData!="")
         {
             Map_Save  MyData = JsonUtility.FromJson<Map_Save>(LoadData);
-            if(MyData.is_new==0)
+            if(MyData.is_new==0&&MyData.now_height>=0)
             {
                 Global.ReadData();
                 Init();
@@ -293,7 +293,7 @@ public class Map_Generate : MonoBehaviour
     // Update is called once per frame
     void check_status()
     {
-        if(SceneManager.GetActiveScene().name != "map2")
+        if(SceneManager.GetActiveScene().name != "map2" &&SceneManager.GetActiveScene().name != "Map")
         {
             foreach(var n in nodes)
             {

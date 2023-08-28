@@ -13,6 +13,7 @@ public class Event_Select : MonoBehaviour
     static int last_event;
     public static void init()
     {
+        Events_array.Clear();
         for(int i=1;i<=30;i++)
         {
             if(i==17||i==24)continue;
@@ -60,7 +61,7 @@ public class Event_Select : MonoBehaviour
         string LoadData = PlayerPrefs.GetString("Events_Data","");
 
         // string LoadData = File.ReadAllText(Application.dataPath+"/Save_Data/Events_Data");
-        
+        Debug.Log("loaddata is "+LoadData);
         Data Load = JsonUtility.FromJson<Data>(LoadData);
         Events_array = Load.Events_array;
         last_event = Load.last_event;

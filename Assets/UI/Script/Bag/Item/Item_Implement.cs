@@ -108,7 +108,10 @@ public class Item_Implement : MonoBehaviour
                     }
                     foreach (var item in status_copy)
                     {
-                        enemy.GetComponent<Character>().AddStatus(item._status,-item.level);
+                        if(item._status<=Status.status.dragon_stance)
+                        {
+                            enemy.GetComponent<Character>().AddStatus(item._status,-item.level);
+                        }
                     }
                 }
                 break;
@@ -178,7 +181,12 @@ public class Item_Implement : MonoBehaviour
                 List<GameObject> hand = Deck.GetHand();
                 foreach (var item in hand)
                 {
-                    item.GetComponent<Card>().cost_change = item.GetComponent<Card>().cost - 1;
+                    Card tmp = item.GetComponent<CardDisplay>().thisCard;
+                    if(tmp.cost>=1)
+                    {
+                        tmp.cost_change = tmp.cost - 1;
+                    }
+                    
                 }
                 break;
             case 208:

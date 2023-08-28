@@ -59,13 +59,13 @@ public class Bag_System : MonoBehaviour
     }
     void OnEnable()
     {
-        // Bag_Save.Load_Data(this);
-        for(int i=13;i<=23;i++)
-        {
-            Add_Item(i.ToString(),"equipment");
-        }
-        Add_Item(5.ToString(),"equipment");
-        Add_Item(109.ToString(),"item");
+        Bag_Save.Load_Data(this);
+        // for(int i=13;i<=23;i++)
+        // {
+        //     Add_Item(i.ToString(),"equipment");
+        // }
+        // Add_Item(5.ToString(),"equipment");
+        // Add_Item(109.ToString(),"item");
         // List<int> tmp = Return_Equipment();
         // foreach(var i in tmp)
         // {
@@ -278,8 +278,8 @@ public class Bag_System : MonoBehaviour
         }
         for(int i=0;i<tmp.Count;i++)
         {
-            Destroy(relic_list[i]);
-            relic_list.Remove(relic_list[i]);
+            Destroy(tmp[i]);
+            relic_list.Remove(tmp[i]);
         }
         reset_pos();
     }

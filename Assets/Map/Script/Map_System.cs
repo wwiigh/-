@@ -11,7 +11,8 @@ public class Map_System : MonoBehaviour
         events,
         altar,
         treasure,
-        ending
+        ending,
+        open_ui
     }
     public enum map_ui{
         close,

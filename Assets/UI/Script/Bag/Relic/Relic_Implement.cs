@@ -34,6 +34,19 @@ public class Relic_Implement : MonoBehaviour
         Relic_Immediate.Add(16);
         Relic_Immediate.Add(26);
         Relic_Immediate.Add(30);
+        bag_System = FindObjectOfType<Bag_System>();
+        Relic_Before_Battle.Add(5);
+        Relic_Before_Battle.Add(6);
+        Relic_Before_Battle.Add(9);
+        Relic_Before_Battle.Add(11);
+        Relic_Before_Battle.Add(12);
+        Relic_Before_Battle.Add(16);
+        Relic_Before_Battle.Add(17);
+        Relic_Before_Battle.Add(21);
+        Relic_Before_Battle.Add(22);
+        Relic_Before_Battle.Add(23);
+        Relic_Before_Battle.Add(27);
+        Relic_Before_Battle.Add(29);
     }
     
     public static void Update_Relic(Type type)
@@ -151,6 +164,7 @@ public class Relic_Implement : MonoBehaviour
         List<int> relic_list = bag_System.Return_All_Relic();
         player = GameObject.FindGameObjectWithTag("Player");
         enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        Debug.Log(" Num "+player + " " + enemys.Length);
         all_hands_cards = Deck.GetHand();
         foreach(int id in relic_list)
         {
@@ -187,6 +201,7 @@ public class Relic_Implement : MonoBehaviour
         all_hands_cards = Deck.GetHand();
         if(deadType == DeadType.Player &&relic_list.Contains(8)==true)
         {
+            Debug.Log("use dead");
             Use_Relic_Dead(8);
         }
         else if(deadType == DeadType.Enemy &&relic_list.Contains(18)==true)
@@ -234,9 +249,6 @@ public class Relic_Implement : MonoBehaviour
         {
             case 6:
                 player.GetComponent<Character>().AddStatus(Status.status.strength,5);
-                break;
-            case 8:
-                //死亡待做
                 break;
             case 9:
                 player.GetComponent<Character>().AddStatus(Status.status.strength,3);
@@ -292,7 +304,8 @@ public class Relic_Implement : MonoBehaviour
                 List<Card> player_deck_23 = Deck.GetDeck();
                 foreach (var item in player_deck_23)
                 {
-                    if(item.cost>=2)item.cost = 2;
+                    Debug.Log("card cost "+item.cost_original);
+                    if(item.cost_original>=2)item.cost_original = 2;
                 }
                 break;
             case 27:
@@ -317,6 +330,7 @@ public class Relic_Implement : MonoBehaviour
         {
             case 8:
                 Global.player_hp = Global.player_max_hp;
+                Global.sanity = Global.max_sanity;
                 bag_System.Relic_Del_All_item();
                 break;
             case 18:

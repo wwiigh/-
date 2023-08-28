@@ -14,6 +14,7 @@ public class Card_List : MonoBehaviour
     public GameObject card;
     public  List<Card> player_deck;
     public GameObject confirm_button;
+    public GameObject background;
     public static int now_select = 0;
     public static Card now_select_card;
     bool needtoselect = false;
@@ -84,6 +85,11 @@ public class Card_List : MonoBehaviour
             confirm_button.SetActive(true);
             confirm_button.GetComponentInChildren<TMP_Text>().text = "關閉";
         }
+        int line = player_deck.Count / 5;
+        int last = (player_deck.Count%5>0) ? 1 :0;
+        float height = (line+last)*350;
+        if(height < 700.11f)height = 700.11f;
+        background.GetComponent<RectTransform>().sizeDelta = new Vector2(1800, height);
     }
 
     public void OnClick()
