@@ -47,7 +47,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 1;
+        Global.current_level = 2;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -84,7 +84,7 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Normal);
+        EnterBattle(BattleType.Elite);
     }
 
     public void EnterBattle(BattleType type){
@@ -356,6 +356,7 @@ public class BattleController : MonoBehaviour
         Character player_character = characters.transform.GetChild(0).GetComponent<Character>();
         deck.TurnEnd();
         player_character.TurnEnd();
+        Equipment_Charge.Update_Equipment_Cold();
         // yield return new WaitForSeconds(0.1f);
         List<GameObject> enemylist = new();
         foreach(Transform child in characters.transform)
@@ -615,7 +616,8 @@ public class BattleController : MonoBehaviour
         if (to_character.GetStatus(Status.status.symbioticB) > 0 && GetCurrentTurn() % 2 == 0) return 0;
 
         int strength = (int)(from_character.GetStatus(Status.status.strength) * strength_multiplier) + 
-                       (int)(from_character.GetStatus(Status.status.temporary_strength) * tmp_strength_multiplier);
+                       (int)(from_character.GetStatus(Status.status.temporary_strength) * tmp_strength_multiplier) +
+                       from_character.GetStatus(Status.status.dice20);
         int additional = from_character.GetStatus(Status.status.explosive_force);
         if (from_character.GetStatus(Status.status.weak) > 0) multiplier -= 0.25f;
         if (to_character.GetStatus(Status.status.vulnerable) > 0) multiplier += 0.25f;
@@ -645,7 +647,8 @@ public class BattleController : MonoBehaviour
         float multiplier = 1.0f;
 
         int strength = (int)(from_character.GetStatus(Status.status.strength) * strength_multiplier) + 
-                       (int)(from_character.GetStatus(Status.status.temporary_strength) * tmp_strength_multiplier);
+                       (int)(from_character.GetStatus(Status.status.temporary_strength) * tmp_strength_multiplier) +
+                       from_character.GetStatus(Status.status.dice20);
         int additional = from_character.GetStatus(Status.status.explosive_force);
         if (from_character.GetStatus(Status.status.weak) > 0) multiplier -= 0.25f;
         multiplier += from_character.GetStatus(Status.status.damage_adjust) * 0.01f;
