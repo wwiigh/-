@@ -434,7 +434,7 @@ public class Character : MonoBehaviour
         maxHP = Global.player_max_hp;
         hp = Global.player_hp;
         GetComponent<Animator>().Play("player_idle");
-        // AddStatus(Status.status.decay, 10);
+        AddStatus(Status.status.dice20, Random.Range(-4, 5));
     }
 
     public void InitEnemy(EnemyClass enemy){
@@ -497,6 +497,9 @@ public class Character : MonoBehaviour
 
         if (enemy.id == 310) GetComponent<Animator>().Play("309_idle");
         else GetComponent<Animator>().Play(enemy.id.ToString() + "_idle");
+
+        
+        // AddStatus(Status.status.immobile, 2);
     }
 
     public int GetEnemyID(){

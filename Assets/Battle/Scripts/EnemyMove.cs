@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 // using System;
 
 public class EnemyMove : MonoBehaviour
@@ -15,6 +16,7 @@ public class EnemyMove : MonoBehaviour
     GameObject player = null;
     int intention = -1;
     int state = -1;
+    // int previous_state = -1;
     public List<int> list = new();
     GameObject GetPlayer(){
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
@@ -25,6 +27,7 @@ public class EnemyMove : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Character player_character = player.GetComponent<Character>();
 
+        // previous_state = state;
         switch(id){
             case 101: // 史萊姆
                 intention = Random.Range(0, 3);
@@ -918,6 +921,18 @@ public class EnemyMove : MonoBehaviour
         Deck deck = Object.FindAnyObjectByType<Deck>();
         BattleEffects effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
 
+        if (GetComponent<Character>().GetStatus(Status.status.immobile) > 0){
+            GetComponent<Character>().AddStatus(Status.status.immobile, -1);
+            // state = previous_state;
+            yield break;
+        }
+
+        if (GetComponent<Character>().GetStatus(Status.status.unfortune) > 0 &&
+            Random.Range(0, 100) < GetComponent<Character>().GetStatus(Status.status.unfortune)){
+            // state = previous_state;
+            yield break;
+        }
+
         switch(id){
             case 101: // 史萊姆
                 if (intention == 0){
@@ -1761,6 +1776,8 @@ public class EnemyMove : MonoBehaviour
         }
         if (type != 1) return;
         intentionObj.GetComponent<Image>().sprite = attackImg;
+        intentionObj.GetComponent<Image>().color = new Color(1, 0, 0, 1);
+        intentionObj.GetComponentInChildren<TMP_Text>().color = new Color(1, 0, 0, 1);
         if (value > 0)
             intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = BattleController.ComputeDamage(gameObject, GetPlayer(), value).ToString() + " x " + times.ToString();
         if (value == 0) intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = "";

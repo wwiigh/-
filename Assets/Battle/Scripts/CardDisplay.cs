@@ -55,7 +55,7 @@ public class CardDisplay : MonoBehaviour
         if (thisCard.disappear) descriptionText.text += "消逝。";
 
         if (thisCard.cost != -1){
-            if (GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().GetStatus(Status.status.dream) > 0)
+            if (!no_modification && GameObject.FindGameObjectWithTag("Player").GetComponent<Character>().GetStatus(Status.status.dream) > 0)
                 costText.text = "";
             else costText.text = GetCost().ToString();
         }
