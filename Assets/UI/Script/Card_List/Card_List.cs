@@ -112,88 +112,88 @@ public class Card_List : MonoBehaviour
         cards.Clear();
     }
 
-    void show_card_text(CardDisplay a,Card thisCard)
-    {
-        if (thisCard.rarity == Card.Rarity.common) a.cardBase.sprite = normal;
-        else if (thisCard.rarity == Card.Rarity.uncommon) a.cardBase.sprite = uncommon;
-        else a.cardBase.sprite = rare;
+    // void show_card_text(CardDisplay a,Card thisCard)
+    // {
+    //     if (thisCard.rarity == Card.Rarity.common) a.cardBase.sprite = normal;
+    //     else if (thisCard.rarity == Card.Rarity.uncommon) a.cardBase.sprite = uncommon;
+    //     else a.cardBase.sprite = rare;
 
-        a.nameText.text = thisCard.cardName;
-        if (thisCard.upgraded) a.nameText.text += "+";
+    //     a.nameText.text = thisCard.cardName;
+    //     if (thisCard.upgraded) a.nameText.text += "+";
 
-        a.descriptionText.fontSize = thisCard.fontSize;
+    //     a.descriptionText.fontSize = thisCard.fontSize;
 
-        if (thisCard.image == null) a.img.enabled = false;
-        else a.img.sprite = thisCard.image;
+    //     if (thisCard.image == null) a.img.enabled = false;
+    //     else a.img.sprite = thisCard.image;
         
-        a.descriptionText.text = "";
-        if (thisCard.keep || thisCard.keepBeforeUse) a.descriptionText.text += "保留。";
-        if (thisCard.exhaust) a.descriptionText.text += "移除。";
-        if (thisCard.disappear) a.descriptionText.text += "消逝。";
+    //     a.descriptionText.text = "";
+    //     if (thisCard.keep || thisCard.keepBeforeUse) a.descriptionText.text += "保留。";
+    //     if (thisCard.exhaust) a.descriptionText.text += "移除。";
+    //     if (thisCard.disappear) a.descriptionText.text += "消逝。";
 
-        if (thisCard.cost != -1){
-            a.costText.text = thisCard.cost.ToString();
-        }
-        else{
-            costIcon.SetActive(false);
-        }
+    //     if (thisCard.cost != -1){
+    //         a.costText.text = thisCard.cost.ToString();
+    //     }
+    //     else{
+    //         costIcon.SetActive(false);
+    //     }
         
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        int ArgIdx = 0;
-        int tmp = 0;
-        bool upgraded_text = false;
-        foreach (string s in thisCard.description){
-            if (s == "#upgrade_start"){
-                upgraded_text = true;
-                continue;
-            }
-            else if (s == "#upgrade_end"){
-                upgraded_text = false;
-                continue;
-            }
+    //     GameObject player = GameObject.FindGameObjectWithTag("Player");
+    //     int ArgIdx = 0;
+    //     int tmp = 0;
+    //     bool upgraded_text = false;
+    //     foreach (string s in thisCard.description){
+    //         if (s == "#upgrade_start"){
+    //             upgraded_text = true;
+    //             continue;
+    //         }
+    //         else if (s == "#upgrade_end"){
+    //             upgraded_text = false;
+    //             continue;
+    //         }
 
-            if (upgraded_text && !thisCard.upgraded) continue;
+    //         if (upgraded_text && !thisCard.upgraded) continue;
 
-            if (s == "#A"){
-                if (thisCard.id == 47){
-                    if (thisCard.upgraded) tmp =  thisCard.Args[ArgIdx];
-                    else tmp = thisCard.Args[ArgIdx];
-                }
-                else tmp = thisCard.Args[ArgIdx];
+    //         if (s == "#A"){
+    //             if (thisCard.id == 47){
+    //                 if (thisCard.upgraded) tmp =  thisCard.Args[ArgIdx];
+    //                 else tmp = thisCard.Args[ArgIdx];
+    //             }
+    //             else tmp = thisCard.Args[ArgIdx];
 
-                if (tmp > thisCard.Args[ArgIdx]) a.descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
-                else if (tmp < thisCard.Args[ArgIdx]) a.descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
-                else a.descriptionText.text += tmp;
-                ArgIdx++;
-            }
-            else if (s == "#D"){
-                tmp = thisCard.Args[ArgIdx];
-                if (tmp > thisCard.Args[ArgIdx]) a.descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
-                else if (tmp < thisCard.Args[ArgIdx]) a.descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
-                else a.descriptionText.text += tmp;
-                ArgIdx++;
-            }
-            else if (s == "#O"){
-                a.descriptionText.text += thisCard.Args[ArgIdx];
-                ArgIdx++;
-            }
-            else if (s == "#N"){
-                //descriptionText.text += s + " ";
-                a.descriptionText.text += "\n";
-            }
-            else if (s == "#turn"){
-                // a.descriptionText.text += Object.FindObjectOfType<BattleController>().GetCurrentTurn();
-            }
-            else if (s == "#once_start"){
-                if (thisCard.once_used) a.descriptionText.text += "<color=grey>";
-            }
-            else if (s == "#once_end"){
-                if (thisCard.once_used) a.descriptionText.text += "</color>";
-            }
-            else{
-                a.descriptionText.text += s;
-            }
-        }
-    }
+    //             if (tmp > thisCard.Args[ArgIdx]) a.descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
+    //             else if (tmp < thisCard.Args[ArgIdx]) a.descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
+    //             else a.descriptionText.text += tmp;
+    //             ArgIdx++;
+    //         }
+    //         else if (s == "#D"){
+    //             tmp = thisCard.Args[ArgIdx];
+    //             if (tmp > thisCard.Args[ArgIdx]) a.descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
+    //             else if (tmp < thisCard.Args[ArgIdx]) a.descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
+    //             else a.descriptionText.text += tmp;
+    //             ArgIdx++;
+    //         }
+    //         else if (s == "#O"){
+    //             a.descriptionText.text += thisCard.Args[ArgIdx];
+    //             ArgIdx++;
+    //         }
+    //         else if (s == "#N"){
+    //             //descriptionText.text += s + " ";
+    //             a.descriptionText.text += "\n";
+    //         }
+    //         else if (s == "#turn"){
+    //             // a.descriptionText.text += Object.FindObjectOfType<BattleController>().GetCurrentTurn();
+    //         }
+    //         else if (s == "#once_start"){
+    //             if (thisCard.once_used) a.descriptionText.text += "<color=grey>";
+    //         }
+    //         else if (s == "#once_end"){
+    //             if (thisCard.once_used) a.descriptionText.text += "</color>";
+    //         }
+    //         else{
+    //             a.descriptionText.text += s;
+    //         }
+    //     }
+    // }
 }

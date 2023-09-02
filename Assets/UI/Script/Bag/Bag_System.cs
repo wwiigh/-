@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -551,12 +552,13 @@ public class Bag_System : MonoBehaviour
         }
         return r_list;
     }
-    public void Add_Random_Equipment()
+    public int Add_Random_Equipment()
     {
-        int e_id = Random.Range(1,31);
+        int e_id =  UnityEngine.Random.Range(1,31);
         Add_Item(e_id.ToString(), "equipment");
+        return e_id;
     }
-    public void Remove_Random_Equipment()
+    public int Remove_Random_Equipment()
     {
         if(equipment_list.Count==0)
         {
@@ -564,31 +566,38 @@ public class Bag_System : MonoBehaviour
             {
                 if(bag_list[i].GetComponent<Item_Effect>()._type == "equipment")
                 {
+                    int index = Int32.Parse(bag_list[i].GetComponent<Item_Effect>()._name);
                     del_item(bag_list[i].GetComponent<Item_Effect>().list_index);
-                    break;
+                    return  index;                    
                 }
             }
         }
         else
         {
-            int r = Random.Range(0,equipment_list.Count);
+            int r = UnityEngine.Random.Range(0,equipment_list.Count);
+            int index = Int32.Parse(equipment_list[r].GetComponent<Item_Effect>()._name);
             del_item(equipment_list[r].GetComponent<Item_Effect>().list_index);
+            return  index;
         }
+        return 0;
     }
-    public void Remove_Random_Relic()
+    public int Remove_Random_Relic()
     {
-        int r = Random.Range(0,relic_list.Count);
+        int r = UnityEngine.Random.Range(0,relic_list.Count);
+        int index = int.Parse(relic_list[r].GetComponent<Item_Effect>()._name);
         Relic_Del_item(int.Parse(relic_list[r].GetComponent<Item_Effect>()._name));
+        return index;
     }
-    public void Add_Random_Relic()
+    public int Add_Random_Relic()
     {
-        int e_id = Random.Range(1,31);
+        int e_id = UnityEngine.Random.Range(1,31);
         while(Have_Item("relic",e_id.ToString()))
         {
             e_id += 1;
             if(e_id>30)e_id = 1;
         }
         Add_Item(e_id.ToString(),"relic");
+        return e_id;
     }
     public void Update_Relic_Count(int count)
     {
