@@ -33,16 +33,23 @@ public class Character : MonoBehaviour
         UpdateStatus();
     }
 
+
+
     public bool HP_Initialized(){
         return hpBar;
     }
-
     public void Init_HP(){
         if (HP_Initialized()) return;
         hpBar =  Instantiate(hpBarTemplate, transform);
         hpBar.transform.localPosition = hpBar.transform.localPosition + Vector3.down*185;
         if (GetEnemyID() == 402) hpBar.GetComponent<HPBar>().AdjustLength(0.5f);
     }
+    void UpdateHP(){
+        if (!HP_Initialized()) Init_HP();
+        hpBar.GetComponent<HPBar>().UpdateHP();
+    }
+
+
 
     public void UpdateStatus(){
         status.Sort();
@@ -120,7 +127,7 @@ public class Character : MonoBehaviour
         else{
             block -= damage;
         }
-        hpBar.GetComponent<HPBar>().UpdateHP();
+        UpdateHP();
         if (damage > 0) GetComponent<HitAnimation>().Play(dead);
         if (dead){
             Debug.Log("GetHit called Die()");
@@ -166,7 +173,7 @@ public class Character : MonoBehaviour
 
         if (hp <= value){
             hp = 0;
-            hpBar.GetComponent<HPBar>().UpdateHP();
+            UpdateHP();
             Debug.Log("LoseHP called Die()");
             StartCoroutine(Die());
             GetComponent<HitAnimation>().Play(true);
@@ -174,7 +181,7 @@ public class Character : MonoBehaviour
         }
         else{
             hp -= value;
-            hpBar.GetComponent<HPBar>().UpdateHP();
+            UpdateHP();
             AnEyeForAnEye(value);
             return true;
         }
@@ -278,11 +285,18 @@ public class Character : MonoBehaviour
 
 
 
+    void PlayEffect(string effect_name){
+        if (!effects) effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
+        effects.Play(gameObject, effect_name);
+    }
+
+
+
     public void Heal(int value){
         if (hp + value > maxHP) hp = maxHP;
         else hp += value;
-        hpBar.GetComponent<HPBar>().UpdateHP();
-        effects.Play(gameObject, "heal");
+        UpdateHP();
+        PlayEffect("heal");
     }
 
 
@@ -294,8 +308,8 @@ public class Character : MonoBehaviour
         if (tag == "Player" && GetStatus(Status.status.void_sword) > 0 && byCard) value = 1;
         if (tag == "Player") armor += BattleController.ComputeArmor(value);
         else armor += value;
-        hpBar.GetComponent<HPBar>().UpdateHP();
-        effects.Play(gameObject, "get_armor");
+        UpdateHP();
+        PlayEffect("get_armor");
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
             Deck.Draw();
             AddStatus(Status.status.fortify, -1);
@@ -313,8 +327,8 @@ public class Character : MonoBehaviour
         if (tag == "Player" && GetStatus(Status.status.void_sword) > 0 && byCard) value = 1;
         if (tag == "Player") block += BattleController.ComputeArmor(value);
         else block += value;
-        hpBar.GetComponent<HPBar>().UpdateHP();
-        if (value > 0) effects.Play(gameObject, "get_armor");
+        UpdateHP();
+        if (value > 0) PlayEffect("get_armor");
         if (tag == "Player" && value > 0 && GetStatus(Status.status.fortify) > 0){
             Deck.Draw();
             AddStatus(Status.status.fortify, -1);
@@ -367,7 +381,7 @@ public class Character : MonoBehaviour
         if (GetStatus(Status.status.fire_armor) > 0) AddStatus(Status.status.fire_armor, -GetStatus(Status.status.fire_armor));
         if (hpBar != null){
             block = 0;
-            hpBar.GetComponent<HPBar>().UpdateHP();
+            UpdateHP();
         }
 
         if (tag == "Enemy") Invoke("TurnEnd", 1);

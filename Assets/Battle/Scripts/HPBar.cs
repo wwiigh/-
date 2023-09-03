@@ -12,10 +12,12 @@ public class HPBar : MonoBehaviour
     [SerializeField] Slider armorBar;
 
     private void Start() {
-        character = transform.parent.GetComponent<Character>();
+        // character = transform.parent.GetComponent<Character>();
         UpdateHP();
     }
     public void UpdateHP(){
+        Debug.Log("HPBar: update hp");
+        if (character == null) character = transform.parent.GetComponent<Character>();
         int hp = character.GetHP();
         int maxHP = character.GetMaxHP();
         int armor = character.GetArmor();

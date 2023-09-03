@@ -687,7 +687,6 @@ MonoBehaviour:
   characters: {fileID: 127339842}
   character_template: {fileID: 1013566804284671106, guid: 282ef3cc73e40fc4e81903a27f9638fe, type: 3}
   panel: {fileID: 1137074426}
-  descriptionBox: {fileID: 0}
   enemyClass:
   - {fileID: 11400000, guid: 408dd2c2a18aea94299f835ec38972d1, type: 2}
   - {fileID: 11400000, guid: e60a4c0f556c11b429478c29c3177f80, type: 2}
@@ -2047,8 +2046,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: 650000006900000067000000680000006a000000
-  equipments: 07000000080000000c000000
-  relics: 1e000000070000001a000000
+  equipments: 07000000080000000c00000001000000
+  relics: 1e000000070000001a0000000f000000
 --- !u!114 &858850751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3399,9 +3398,7 @@ MonoBehaviour:
   drawPile: []
   trash: []
   hand: []
-  temp: {fileID: 11400000, guid: ac6d9dc502e816842b3ee9339edbc954, type: 2}
   card_template: {fileID: 7236554932518560697, guid: c07b96994362f9540be08a62da251a48, type: 3}
-  allcards_obj: {fileID: 1137852956}
 --- !u!1 &1432761866
 GameObject:
   m_ObjectHideFlags: 0

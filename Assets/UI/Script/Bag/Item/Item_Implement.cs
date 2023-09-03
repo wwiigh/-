@@ -37,7 +37,7 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 102:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                player.GetComponent<Character>().AddStatus(Status.status.explosive_force,3);
                 break;
             case 103:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -84,7 +84,11 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 111:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.decay,4);
+                }
+                
                 break;
             case 112:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -132,7 +136,8 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 116:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                player.GetComponent<Character>().AddStatus(Status.status.evade,35);
+                
                 break;
             case 117:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -169,7 +174,10 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 205:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.decay,5);
+                }
                 break;
             case 206:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
@@ -184,7 +192,7 @@ public class Item_Implement : MonoBehaviour
                     Card tmp = item.GetComponent<CardDisplay>().thisCard;
                     if(tmp.cost>=1)
                     {
-                        tmp.cost_change = tmp.cost - 1;
+                        tmp.cost_change = -1;
                     }
                     
                 }

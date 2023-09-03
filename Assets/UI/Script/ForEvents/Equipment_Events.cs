@@ -15,6 +15,7 @@ public class Equipment_Events : MonoBehaviour
     public GameObject button;
     public List<equipment_data> data_list = new List<equipment_data>();
     // public List<List<equipment_data>> data_list = new List<List<equipment_data>>();
+    public GameEvent Event;
     int Select_num;
     int now_num;
     int option_num;
@@ -32,7 +33,7 @@ public class Equipment_Events : MonoBehaviour
     {
         select_object.Clear();
         button.SetActive(false);
-        events.SetActive(false);
+        // events.SetActive(false);
         clear();
     }
     void Update()
@@ -97,6 +98,7 @@ public class Equipment_Events : MonoBehaviour
         {
             case 1:
                 FindObjectOfType<Bag_System>().Change_Equipment(g,rarity_list[r-1][index].id);
+                Event.ShowText1000(g,rarity_list[r-1][index].id);
                 Debug.Log("now change to"+rarity_list[r-1][index].id.ToString());
                 Debug.Log("now change form"+g);
                 break;
@@ -109,15 +111,28 @@ public class Equipment_Events : MonoBehaviour
                 FindObjectOfType<Bag_System>().del_item(equipment_list_index[0]);
                 FindObjectOfType<Bag_System>().del_item(equipment_list_index[1]);
                 FindObjectOfType<Bag_System>().Add_Item(rarity_list[__r][index].id.ToString(),"equipment");
+                Event.ShowText1000(g,rarity_list[__r][index].id,g2);
                 
                 break;
             case 3:
                 float p = Random.value;
                 int _r = r == 3 ? 2 : r;
                 if(r<3)index = Random.Range(0,rarity_list[r].Count);
-                if(p<0.45)FindObjectOfType<Bag_System>().Change_Equipment(g,rarity_list[_r][index].id);
-                else if(p<0.8)break;
-                else FindObjectOfType<Bag_System>().del_item(equipment_list_index[0]);
+                if(p<0.45)
+                {
+                    FindObjectOfType<Bag_System>().Change_Equipment(g,rarity_list[_r][index].id);
+                    Event.ShowText1000(g,rarity_list[_r][index].id);
+                }
+                else if(p<0.8)
+                {
+                    Event.ShowText1000Nothing();
+                    break;
+                }
+                else
+                {
+                    Event.ShowText1000Del(g);
+                    FindObjectOfType<Bag_System>().del_item(equipment_list_index[0]);
+                } 
                 break;
             default:
                 break;
