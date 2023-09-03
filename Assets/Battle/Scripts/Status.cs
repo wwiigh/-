@@ -267,7 +267,7 @@ public class Status : MonoBehaviour
             case status.fire_enchantment:
                 return "每次攻擊額外給予<color=green>" + level.ToString() + "</color>層燃燒";
             case status.doppelganger:
-                return "打出卡牌時，將一張消費為0、基礎攻擊、護甲減半、帶有移除和消逝的複製加入手中。還可觸發<color=green>" + level.ToString() + "</color>次。因此能力產生的卡牌不會觸發此效果";
+                return "打出卡牌時(「影子分身」除外)，將一張消費為0、基礎攻擊、護甲減半、帶有移除和消逝的複製加入手中\n還可觸發<color=green>" + level.ToString() + "</color>次。因此能力產生的卡牌不會觸發此效果";
             case status.imitate:
                 return "將下<color=green>" + level.ToString() + "</color>張打出的牌複製一張(「模仿」除外)";
             case status.remnant:

@@ -1049,13 +1049,13 @@ public class EnemyMove : MonoBehaviour
                 if(intention == 0){
                     GetComponent<Animator>().Play("107_attack");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToDrawPile(deck.GetCard(202));
+                    deck.AddCardToDrawPile(AllCards.GetCard(202));
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("107_attack");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToDrawPile(deck.GetCard(203));
-                    deck.AddCardToDrawPile(deck.GetCard(203));
+                    deck.AddCardToDrawPile(AllCards.GetCard(203));
+                    deck.AddCardToDrawPile(AllCards.GetCard(203));
                 }
                 else if (intention == 2){
                     GetComponent<Animator>().Play("107_attack");
@@ -1124,7 +1124,7 @@ public class EnemyMove : MonoBehaviour
                     // GetComponent<Animator>().Play("108_attack2");
                     yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 10);
-                    deck.AddCardToHand(deck.GetCard(205));
+                    deck.AddCardToHand(AllCards.GetCard(205));
                 }
                 else if (intention == 1){
                     // GetComponent<Animator>().Play("108_attack");
@@ -1140,7 +1140,7 @@ public class EnemyMove : MonoBehaviour
                         if (card.GetComponent<CardDisplay>().thisCard.id == 205) list202.Add(card);
                     foreach(GameObject card in list202){
                         deck.RemoveCard(card);
-                        deck.AddCardToHand(deck.GetCard(206));
+                        deck.AddCardToHand(AllCards.GetCard(206));
                     }
                 }
                 break;
@@ -1148,7 +1148,7 @@ public class EnemyMove : MonoBehaviour
                 if(intention == 0){
                     // GetComponent<Animator>().Play("108_attack2");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToHand(deck.GetCard(207));
+                    deck.AddCardToHand(AllCards.GetCard(207));
                 }
                 else if (intention == 1){
                     // GetComponent<Animator>().Play("108_attack");
@@ -1301,8 +1301,8 @@ public class EnemyMove : MonoBehaviour
                 else if(intention == 2){
                     GetComponent<Animator>().Play("208_attack2");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToDrawPile(deck.GetCard(201));
-                    deck.AddCardToDrawPile(deck.GetCard(201));
+                    deck.AddCardToDrawPile(AllCards.GetCard(201));
+                    deck.AddCardToDrawPile(AllCards.GetCard(201));
                 }
                 break;
             case 209: // 莎布·尼古拉絲
@@ -1412,7 +1412,7 @@ public class EnemyMove : MonoBehaviour
                 if(intention == 0){
                     GetComponent<Animator>().Play("304_skill");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToDrawPile(deck.GetCard(208));
+                    deck.AddCardToDrawPile(AllCards.GetCard(208));
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("304_attack");

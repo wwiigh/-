@@ -201,19 +201,21 @@ public class Character : MonoBehaviour
 
 
 
-    public bool Attack(GameObject target, int dmg){
-        // int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg);
-        // if (target.GetComponent<Character>().GetStatus(Status.status.invincible) > 0)
-        //     target.GetComponent<Character>().AddStatus(Status.status.invincible, -1);
-        // bool target_alive = target.GetComponent<Character>().GetHit(final_dmg);
-        // int fireLevel = GetStatus(Status.status.fire_enchantment);
-        // if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
-        // return target_alive;
-        return Attack(target, dmg, 1, 1);
-    }
-    public bool Attack(GameObject target, int dmg, float strength_multiplier, float tmp_strength_multiplier){
+    // public bool Attack(GameObject target, int dmg){
+    //     // int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg);
+    //     // if (target.GetComponent<Character>().GetStatus(Status.status.invincible) > 0)
+    //     //     target.GetComponent<Character>().AddStatus(Status.status.invincible, -1);
+    //     // bool target_alive = target.GetComponent<Character>().GetHit(final_dmg);
+    //     // int fireLevel = GetStatus(Status.status.fire_enchantment);
+    //     // if (tag == "Player" && fireLevel > 0 && target_alive) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
+    //     // return target_alive;
+    //     return Attack(target, dmg, 1, 1);
+    // }
+    public bool Attack(GameObject target, int dmg, float strength_multiplier=1, float tmp_strength_multiplier=1){
         int armor_before = target.GetComponent<Character>().GetArmor() + target.GetComponent<Character>().GetBlock();
         int hp_before = target.GetComponent<Character>().GetHP();
+
+        if (tag == "Player" && GetStatus(Status.status.void_sword) > 0) dmg = 1;
 
         int final_dmg = BattleController.ComputeDamage(gameObject, target, dmg, strength_multiplier, tmp_strength_multiplier);
         if (target.GetComponent<Character>().GetStatus(Status.status.invincible) > 0)
@@ -288,7 +290,8 @@ public class Character : MonoBehaviour
     public int GetArmor(){
         return armor;
     }
-    public void AddArmor(int value){
+    public void AddArmor(int value, bool byCard=true){
+        if (tag == "Player" && GetStatus(Status.status.void_sword) > 0 && byCard) value = 1;
         if (tag == "Player") armor += BattleController.ComputeArmor(value);
         else armor += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
@@ -306,7 +309,8 @@ public class Character : MonoBehaviour
     public int GetBlock(){
         return block;
     }
-    public void AddBlock(int value){
+    public void AddBlock(int value, bool byCard=true){
+        if (tag == "Player" && GetStatus(Status.status.void_sword) > 0 && byCard) value = 1;
         if (tag == "Player") block += BattleController.ComputeArmor(value);
         else block += value;
         hpBar.GetComponent<HPBar>().UpdateHP();
@@ -434,7 +438,7 @@ public class Character : MonoBehaviour
         maxHP = Global.player_max_hp;
         hp = Global.player_hp;
         GetComponent<Animator>().Play("player_idle");
-        AddStatus(Status.status.dice20, Random.Range(-4, 5));
+        // AddStatus(Status.status.dice20, Random.Range(-4, 5));
     }
 
     public void InitEnemy(EnemyClass enemy){

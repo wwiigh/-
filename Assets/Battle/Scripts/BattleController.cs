@@ -11,7 +11,6 @@ public class BattleController : MonoBehaviour
     [SerializeField] GameObject characters;
     [SerializeField] GameObject character_template;
     [SerializeField] GameObject panel;
-    public GameObject descriptionBox;
     [SerializeField] EnemyClass[] enemyClass;
     [SerializeField] EquipmentClass[] equipmentClass;
     GameObject player;
@@ -47,7 +46,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 2;
+        Global.current_level = 1;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -84,7 +83,7 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Elite);
+        EnterBattle(BattleType.Normal);
     }
 
     public void EnterBattle(BattleType type){
@@ -239,6 +238,7 @@ public class BattleController : MonoBehaviour
         enemyCount -= 1;
         if (enemyCount == 0){
             Debug.Log("battle end: you win");
+            Global.LeaveBattle();
         }
 
         Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Enemy);

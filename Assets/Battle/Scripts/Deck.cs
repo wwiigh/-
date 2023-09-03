@@ -10,17 +10,13 @@ public class Deck : MonoBehaviour
     [SerializeField] List<Card> drawPile = new List<Card>();
     [SerializeField] List<Card> trash = new List<Card>();
     [SerializeField] List<GameObject> hand = new List<GameObject>();
-    [SerializeField] Card temp;
     [SerializeField] GameObject card_template;
-    [SerializeField] GameObject allcards_obj;
-    AllCards allcards_class;
     TMP_Text drawPileNumber;
     TMP_Text trashNumber;
     int hand_limit = 8;
 
     private void Start() {
         battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
-        allcards_class = allcards_obj.GetComponent<AllCards>();
         drawPileNumber = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         trashNumber = transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         // Init();
@@ -35,7 +31,7 @@ public class Deck : MonoBehaviour
 
     public void Init(){
         AllCards allcards = Object.FindObjectOfType<AllCards>();
-        int totalCards = allcards_class.GetCount();
+        int totalCards = AllCards.GetCount();
         RemoveChild();
         drawPile.Clear();
         hand.Clear();
@@ -51,11 +47,12 @@ public class Deck : MonoBehaviour
         // }
         // Shuffle(drawPile);
         
-        drawPile.Add( GetCard(903) );
-        drawPile.Add( GetCard(5) );
-        drawPile.Add( GetCard(101) );
-        drawPile.Add( GetCard(101) );
-        drawPile.Add( GetCard(102) );
+        drawPile.Add( AllCards.GetCard(903) );
+        drawPile.Add( AllCards.GetCard(37) );
+        drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(9) );
+        drawPile.Add( AllCards.GetCard(12) );
+        drawPile.Add( AllCards.GetCard(13) );
     }
 
 
@@ -79,10 +76,6 @@ public class Deck : MonoBehaviour
     //     }
     //     Shuffle(drawPile);
     // }
-
-    public Card GetCard(int id){
-        return allcards_class.GetCard(id);
-    }
 
     void RemoveChild(){
         List<GameObject> list = new List<GameObject>();
@@ -166,7 +159,7 @@ public class Deck : MonoBehaviour
         }
 
         if (card_info.id == 210){
-            AddCardToHand(GetCard(211));
+            AddCardToHand(AllCards.GetCard(211));
         }
 
         Destroy(card);
@@ -208,10 +201,12 @@ public class Deck : MonoBehaviour
 
 
     public Card GetRandomSkillCard(){
-        return allcards_obj.GetComponent<AllCards>().GetRandomSkillCard();
+        return AllCards.GetRandomSkillCard();
+        // return allcards_obj.GetComponent<AllCards>().GetRandomSkillCard();
     }
     public Card GetRandomAttackCard(){
-        return allcards_obj.GetComponent<AllCards>().GetRandomAttackCard();
+        return AllCards.GetRandomAttackCard();
+        // return allcards_obj.GetComponent<AllCards>().GetRandomAttackCard();
     }
 
 
@@ -279,7 +274,7 @@ public class Deck : MonoBehaviour
 
         int tmp = Random.Range(0, hand.Count);
         if (player_character.GetStatus(Status.status.information_erase) > 0)
-            hand[tmp].GetComponent<CardDisplay>().thisCard = GetCard(204);
+            hand[tmp].GetComponent<CardDisplay>().thisCard = AllCards.GetCard(204);
 
         tmp = Random.Range(0, hand.Count);
         if (player_character.GetStatus(Status.status.swallow) > 0){
@@ -454,7 +449,6 @@ public class Deck : MonoBehaviour
     }
 
     GameObject MakeCard(Card c){
-        Card tmp = Card.Copy(c);
-        return card_template.GetComponent<CardDisplay>().Make(tmp, transform);
+        return card_template.GetComponent<CardDisplay>().Make(Card.Copy(c), transform);
     }
 }

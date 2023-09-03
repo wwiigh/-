@@ -11,8 +11,8 @@ public class AllCards : MonoBehaviour
     List<Card> allSkillCards = new List<Card>();
     List<Card> allAttackCards = new List<Card>();
 
-    public int GetCount(){
-        return allCards.Count;
+    static public int GetCount(){
+        return FindObjectOfType<AllCards>().allCards.Count;
     }
 
     public List<Card> GetAllCards(){
@@ -28,31 +28,34 @@ public class AllCards : MonoBehaviour
         return testOnlyCards;
     }
 
-    public Card GetCard(int id){
-        if (id >= 900) return testOnlyCards[id - testOnlyCards[0].id];
-        if (id > 200 && id <= specialCards.Count + 200) return specialCards[id - 201];
-        if (id >= 101 && id <= 103) return basicCards[id - 101];
-        if (id > 0 && id <= allCards.Count) return allCards[id - 1];
+    static public Card GetCard(int id){
+        AllCards allCardsClass = FindObjectOfType<AllCards>();
+        if (id >= 900) return allCardsClass.testOnlyCards[id - allCardsClass.testOnlyCards[0].id];
+        if (id > 200 && id <= allCardsClass.specialCards.Count + 200) return allCardsClass.specialCards[id - 201];
+        if (id >= 101 && id <= 103) return allCardsClass.basicCards[id - 101];
+        if (id > 0 && id <= allCardsClass.allCards.Count) return allCardsClass.allCards[id - 1];
         return null;
     }
 
-    public Card GetRandomSkillCard(){
-        if (allSkillCards.Count == 0){
-            foreach(Card c in allCards){
-                if (c.type == Card.Type.skill) allSkillCards.Add(c);
+    static public Card GetRandomSkillCard(){
+        AllCards allCardsClass = FindObjectOfType<AllCards>();
+        if (allCardsClass.allSkillCards.Count == 0){
+            foreach(Card c in allCardsClass.allCards){
+                if (c.type == Card.Type.skill) allCardsClass.allSkillCards.Add(c);
             }
         }
 
-        return allSkillCards[Random.Range(0, allSkillCards.Count)];
+        return allCardsClass.allSkillCards[Random.Range(0, allCardsClass.allSkillCards.Count)];
     }
 
-    public Card GetRandomAttackCard(){
-        if (allAttackCards.Count == 0){
-            foreach(Card c in allCards){
-                if (c.type == Card.Type.attack) allAttackCards.Add(c);
+    static public Card GetRandomAttackCard(){
+        AllCards allCardsClass = FindObjectOfType<AllCards>();
+        if (allCardsClass.allAttackCards.Count == 0){
+            foreach(Card c in allCardsClass.allCards){
+                if (c.type == Card.Type.attack) allCardsClass.allAttackCards.Add(c);
             }
         }
 
-        return allAttackCards[Random.Range(0, allAttackCards.Count)];
+        return allCardsClass.allAttackCards[Random.Range(0, allCardsClass.allAttackCards.Count)];
     }
 }

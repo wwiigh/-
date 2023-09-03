@@ -30,6 +30,7 @@ public class CardDisplay : MonoBehaviour
     }
 
     public int GetCost(){
+        if (GameObject.FindWithTag("Player").GetComponent<Character>().GetStatus(Status.status.void_sword) > 0) return 0;
         return thisCard.cost + thisCard.cost_change + thisCard.cost_change_before_play;
     }
 
@@ -87,11 +88,20 @@ public class CardDisplay : MonoBehaviour
                     continue;
                 }
 
-                if (thisCard.id == 47){
-                    if (thisCard.upgraded) tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 5);
-                    else tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 3);
+                if (player.GetComponent<Character>().GetStatus(Status.status.void_sword) > 0){
+                    if (thisCard.id == 47){
+                        if (thisCard.upgraded) tmp = BattleController.ComputeDamage(player, 1, 3, 5);
+                        else tmp = BattleController.ComputeDamage(player, 1, 3, 3);
+                    }
+                    else tmp = BattleController.ComputeDamage(player, 1);
                 }
-                else tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx]);
+                else{
+                    if (thisCard.id == 47){
+                        if (thisCard.upgraded) tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 5);
+                        else tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx], 3, 3);
+                    }
+                    else tmp = BattleController.ComputeDamage(player, thisCard.Args[ArgIdx]);
+                }
 
                 if (tmp > thisCard.Args[ArgIdx]) descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
                 else if (tmp < thisCard.Args[ArgIdx]) descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
@@ -105,7 +115,11 @@ public class CardDisplay : MonoBehaviour
                     continue;
                 }
                 
-                tmp = BattleController.ComputeArmor(thisCard.Args[ArgIdx]);
+                if (player.GetComponent<Character>().GetStatus(Status.status.void_sword) > 0){
+                    tmp = BattleController.ComputeArmor(1);
+                }
+                else tmp = BattleController.ComputeArmor(thisCard.Args[ArgIdx]);
+
                 if (tmp > thisCard.Args[ArgIdx]) descriptionText.text += "<color=green>" + tmp.ToString() + "</color>";
                 else if (tmp < thisCard.Args[ArgIdx]) descriptionText.text += "<color=red>" + tmp.ToString() + "</color>";
                 else descriptionText.text += tmp;
