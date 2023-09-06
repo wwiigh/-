@@ -186,8 +186,7 @@ public class Global : MonoBehaviour
     {
         Bag_System bag_System = FindObjectOfType<Bag_System>();
         bool success_add = bag_System.Add_Item(id.ToString(),type);
-        return success_add;
-        
+        return success_add;        
     }
     /// <summary>
     /// 刪除物品(道具裝備遺物皆可)
