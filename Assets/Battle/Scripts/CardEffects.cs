@@ -15,9 +15,15 @@ public class CardEffects : MonoBehaviour
         Card card_info = card_saved.GetComponent<CardDisplay>().thisCard;
         BattleEffects effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
         
+        if (BattleController.GetBattleID() == 312 && card_saved.GetComponent<CardDisplay>().GetCost() >= 3){
+            Cost.ChangeCost(-card_saved.GetComponent<CardDisplay>().GetCost());
+            deck.RemoveCard(card_saved);
+            return;
+        }
+
         GameObject card207 = deck.Card207InHand();
         if (card207 != null && card_info.type == Card.Type.attack){
-            Cost.ChangeCost(-card_info.cost);
+            Cost.ChangeCost(-card_saved.GetComponent<CardDisplay>().GetCost());
             deck.SpecialDiscard(card);
             deck.RemoveCard(card207);
             return;
@@ -72,14 +78,14 @@ public class CardEffects : MonoBehaviour
                 break;
             case 14:
                 player_character.AddArmor(card_info.Args[0]);
-                if (!battleController.PlayedCardThisTurn()){
+                if (!BattleController.PlayedCardThisTurn()){
                     Cost.ChangeCost(1);
                     Deck.Draw(card_info.Args[1]);
                 }
                 EffectEnd();
                 break;
             case 15:
-                Cost.ChangeCost(battleController.GetCurrentTurn());
+                Cost.ChangeCost(BattleController.GetCurrentTurn());
                 EffectEnd();
                 break;
             case 16:
@@ -136,6 +142,7 @@ public class CardEffects : MonoBehaviour
                 foreach(GameObject enemy in BattleController.GetAllEnemy()){
                     player_character.Attack(enemy, card_info.Args[0]);
                     enemy.GetComponent<Character>().AddStatus(Status.status.burn, card_info.Args[1]);
+                    if (Global.Check_Relic_In_Bag(24)) enemy.GetComponent<Character>().AddStatus(Status.status.burn, 5);
                 }
                 EffectEnd();
                 break;
@@ -198,6 +205,7 @@ public class CardEffects : MonoBehaviour
             case 40:
                 foreach(GameObject enemy in BattleController.GetAllEnemy()){
                     enemy.GetComponent<Character>().AddStatus(Status.status.burn, card_info.Args[0]);
+                    if (Global.Check_Relic_In_Bag(24)) enemy.GetComponent<Character>().AddStatus(Status.status.burn, 5);
                     int tmp = enemy.GetComponent<Character>().GetStatus(Status.status.burn);
                     if (tmp >= card_info.Args[1]){
                         enemy.GetComponent<Character>().AddStatus(Status.status.burn, -tmp);
@@ -234,8 +242,8 @@ public class CardEffects : MonoBehaviour
                 break;
             case 45:
                 List<Card> list45 = new List<Card>();
-                list45.Add(deck.GetCard(43));
-                list45.Add(deck.GetCard(44));
+                list45.Add(AllCards.GetCard(43));
+                list45.Add(AllCards.GetCard(44));
                 Global.SelectCardsFrom(GameObject.FindGameObjectWithTag("Player").transform.parent.parent, list45, Callback_45, true);
                 break;
             case 46:
@@ -355,8 +363,7 @@ public class CardEffects : MonoBehaviour
                 battleController.SelectCard(CardSelected, 8, false, true);
                 break;
             case 902:
-                player_character.Heal(9);
-                EffectEnd();
+                battleController.SelectEnemy(EnemySelected);
                 break;
             case 903:
                 Cost.ChangeCost(90);
@@ -383,15 +390,17 @@ public class CardEffects : MonoBehaviour
             case 2:
                 int tmp2 = enemy_character.GetStatus(Status.status.burn);
                 enemy_character.AddStatus(Status.status.burn, tmp2);
+                if (Global.Check_Relic_In_Bag(24)) enemy_character.AddStatus(Status.status.burn, 5);
                 EffectEnd();
                 break;
             case 3:
                 enemy_character.TriggerBurn(false);
+                if (Global.Check_Relic_In_Bag(24)) enemy_character.AddStatus(Status.status.burn, 5);
                 EffectEnd();
                 break;
             case 8:
                 int tmp3 = enemy.GetComponent<EnemyMove>().GetIntentionType();
-                if (tmp3 == 1) deck.AddCardToHand(deck.GetRandomSkillCard());
+                if (tmp3 == 1) deck.AddCardToHand(AllCards.GetRandomSkillCard());
                 else deck.AddCardToHand(deck.GetRandomAttackCard());
                 EffectEnd();
                 break;
@@ -487,6 +496,7 @@ public class CardEffects : MonoBehaviour
                 break;
             case 57:
                 enemy_character.AddStatus(Status.status.burn, card_info.Args[0]);
+                if (Global.Check_Relic_In_Bag(24)) enemy.GetComponent<Character>().AddStatus(Status.status.burn, 5);
                 EffectEnd();
                 break;
             case 59:
@@ -503,6 +513,12 @@ public class CardEffects : MonoBehaviour
             case 101:
                 effects.Play(enemy, "slash1");
                 player_character.Attack(enemy, card_info.Args[0]);
+                EffectEnd();
+                break;
+
+            case 902:
+                effects.Play(enemy, "slash1");
+                player_character.Attack(enemy, 999);
                 EffectEnd();
                 break;
             default:
@@ -591,10 +607,40 @@ public class CardEffects : MonoBehaviour
     static void EffectEnd(){
         BattleController battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
-        battleController.PlayedCard(card_saved.GetComponent<CardDisplay>().thisCard);
-        deck.CardUsed(card_saved);
+        Character player_character = GameObject.FindWithTag("Player").GetComponent<Character>();
+
         Cost.ChangeCost(-card_saved.GetComponent<CardDisplay>().GetCost());
         card_saved.GetComponent<CardDisplay>().thisCard.cost_change_before_play = 0;
+        card_saved.GetComponent<CardDisplay>().thisCard.keepBeforeUse = false;
+
+        if (player_character.GetStatus(Status.status.doppelganger) > 0 &&
+            !card_saved.GetComponent<CardDisplay>().thisCard.produced_by_doppelganger &&
+            card_saved.GetComponent<CardDisplay>().thisCard.id != 37){
+
+            Card tmpCard = deck.AddCardToHand(card_saved.GetComponent<CardDisplay>().thisCard).GetComponent<CardDisplay>().thisCard;
+            Card.SetCost(tmpCard, 0);
+            tmpCard.exhaust = true;
+            tmpCard.disappear = true;
+
+            int idx = 0;
+            foreach(string s in tmpCard.description){
+                if (s == "#A" || s == "#D") tmpCard.Args[idx] /= 2;
+                if (s == "#A" || s == "#D" || s == "#O") idx++;
+            }
+
+            tmpCard.produced_by_doppelganger = true;
+            player_character.AddStatus(Status.status.doppelganger, -1);
+        }
+
+        if (player_character.GetStatus(Status.status.void_sword) > 0){
+            card_saved.GetComponent<CardDisplay>().thisCard.exhaust = true;
+            player_character.AddStatus(Status.status.void_sword, -1);
+        }
+
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseEnegy, card_saved.GetComponent<CardDisplay>().GetCost());
+
+        deck.CardUsed(card_saved);
+        battleController.PlayedCard(card_saved.GetComponent<CardDisplay>().thisCard);
     }
 
 
@@ -617,8 +663,8 @@ public class CardEffects : MonoBehaviour
     static void Callback_45(int n){
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         GameObject tmp = null;
-        if (n == 0) tmp = deck.AddCardToHand(deck.GetCard(43));
-        if (n == 1) tmp = deck.AddCardToHand(deck.GetCard(44));
+        if (n == 0) tmp = deck.AddCardToHand(AllCards.GetCard(43));
+        if (n == 1) tmp = deck.AddCardToHand(AllCards.GetCard(44));
         if (tmp){
             tmp.GetComponent<CardDisplay>().thisCard.exhaust = true;
             tmp.GetComponent<CardDisplay>().thisCard.disappear = true;
@@ -647,7 +693,7 @@ public class CardEffects : MonoBehaviour
             player_character.Attack(enemy, card_info.Args[0]);
         }
         if (!card_info.once_used){
-            GameObject tmp = deck.AddCardToHand(deck.GetCard(58));
+            GameObject tmp = deck.AddCardToHand(AllCards.GetCard(58));
             if (card_info.upgraded) tmp.GetComponent<CardDisplay>().thisCard.upgraded = true;
             tmp.GetComponent<CardDisplay>().thisCard.exhaust = true;
             card_info.once_used = true;

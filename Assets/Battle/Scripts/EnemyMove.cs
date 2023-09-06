@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 // using System;
 
 public class EnemyMove : MonoBehaviour
@@ -15,6 +16,7 @@ public class EnemyMove : MonoBehaviour
     GameObject player = null;
     int intention = -1;
     int state = -1;
+    // int previous_state = -1;
     public List<int> list = new();
     GameObject GetPlayer(){
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
@@ -25,6 +27,7 @@ public class EnemyMove : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Character player_character = player.GetComponent<Character>();
 
+        // previous_state = state;
         switch(id){
             case 101: // 史萊姆
                 intention = Random.Range(0, 3);
@@ -918,6 +921,18 @@ public class EnemyMove : MonoBehaviour
         Deck deck = Object.FindAnyObjectByType<Deck>();
         BattleEffects effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
 
+        if (GetComponent<Character>().GetStatus(Status.status.immobile) > 0){
+            GetComponent<Character>().AddStatus(Status.status.immobile, -1);
+            // state = previous_state;
+            yield break;
+        }
+
+        if (GetComponent<Character>().GetStatus(Status.status.unfortune) > 0 &&
+            Random.Range(0, 100) < GetComponent<Character>().GetStatus(Status.status.unfortune)){
+            // state = previous_state;
+            yield break;
+        }
+
         switch(id){
             case 101: // 史萊姆
                 if (intention == 0){
@@ -1034,13 +1049,13 @@ public class EnemyMove : MonoBehaviour
                 if(intention == 0){
                     GetComponent<Animator>().Play("107_attack");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToDrawPile(deck.GetCard(202));
+                    deck.AddCardToDrawPile(AllCards.GetCard(202));
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("107_attack");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToDrawPile(deck.GetCard(203));
-                    deck.AddCardToDrawPile(deck.GetCard(203));
+                    deck.AddCardToDrawPile(AllCards.GetCard(203));
+                    deck.AddCardToDrawPile(AllCards.GetCard(203));
                 }
                 else if (intention == 2){
                     GetComponent<Animator>().Play("107_attack");
@@ -1109,7 +1124,7 @@ public class EnemyMove : MonoBehaviour
                     // GetComponent<Animator>().Play("108_attack2");
                     yield return new WaitForSeconds(0.5f);
                     GetComponent<Character>().Attack(player, 10);
-                    deck.AddCardToHand(deck.GetCard(205));
+                    deck.AddCardToHand(AllCards.GetCard(205));
                 }
                 else if (intention == 1){
                     // GetComponent<Animator>().Play("108_attack");
@@ -1125,7 +1140,7 @@ public class EnemyMove : MonoBehaviour
                         if (card.GetComponent<CardDisplay>().thisCard.id == 205) list202.Add(card);
                     foreach(GameObject card in list202){
                         deck.RemoveCard(card);
-                        deck.AddCardToHand(deck.GetCard(206));
+                        deck.AddCardToHand(AllCards.GetCard(206));
                     }
                 }
                 break;
@@ -1133,7 +1148,7 @@ public class EnemyMove : MonoBehaviour
                 if(intention == 0){
                     // GetComponent<Animator>().Play("108_attack2");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToHand(deck.GetCard(207));
+                    deck.AddCardToHand(AllCards.GetCard(207));
                 }
                 else if (intention == 1){
                     // GetComponent<Animator>().Play("108_attack");
@@ -1202,6 +1217,7 @@ public class EnemyMove : MonoBehaviour
                     if (GameObject.Find("Fire spirit 1") == null){
                         GameObject fireSpirit1 = FindObjectOfType<BattleController>().SpawnEnemyAt(30, new Vector3(180 + 300, 0, 0));
                         fireSpirit1.name = "Fire spirit 1";
+                        fireSpirit1.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
                     }
                     else{
                         GameObject.Find("Fire spirit 1").GetComponent<Character>().AddArmor(10);
@@ -1210,6 +1226,7 @@ public class EnemyMove : MonoBehaviour
                     if (GameObject.Find("Fire spirit 2") == null){
                         GameObject fireSpirit2 = FindObjectOfType<BattleController>().SpawnEnemyAt(30, new Vector3(180 + 600, 0, 0));
                         fireSpirit2.name = "Fire spirit 2";
+                        fireSpirit2.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
                     }
                     else{
                         GameObject.Find("Fire spirit 2").GetComponent<Character>().AddArmor(10);
@@ -1244,7 +1261,6 @@ public class EnemyMove : MonoBehaviour
                     foreach(GameObject enemy in BattleController.GetAllEnemy()){
                         enemy.GetComponent<Character>().Heal(12);
                     }
-                    //所有人恢復血量
                 }
                 break;
             case 207: // 雙生暗影(A)
@@ -1285,8 +1301,8 @@ public class EnemyMove : MonoBehaviour
                 else if(intention == 2){
                     GetComponent<Animator>().Play("208_attack2");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToDrawPile(deck.GetCard(201));
-                    deck.AddCardToDrawPile(deck.GetCard(201));
+                    deck.AddCardToDrawPile(AllCards.GetCard(201));
+                    deck.AddCardToDrawPile(AllCards.GetCard(201));
                 }
                 break;
             case 209: // 莎布·尼古拉絲
@@ -1296,14 +1312,16 @@ public class EnemyMove : MonoBehaviour
                     if (GameObject.Find("lamb 1") == null && GetComponent<Character>().GetHP() > 20){
                         GameObject lamb1 = FindObjectOfType<BattleController>().SpawnEnemyAt(8, new Vector3(180 + 300, 0, 0));
                         lamb1.name = "lamb 1";
+                        lamb1.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
                         GetComponent<Character>().LoseHP(20);
                     }
                     else if (GameObject.Find("lamb 1")){
                         GameObject.Find("lamb 1").GetComponent<Character>().AddMaxHP(13);
                     }
                     if (GameObject.Find("lamb 2") == null && GetComponent<Character>().GetHP() > 20){
-                        GameObject fireSpirit2 = FindObjectOfType<BattleController>().SpawnEnemyAt(8, new Vector3(180 + 600, 0, 0));
-                        fireSpirit2.name = "lamb 2";
+                        GameObject lamb2 = FindObjectOfType<BattleController>().SpawnEnemyAt(8, new Vector3(180 + 600, 0, 0));
+                        lamb2.name = "lamb 2";
+                        lamb2.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
                         GetComponent<Character>().LoseHP(20);
                     }
                     else if (GameObject.Find("lamb 2")){
@@ -1394,7 +1412,7 @@ public class EnemyMove : MonoBehaviour
                 if(intention == 0){
                     GetComponent<Animator>().Play("304_skill");
                     yield return new WaitForSeconds(0.5f);
-                    deck.AddCardToDrawPile(deck.GetCard(208));
+                    deck.AddCardToDrawPile(AllCards.GetCard(208));
                 }
                 else if (intention == 1){
                     GetComponent<Animator>().Play("304_attack");
@@ -1723,21 +1741,28 @@ public class EnemyMove : MonoBehaviour
     void ShowIntention(int type, int value){
         if (intentionObj == null){
             intentionObj = Instantiate(intentionTemplate, transform);
-            intentionObj.transform.localPosition = new Vector3(0, 200, 0);
+            // intentionObj.transform.localPosition = new Vector3(0, 200, 0);
+            intentionObj.transform.localPosition = new Vector3(0, BattleController.GetEnemyHeight(GetComponent<Character>().GetEnemyID()) - 150, 0);
         }
         switch(type){
             case 1:
                 intentionObj.GetComponent<Image>().sprite = attackImg;
+                intentionObj.GetComponent<Image>().color = new Color(1, 0, 0, 1);
+                intentionObj.GetComponentInChildren<TMP_Text>().color = new Color(1, 0, 0, 1);
                 if (value > 0)
                     intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = BattleController.ComputeDamage(gameObject, GetPlayer(), value).ToString();
                 break;
             case 2:
                 intentionObj.GetComponent<Image>().sprite = defendImg;
+                intentionObj.GetComponent<Image>().color = new Color(0.3333f, 1, 1, 1);
+                intentionObj.GetComponentInChildren<TMP_Text>().color = new Color(0.3333f, 1, 1, 1);
                 if (value > 0)
                     intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = value.ToString();
                 break;
             case 3:
                 intentionObj.GetComponent<Image>().sprite = othersImg;
+                intentionObj.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                intentionObj.GetComponentInChildren<TMP_Text>().color = new Color(1, 1, 1, 1);
                 break;
             default:
                 Debug.Log("ShowIntention: Unknown type " + type.ToString());
@@ -1748,10 +1773,13 @@ public class EnemyMove : MonoBehaviour
     void ShowIntention(int type, int value, int times){
         if (intentionObj == null){
             intentionObj = Instantiate(intentionTemplate, transform);
-            intentionObj.transform.localPosition = new Vector3(0, 200, 0);
+            // intentionObj.transform.localPosition = new Vector3(0, 200, 0);
+            intentionObj.transform.localPosition = new Vector3(0, BattleController.GetEnemyHeight(GetComponent<Character>().GetEnemyID()) - 150, 0);
         }
         if (type != 1) return;
         intentionObj.GetComponent<Image>().sprite = attackImg;
+        intentionObj.GetComponent<Image>().color = new Color(1, 0, 0, 1);
+        intentionObj.GetComponentInChildren<TMP_Text>().color = new Color(1, 0, 0, 1);
         if (value > 0)
             intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = BattleController.ComputeDamage(gameObject, GetPlayer(), value).ToString() + " x " + times.ToString();
         if (value == 0) intentionObj.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
@@ -1787,6 +1815,9 @@ public class EnemyMove : MonoBehaviour
             ShowIntention(1, 23);
         }
     }
+    public void Enemy303_Detect(){
+        if (intention == 1) ShowIntention(1, GetComponent<Character>().GetStatus(Status.status.accumulation));
+    }
     public void Enemy305_Detect(){
         if (state == 2) ShowIntention(1, GetComponent<Character>().GetArmor());
     }
@@ -1802,21 +1833,25 @@ public class EnemyMove : MonoBehaviour
         if (GameObject.Find("malice 1") == null && count > 0){
             tmp = FindObjectOfType<BattleController>().SpawnEnemyAt(31, new Vector3(400, 0, 0));
             tmp.name = "malice 1";
+            tmp.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
             count--;
         }
         if (GameObject.Find("malice 2") == null && count > 0){
             tmp = FindObjectOfType<BattleController>().SpawnEnemyAt(31, new Vector3(550, 0, 0));
             tmp.name = "malice 2";
+            tmp.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
             count--;
         }
         if (GameObject.Find("malice 3") == null && count > 0){
             tmp = FindObjectOfType<BattleController>().SpawnEnemyAt(31, new Vector3(700, 0, 0));
             tmp.name = "malice 3";
+            tmp.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
             count--;
         }
         if (GameObject.Find("malice 4") == null && count > 0){
             tmp = FindObjectOfType<BattleController>().SpawnEnemyAt(31, new Vector3(850, 0, 0));
             tmp.name = "malice 4";
+            tmp.GetComponent<Character>().AddStatus(Status.status.summoned, 1);
             count--;
         }
     }

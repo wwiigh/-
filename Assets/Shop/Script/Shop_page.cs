@@ -52,6 +52,10 @@ public class Shop_page : MonoBehaviour
     {
         del_card.GetComponent<Button>().interactable = false;
     }
+    public void Enable_Page3()
+    {
+        del_card.GetComponent<Button>().interactable = true;
+    }
 
     // Start is called before the first frame update
     void Start()

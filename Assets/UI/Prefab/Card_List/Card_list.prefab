@@ -259,6 +259,7 @@ MonoBehaviour:
   card: {fileID: 7177793352859323231, guid: 82c7928131ed1b845b74887884401a00, type: 3}
   player_deck: []
   confirm_button: {fileID: 6622288995463025528}
+  background: {fileID: 7189055875209683986}
 --- !u!1 &6622288995463025528
 GameObject:
   m_ObjectHideFlags: 0

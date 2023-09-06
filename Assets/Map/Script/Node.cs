@@ -59,8 +59,10 @@ public class Node:MonoBehaviour
     [Header("顯示事件")]
     public GameObject event_object;
     public List<GameObject> All_Battle_Obj;
+    public static Node ActiveNode;
     public void check()
     {
+        ActiveNode = this;
         // print("check");
         // print(height.ToString()+" "+width.ToString());
         switch(type)
@@ -234,6 +236,10 @@ public class Node:MonoBehaviour
             item.SetActive(true);
         }
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
+        // Map_System.now_state = Map_System.map_state.fight;
+        StartCoroutine(start_battle());
+        // Relic_Implement.Handle_Relic_Before_Battle();
+        FindObjectOfType<Equipment_Control>().Enable_Equipment();
         FindObjectOfType<BattleController>().EnterBattle(BattleController.BattleType.Normal);
         StartCoroutine(wait_finish(battle_object));
     }
@@ -245,6 +251,10 @@ public class Node:MonoBehaviour
         {
             item.SetActive(true);
         }
+        // Map_System.now_state = Map_System.map_state.fight;
+        StartCoroutine(start_battle());
+        
+        FindObjectOfType<Equipment_Control>().Enable_Equipment();
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
         FindObjectOfType<BattleController>().EnterBattle(BattleController.BattleType.Elite);
         StartCoroutine(wait_finish(battle_object));
@@ -257,6 +267,10 @@ public class Node:MonoBehaviour
         {
             item.SetActive(true);
         }
+        // Map_System.now_state = Map_System.map_state.fight;
+        // Relic_Implement.Handle_Relic_Before_Battle();
+        StartCoroutine(start_battle());
+        FindObjectOfType<Equipment_Control>().Enable_Equipment();
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.fight);
         FindObjectOfType<BattleController>().EnterBattle(BattleController.BattleType.Boss);
         StartCoroutine(wait_finish(battle_object));
@@ -272,7 +286,7 @@ public class Node:MonoBehaviour
         event_object.SetActive(true);
         Random.InitState((int)Time.time);
         int id = Event_Select.Get_Event();
-        event_object.GetComponent<GameEvent>().LoadEvent(id,EventClass.Type.normal);
+        event_object.GetComponent<GameEvent>().LoadEvent(28000,EventClass.Type.normal);
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.events);
         StartCoroutine(wait_finish(event_object));
     }
@@ -309,7 +323,11 @@ public class Node:MonoBehaviour
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.events);
         StartCoroutine(wait_finish(event_object));
     }
-
+    IEnumerator start_battle()
+    {
+        yield return new WaitForSeconds(1);
+        Relic_Implement.Handle_Relic_Before_Battle();
+    }
     IEnumerator wait_finish(GameObject _ob)
     {
         while(_ob.activeSelf == true)

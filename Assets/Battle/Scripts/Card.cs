@@ -40,6 +40,7 @@ public class Card : ScriptableObject
     public bool upgraded;
     public bool once_used;
     public bool costDecreaseOnTurnEnd;
+    public bool produced_by_doppelganger = false;
     public int fontSize = 10;
 
     public static Card Copy(Card c){
@@ -65,5 +66,12 @@ public class Card : ScriptableObject
             costDecreaseOnTurnEnd = c.costDecreaseOnTurnEnd,
             fontSize = c.fontSize
         };
+    }
+
+    static public void SetCost(Card c, int n){
+        c.cost_original = n;
+        c.cost = n;
+        c.cost_change = 0;
+        c.cost_change_before_play = 0;
     }
 }

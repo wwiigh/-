@@ -85,7 +85,7 @@ public class Equipment_Implement : MonoBehaviour
                 player.GetComponent<Character>().AddStatus(Status.status.rampart,3);
                 break;
             case 11:
-                //待做
+                player.GetComponent<Character>().AddStatus(Status.status.blood_drain,1);
                 break;
             case 12:
                 FindObjectOfType<BattleController>().SelectEnemy(callback_12);

@@ -248,6 +248,7 @@ public class Shop_init : MonoBehaviour
     }
     void Generate_product()
     {
+        FindObjectOfType<Shop_page>().Enable_Page3();
         for(int i=0;i<3;i++)
         {
             int index = Random.Range(0,11);

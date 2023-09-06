@@ -43,6 +43,9 @@ public class Status : MonoBehaviour
         remnant,
         turtle_stance,
         dragon_stance,
+        explosive_force,
+        evade,
+        blood_drain,
 
 
         burn,
@@ -56,13 +59,17 @@ public class Status : MonoBehaviour
         information_erase,
         swallow,
         compress,
+        decay,
+        immobile,
+        unfortune,
 
 
         summoned,
         accumulation,
         power_compete,
         damage_adjust,
-        observe
+        dice20,
+        void_sword
     }
     public static string GetName(status _status){
         switch(_status){
@@ -140,6 +147,12 @@ public class Status : MonoBehaviour
                 return "玄武架勢";
             case status.dragon_stance:
                 return "青龍架勢";
+            case status.explosive_force:
+                return "爆發力";
+            case status.evade:
+                return "迴避";
+            case status.blood_drain:
+                return "吸血";
 
             case status.burn:
                 return "燃燒";
@@ -163,6 +176,12 @@ public class Status : MonoBehaviour
                 return "吞噬";
             case status.compress:
                 return "空間壓縮";
+            case status.decay:
+                return "腐朽";
+            case status.immobile:
+                return "無法行動";
+            case status.unfortune:
+                return "不幸";
                 
             case status.summoned:
                 return "召喚物";
@@ -172,8 +191,10 @@ public class Status : MonoBehaviour
                 return "較勁";
             case status.damage_adjust:
                 return "傷害變動";
-            case status.observe:
-                return "觀察";
+            case status.dice20:
+                return "正20面骰";
+            case status.void_sword:
+                return "虛無之刃";
             default:
                 return "Unknown";
         }
@@ -246,7 +267,7 @@ public class Status : MonoBehaviour
             case status.fire_enchantment:
                 return "每次攻擊額外給予<color=green>" + level.ToString() + "</color>層燃燒";
             case status.doppelganger:
-                return "打出卡牌時，將一張消費為0、基礎攻擊、護甲減半、帶有移除和消逝的複製加入手中。還可觸發<color=green>" + level.ToString() + "</color>次。因此能力產生的卡牌不會觸發此效果";
+                return "打出卡牌時(「影子分身」除外)，將一張消費為0、基礎攻擊、護甲減半、帶有移除和消逝的複製加入手中\n還可觸發<color=green>" + level.ToString() + "</color>次。因此能力產生的卡牌不會觸發此效果";
             case status.imitate:
                 return "將下<color=green>" + level.ToString() + "</color>張打出的牌複製一張(「模仿」除外)";
             case status.remnant:
@@ -255,6 +276,12 @@ public class Status : MonoBehaviour
                 return "回合開始時，若上回合沒有打出過攻擊牌，獲得<color=green>" + level.ToString() + "</color>點臨時力量";
             case status.dragon_stance:
                 return "回合開始時，若上回合沒有打出過技能牌，獲得<color=green>" + level.ToString() + "</color>點臨時敏捷";
+            case status.explosive_force:
+                return "下一次造成的傷害<color=green>+" + level.ToString() + "</color>";
+            case status.evade:
+                return "有<color=green>" + level.ToString() + "%</color>機率無視受到的傷害";
+            case status.blood_drain:
+                return "造成攻擊傷害時回復等同造成傷害<color=green>50%</color>的生命值，還可觸發<color=green>" + level.ToString() + "</color>次";
 
             case status.burn:
                 return "回合開始時失去<color=red>" + level.ToString() + "</color>點生命，隨後層數減半";
@@ -278,6 +305,12 @@ public class Status : MonoBehaviour
                 return "回合結束時，隨機移除一張手牌，持續<color=red>" + level.ToString() + "</color>回合";
             case status.compress:
                 return "下回合少獲得<color=red>" + level.ToString() + "</color>點能量";
+            case status.decay:
+                return "回合開始時，失去等同於最大生命值<color=red>" + level.ToString() + "%</color>的生命";
+            case status.immobile:
+                return "下<color=red>" + level.ToString() + "</color>次行動失效";
+            case status.unfortune:
+                return "每回合有<color=red>" + level.ToString() + "%</color>機率行動失效";
                 
             case status.summoned:
                 return "被召喚出的生物。不可解除";
@@ -286,9 +319,11 @@ public class Status : MonoBehaviour
             case status.power_compete:
                 return "每次受到生命值傷害時減少相應層數，\n層數因傷害降至0時獲得<color=red>2</color>層易傷";
             case status.damage_adjust:
-                return "造成的傷害" + ( (level > 0)? "<color=green>+":"<color=red>") + level.ToString() + "%</color>";
-            case status.observe:
-                return "根據玩家當回合打出的第一張牌決定行動";
+                return "造成的攻擊傷害" + ( (level > 0)? "<color=green>+":"<color=red>") + level.ToString() + "%</color>";
+            case status.dice20:
+                return "造成的攻擊傷害" + ( (level > 0)? "<color=green>+":"<color=red>") + level.ToString() + "</color>";
+            case status.void_sword:
+                return "下<color=green>" + level.ToString() + "</color>張打出的牌消費變為0，基礎傷害、護甲變為1，打出後移除";
             default:
                 return "Unknown";
         }
@@ -306,7 +341,6 @@ public class Status : MonoBehaviour
             case status.fluid:
             case status.blink:
             case status.summoned:
-            case status.observe:
             case status.lock_on_prepare:
             case status.lock_on:
             case status.remnant:
@@ -358,9 +392,15 @@ public class Status : MonoBehaviour
 
     public static bool ClearOnTurnEnd(status _status){
         switch(_status){
-            case status.temporary_strength:
-            case status.temporary_dexterity:
             case status.fortify:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public static bool ClearOnTurnStart(status _status){
+        switch(_status){
             case status.fire_armor:
                 return true;
             default:
@@ -370,5 +410,14 @@ public class Status : MonoBehaviour
 
     public Sprite GetImage(status _status){
         return image[(int) _status];
+    }
+
+    static public bool Is_SymboticA_Active(GameObject obj){
+        if (obj.GetComponent<Character>().GetStatus(status.symbioticA) > 0 && BattleController.GetCurrentTurn() % 2 == 1) return true;
+        return false;
+    }
+    static public bool Is_SymboticB_Active(GameObject obj){
+        if (obj.GetComponent<Character>().GetStatus(status.symbioticB) > 0 && BattleController.GetCurrentTurn() % 2 == 0) return true;
+        return false;
     }
 }

@@ -26,7 +26,34 @@ public class for_test : MonoBehaviour
             Global.AddItemToBag(item,"relic");
         }
     }
-
+    public void GoTObattle()
+    {
+        // Global.init();
+        Map_System.now_state = Map_System.map_state.fight;
+        Relic_Implement.Handle_Relic_Before_Battle();
+        FindObjectOfType<Equipment_Control>().Enable_Equipment();
+    }
+    public void TestRelic()
+    {
+        Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Enemy);
+        Relic_Implement.Update_Relic(Relic_Implement.Type.UseAttackCard);
+    }
+    public void Testequipment()
+    {
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.None,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.Attack,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetArmor,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDemage,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.KillEnemy,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.TurnStart,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseAttackCard,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseCard,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseEnegy,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseNormalCard,1);
+        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseSkillCard,1);
+        // Equipment_Charge.Update_Equipment_Cold();
+        // Map_System.now_state = Map_System.map_state.normal;
+    }
     public void save()
     {
         Global.SaveData();
@@ -44,7 +71,7 @@ public class for_test : MonoBehaviour
     }
     public void leave()
     {
-        this.gameObject.SetActive(false);
+        Global.LeaveBattle();
     }
     void Start()
     {

@@ -18,8 +18,6 @@ public class StatusIcon : MonoBehaviour
     void Init(){
         battleController = GameObject.FindGameObjectWithTag("BattleController");
         parent = transform.parent.gameObject;
-        Debug.Log("battleController is " + battleController.ToString());
-        descriptionBox = battleController.GetComponent<BattleController>().descriptionBox;
     }
     public void UpdateIcon(int idx, (Status.status _status, int level) pack, int numberPerRow){
         if (parent == null) Init();

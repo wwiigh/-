@@ -67,6 +67,10 @@ public class Global : MonoBehaviour
     public static void AddMaxSan(int value){
         max_sanity += value;
     }
+    static public void SetHP(int value){
+        player_hp = value;
+        if (player_hp > player_max_hp) player_hp = player_max_hp;
+    }
     public static void AddHp(int value){
         player_hp += value;
         if(player_hp > player_max_hp) player_hp = player_max_hp;
@@ -171,7 +175,7 @@ public class Global : MonoBehaviour
         Global.player_deck.Clear();
         for(int i=0;i<Global.card_id.Count;i++)
         {
-            Global.player_deck.Add(Card.Copy(allcards.GetCard(card_id[i])));
+            Global.player_deck.Add(Card.Copy(AllCards.GetCard(card_id[i])));
             if(Global.card_up[i]==true)UpgradeCard(player_deck[i]);
             // Global.player_deck[i].upgraded = Global.card_up[i];
         }
