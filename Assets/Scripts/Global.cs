@@ -67,6 +67,10 @@ public class Global : MonoBehaviour
     public static void AddMaxSan(int value){
         max_sanity += value;
     }
+    static public void SetHP(int value){
+        player_hp = value;
+        if (player_hp > player_max_hp) player_hp = player_max_hp;
+    }
     public static void AddHp(int value){
         player_hp += value;
         if(player_hp > player_max_hp) player_hp = player_max_hp;

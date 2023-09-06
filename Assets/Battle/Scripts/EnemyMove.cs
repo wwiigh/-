@@ -1741,7 +1741,8 @@ public class EnemyMove : MonoBehaviour
     void ShowIntention(int type, int value){
         if (intentionObj == null){
             intentionObj = Instantiate(intentionTemplate, transform);
-            intentionObj.transform.localPosition = new Vector3(0, 200, 0);
+            // intentionObj.transform.localPosition = new Vector3(0, 200, 0);
+            intentionObj.transform.localPosition = new Vector3(0, BattleController.GetEnemyHeight(GetComponent<Character>().GetEnemyID()) - 150, 0);
         }
         switch(type){
             case 1:
@@ -1772,7 +1773,8 @@ public class EnemyMove : MonoBehaviour
     void ShowIntention(int type, int value, int times){
         if (intentionObj == null){
             intentionObj = Instantiate(intentionTemplate, transform);
-            intentionObj.transform.localPosition = new Vector3(0, 200, 0);
+            // intentionObj.transform.localPosition = new Vector3(0, 200, 0);
+            intentionObj.transform.localPosition = new Vector3(0, BattleController.GetEnemyHeight(GetComponent<Character>().GetEnemyID()) - 150, 0);
         }
         if (type != 1) return;
         intentionObj.GetComponent<Image>().sprite = attackImg;

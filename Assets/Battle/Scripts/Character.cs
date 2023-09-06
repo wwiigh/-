@@ -46,6 +46,7 @@ public class Character : MonoBehaviour
     }
     void UpdateHP(){
         if (!HP_Initialized()) Init_HP();
+        if (tag == "Player") Global.SetHP(hp);
         hpBar.GetComponent<HPBar>().UpdateHP();
     }
 
@@ -128,6 +129,13 @@ public class Character : MonoBehaviour
             block -= damage;
         }
         UpdateHP();
+        if (dead && tag == "Player" && Global.Check_Relic_In_Bag(8)){
+            damage = 0;
+            hp = maxHP;
+            dead = false;
+            Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
+            UpdateHP();
+        }
         if (damage > 0) GetComponent<HitAnimation>().Play(dead);
         if (dead){
             Debug.Log("GetHit called Die()");

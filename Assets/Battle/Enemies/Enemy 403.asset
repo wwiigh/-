@@ -15,6 +15,6 @@ MonoBehaviour:
   id: 403
   mobName: "\u7DE8\u5287\u5BB6"
   hp: 150
-  sizeX: 300
-  sizeY: 300
+  size: {x: 0, y: 370}
+  offset: {x: 0, y: 0}
   image: {fileID: 873103678, guid: 41903a379e9dbdc46af62ba86be44f6f, type: 3}
