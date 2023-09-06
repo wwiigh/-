@@ -46,13 +46,16 @@ public class Deck : MonoBehaviour
         //     drawPile.Add( Card.Copy( card ) );
         // }
         // Shuffle(drawPile);
-        
-        drawPile.Add( AllCards.GetCard(903) );
-        drawPile.Add( AllCards.GetCard(37) );
-        drawPile.Add( AllCards.GetCard(101) );
-        drawPile.Add( AllCards.GetCard(9) );
-        drawPile.Add( AllCards.GetCard(12) );
-        drawPile.Add( AllCards.GetCard(13) );
+        foreach(Card card in Global.GetPlayerDeck())
+        {
+            drawPile.Add( Card.Copy(card) );
+        }
+        // drawPile.Add( AllCards.GetCard(903) );
+        // drawPile.Add( AllCards.GetCard(37) );
+        // drawPile.Add( AllCards.GetCard(101) );
+        // drawPile.Add( AllCards.GetCard(9) );
+        // drawPile.Add( AllCards.GetCard(12) );
+        // drawPile.Add( AllCards.GetCard(13) );
     }
 
 

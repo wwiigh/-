@@ -46,7 +46,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 1;
+        // Global.current_level = 1;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -83,7 +83,7 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Normal);
+        EnterBattle(BattleType.Elite);
     }
 
     public void EnterBattle(BattleType type){
@@ -239,6 +239,7 @@ public class BattleController : MonoBehaviour
         if (enemyCount == 0){
             Debug.Log("battle end: you win");
             Global.LeaveBattle();
+            return;
         }
 
         Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Enemy);
@@ -274,7 +275,11 @@ public class BattleController : MonoBehaviour
     }
     public void PlayerDie(){
         Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
-        if (!player.GetComponent<Character>().IsAlive()) Debug.Log("battle end: you lose");
+        if (!player.GetComponent<Character>().IsAlive()) 
+        {
+            Debug.Log("battle end: you lose");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("StartMenu");
+        }
     }
 
 
@@ -325,10 +330,12 @@ public class BattleController : MonoBehaviour
         if (card.type == Card.Type.attack){
             playedAttackThisTurn = true;
             Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseAttackCard);
+            Relic_Implement.Update_Relic(Relic_Implement.Type.UseAttackCard);
         }
         if (card.type == Card.Type.skill){
             playedSkillThisTurn = true;
             Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseSkillCard);
+            Relic_Implement.Update_Relic(Relic_Implement.Type.UseSkillCard);
         }
         if (card.id == 46) played46ThisTurn = true;
         Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseCard);
@@ -399,6 +406,7 @@ public class BattleController : MonoBehaviour
     IEnumerator _StartTurn(){
         Character player_character = player.GetComponent<Character>();
         currentTurn += 1;
+        Relic_Implement.Update_Relic(Relic_Implement.Type.TurnStart);
 
         int tmp = player_character.GetStatus(Status.status.turtle_stance);
         if (tmp > 0 && !playedAttackThisTurn) player_character.AddStatus(Status.status.temporary_strength, tmp);
@@ -575,6 +583,17 @@ public class BattleController : MonoBehaviour
         for (int i = 0; i < id.Length; i++)
             InitEnemy(id[i], i);
         // ReorderEnemy();
+    }
+
+    static public float GetEnemyHeight(int id){
+        BattleController battleController = FindObjectOfType<BattleController>();
+        float ret = -1;
+        if (id >= 101 && id <= 108) ret = battleController.enemyClass[id - 101].size.y;
+        else if (id >= 201 && id <= 209) ret = battleController.enemyClass[8 + id - 201].size.y;
+        else if (id >= 301 && id <= 313) ret = battleController.enemyClass[17 + id - 301].size.y;
+        else if (id >= 401 && id <= 403) ret = battleController.enemyClass[30 + id - 401].size.y;
+        if (ret == 0) ret = 300;
+        return ret;
     }
 
     public void ReorderEnemy(){
