@@ -19,6 +19,7 @@ public class GameEvent : MonoBehaviour
     [SerializeField] List<Card> all_skill_cards;
     [SerializeField] GameObject ShowPanel;
     [SerializeField] TMP_Text ShowText;
+    [SerializeField] AudioSource audioSource;
 
     List<EventClass> normal_events = new List<EventClass>();
     List<EventClass> story_events = new List<EventClass>();
@@ -35,16 +36,8 @@ public class GameEvent : MonoBehaviour
     }
     
     void OnEnable(){
-        normal_events.Clear();
-        story_events.Clear();
-        normal_events_dict.Clear();
-        story_events_dict.Clear();
-        foreach(EventClass _event in all_events){
-            if (_event.type == EventClass.Type.normal) normal_events.Add(_event);
-            else if (_event.type == EventClass.Type.story) story_events.Add(_event);
-            if (_event.type == EventClass.Type.normal) normal_events_dict[_event.id] = _event;
-            else if (_event.type == EventClass.Type.story) story_events_dict[_event.id] = _event;
-        }
+        ShowPanel.SetActive(false);
+        
     }
     public void EnterEvent(){
         int idx = Random.Range(0, normal_events.Count);
@@ -66,6 +59,16 @@ public class GameEvent : MonoBehaviour
         }
     }
     public void LoadEvent(int event_id, EventClass.Type type){
+        normal_events.Clear();
+        story_events.Clear();
+        normal_events_dict.Clear();
+        story_events_dict.Clear();
+        foreach(EventClass _event in all_events){
+            if (_event.type == EventClass.Type.normal) normal_events.Add(_event);
+            else if (_event.type == EventClass.Type.story) story_events.Add(_event);
+            if (_event.type == EventClass.Type.normal) normal_events_dict[_event.id] = _event;
+            else if (_event.type == EventClass.Type.story) story_events_dict[_event.id] = _event;
+        }
         Reset();
         if(type == EventClass.Type.normal){
             event_loaded = normal_events_dict[event_id];
@@ -115,6 +118,7 @@ public class GameEvent : MonoBehaviour
 
     public void ButtonPressed1(){
         float random_value = Random.value;
+        audioSource.Play();
         switch (event_loaded.id)
         {
             case 101:   
@@ -670,6 +674,7 @@ public class GameEvent : MonoBehaviour
 
     }
     public void ButtonPressed2(){
+        audioSource.Play();
         float random_value = Random.value;
         switch (event_loaded.id)
         {
@@ -844,6 +849,7 @@ public class GameEvent : MonoBehaviour
         }
     }
     public void ButtonPressed3(){
+        audioSource.Play();
         switch (event_loaded.id)
         {
             case 1000:
@@ -881,6 +887,7 @@ public class GameEvent : MonoBehaviour
         }
     }
     public void ButtonPressed4(){
+        audioSource.Play();
         switch (event_loaded.id)
         {
             case 1000:
@@ -903,6 +910,7 @@ public class GameEvent : MonoBehaviour
         }
     }
     public void ButtonPressed5(){
+        audioSource.Play();
         switch (event_loaded.id)
         {
             case 19000:

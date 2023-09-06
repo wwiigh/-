@@ -64,7 +64,11 @@ public class UI_Control : MonoBehaviour
     }
     public void reset_pos(Transform t,Vector3 pos)
     {
-        
+        foreach(var i in information_box_array)
+        {
+            Destroy(i);
+        }
+        information_box_array.Clear();
         int index = 0;
         float addi = 0;
         foreach (var information in UI_information.texts)

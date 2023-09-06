@@ -30,10 +30,12 @@ public class Equipment_Charge : MonoBehaviour
     }
     public static void Update_Equipment_Charge(Charge_Type charge_Type,int num = 1)
     {
+        if(FindObjectOfType<Equipment_Control>()==null)return;
         FindObjectOfType<Equipment_Control>().Update_Equipment_Charge(charge_Type,num);
     }
     public static void Update_Equipment_Cold()
     {
+        if(FindObjectOfType<Equipment_Control>()==null)return;
         FindObjectOfType<Equipment_Control>().Update_Equipment_Cold();
     }
     public void test_charge()

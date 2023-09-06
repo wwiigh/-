@@ -104,6 +104,7 @@ public class Map_Generate : MonoBehaviour
     // Start is called before the first frame update
     public void On_Click(char type)
     {
+        node_action.PlayMusic();
         // print("onclick");
         // map_save.save_node(nodes);
         // map_save.save_level_height(now_level,now_height);
@@ -157,6 +158,7 @@ public class Map_Generate : MonoBehaviour
         {
             ReGenerate_Map();
             Play_Animation();
+            Global.player_hp = Global.player_max_hp;
         }
     }
 

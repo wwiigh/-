@@ -41,7 +41,7 @@ public class Equipment_Implement : MonoBehaviour
         switch (id)
         {
             case 1:
-                //待做
+                player.GetComponent<Character>().AddStatus(Status.status.void_sword,1);
                 break;
             case 2:
                 int demage = (int)(Global.player_max_hp * 0.05f);

@@ -30,10 +30,17 @@ public class UI_button_control : MonoBehaviour
 
     public void change_setting_active()
     {
-        setting.SetActive(!setting.activeSelf);
+        setting.SetActive(true);
+        FindObjectOfType<Map_Move>().enabled = false;
+    }
+    public void close_setting()
+    {
+        setting.SetActive(false);
+        FindObjectOfType<Map_Move>().enabled = true;
     }
     public void Setting_Return_title()
     {
+        FindObjectOfType<Map_Move>().enabled = true;
         FindObjectOfType<Save>().save();
         SceneManager.LoadScene("StartMenu");
     }

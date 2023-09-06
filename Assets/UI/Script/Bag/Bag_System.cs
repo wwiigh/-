@@ -305,7 +305,7 @@ public class Bag_System : MonoBehaviour
         for(int i=0;i<relic_list.Count;i++)
         {
             GameObject new_item =  relic_list[i];
-            int index = relic_list.Count % 12;
+            int index = i % 12;
             float x = 14 - 6.4f + index * 0.8f;
             if(x >= 14)x = 14;
             if(relic_list.Count<12) new_item.GetComponent<UI_Control>().reset_pos(this.transform,new Vector3(x,0,0));
@@ -609,5 +609,10 @@ public class Bag_System : MonoBehaviour
                 relic_list[i].gameObject.GetComponentInChildren<TMP_Text>().text = count.ToString();
             }
         }
+    }
+    public void PlayMusic()
+    {
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.Play();
     }
 }

@@ -286,7 +286,7 @@ public class Node:MonoBehaviour
         event_object.SetActive(true);
         Random.InitState((int)Time.time);
         int id = Event_Select.Get_Event();
-        event_object.GetComponent<GameEvent>().LoadEvent(28000,EventClass.Type.normal);
+        event_object.GetComponent<GameEvent>().LoadEvent(id,EventClass.Type.normal);
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.events);
         StartCoroutine(wait_finish(event_object));
     }
@@ -325,7 +325,8 @@ public class Node:MonoBehaviour
     }
     IEnumerator start_battle()
     {
-        yield return new WaitForSeconds(1);
+        // yield return new WaitForSeconds(1);
+        yield return null;
         Relic_Implement.Handle_Relic_Before_Battle();
     }
     IEnumerator wait_finish(GameObject _ob)
