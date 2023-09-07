@@ -23,5 +23,4 @@ public class hide : MonoBehaviour
         equipment.SetActive(true);
         treasure.SetActive(false);
     }
-
 }

@@ -31,10 +31,7 @@ public class get_items : MonoBehaviour
             if(current_index < 0){
                 current_index -= 2 * current_index;
             }
-            // print("idx is " + current_index);
             img.sprite = items_IMGs[current_index];
-            // print("item idx id is " + current_index);
-            // print("item name is " + items_IMGs[current_index].name);
             id = Int32.Parse(items_IMGs[current_index].name);
             
         }

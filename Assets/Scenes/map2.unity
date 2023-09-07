@@ -2212,14 +2212,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6582640609f4995448c4db1d695a5a43, type: 3}
   - {fileID: 21300000, guid: 783a15421be082d41822c587f427353a, type: 3}
   - {fileID: 21300000, guid: e87d19e98d120c94992846cdcb254cd2, type: 3}
-  - {fileID: 21300000, guid: 1a1449971eb27ce4bb0483ead4d05b86, type: 3}
-  - {fileID: 21300000, guid: a5ee804e2496cd6489ce43adfb1322c4, type: 3}
-  - {fileID: 21300000, guid: 9bd7e0d0fb7fe14419a3796c60674f9a, type: 3}
-  - {fileID: 21300000, guid: e714145af35c57d48831b1e2f80ba234, type: 3}
-  - {fileID: 21300000, guid: 75029c71e6eb8d44a9127ceb902b1a84, type: 3}
-  - {fileID: 21300000, guid: c655e239f66e52549b8be8979bb4131b, type: 3}
-  - {fileID: 21300000, guid: 00fbd36de85ed59419d7c04413b4833c, type: 3}
-  - {fileID: 21300000, guid: 933e31a157d02a648bd5fbb38131af17, type: 3}
   button: {fileID: 340534422}
   item: {fileID: 160824691}
 --- !u!1 &344552315
@@ -2617,6 +2609,7 @@ MonoBehaviour:
   attackImg: {fileID: 21300000, guid: 83cd0bec9a24b604581c224850f348d4, type: 3}
   defendImg: {fileID: 21300000, guid: 4fb5a76b21ec1a94e9c591b03023e85a, type: 3}
   othersImg: {fileID: 21300000, guid: bbaaa1bcf03ea624abb3fbb240dc5bc9, type: 3}
+  list: 
 --- !u!114 &399939368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3725,10 +3718,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b4d02f33c345d4cba63b4b2d4376ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relic_img: {fileID: 0}
-  relic_sprite: []
-  relic: {fileID: 0}
-  button: {fileID: 0}
+  relic_img: {fileID: 707500429}
+  relic_sprite:
+  - {fileID: 21300000, guid: d9db543e0d95d45409e6b60cc5cf06db, type: 3}
+  - {fileID: 21300000, guid: 798c028f747bfa34fa41cb3e7586d7b0, type: 3}
+  - {fileID: 21300000, guid: 8fdbfc20521a4ae4c84b6934e536dc72, type: 3}
+  - {fileID: 21300000, guid: cbc9b45b588208448812e24047375238, type: 3}
+  - {fileID: 21300000, guid: 6c31e2bcacb1b3446a4074600c4b511a, type: 3}
+  - {fileID: 21300000, guid: 52e845ee69f8eb1438d98645c515e4b9, type: 3}
+  - {fileID: 21300000, guid: e5773b35c5057894e91a1a4dc9e55157, type: 3}
+  - {fileID: 21300000, guid: 14c91f101e3d1fd4bb0edd97e6d2a6d6, type: 3}
+  - {fileID: 21300000, guid: 62fa42d29d9ea3746b2faf5fa4b65be5, type: 3}
+  - {fileID: 21300000, guid: e426b895a4b54094f885d3a8eb32b5ce, type: 3}
+  - {fileID: 21300000, guid: a109b19b472730645a7b70d0096aa09c, type: 3}
+  - {fileID: 21300000, guid: 46b3842c0963c0b4392744b8863b331a, type: 3}
+  - {fileID: 21300000, guid: 97ec585c649d9064e84a8324d767922f, type: 3}
+  - {fileID: 21300000, guid: 161e85d158c67224b93f4dfd477b6426, type: 3}
+  - {fileID: 21300000, guid: 7e2ea6a55eba65a45959040922fc2cdd, type: 3}
+  - {fileID: 21300000, guid: 6d7fb8c6a220d71418b5de3d2ff20c27, type: 3}
+  - {fileID: 21300000, guid: fc4bdd9b7ce10bd4da29dc2fe305bbec, type: 3}
+  - {fileID: 21300000, guid: c1e3567a11b937248ad1f8546144e4dd, type: 3}
+  - {fileID: 21300000, guid: fe07d5eb87ef11a478ad306579af4b64, type: 3}
+  - {fileID: 21300000, guid: 7e73176b7f06fc044a815469565f6996, type: 3}
+  - {fileID: 21300000, guid: 17ae006f803c03b479b5d8351fbad758, type: 3}
+  - {fileID: 21300000, guid: 9cd7f2a77771a71449505544241c7699, type: 3}
+  - {fileID: 21300000, guid: 62244ae13eec36a41ba93a8a9e3c995c, type: 3}
+  - {fileID: 21300000, guid: 651c95d5dc02e494fa3a2a06e4f391b2, type: 3}
+  - {fileID: 21300000, guid: 973bd9fe1abf39b4ea1bd5f068b70d94, type: 3}
+  - {fileID: 21300000, guid: 67e64ba3fc087964796e3501a603964e, type: 3}
+  - {fileID: 21300000, guid: db03c3181f50dd44b8027897f0c39f82, type: 3}
+  - {fileID: 21300000, guid: a2211c9ab1d3f8349ad318aa9685acc6, type: 3}
+  - {fileID: 21300000, guid: 5f999baa37761344d97f0e1a3e221556, type: 3}
+  - {fileID: 21300000, guid: 872eba69877927b45a939157d31f359b, type: 3}
+  relic: {fileID: 707500426}
+  button: {fileID: 581880018}
+--- !u!114 &581880018 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5449467099363097177, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+  m_PrefabInstance: {fileID: 838595989}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581880012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &593256429
 GameObject:
   m_ObjectHideFlags: 0
@@ -3807,6 +3841,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4387781411988423824, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
   m_PrefabInstance: {fileID: 838595989}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &707500429 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3982471793287792409, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+  m_PrefabInstance: {fileID: 838595989}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707500426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &727698241
 GameObject:
   m_ObjectHideFlags: 0
@@ -4663,6 +4708,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 937553524101991954, guid: ec48b339a9afc1a4ea6ffb54ee8fc3fb, type: 3}
+      propertyPath: m_Name
+      value: Settle_level_text
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897353420266869413, guid: ec48b339a9afc1a4ea6ffb54ee8fc3fb, type: 3}
+      propertyPath: m_Name
+      value: Settle_level_text (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 4920015863160937888, guid: ec48b339a9afc1a4ea6ffb54ee8fc3fb, type: 3}
       propertyPath: m_text
       value: 'level: '
@@ -4673,7 +4726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4922957328000489867, guid: ec48b339a9afc1a4ea6ffb54ee8fc3fb, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5524485957477419036, guid: ec48b339a9afc1a4ea6ffb54ee8fc3fb, type: 3}
       propertyPath: m_RootOrder
@@ -8152,7 +8205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a8696888c16d049a6c7440b23c3c2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: {fileID: 955372878}
+  level: {fileID: 955372878}
   Enemy: {fileID: 955372877}
   Elite: {fileID: 955372876}
   Boss: {fileID: 955372875}
