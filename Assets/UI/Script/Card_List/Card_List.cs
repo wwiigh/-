@@ -68,7 +68,7 @@ public class Card_List : MonoBehaviour
         {
             GameObject a =  Instantiate(card, card_list.transform);
             cards.Add(a);
-            item.cost = item.cost_original;
+            // item.cost = item.cost_original;
             a.GetComponent<CardDisplay>().thisCard = item;
             if(can_select == false) a.GetComponent<Card_Select>().NotSelect();
             a.tag = "Card";

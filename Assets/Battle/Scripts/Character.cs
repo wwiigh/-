@@ -149,7 +149,7 @@ public class Character : MonoBehaviour
         AnEyeForAnEye(damage);
         PowerCompete(hp_diff);
 
-        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, damage);
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, damage);
 
         if (GetComponent<Character>().GetStatus(Status.status.energy_absorb) > 0){
             AddStatus(Status.status.accumulation, block_diff);
@@ -177,7 +177,7 @@ public class Character : MonoBehaviour
 
         PowerCompete(value);
         
-        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, value);
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, value);
 
         if (hp <= value){
             hp = 0;
@@ -268,7 +268,7 @@ public class Character : MonoBehaviour
             AddStatus(Status.status.blood_drain, -1);
         }
 
-        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.Attack, final_dmg);
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.Attack);
 
         return target_dead;
     }
