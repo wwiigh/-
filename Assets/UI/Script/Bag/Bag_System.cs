@@ -52,14 +52,9 @@ public class Bag_System : MonoBehaviour
     {
         init();   
     }
-
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
-    }
-    void OnEnable()
-    {
+        Debug.Log("Now in BagSystem Start");
         Bag_Save.Load_Data(this);
         // for(int i=13;i<=23;i++)
         // {
@@ -78,9 +73,16 @@ public class Bag_System : MonoBehaviour
         //     print("relic"+i.ToString());
         // }
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    
     void OnDisable()
     {
-        save();   
+        // save();   
     }
     public void save()
     {

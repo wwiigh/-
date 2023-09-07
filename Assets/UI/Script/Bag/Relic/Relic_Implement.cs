@@ -345,7 +345,7 @@ public class Relic_Implement : MonoBehaviour
             case 8:
                 Global.player_hp = Global.player_max_hp;
                 Global.sanity = Global.max_sanity;
-                bag_System.Relic_Del_All_item();
+                bag_System.Relic_Del_item(8);
                 break;
             case 18:
                 player.GetComponent<Character>().AddStatus(Status.status.strength,1);

@@ -55,15 +55,20 @@ public class Bag_Save
         };
         string jsonInfo = JsonUtility.ToJson(save_data,true);
         PlayerPrefs.SetString("UI_Data",jsonInfo);
+         Debug.Log(jsonInfo);
         // File.WriteAllText(Application.dataPath+"/Save_Data/UI_Data", jsonInfo);
     }
     public static void  Load_Data(Bag_System bag_System)
     {
 
         
-        
         string LoadData = PlayerPrefs.GetString("UI_Data","");
-        if(LoadData == "")return;
+        Debug.Log(LoadData);
+        if(LoadData == "")
+        {
+            Debug.Log("LoadData is null");
+            return;
+        }
         bag_System.clear();
         Data Load = JsonUtility.FromJson<Data>(LoadData);
         bag_name = Load.bag_name;

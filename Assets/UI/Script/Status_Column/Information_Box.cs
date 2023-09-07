@@ -26,7 +26,7 @@ public class Information_Box : MonoBehaviour
         else
         box.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(3.42f,1.1f + (count-3)*0.4f);
 
-        print(Time.time.ToString()+" "+count.ToString());
+        // print(Time.time.ToString()+" "+count.ToString());
         // print(box);
     }
     

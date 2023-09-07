@@ -94,6 +94,8 @@ public class Map_Generate : MonoBehaviour
     [Header("顯示事件")]
     public GameObject event_object;
     public List<GameObject> All_Battle_Obj;
+    [Header("Card panel")] 
+    public GameObject CardPanel;
 
 
     private List<Node> nodes = new List<Node>();
@@ -989,5 +991,6 @@ public class Map_Generate : MonoBehaviour
         {
             item.SetActive(false);
         }
+        CardPanel.SetActive(false);
     }
 }
