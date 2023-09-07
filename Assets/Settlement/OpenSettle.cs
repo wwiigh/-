@@ -5,7 +5,7 @@ using UnityEngine;
 public class OpenSettle : MonoBehaviour
 {
     public GameObject Settle;
-    public void open(){
+    public void open_settle(){
         Settle.SetActive(true);
     }
 }

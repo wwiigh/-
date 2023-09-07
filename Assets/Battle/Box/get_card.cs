@@ -6,7 +6,6 @@ using System;
 using System.Globalization;
 public class get_card : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Image cardIMG;
     public Sprite[] cardsprite;
     public Card[] cards;
@@ -20,12 +19,10 @@ public class get_card : MonoBehaviour
     }
     void OnEnable()
     {
-        // card.SetActive(true);
         got_cards();
         is_gotten = 0;
     }
     public void got_cards(){
-        // card.SetActive(true);
         if(cardsprite.Length > 0){
             long currentTicks = DateTime.Now.Ticks;
             current_card_index = (int)currentTicks % (cardsprite.Length);
@@ -36,7 +33,6 @@ public class get_card : MonoBehaviour
             string cardname = cardsprite[current_card_index].name;
             if(current_card_index < 10){
                 id = (int)cardname[0] - '0';
-                // print(id);
             }
             else{
                 id = 10 * (cardname[0] - '0') + (cardname[1] - '0');
