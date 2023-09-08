@@ -33,7 +33,14 @@ public class Character : MonoBehaviour
         UpdateStatus();
     }
 
-
+    void Update()
+    {
+        if(this.gameObject.tag == "Player")
+        {
+            Global.player_hp = GetHP();
+            UpdateHP();
+        }
+    }
 
     public bool HP_Initialized(){
         return hpBar;

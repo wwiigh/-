@@ -20,6 +20,10 @@ public class Map_System : MonoBehaviour
     }
     public static map_state now_state;
     public static map_ui now_ui;
+    void OnEnable()
+    {
+        now_state = map_state.normal;
+    }
     public void Change_state(map_state state)
     {
         now_state = state;

@@ -141,14 +141,20 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 117:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.immobile,1);
+                }
                 break;
             case 118:
                 Global.AddHp(15);
                 break;
             case 119:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.immobile,1);
+                }
                 break;
             case 120:
                 Global.AddHp(15);
@@ -181,7 +187,10 @@ public class Item_Implement : MonoBehaviour
                 break;
             case 206:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
-                //待做
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.unfortune,9);
+                }
                 break;
             case 207:
                 if(Map_System.now_state != Map_System.map_state.fight)return false;

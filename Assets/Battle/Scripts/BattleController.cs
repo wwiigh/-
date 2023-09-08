@@ -46,7 +46,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 2;
+        // Global.current_level = 1;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -83,7 +83,7 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Elite);
+        EnterBattle(BattleType.Normal);
     }
 
     public void EnterBattle(BattleType type){
@@ -244,7 +244,7 @@ public class BattleController : MonoBehaviour
 
         Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Enemy);
         Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.KillEnemy);
-
+        
         if (currentBattleID == 311){
             foreach(Transform child in characters.transform){
                 if (child.GetComponent<Character>().GetEnemyID() == 311){
@@ -275,7 +275,11 @@ public class BattleController : MonoBehaviour
     }
     public void PlayerDie(){
         Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
-        if (!player.GetComponent<Character>().IsAlive()) Debug.Log("battle end: you lose");
+        if (!player.GetComponent<Character>().IsAlive()) 
+        {
+            Debug.Log("battle end: you lose");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("StartMenu");
+        }
     }
 
 

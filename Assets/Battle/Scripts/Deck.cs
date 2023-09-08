@@ -52,6 +52,11 @@ public class Deck : MonoBehaviour
         drawPile.Add( AllCards.GetCard(58) );
         drawPile.Add( AllCards.GetCard(58) );
         drawPile.Add( AllCards.GetCard(58) );
+
+        // foreach(Card card in Global.GetPlayerDeck())
+        // {
+        //     drawPile.Add( Card.Copy(card) );
+        // }
     }
 
 

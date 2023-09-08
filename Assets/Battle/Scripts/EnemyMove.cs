@@ -22,67 +22,703 @@ public class EnemyMove : MonoBehaviour
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
         return player;
     }
+    void ChangeState(){
+        int id = GetComponent<Character>().GetEnemyID();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Character player_character = player.GetComponent<Character>();
+
+        switch(id){
+            case 101: // 史萊姆
+                state = Random.Range(0, 3);
+                break;
+            case 102: // 哥布林
+                state = Random.Range(0, 3);
+                break;
+            case 103: // 幻影
+                if (state == -1) state = 0;
+                else if (state == 0) state = 1;
+                else if (state == 1) state = 2;
+                else if (state == 2) state = 1;
+                break;
+            case 104: //岩蟹
+                int hp = GetComponent<Character>().GetHP();
+                int maxHP = GetComponent<Character>().GetMaxHP();
+                if (hp == maxHP) state = Random.Range(1, 3);
+                else state = 0;
+                break;
+            case 105: // 石像
+                if (state == -1) state = 0;
+                else if (state == 0) state = 1;
+                else if (state == 1 || state == 2) state += 1;
+                else if (state == 3) state = 1;
+                break;
+            case 106: // 石巨人
+                if (GetComponent<Character>().GetHP() <= GetComponent<Character>().GetMaxHP() / 2 &&
+                    GetComponent<Character>().GetStatus(Status.status.rock_solid) < 2){
+                    intention = 3;
+                    ShowIntention(3, 0);
+                }
+                else if (state == -1){
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(1, 7);
+                }
+                else if (state == 0 ){
+                    state += 1;
+                    intention = 1;
+                    ShowIntention(1, 5);
+                }
+                else if (state == 1){
+                    state = 2;
+                    intention = 2;
+                    ShowIntention(1, 16);
+                }
+                else if (state == 2){
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(1, 7);
+                }
+                break;
+            case 107: // 巨型史萊姆
+                if (state == -1){
+                    state = 0;
+                    intention = 2;
+                    ShowIntention(3, 0);
+                }
+                else if (state == 0){
+                    state = 1;
+                    intention = 0;
+                    ShowIntention(3, 0);
+                }
+                else if (state == 1){
+                    state = 2;
+                    intention = 3;
+                    ShowIntention(1, 13);
+                }
+                else if (state == 2){
+                    state = 3;
+                    intention = 2;
+                    ShowIntention(3, 0);
+                }
+                else if (state == 3){
+                    state = 4;
+                    intention = 1;
+                    ShowIntention(3, 0);
+                }
+                else if (state == 4){
+                    state = 5;
+                    intention = 3;
+                    ShowIntention(1, 13);
+                }
+                else if (state == 5){
+                    state = 0;
+                    intention = 2;
+                    ShowIntention(3, 0);
+                }
+                break;
+            case 108: // 盜匪首領
+                if (state == -1){
+                    state = 0;
+                    intention = 1;
+                    ShowIntention(1, 9);
+                }
+                else if (state == 0 ){
+                    state += 1;
+                    intention = 0;
+                    ShowIntention(3, 0);
+                }
+                else if (state == 1){
+                    state = 2;
+                    intention = 3;
+                    ShowIntention(3, 0);
+                }
+                else if (state == 2){
+                    state = 3;
+                    intention = 2;
+                    ShowIntention(1, 16);
+                }
+                else if (state == 3){
+                    state = 4;
+                    intention = 4;
+                    ShowIntention(3, 0);
+                }
+                else if (state == 4){
+                    state = 0;
+                    intention = 1;
+                    ShowIntention(1, 9);
+                }
+                break;
+            case 201: // 羔羊
+                int hp_201 = GetComponent<Character>().GetHP();
+                int maxHP_201 = GetComponent<Character>().GetMaxHP();
+                if (hp_201 == maxHP_201) intention = 0;
+                else
+                {
+                    if(Random.value < 0.34) intention = 1;
+                    else intention = 0;
+                }
+                if (intention == 0) ShowIntention(1, 9);
+                else if (intention == 1) ShowIntention(3, 0);
+                break;
+            case 202: // 烈焰蝙蝠
+                if(state == -1 || state == 1 || state == 4)
+                {
+                    if (state == 4) state = 0;
+                    else state += 1;
+                    intention = 0;
+                    ShowIntention(1, 10);
+                }
+                else if(state == 0 || state == 2)
+                {
+                    state += 1;
+                    intention = 1;
+                    ShowIntention(3,0);
+                }
+                else if(state == 3)
+                {
+                    state = 4;
+                    intention = 2;
+                    ShowIntention(1, 16);
+                }
+                break;
+            case 203: // 冷蛛
+                if(state == -1 || state == 2)
+                {
+                    state = 0;
+                    intention = 2;
+                    ShowIntention(3, 0);
+                }
+                else if(state == 0)
+                {
+                    state = 1;
+                    intention = 0;
+                    ShowIntention(3,0);
+                }
+                else if(state == 1)
+                {
+                    state = 2;
+                    intention = 1;
+                    ShowIntention(1, 11);
+                }
+                break;
+            case 204: // 樹妖
+                if(state == -1 || state == 2)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(2, 10);
+                }
+                else if(state == 0)
+                {
+                    state = 1;
+                    intention = 2;
+                    ShowIntention(1, 4, 3);
+                }
+                else if(state == 1)
+                {
+                    state = 2;
+                    intention = 1;
+                    ShowIntention(1, 10);
+                }
+                break;
+            case 205: // 盜匪
+                intention = Random.Range(1,4);
+                if(player_character.GetStatus(Status.status.bleed) == 0 && intention == 1)
+                {
+                    intention = 0;
+                }
+                if (intention == 0) ShowIntention(1, 9);
+                else if (intention == 1) ShowIntention(1, 13);
+                else if (intention == 2) ShowIntention(3, 0);
+                else if (intention == 3) ShowIntention(2, 8);
+                break;
+            case 206: // 烈火屠夫
+                if(state == -1 || state == 3)
+                {
+                    intention = 0;
+                    state = 0;
+                    ShowIntention(3,0);
+                }
+                else if(state == 0)
+                {
+                    intention = 1;
+                    state = 1;
+                    ShowIntention(2,20);
+                }
+                else if(state == 1)
+                {
+                    intention = 2;
+                    state = 2;
+                    ShowIntention(3,0);
+                }
+                else if(state == 2)
+                {
+                    state = 3;
+                    if(GetComponent<Character>().GetStatus(Status.status.power_compete) > 0)
+                    {
+                        intention = 3;
+                        ShowIntention(1,20);
+                    }
+                    else
+                    {
+                        intention = 4;
+                        ShowIntention(3,0);
+                    } 
+                }
+                break;
+            case 207: // 雙生暗影(A)
+                if(state == -1 || state == 1 || state == 3)
+                {
+                    intention = 0;
+                    state += 1;
+                    if(state == 4)state = 0;
+                    ShowIntention(1, 4, 3);//多次攻擊
+                }
+                else if(state == 0)
+                {
+                    intention = 1;
+                    state = 1;
+                    ShowIntention(3,0);
+                }
+                else if(state == 2)
+                {
+                    state = 3;
+                    intention = 2;
+                    ShowIntention(2,10);
+                }
+                break;
+            case 208: // 雙生暗影(B)
+                if(state == -1 || state == 3)
+                {
+                    intention = 0;
+                    state += 1;
+                    if(state == 4)state = 0;
+                    ShowIntention(3,0);
+                }
+                else if(state == 0 || state == 2)
+                {
+                    intention = 1;
+                    state += 1;
+                    ShowIntention(1,5);
+                }
+                else if(state == 1)
+                {
+                    state = 2;
+                    intention = 2;
+                    ShowIntention(3,0);
+                }
+                break;
+            case 209: // 莎布·尼古拉絲
+                if(state == -1 || state == 4)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(3,0);
+                }
+                else if(state == 0)
+                {
+                    state = 1;
+                    intention = 1;
+                    ShowIntention(2,12);
+                }
+                else if(state == 1)
+                {
+                    state = 2;
+                    intention = 2;
+                    ShowIntention(1,23);
+                }
+                else if(state == 2)
+                {
+                    state = 3;
+                    intention = 3;
+                    ShowIntention(3,0);
+                }
+                else if(state == 3)
+                {
+                    state = 4;
+                    intention = 4;
+                    ShowIntention(3,0);
+                }
+                break;
+            case 301: // 幽靈馬
+                if(state == -1 || state == 2)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(1, 3, 3);//多次攻擊
+                }
+                else if(state == 0)
+                {
+                    state = 1;
+                    intention = 1;
+                    ShowIntention(2,15);
+                }
+                else if(state == 1)
+                {
+                    state = 2;
+                    intention = 2;
+                    ShowIntention(1,13);
+                }
+                break;
+            case 302: // 觀察者
+                intention = 3;
+                ShowIntention(3, 0);
+                break;
+            case 303: // 護衛者
+                int accumulation_level = GetComponent<Character>().GetStatus(Status.status.accumulation);
+                if (accumulation_level < 20){
+                    intention = 0;
+                    ShowIntention(2,11);
+                }
+                else{
+                    intention = 1;
+                    ShowIntention(1, accumulation_level);
+                }
+                break;
+            case 304: // 追蹤者
+                if(state == -1 || state == 2)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(3,0);
+                }
+                else if(state == 0 || state == 1)
+                {
+                    state += 1;
+                    intention = 1;
+                    ShowIntention(1, 11);
+                }
+                break;
+            case 305: // 騎士骷髏
+                if(state == -1)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(2, 13);
+                }
+                else if(state == 0)
+                {
+                    state = 1;
+                    intention = 1;
+                    ShowIntention(1, 8);
+                }
+                else if (state == 1)
+                {
+                    if (GetComponent<Character>().GetArmor() >= 10){
+                        state = 2;
+                        intention = 2;
+                        ShowIntention(1, GetComponent<Character>().GetArmor());
+                    }
+                    else{
+                        state = -1;
+                        intention = 3;
+                        ShowIntention(3, 0);
+                    }
+                }
+                else if (state == 2)
+                {
+                    state = -1;
+                    intention = 3;
+                    ShowIntention(3, 0);
+                }
+                break;
+            case 306: // 屠刀骷髏
+                if(state == -1 || state == 0)
+                {
+                    state += 1;
+                    intention = 1;
+                    ShowIntention(1, 6, 2);
+                }
+                else if(state == 1)
+                {
+                    state = -1;
+                    intention = 0;
+                    ShowIntention(1, 18);
+                }
+                break;
+            case 307: // 長矛骷髏
+                if(state == -1 || state == 3)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(3, 0);
+                }
+                else if(state == 0 || state == 1)
+                {
+                    state += 1;
+                    intention = 2;
+                    ShowIntention(1, 9);
+                }
+                else if(state == 2)
+                {
+                    state += 1;
+                    intention = 1;
+                    ShowIntention(1, 4, 3);
+                }
+                break;
+            case 308: // 裂嘴
+                if(state == -1)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(3, 0);
+                }
+                else if(state == 0)
+                {
+                    state = 1;
+                    intention = 1;
+                    ShowIntention(3, 0);
+                }
+                else if(state == 1)
+                {
+                    state = 2;
+                    intention = 2;
+                    ShowIntention(1, 25);
+                }
+                else if(state == 2)
+                {
+                    state = -1;
+                    intention = 3;
+                    ShowIntention(3, 0);
+                }
+                break;
+            case 309: // 扭曲團塊(A)
+                if(state == -1 || state == 1)
+                {
+                    state = 0;
+                    intention = 1;
+                    ShowIntention(3,0);
+                }
+                else if(state == 0 )
+                {
+                    state += 1;
+                    intention = 0;
+                    ShowIntention(1,8);
+                    
+                }
+                break;
+            case 310: // 扭曲團塊(B)
+                if(state == -1 || state == 1)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(1,16);
+                }
+                else if(state == 0 )
+                {
+                    state += 1;
+                    intention = 1;
+                    ShowIntention(3,0);
+                }
+                break;
+            case 311: // 恐懼聚合體
+                if(state == -1 || state == 1 || state == 4)
+                {
+                    state += 1;
+                    intention = 0;
+                    ShowIntention(3,0);
+                }
+                else if(state == 0 )
+                {
+                    state = 1;
+                    intention = 1;
+                    ShowIntention(3,0);
+                }
+                else if(state == 2 )
+                {
+                    state = 3;
+                    intention = 2;
+                    ShowIntention(1,18);
+                }
+                else if(state == 3)
+                {
+                    state = 4;
+                    if (BattleController.GetEnemyCount() > 1){
+                        intention = 3;
+                        ShowIntention(1, 23 * (BattleController.GetEnemyCount() - 1));
+                    }
+                    else{
+                        intention = 0;
+                        ShowIntention(3,0);
+                    }
+                }
+                break;
+            case 312: // 深淵凝視者
+                if (state == -1) state = 0;
+                Debug.Log("312 set state");
+                if (state == 111){
+                    state = -1;
+                    intention = 3;
+                    return;
+                }
+                List<int> moveList = new();
+                if (state / 100 == 0) moveList.Add(100);
+                if (state / 10 % 10 == 0) moveList.Add(10);
+                if (state % 10 == 0) moveList.Add(1);
+                switch(moveList[Random.Range(0, moveList.Count)]){
+                    case 100:
+                        intention = 0;
+                        state += 100;
+                        break;
+                    case 10:
+                        intention = 1;
+                        state += 10;
+                        break;
+                    case 1:
+                        intention = 2;
+                        state += 1;
+                        break;
+                }
+                ShowIntention(3, 0);
+                Debug.Log("312 state: " + state.ToString() + ", intention: " + intention.ToString());
+                break;
+            case 313: // 阿薩托斯
+                if (state == -1) state = 0;
+                if (GetComponent<Character>().GetHP() <= GetComponent<Character>().GetMaxHP() * 0.5f && state < 10){
+                    state += 10;
+                    intention = 0;
+                    ShowIntention(3, 0);
+                }
+                else if (state % 10 == 0){
+                    state += 1;
+                    intention = 1;
+                    ShowIntention(3, 0);
+                }
+                else if (state % 10 == 1){
+                    state += 1;
+                    intention = 2;
+                    ShowIntention(3, 0);
+                }
+                else if (state % 10 == 2){
+                    state += 1;
+                    intention = 3;
+                    ShowIntention(1, 21);
+                }
+                else if (state % 10 == 3){
+                    state += 1;
+                    intention = 4;
+                    ShowIntention(2, 18);
+                }
+                else if (state % 10 == 4){
+                    state += 1;
+                    intention = 5;
+                    ShowIntention(3, 0);
+                }
+                else if (state % 10 == 5){
+                    state += 1;
+                    intention = 6;
+                    ShowIntention(1, 14);
+                }
+                else if (state % 10 == 6){
+                    state -= 6;
+                    intention = 7;
+                    ShowIntention(1, 0);
+                }
+                break;
+            case 401: // 火精靈
+                if(state == -1 || state == 1)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(1,5);
+                }
+                else if(state == 0 )
+                {
+                    state = 1;
+                    intention = 1;
+                    ShowIntention(2,8);
+                }
+                break;
+            case 402: // 惡意
+                if(state == -1 || state == 2)
+                {
+                    state = 0;
+                    intention = 0;
+                    ShowIntention(1,10);
+                }
+                else if(state == 0 )
+                {
+                    state += 1;
+                    intention = 1;
+                    ShowIntention(3,0);
+                }
+                else if(state == 1 )
+                {
+                    state += 1;
+                    intention = 2;
+                    ShowIntention(3,0);
+                }
+                break;
+            case 403: // 編劇家
+                if(state == -1 || state == 1)
+                {
+                    state += 1;
+                    if(state == 5)state = 0;
+                    intention = 2;
+                    ShowIntention(1,15);
+                }
+                else if(state == 0 )
+                {
+                    state += 1;
+                    intention = 0;
+                    ShowIntention(3,0);
+                }
+                else if(state == 2 )
+                {
+                    state += 1;
+                    intention = 1;
+                    ShowIntention(3,0);
+                }
+                else if(state == 3 )
+                {
+                    state += 1;
+                    intention = 3;
+                    ShowIntention(2,18);
+                }
+                else if(state == 4)
+                {
+                    state = -1;
+                    intention = 4;
+                    ShowIntention(3,0);
+                }
+                break;
+            default:
+                Debug.Log("SetIntention: Unknown enemy id " + id.ToString());
+                break;
+        }
+    }
     public void SetIntention(){
         int id = GetComponent<Character>().GetEnemyID();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Character player_character = player.GetComponent<Character>();
 
         // previous_state = state;
+        Debug.Log("SetIntention");
         switch(id){
             case 101: // 史萊姆
-                intention = Random.Range(0, 3);
-                if (intention == 0) ShowIntention(1, 6);
-                else if (intention == 1) ShowIntention(1, 10);
-                else if (intention == 2) ShowIntention(3, 0);
+                if (state == 0) ShowIntention(1, 6);
+                else if (state == 1) ShowIntention(1, 10);
+                else if (state == 2) ShowIntention(3, 0);
                 break;
             case 102: // 哥布林
-                intention = Random.Range(0, 3);
-                if (intention == 0) ShowIntention(1, 10);
-                else if (intention == 1) ShowIntention(1, 6);
-                else if (intention == 2) ShowIntention(2, 8);
+                if (state == 0) ShowIntention(1, 10);
+                else if (state == 1) ShowIntention(1, 6);
+                else if (state == 2) ShowIntention(2, 8);
                 break;
             case 103: // 幻影
-                if (state == -1){
-                    state = 0;
-                    intention = 0;
-                    ShowIntention(3, 0);
-                }
-                else if (state == 0){
-                    state = 1;
-                    intention = 1;
-                    ShowIntention(1, 8);
-                }
-                else if (state == 1){
-                    state = 0;
-                    intention = 2;
-                    ShowIntention(3, 0);
-                }
+                if (state == 0) ShowIntention(3, 0);
+                else if (state == 1) ShowIntention(1, 8);
+                else if (state == 2) ShowIntention(3, 0);
                 break;
             case 104: //岩蟹
-                int hp = GetComponent<Character>().GetHP();
-                int maxHP = GetComponent<Character>().GetMaxHP();
-                if (hp == maxHP) intention = Random.Range(1, 3);
-                else intention = 0;
-                if (intention == 0) ShowIntention(3, 0);
-                else if (intention == 1) ShowIntention(1, 6);
-                else if (intention == 2) ShowIntention(1, 3);
+                if (state == 0) ShowIntention(3, 0);
+                else if (state == 1) ShowIntention(1, 6);
+                else if (state == 2) ShowIntention(1, 3);
                 break;
             case 105: // 石像
-                if (state == -1){
-                    state = 0;
-                    intention = 0;
-                    ShowIntention(3, 0);
-                }
-                else if (state == 0 || state == 1){
-                    state += 1;
-                    intention = 1;
-                    ShowIntention(2, 5);
-                }
-                else if (state == 2){
-                    state = 0;
-                    intention = 2;
-                    ShowIntention(3, 0);
-                }
+                if (state == 0) ShowIntention(3, 0);
+                else if (state == 1 || state == 2) ShowIntention(2, 5);
+                else if (state == 2) ShowIntention(3, 0);
                 break;
             case 106: // 石巨人
                 if (GetComponent<Character>().GetHP() <= GetComponent<Character>().GetMaxHP() / 2 &&
@@ -726,29 +1362,29 @@ public class EnemyMove : MonoBehaviour
         int id = GetComponent<Character>().GetEnemyID();
         switch(id){
             case 101:
-                if (intention == 0) return ("黏液撞擊", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害，給予<color=red>1</color>層虛弱");
-                if (intention == 1) return ("撞擊", "造成<color=red>" + GetDamage(10).ToString() + "</color>點傷害");
-                if (intention == 2) return ("腐蝕", "給予<color=red>1</color>層虛弱、<color=red>1</color>層脆弱");
+                if (state == 0) return ("黏液撞擊", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害，給予<color=red>1</color>層虛弱");
+                if (state == 1) return ("撞擊", "造成<color=red>" + GetDamage(10).ToString() + "</color>點傷害");
+                if (state == 2) return ("腐蝕", "給予<color=red>1</color>層虛弱、<color=red>1</color>層脆弱");
                 break;
             case 102:
-                if (intention == 0) return ("戳刺", "造成<color=red>" + GetDamage(10).ToString() + "</color>點傷害");
-                if (intention == 1) return ("發怒", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害，獲得<color=green>2</color>點力量");
-                if (intention == 2) return ("躲閃", "獲得<color=green>8</color>點護甲");
+                if (state == 0) return ("戳刺", "造成<color=red>" + GetDamage(10).ToString() + "</color>點傷害");
+                if (state == 1) return ("發怒", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害，獲得<color=green>2</color>點力量");
+                if (state == 2) return ("躲閃", "獲得<color=green>8</color>點護甲");
                 break;
             case 103:
-                if (intention == 0) return ("模糊輪廓", "免疫下次受到的傷害");
-                if (intention == 1) return ("攻擊", "造成<color=red>" + GetDamage(8).ToString() + "</color>點傷害");
-                if (intention == 2) return ("驚嚇", "理智<color=red>-2</color>");
+                if (state == 0) return ("模糊輪廓", "免疫下次受到的傷害");
+                if (state == 1) return ("攻擊", "造成<color=red>" + GetDamage(8).ToString() + "</color>點傷害");
+                if (state == 2) return ("驚嚇", "理智<color=red>-2</color>");
                 break;
             case 104:
-                if (intention == 0) return ("躲藏", "恢復<color=green>2</color>點生命");
-                if (intention == 1) return ("揮擊", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害");
-                if (intention == 2) return ("利螯", "造成<color=red>" + GetDamage(3).ToString() + "</color>點傷害，給予<color=red>3</color>層流血");
+                if (state == 0) return ("躲藏", "恢復<color=green>2</color>點生命");
+                if (state == 1) return ("揮擊", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害");
+                if (state == 2) return ("利螯", "造成<color=red>" + GetDamage(3).ToString() + "</color>點傷害，給予<color=red>3</color>層流血");
                 break;
             case 105:
-                if (intention == 0) return ("路障", "獲得嘲諷與<color=green>3</color>點荊棘");
-                if (intention == 1) return ("修補", "獲得<color=green>5</color>點護甲");
-                if (intention == 2) return ("強化", "獲得<color=green>3</color>點荊棘");
+                if (state == 0) return ("路障", "獲得嘲諷與<color=green>3</color>點荊棘");
+                if (state == 1 || state == 2) return ("修補", "獲得<color=green>5</color>點護甲");
+                if (state == 3) return ("強化", "獲得<color=green>3</color>點荊棘");
                 break;
             case 106:
                 if (intention == 0) return ("揮拳", "造成<color=red>" + GetDamage(7).ToString() + "</color>點傷害");
@@ -935,90 +1571,101 @@ public class EnemyMove : MonoBehaviour
 
         switch(id){
             case 101: // 史萊姆
-                if (intention == 0){
-                    GetComponent<Animator>().Play("101_strike");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Attack(player, 6);
-                    player_character.AddStatus(Status.status.weak, 1);
-                }
-                else if (intention == 1){
-                    GetComponent<Animator>().Play("101_strike");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Attack(player, 10);
-                }
-                else if (intention == 2){
-                    GetComponent<Animator>().Play("101_spit");
-                    yield return new WaitForSeconds(0.5f);
-                    player_character.AddStatus(Status.status.weak, 1);
-                    player_character.AddStatus(Status.status.frail, 1);
+                switch(state){
+                    case 0:
+                        GetComponent<Animator>().Play("101_strike");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().Attack(player, 6);
+                        player_character.AddStatus(Status.status.weak, 1);
+                        break;
+                    case 1:
+                        GetComponent<Animator>().Play("101_strike");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().Attack(player, 10);
+                        break;
+                    case 2:
+                        GetComponent<Animator>().Play("101_spit");
+                        yield return new WaitForSeconds(0.5f);
+                        player_character.AddStatus(Status.status.weak, 1);
+                        player_character.AddStatus(Status.status.frail, 1);
+                        break;
                 }
                 break;
             case 102: // 哥布林
-                if (intention == 0){
-                    GetComponent<Animator>().Play("102_strike");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Attack(player, 10);
-                }
-                else if (intention == 1){
-                    GetComponent<Animator>().Play("102_strike");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Attack(player, 6);
-                    GetComponent<Character>().AddStatus(Status.status.strength, 2);
-                }
-                else if (intention == 2){
-                    GetComponent<Animator>().Play("102_evade");
-                    GetComponent<Character>().AddArmor(8);
+                switch(state){
+                    case 0:
+                        GetComponent<Animator>().Play("102_strike");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().Attack(player, 10);
+                        break;
+                    case 1:
+                        GetComponent<Animator>().Play("102_strike");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().Attack(player, 6);
+                        GetComponent<Character>().AddStatus(Status.status.strength, 2);
+                        break;
+                    case 2:
+                        GetComponent<Animator>().Play("102_evade");
+                        GetComponent<Character>().AddArmor(8);
+                        break;
                 }
                 break;
             case 103: // 幻影
-                if (intention == 0){
-                    GetComponent<Character>().AddStatus(Status.status.invincible, 1);
-                }
-                else if (intention == 1){
-                    GetComponent<Animator>().Play("103_attack");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Attack(player, 8);
-                }
-                else if (intention == 2){
-                    GetComponent<Animator>().Play("103_attack");
-                    yield return new WaitForSeconds(0.5f);
-                    Global.AddSan(-2);
+                switch(state){
+                    case 0:
+                        GetComponent<Character>().AddStatus(Status.status.invincible, 1);
+                        break;
+                    case 1:
+                        GetComponent<Animator>().Play("103_attack");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().Attack(player, 8);
+                        break;
+                    case 2:
+                        GetComponent<Animator>().Play("103_attack");
+                        yield return new WaitForSeconds(0.5f);
+                        Global.AddSan(-2);
+                        break;
                 }
                 break;
             case 104: //岩蟹
-                if (intention == 0){
-                    GetComponent<Animator>().Play("104_skill");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Heal(2);
-                }
-                else if (intention == 1){
-                    GetComponent<Animator>().Play("104_attack1");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().Attack(player, 6);
-                }
-                else if (intention == 2){
-                    GetComponent<Animator>().Play("104_attack2");
-                    yield return new WaitForSeconds(0.71f);
-                    GetComponent<Character>().Attack(player, 3);
-                    player_character.AddStatus(Status.status.bleed, 3);
+                switch(state){
+                    case 0:
+                        GetComponent<Animator>().Play("104_skill");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().Heal(2);
+                        break;
+                    case 1:
+                        GetComponent<Animator>().Play("104_attack1");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().Attack(player, 6);
+                        break;
+                    case 2:
+                        GetComponent<Animator>().Play("104_attack2");
+                        yield return new WaitForSeconds(0.71f);
+                        GetComponent<Character>().Attack(player, 3);
+                        player_character.AddStatus(Status.status.bleed, 3);
+                        break;
                 }
                 break;
             case 105: // 石像
-                if (intention == 0){
-                    GetComponent<Animator>().Play("105_reinforce");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().AddStatus(Status.status.taunt, 99);
-                    GetComponent<Character>().AddStatus(Status.status.spike, 3);
-                }
-                else if (intention == 1){
-                    GetComponent<Animator>().Play("105_repair");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().AddArmor(5);
-                }
-                else if (intention == 2){
-                    GetComponent<Animator>().Play("105_reinforce");
-                    yield return new WaitForSeconds(0.5f);
-                    GetComponent<Character>().AddStatus(Status.status.spike, 3);
+                switch(state){
+                    case 0:
+                        GetComponent<Animator>().Play("105_reinforce");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().AddStatus(Status.status.taunt, 99);
+                        GetComponent<Character>().AddStatus(Status.status.spike, 3);
+                        break;
+                    case 1:
+                    case 2:
+                        GetComponent<Animator>().Play("105_repair");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().AddArmor(5);
+                        break;
+                    case 3:
+                        GetComponent<Animator>().Play("105_reinforce");
+                        yield return new WaitForSeconds(0.5f);
+                        GetComponent<Character>().AddStatus(Status.status.spike, 3);
+                        break;
                 }
                 break;
             case 106: // 石巨人
@@ -1736,6 +2383,7 @@ public class EnemyMove : MonoBehaviour
                 Debug.Log("Enemy move: Unknown enemy id " + id.ToString());
                 break;
         }
+        ChangeState();
     }
 
     void ShowIntention(int type, int value){

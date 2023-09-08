@@ -24,6 +24,7 @@ public class for_test : MonoBehaviour
         foreach (var item in relics)
         {
             Global.AddItemToBag(item,"relic");
+            // break;
         }
     }
     public void GoTObattle()
@@ -40,18 +41,18 @@ public class for_test : MonoBehaviour
     }
     public void Testequipment()
     {
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.None,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.Attack,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetArmor,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDemage,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.KillEnemy,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.TurnStart,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseAttackCard,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseCard,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseEnegy,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseNormalCard,1);
-        // Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseSkillCard,1);
-        // Equipment_Charge.Update_Equipment_Cold();
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.None,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.Attack,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetArmor,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.KillEnemy,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.TurnStart,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseAttackCard,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseCard,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseEnegy,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseNormalCard,1);
+        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.UseSkillCard,1);
+        Equipment_Charge.Update_Equipment_Cold();
         // Map_System.now_state = Map_System.map_state.normal;
     }
     public void save()
