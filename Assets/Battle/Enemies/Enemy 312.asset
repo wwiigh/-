@@ -18,3 +18,4 @@ MonoBehaviour:
   size: {x: 0, y: 420}
   offset: {x: 0, y: 0}
   image: {fileID: 21300000, guid: be0f96b687f8f3e459cc7b715a0afd42, type: 3}
+  type: 1

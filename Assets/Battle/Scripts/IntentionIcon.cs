@@ -21,4 +21,8 @@ public class IntentionIcon : MonoBehaviour
     private void Update() {
         if (showing) box.GetComponent<DescriptionBox>().UpdatePosition();
     }
+
+    public void UpdateText(string name, string description){
+        if (box != null) box.GetComponent<DescriptionBox>().UpdateText(name, description);
+    }
 }

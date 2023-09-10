@@ -33,7 +33,14 @@ public class Character : MonoBehaviour
         UpdateStatus();
     }
 
-
+    // void Update()
+    // {
+    //     if(this.gameObject.tag == "Player")
+    //     {
+    //         Global.player_hp = GetHP();
+    //         UpdateHP();
+    //     }
+    // }
 
     public bool HP_Initialized(){
         return hpBar;
@@ -149,7 +156,7 @@ public class Character : MonoBehaviour
         AnEyeForAnEye(damage);
         PowerCompete(hp_diff);
 
-        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, damage);
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, damage);
 
         if (GetComponent<Character>().GetStatus(Status.status.energy_absorb) > 0){
             AddStatus(Status.status.accumulation, block_diff);
@@ -177,7 +184,7 @@ public class Character : MonoBehaviour
 
         PowerCompete(value);
         
-        Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, value);
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.GetDamage, value);
 
         if (hp <= value){
             hp = 0;
@@ -268,7 +275,7 @@ public class Character : MonoBehaviour
             AddStatus(Status.status.blood_drain, -1);
         }
 
-        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.Attack, final_dmg);
+        if (tag == "Player") Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.Attack);
 
         return target_dead;
     }
@@ -289,6 +296,9 @@ public class Character : MonoBehaviour
     }
     public bool IsAlive(){
         return hp > 0;
+    }
+    public bool IsFullHealth(){
+        return hp == maxHP;
     }
 
 
@@ -532,6 +542,10 @@ public class Character : MonoBehaviour
         if (tag == "Player") return -1;
         return enemyClass.id;
     }
+    public EnemyClass.EnemyType GetEnemyType(){
+        if (tag == "Player") return 0;
+        else return enemyClass.type;
+    }
 
     public List<(Status.status _status, int level)> GetAllStatus(){
         return status;
@@ -565,5 +579,7 @@ public class Character : MonoBehaviour
         if (origin_level + level != 0) status.Add((target, origin_level + level));
         status.Sort();
         UpdateStatus();
+
+        if (tag == "Enemy") GetComponent<EnemyMove>().SetIntention();
     }
 }

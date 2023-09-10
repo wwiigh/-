@@ -491,7 +491,7 @@ public class Global : MonoBehaviour
                 break;
             case 59:
                 card.Args[0] = 1;
-                card.Args[2] = 6;
+                card.Args[1] = 6;
                 break;
             case 60:
                 card.Args[1] = 2;
@@ -532,6 +532,8 @@ public class Global : MonoBehaviour
     }
     public static void LeaveBattle()
     {
+        Map_Generate map_Generate = FindObjectOfType<Map_Generate>();
+        if(!(current_level == 3 && map_Generate.now_height == -1))FindObjectOfType<Map_Node_Action>().click_action_treasure();
         FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
         FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
     }

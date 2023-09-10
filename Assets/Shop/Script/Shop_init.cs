@@ -22,6 +22,7 @@ public class Shop_init : MonoBehaviour
     public Product_Information[] product_list;
     public GameObject Card_Prefab;
     public Card[] cards;
+    public AudioSource audioSource;
     public List<GameObject> sell_list = new List<GameObject>();
     public Dictionary<string,UI_Show_Text> equipment = new Dictionary<string, UI_Show_Text>();
     public Dictionary<string,UI_Show_Text> relic = new Dictionary<string, UI_Show_Text>();
@@ -182,6 +183,7 @@ public class Shop_init : MonoBehaviour
         bool buy_success = bag_system.GetComponent<Bag_System>().Add_Item(name,type);
         if(buy_success==true)
         {
+            audioSource.Play();
             Button[] tmp = o.GetComponentsInChildren<Button>();
             for(int i=0;i<tmp.Length;i++)tmp[i].gameObject.SetActive(false);
         }
@@ -198,6 +200,7 @@ public class Shop_init : MonoBehaviour
         int money = o.GetComponent<Shop_Buy>().price;
         if(Global.money<money)return;
         else Global.AddMoney(-money);
+        audioSource.Play();
         Global.PlayerDeck_Add(o.GetComponent<CardDisplay>().thisCard);
         for (int i = o.transform.childCount - 1; i >= 0; i--){
             o.transform.GetChild(i).gameObject.SetActive(false);

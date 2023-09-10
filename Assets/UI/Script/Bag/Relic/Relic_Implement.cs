@@ -46,6 +46,7 @@ public class Relic_Implement : MonoBehaviour
         Relic_Before_Battle.Add(22);
         Relic_Before_Battle.Add(23);
         Relic_Before_Battle.Add(27);
+        Relic_Before_Battle.Add(28);
         Relic_Before_Battle.Add(29);
     }
     
@@ -245,8 +246,15 @@ public class Relic_Implement : MonoBehaviour
     }
     static void Use_Relic_Before_Battle(int id)
     {
+        Debug.Log("now check id" + id);
         switch (id)
         {
+            case 5:
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.immobile,1);
+                } 
+                break;
             case 6:
                 player.GetComponent<Character>().AddStatus(Status.status.strength,5);
                 break;
@@ -300,6 +308,12 @@ public class Relic_Implement : MonoBehaviour
                     player.GetComponent<Character>().AddStatus((Status.status)Random.Range(37,48),1);
                 
                 break;
+            case 22:
+                foreach (var enemy in enemys)
+                {
+                    enemy.GetComponent<Character>().AddStatus(Status.status.unfortune,10);
+                } 
+                break;
             case 23:
                 List<Card> player_deck_23 = Deck.GetDeck();
                 foreach (var item in player_deck_23)
@@ -312,7 +326,7 @@ public class Relic_Implement : MonoBehaviour
                 player.GetComponent<Character>().AddStatus(Status.status.dexterity,2);
                 break;
             case 28:
-                //卡傷害待做
+                player.GetComponent<Character>().AddStatus(Status.status.dice20,1);
                 break;
             case 29:
                 foreach (var enemy in enemys)
@@ -331,7 +345,7 @@ public class Relic_Implement : MonoBehaviour
             case 8:
                 Global.player_hp = Global.player_max_hp;
                 Global.sanity = Global.max_sanity;
-                bag_System.Relic_Del_All_item();
+                bag_System.Relic_Del_item(8);
                 break;
             case 18:
                 player.GetComponent<Character>().AddStatus(Status.status.strength,1);

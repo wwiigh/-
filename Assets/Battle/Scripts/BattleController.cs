@@ -37,6 +37,7 @@ public class BattleController : MonoBehaviour
     bool played46ThisTurn = false;
     int currentTurn = 0;
     int currentBattleID = 0;
+    BattleType currentBattleType;
     Card swallowedCard = null;
 
 
@@ -46,7 +47,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 2;
+        Global.current_level = 3;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -83,11 +84,12 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Elite);
+        EnterBattle(BattleType.Boss);
     }
 
     public void EnterBattle(BattleType type){
         int tmp = -1;
+        currentBattleType = type;
         if (type == BattleType.Normal){
             if (notEncounterdYet_normal.Count == 0){
                 Debug.Log("EnterBattle: no more normal battles");
@@ -124,11 +126,9 @@ public class BattleController : MonoBehaviour
 
 
     int enemyCount = 0;
-    public void EnterBattle_id(int id){
-        currentBattleID = id;
-        InitPlayer();
+    public int[] GetEnemyIDs(){
         int[] enemyID;
-        switch(id){
+        switch(currentBattleID){
             case 101:
                 enemyID = new int[]{0, 0};
                 break;
@@ -220,9 +220,15 @@ public class BattleController : MonoBehaviour
                 enemyID = new int[]{32};
                 break;
             default:
-                Debug.Log("Enter battle: Unknown id " + id.ToString());
-                return;
+                Debug.Log("GetEnemyIDs: Unknown id " + currentBattleID.ToString());
+                return null;
         }
+        return enemyID;
+    }
+    public void EnterBattle_id(int id){
+        currentBattleID = id;
+        InitPlayer();
+        int[] enemyID = GetEnemyIDs();
         enemyCount = enemyID.Length;
         SpawnEnemies(enemyID);
         Cost.Init();
@@ -236,15 +242,21 @@ public class BattleController : MonoBehaviour
 
     public void EnemyDie(GameObject deadEnemy){
         enemyCount -= 1;
+        EnemyClass.EnemyType enemyType = deadEnemy.GetComponent<Character>().GetEnemyType();
+        if (enemyType == EnemyClass.EnemyType.Elite) Global.kill_elites++;
+        if (enemyType == EnemyClass.EnemyType.Boss) Global.kill_leaders++;
+        Global.kill_enemys++;
+
         if (enemyCount == 0){
             Debug.Log("battle end: you win");
+            FindObjectOfType<get_booty>().ShowLoot(GetEnemyIDs(), currentBattleType);
             Global.LeaveBattle();
             return;
         }
 
         Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Enemy);
         Equipment_Charge.Update_Equipment_Charge(Equipment_Charge.Charge_Type.KillEnemy);
-
+        
         if (currentBattleID == 311){
             foreach(Transform child in characters.transform){
                 if (child.GetComponent<Character>().GetEnemyID() == 311){
@@ -275,7 +287,11 @@ public class BattleController : MonoBehaviour
     }
     public void PlayerDie(){
         Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
-        if (!player.GetComponent<Character>().IsAlive()) Debug.Log("battle end: you lose");
+        if (!player.GetComponent<Character>().IsAlive()) 
+        {
+            Debug.Log("battle end: you lose");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("StartMenu");
+        }
     }
 
 
@@ -340,6 +356,14 @@ public class BattleController : MonoBehaviour
             foreach(Transform child in characters.transform){
                 if (child.tag == "Enemy" && child.GetComponent<Character>().GetEnemyID() == 302){
                     child.GetComponent<EnemyMove>().Enemy302_Detect(card);
+                }
+            }
+        }
+
+        if (currentBattleID == 321){
+            foreach(Transform child in characters.transform){
+                if (child.tag == "Enemy" && child.GetComponent<Character>().GetEnemyID() == 313){
+                    child.GetComponent<EnemyMove>().SetIntention();
                 }
             }
         }
@@ -416,7 +440,10 @@ public class BattleController : MonoBehaviour
         discardedThisTurn = false;
         played46ThisTurn = false;
         foreach(Transform child in characters.transform){
-            if (child.tag == "Enemy") child.GetComponent<EnemyMove>().SetIntention();
+            if (child.tag == "Enemy"){
+                child.GetComponent<EnemyMove>().ChangeState();
+                child.GetComponent<EnemyMove>().SetIntention();
+            }
         }
         deck.TurnStart();
 

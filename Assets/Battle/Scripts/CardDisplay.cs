@@ -30,6 +30,7 @@ public class CardDisplay : MonoBehaviour
     }
 
     public int GetCost(){
+        if(GameObject.FindWithTag("Player") == null)return thisCard.cost + thisCard.cost_change + thisCard.cost_change_before_play;
         if (GameObject.FindWithTag("Player").GetComponent<Character>().GetStatus(Status.status.void_sword) > 0) return 0;
         return thisCard.cost + thisCard.cost_change + thisCard.cost_change_before_play;
     }

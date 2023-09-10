@@ -38,6 +38,10 @@ public class Event_Select : MonoBehaviour
             Save_Data();
             return last_event;
         }
+        if(Events_array.Count==0)
+        {
+            init();
+        }
         int index = Random.Range(0,Events_array.Count);
         int id = Events_array[index];
         Events_array.Remove(id);

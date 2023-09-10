@@ -94,6 +94,8 @@ public class Map_Generate : MonoBehaviour
     [Header("顯示事件")]
     public GameObject event_object;
     public List<GameObject> All_Battle_Obj;
+    [Header("Card panel")] 
+    public GameObject CardPanel;
 
 
     private List<Node> nodes = new List<Node>();
@@ -104,6 +106,7 @@ public class Map_Generate : MonoBehaviour
     // Start is called before the first frame update
     public void On_Click(char type)
     {
+        node_action.PlayMusic();
         // print("onclick");
         // map_save.save_node(nodes);
         // map_save.save_level_height(now_level,now_height);
@@ -157,6 +160,7 @@ public class Map_Generate : MonoBehaviour
         {
             ReGenerate_Map();
             Play_Animation();
+            Global.player_hp = Global.player_max_hp;
         }
     }
 
@@ -987,5 +991,6 @@ public class Map_Generate : MonoBehaviour
         {
             item.SetActive(false);
         }
+        CardPanel.SetActive(false);
     }
 }

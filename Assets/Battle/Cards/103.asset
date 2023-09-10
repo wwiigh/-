@@ -16,7 +16,7 @@ MonoBehaviour:
   cardName: "\u57FA\u790E\u683C\u64CB"
   image: {fileID: 21300000, guid: 65499f91909f39a4e890a68271f04f6b, type: 3}
   cost_original: 1
-  cost: 0
+  cost: 1
   description:
   - "\u7372\u5F97"
   - '#D'
