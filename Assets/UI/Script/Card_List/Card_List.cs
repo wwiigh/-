@@ -97,7 +97,7 @@ public class Card_List : MonoBehaviour
         {
             Global.DoCardAction(Global.select_card);
         }
-        Debug.Log("now card is "+Global.select_card);
+        // Debug.Log("now card is "+Global.select_card);
         for(int i=0;i<this.gameObject.transform.childCount;i++)
         {
             GameObject g = this.gameObject.transform.GetChild(i).gameObject;

@@ -54,7 +54,7 @@ public class BattleController : MonoBehaviour
 
 
     public void EnterNewLevel(){
-        Debug.Log("current level: " + Global.current_level);
+        // Debug.Log("current level: " + Global.current_level);
         notEncounterdYet_normal.Clear();
         notEncounterdYet_elite.Clear();
         notEncounterdYet_boss.Clear();

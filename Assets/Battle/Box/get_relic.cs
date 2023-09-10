@@ -27,61 +27,51 @@ public class get_relic : MonoBehaviour
     void got_relic(){
         if(relic_sprite.Length > 0){
             relic_index = UnityEngine.Random.Range(0, Int32.MaxValue) % relic_sprite.Length;
-            while(illegal_relics(relic_index) == false){
+            id = Int32.Parse(relic_sprite[relic_index].name);
+            while (repeat_relic(id) || illegal_relics(id)){
                 relic_index = UnityEngine.Random.Range(0, Int32.MaxValue) % relic_sprite.Length;
+                id = Int32.Parse(relic_sprite[relic_index].name);
             }
             relic_img.sprite = relic_sprite[relic_index];
             id = Int32.Parse(relic_sprite[relic_index].name);
         }  
     }
-    bool illegal_relics(int relic_id){
-        List<int> relic_list = new List <int> ();
-        relic_list = Global.Return_All_Relic();
-        for(int i = 0; i < relic_list.Count; i++){
-            if(relic_list[i] == relic_id){
-                return false;
-                break;
-            }
+    bool repeat_relic(int relic_id){
+        List<int> bag_relic_list = new List <int> ();
+        bag_relic_list = Global.Return_All_Relic();
+        for(int i = 0; i < bag_relic_list.Count; i++){
+            if(bag_relic_list[i] == relic_id) return true;
         }
+        return false;    
+    }
+    bool illegal_relics(int relic_id){      //ture if relic is illegal 
         switch(relic_id){
             case 1:
-                return false;
-                break;
+                return true;
             case 2:
-                return false;
-                break;
+                return true;
             case 3:
-                return false;
-                break;
+                return true;
             case 4:
-                return false;
-                break;
+                return true;    
             case 5:
-                return false;
-                break;
+                return true;
             case 6:
-                return false;
-                break;
+                return true;
             case 7:
-                return false;
-                break;
+                return true;
             case 8:
-                return false;
-                break;
+                return true;
             case 9:
-                return false;
-                break;
+                return true;
             case 10:
-                return false;
-                break;
+                return true;
             case 11:
-                return false;
-                break;
+                return true;
             case 12:
-                return false;
-                break;
+                return true;
         }
-        return true;
+        return false;
     }
     public void relic_onClick(){
         if(is_gotten == 0){

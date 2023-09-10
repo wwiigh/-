@@ -36,6 +36,7 @@ public class get_booty: MonoBehaviour{
     public Text gold_text;
     public GameObject booty;
     public Button booty_close_button;
+    
     [System.Serializable]
     public struct Award_card{
         public GameObject obj;
@@ -68,9 +69,9 @@ public class get_booty: MonoBehaviour{
         award_card[2].button.onClick.AddListener(() => click_get_card(2));
         CardBootyCloseButton.onClick.AddListener(close_card_booty);
     }
-    void OnEnable(){
-        enemy_id = new int[]{101, 102, 103};
-        enemy_type = 0;
+    public void OnEnable(){
+        // enemy_id = new int[]{101, 102, 103};
+        // enemy_type = 0;
         // enemy_id = PlayerPrefs.GetInt("enemyid", enemyid);
         golden();
         for(int i = 0; i < get.Length; i++){
@@ -106,7 +107,7 @@ public class get_booty: MonoBehaviour{
         for(int i = 0; i < award.Length; i++){
             if(award[i].enemy_id == find_enemy_id){
                 return i;
-                break;   //return the award's index
+                //return the award's index
             }
         }
         return -1;
@@ -151,6 +152,7 @@ public class get_booty: MonoBehaviour{
     }
     void click_get_card(int idx){
         Global.PlayerDeck_Add(cards[award_card[idx].card_id - 1].cardobj);
+        booty_card.SetActive(false);
     }
     void click_get_item(int index){
         // print(get[index].id);

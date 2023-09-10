@@ -3999,27 +3999,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 672700605276238036, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: different_type.Array.data[0].chance
-      value: 0.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 672700605276238036, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: different_type.Array.data[1].chance
-      value: 0.15
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 672700605276238036, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: different_type.Array.data[2].chance
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 672700605276238036, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: different_type.Array.data[3].chance
-      value: 0.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 672700605276238036, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: different_type.Array.data[4].chance
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 672700605276238036, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: different_type.Array.data[5].chance
-      value: 0.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 672700605276238036, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
       propertyPath: different_type.Array.data[6].chance
