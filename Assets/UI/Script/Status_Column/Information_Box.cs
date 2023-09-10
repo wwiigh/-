@@ -28,7 +28,8 @@ public class Information_Box : MonoBehaviour
 
         // print(Time.time.ToString()+" "+count.ToString());
         // print(box);
-        float nowx = this.transform.localPosition.x;
+        float p_x = previousX(this.transform);
+        float nowx = this.transform.localPosition.x + p_x;
         float leftx = nowx - box.gameObject.GetComponent<RectTransform>().sizeDelta.x/2*108 ;
         float rightx = nowx + box.gameObject.GetComponent<RectTransform>().sizeDelta.x/2*108;
 
@@ -36,13 +37,23 @@ public class Information_Box : MonoBehaviour
         Debug.Log("left " + leftx + " right " + rightx + " screen/2 " + width/2);
         if(leftx<-width/2)
         {
-            this.transform.localPosition = new Vector3(-width/2 + 4*108/2f,this.transform.localPosition.y,this.transform.localPosition.z);
+            this.transform.localPosition = new Vector3(-width/2 + 4*108/2f - p_x,this.transform.localPosition.y,this.transform.localPosition.z);
         }
         else if(rightx >width/2)
         {
-            this.transform.localPosition = new Vector3(width/2 - 4*108/2f,this.transform.localPosition.y,this.transform.localPosition.z);
+            this.transform.localPosition = new Vector3(width/2 - 4*108/2f - p_x,this.transform.localPosition.y,this.transform.localPosition.z);
 
         }
+    }
+    float previousX(Transform box)
+    {
+        float x = 0;
+        while(box.parent.GetComponent<Canvas>()==null)
+        {
+            x+= box.parent.localPosition.x;
+            box = box.parent;
+        }
+        return x;
     }
     
 }
