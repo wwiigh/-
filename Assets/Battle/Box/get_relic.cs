@@ -27,7 +27,7 @@ public class get_relic : MonoBehaviour
     void got_relic(){
         if(relic_sprite.Length > 0){
             relic_index = UnityEngine.Random.Range(0, Int32.MaxValue) % relic_sprite.Length;
-            while(!illegal_relics(relic_index)){
+            while(illegal_relics(relic_index) == false){
                 relic_index = UnityEngine.Random.Range(0, Int32.MaxValue) % relic_sprite.Length;
             }
             relic_img.sprite = relic_sprite[relic_index];
