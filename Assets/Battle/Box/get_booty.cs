@@ -100,7 +100,7 @@ public class get_booty: MonoBehaviour{
                 }
                 break;
         }
-
+        card_drop();
     }
     int find_drop(int find_enemy_id){
         for(int i = 0; i < award.Length; i++){
@@ -192,7 +192,7 @@ public class get_booty: MonoBehaviour{
         return true;
         
     }
-    bool illegal_relics(int relic_id){
+    public bool illegal_relics(int relic_id){
         List<int> relic_list = new List <int> ();
         relic_list = Global.Return_All_Relic();
         for(int i = 0; i < relic_list.Count; i++){
