@@ -71,6 +71,7 @@ public class get_booty: MonoBehaviour{
     void OnEnable(){
         enemy_id = new int[]{101, 102, 103};
         enemy_type = 0;
+        // enemy_id = PlayerPrefs.GetInt("enemyid", enemyid);
         golden();
         for(int i = 0; i < get.Length; i++){
             get[i].obj.SetActive(false);
@@ -174,11 +175,6 @@ public class get_booty: MonoBehaviour{
         gold_text.text = "" + x;
         Global.AddMoney(x);
     }
-    public bool ShowLoot(int[] enemy_ids, BattleController.BattleType type){
-        enemy_id = enemy_ids;
-        enemy_type = type;
-        return true;
-    }
     public void close_booty(){
         for(int i = 0; i < get.Length; i++){
             get[i].obj.SetActive(true);
@@ -188,5 +184,64 @@ public class get_booty: MonoBehaviour{
     }
     public void close_card_booty(){
         booty_card.SetActive(false);
+    }
+    public bool ShowLoot(int[] enemy_ids, BattleController.BattleType type){
+        enemy_id = enemy_ids;
+        enemy_type = type;
+        open_settlement();
+        return true;
+        
+    }
+    bool illegal_relics(int relic_id){
+        List<int> relic_list = new List <int> ();
+        relic_list = Global.Return_All_Relic();
+        for(int i = 0; i < relic_list.Count; i++){
+            if(relic_list[i] == relic_id){
+                return false;
+                break;
+            }
+        }
+        switch(relic_id){
+            case 1:
+                return false;
+                break;
+            case 2:
+                return false;
+                break;
+            case 3:
+                return false;
+                break;
+            case 4:
+                return false;
+                break;
+            case 5:
+                return false;
+                break;
+            case 6:
+                return false;
+                break;
+            case 7:
+                return false;
+                break;
+            case 8:
+                return false;
+                break;
+            case 9:
+                return false;
+                break;
+            case 10:
+                return false;
+                break;
+            case 11:
+                return false;
+                break;
+            case 12:
+                return false;
+                break;
+        }
+        return true;
+    }
+    public void open_settlement(){
+        //打開戰利品畫面
     }
 }
