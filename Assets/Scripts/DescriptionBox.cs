@@ -12,11 +12,15 @@ public class DescriptionBox : MonoBehaviour
         boxObj.transform.GetChild(0).gameObject.SetActive(true);
         DescriptionBox box = boxObj.GetComponent<DescriptionBox>();
 
-        boxObj.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = name + "\n" + description;
+        // boxObj.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = name + "\n" + description;
 
-        boxObj.GetComponent<DescriptionBox>().UpdatePosition();
+        box.UpdateText(name, description);
+        box.UpdatePosition();
         
         return boxObj;
+    }
+    public void UpdateText(string name, string description){
+        transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = name + "\n" + description;
     }
     public void UpdatePosition(){
         LayoutRebuilder.ForceRebuildLayoutImmediate(gameObject.transform.GetChild(0).GetComponent<RectTransform>());

@@ -48,7 +48,7 @@ public class Deck : MonoBehaviour
         
         drawPile.Add( AllCards.GetCard(903) );
         drawPile.Add( AllCards.GetCard(42) );
-        drawPile.Add( AllCards.GetCard(58) );
+        drawPile.Add( AllCards.GetCard(43) );
         drawPile.Add( AllCards.GetCard(58) );
         drawPile.Add( AllCards.GetCard(58) );
         drawPile.Add( AllCards.GetCard(58) );

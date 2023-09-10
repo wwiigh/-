@@ -33,14 +33,14 @@ public class Character : MonoBehaviour
         UpdateStatus();
     }
 
-    void Update()
-    {
-        if(this.gameObject.tag == "Player")
-        {
-            Global.player_hp = GetHP();
-            UpdateHP();
-        }
-    }
+    // void Update()
+    // {
+    //     if(this.gameObject.tag == "Player")
+    //     {
+    //         Global.player_hp = GetHP();
+    //         UpdateHP();
+    //     }
+    // }
 
     public bool HP_Initialized(){
         return hpBar;
@@ -297,6 +297,9 @@ public class Character : MonoBehaviour
     public bool IsAlive(){
         return hp > 0;
     }
+    public bool IsFullHealth(){
+        return hp == maxHP;
+    }
 
 
 
@@ -539,6 +542,10 @@ public class Character : MonoBehaviour
         if (tag == "Player") return -1;
         return enemyClass.id;
     }
+    public EnemyClass.EnemyType GetEnemyType(){
+        if (tag == "Player") return 0;
+        else return enemyClass.type;
+    }
 
     public List<(Status.status _status, int level)> GetAllStatus(){
         return status;
@@ -572,5 +579,7 @@ public class Character : MonoBehaviour
         if (origin_level + level != 0) status.Add((target, origin_level + level));
         status.Sort();
         UpdateStatus();
+
+        if (tag == "Enemy") GetComponent<EnemyMove>().SetIntention();
     }
 }
