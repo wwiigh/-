@@ -5,12 +5,13 @@ using UnityEngine.UI;
 using TMPro;
 public class Resolution : MonoBehaviour
 {
+    bool nowFullScreen = true;
     public List<ResolutionInfo> resolution = new List<ResolutionInfo>();
     public TMP_Text resolutionText;
     int nowSelect;
     public void Apply()
     {
-        Screen.SetResolution(resolution[nowSelect].horizontal,resolution[nowSelect].vertical,FullScreenMode.FullScreenWindow);
+        Screen.SetResolution(resolution[nowSelect].horizontal,resolution[nowSelect].vertical,nowFullScreen);
     }
     public void Left()
     {
@@ -23,6 +24,11 @@ public class Resolution : MonoBehaviour
         nowSelect += 1;
         if(nowSelect >= resolution.Count-1)nowSelect = resolution.Count-1;
         resolutionText.text = resolution[nowSelect].horizontal.ToString() + "X" + resolution[nowSelect].vertical.ToString();
+    }
+    public void FullScreen(bool active)
+    {
+        nowFullScreen = active;
+        Screen.fullScreen = active;
     }
     void OnEnable()
     {

@@ -17,6 +17,7 @@ public class Card_List : MonoBehaviour
     public GameObject background;
     public static int now_select = 0;
     public static Card now_select_card;
+    public GridLayoutGroup gridLayoutGroup;
     bool needtoselect = false;
     List<GameObject> cards = new List<GameObject>();
     Global.CardFunction card_fun;
@@ -54,6 +55,7 @@ public class Card_List : MonoBehaviour
     }
     public void Init(List<Card> player_deck,Global.CardFunction card_fun,bool can_select)
     {
+        this.player_deck = player_deck;
         needtoselect = can_select;
         if(player_deck.Count==0&&can_select==true)return;
         now_select = 0;
@@ -85,11 +87,7 @@ public class Card_List : MonoBehaviour
             confirm_button.SetActive(true);
             confirm_button.GetComponentInChildren<TMP_Text>().text = "關閉";
         }
-        int line = player_deck.Count / 5;
-        int last = (player_deck.Count%5>0) ? 1 :0;
-        float height = (line+last)*350;
-        if(height < 700.11f)height = 700.11f;
-        background.GetComponent<RectTransform>().sizeDelta = new Vector2(1800, height);
+        Invoke("SetHeight",0.1f);
     }
 
     public void OnClick()
@@ -110,6 +108,37 @@ public class Card_List : MonoBehaviour
             Destroy(item);
         }
         cards.Clear();
+    }
+    void SetHeight()
+    {
+        int column = CountColumns();
+        if(column <= 0)return;
+        int line = player_deck.Count / column;
+        int last = (player_deck.Count%column>0) ? 1 :0;
+        float height = (line+last)*350;
+        if(height < 700.11f)height = 700.11f;
+        Debug.Log("now line is " + line + " " + last + " " + height);
+        float originx = background.GetComponent<RectTransform>().sizeDelta.x;
+        background.GetComponent<RectTransform>().sizeDelta = new Vector2(originx, height);
+    }
+    int CountColumns()
+    {
+        if(gridLayoutGroup.transform.childCount == 0)return 0;
+        Vector3 firstElementPosition = gridLayoutGroup.transform.GetChild(0).localPosition;
+        int col = 0;
+        foreach(Transform t in gridLayoutGroup.transform)
+        {
+            Debug.Log(firstElementPosition.y + " " + t.localPosition.y);
+            if (Mathf.Approximately(firstElementPosition.y, t.localPosition.y))
+                col++;
+            else break;
+        }
+        Debug.Log("ColumnNumber:" + col);
+        return col;
+
+
+        
+
     }
 
     // void show_card_text(CardDisplay a,Card thisCard)
