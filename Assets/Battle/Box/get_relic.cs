@@ -27,9 +27,61 @@ public class get_relic : MonoBehaviour
     void got_relic(){
         if(relic_sprite.Length > 0){
             relic_index = UnityEngine.Random.Range(0, Int32.MaxValue) % relic_sprite.Length;
+            while(!illegal_relics(relic_index)){
+                relic_index = UnityEngine.Random.Range(0, Int32.MaxValue) % relic_sprite.Length;
+            }
             relic_img.sprite = relic_sprite[relic_index];
             id = Int32.Parse(relic_sprite[relic_index].name);
         }  
+    }
+    bool illegal_relics(int relic_id){
+        List<int> relic_list = new List <int> ();
+        relic_list = Global.Return_All_Relic();
+        for(int i = 0; i < relic_list.Count; i++){
+            if(relic_list[i] == relic_id){
+                return false;
+                break;
+            }
+        }
+        switch(relic_id){
+            case 1:
+                return false;
+                break;
+            case 2:
+                return false;
+                break;
+            case 3:
+                return false;
+                break;
+            case 4:
+                return false;
+                break;
+            case 5:
+                return false;
+                break;
+            case 6:
+                return false;
+                break;
+            case 7:
+                return false;
+                break;
+            case 8:
+                return false;
+                break;
+            case 9:
+                return false;
+                break;
+            case 10:
+                return false;
+                break;
+            case 11:
+                return false;
+                break;
+            case 12:
+                return false;
+                break;
+        }
+        return true;
     }
     public void relic_onClick(){
         if(is_gotten == 0){
