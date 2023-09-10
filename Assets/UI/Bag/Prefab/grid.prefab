@@ -301,6 +301,7 @@ MonoBehaviour:
   Information_Show_Gameobject: {fileID: 3771447641009163290}
   UI_information: {fileID: 11400000, guid: 4ada0fed6c048cf4f96426c901c324f1, type: 2}
   information_box: {fileID: 57291191255820774, guid: 94e52672451dd0a47b77dcc874693846, type: 3}
+  bag_System: {fileID: 0}
 --- !u!114 &2336891314630687174
 MonoBehaviour:
   m_ObjectHideFlags: 0

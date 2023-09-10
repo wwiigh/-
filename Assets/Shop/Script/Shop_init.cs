@@ -282,7 +282,7 @@ public class Shop_init : MonoBehaviour
             }
             Add_Product(product_list[index].name,product_list[index].type,product_list[index].price);
         }
-        for(int i=0;i<7;i++)
+        for(int i=0;i<6;i++)
         {
             int index = Random.Range(0,cards.Length);
             while(Have_Card(cards[index].rarity,cards[index].id))

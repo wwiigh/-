@@ -83,6 +83,7 @@ public class UI_Control : MonoBehaviour
             // new_box.GetComponent<Information_Box>().set_box_size();
             new_box.SetActive(false);
             new_box.GetComponent<Transform>().SetParent(t);
+            // new_box.transform.localPosition = Vector3.zero;
             new_box.transform.position = new_box.transform.position + pos + new Vector3(positon_offset.x,positon_offset.y-index*1.2f-addi,0);
             if(information.line_count>3)addi+=(information.line_count-3)*0.4f;
             information_box_array.Add(new_box);
@@ -139,18 +140,22 @@ public class UI_Control : MonoBehaviour
 
     public void Show_Text()
     {
+        bag_System = FindObjectOfType<Bag_System>();
         foreach (var box in information_box_array)
         {
             // box.GetComponent<Information_Box>().set_box_size();
             box.SetActive(true);
-            box.GetComponent<Information_Box>().set_box_size();
+            // box.transform.localPosition = this.transform.localPosition + new Vector3(positon_offset.x,positon_offset.y-index*1.2f-addi,0);
+            // if(information.line_count>3)addi+=(information.line_count-3)*0.4f;
+            GameObject canvas = bag_System.gameObject.transform.parent.gameObject;
+            box.GetComponent<Information_Box>().set_box_size(canvas);
         }
     }
     public void Disable_Text()
     {
         foreach (var box in information_box_array)
         {
-            box.GetComponent<Information_Box>().set_box_size();
+            // box.GetComponent<Information_Box>().set_box_size();
 
             box.SetActive(false);
 
