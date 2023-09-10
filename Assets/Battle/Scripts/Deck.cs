@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 
 public class Deck : MonoBehaviour
 {
@@ -46,16 +45,18 @@ public class Deck : MonoBehaviour
         //     drawPile.Add( Card.Copy( card ) );
         // }
         // Shuffle(drawPile);
-        foreach(Card card in Global.GetPlayerDeck())
-        {
-            drawPile.Add( Card.Copy(card) );
-        }
-        // drawPile.Add( AllCards.GetCard(903) );
-        // drawPile.Add( AllCards.GetCard(37) );
-        // drawPile.Add( AllCards.GetCard(101) );
-        // drawPile.Add( AllCards.GetCard(9) );
-        // drawPile.Add( AllCards.GetCard(12) );
-        // drawPile.Add( AllCards.GetCard(13) );
+        
+        drawPile.Add( AllCards.GetCard(903) );
+        drawPile.Add( AllCards.GetCard(42) );
+        drawPile.Add( AllCards.GetCard(43) );
+        drawPile.Add( AllCards.GetCard(58) );
+        drawPile.Add( AllCards.GetCard(58) );
+        drawPile.Add( AllCards.GetCard(58) );
+
+        // foreach(Card card in Global.GetPlayerDeck())
+        // {
+        //     drawPile.Add( Card.Copy(card) );
+        // }
     }
 
 
@@ -192,12 +193,13 @@ public class Deck : MonoBehaviour
         Destroy(card);
         Rearrange();
     }
-    public void MoveFromDrawPileToHand(Card card){
+    public GameObject MoveFromDrawPileToHand(Card card){
         drawPile.Remove(card);
-        AddCardToHand(card);
+        return AddCardToHand(card);
     }
     public void MoveFromTrashToHand(Card card){
         trash.Remove(card);
+        if (card.id == 42) card.Args[1]++;
         AddCardToHand(card);
     }
 
@@ -431,6 +433,18 @@ public class Deck : MonoBehaviour
         foreach(Card card in GetTrash()) list.Add(card);
         foreach(GameObject card in GetHand()) list.Add(card.GetComponent<CardDisplay>().thisCard);
         return list;
+    }
+    static public GameObject GetHighestCostCardInHand(){
+        if (GetHand().Count == 0) return null;
+        int highestCost = -1;
+        List<GameObject> list = new();
+        foreach(GameObject cardObj in GetHand())
+            if (cardObj.GetComponent<CardState>().state != CardState.State.ReadyToUse)
+                highestCost = Mathf.Max(highestCost, cardObj.GetComponent<CardDisplay>().GetCost());
+        foreach(GameObject cardObj in GetHand())
+            if (cardObj.GetComponent<CardDisplay>().GetCost() == highestCost &&
+                cardObj.GetComponent<CardState>().state != CardState.State.ReadyToUse) list.Add(cardObj);
+        return list[Random.Range(0, list.Count)];
     }
 
     static void Shuffle(List<Card> deck){

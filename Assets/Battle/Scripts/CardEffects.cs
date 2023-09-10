@@ -184,6 +184,13 @@ public class CardEffects : MonoBehaviour
                 player_character.AddStatus(Status.status.fire_enchantment, card_info.Args[0]);
                 EffectEnd();
                 break;
+            case 33:
+                GameObject card33 = Deck.GetHighestCostCardInHand();
+                int cost33 = card33.GetComponent<CardDisplay>().GetCost();
+                deck.RemoveCard(card33);
+                Deck.Draw(cost33);
+                EffectEnd();
+                break;
             case 34:
                 battleController.SelectEnemy(EnemySelected);
                 break;
@@ -199,8 +206,7 @@ public class CardEffects : MonoBehaviour
                 break;
             case 38:
                 player_character.AddArmor(card_info.Args[0]);
-                // not finished
-                EffectEnd();
+                Global.ShowPlayerCards(Deck.GetDeck(), Callback_38, true);
                 break;
             case 40:
                 foreach(GameObject enemy in BattleController.GetAllEnemy()){
@@ -658,6 +664,13 @@ public class CardEffects : MonoBehaviour
             Deck.Draw();
             card_saved.GetComponent<CardDisplay>().thisCard.once_used = true;
         }
+        EffectEnd();
+    }
+    static void Callback_38(Card card){
+        GameObject cardObj = FindObjectOfType<Deck>().MoveFromDrawPileToHand(card);
+        cardObj.GetComponent<CardDisplay>().thisCard.keep = true;
+        cardObj.GetComponent<CardDisplay>().thisCard.cost += card_saved.GetComponent<CardDisplay>().thisCard.upgraded? 1:2;
+        cardObj.GetComponent<CardDisplay>().thisCard.costDecreaseOnTurnEnd = true;
         EffectEnd();
     }
     static void Callback_45(int n){

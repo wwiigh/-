@@ -11,4 +11,10 @@ public class EnemyClass : ScriptableObject
     public Vector2 size;
     public Vector2 offset;
     public Sprite image;
+    public enum EnemyType{
+        Normal,
+        Elite,
+        Boss
+    }
+    public EnemyType type;
 }
