@@ -1401,6 +1401,7 @@ public class EnemyMove : MonoBehaviour
                     GetComponent<Animator>().Play("313_attack1");
                     yield return new WaitForSeconds(0.5f);
                     Global.AddSan(-30);
+
                     List<Card> cardList313_0 = Deck.GetAll();
                     int randomIdx = Random.Range(0, cardList313_0.Count);
                     Card cardSaved = cardList313_0[randomIdx];
@@ -1409,12 +1410,26 @@ public class EnemyMove : MonoBehaviour
                         randomIdx = Random.Range(0, cardList313_0.Count);
                         Card card1 = cardSaved;
                         Card card2 = cardList313_0[randomIdx];
-                        (card1.cost_change, card2.cost_change) = (card2.cost_change, card1.cost_change);
-                        (card1.cost_change_before_play, card2.cost_change_before_play) = (card2.cost_change_before_play, card1.cost_change_before_play);
-                        (card1.cost, card2.cost) = (card2.cost, card1.cost);
+                        (card1.image, card2.image) = (card2.image, card1.image);
+                        // (card1.cardName, card2.cardName) = (card2.cardName, card1.cardName);
                         cardSaved = cardList313_0[randomIdx];
                         cardList313_0.RemoveAt(randomIdx);
                     }
+
+                    cardList313_0 = Deck.GetAll();
+                    randomIdx = Random.Range(0, cardList313_0.Count);
+                    cardSaved = cardList313_0[randomIdx];
+                    cardList313_0.RemoveAt(randomIdx);
+                    while(cardList313_0.Count > 0){
+                        randomIdx = Random.Range(0, cardList313_0.Count);
+                        Card card1 = cardSaved;
+                        Card card2 = cardList313_0[randomIdx];
+                        // (card1.image, card2.image) = (card2.image, card1.image);
+                        (card1.cardName, card2.cardName) = (card2.cardName, card1.cardName);
+                        cardSaved = cardList313_0[randomIdx];
+                        cardList313_0.RemoveAt(randomIdx);
+                    }
+
                     deck.UpdateHand();
                 }
                 else if (state % 10 == 0){

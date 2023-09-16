@@ -36,4 +36,5 @@ MonoBehaviour:
   upgraded: 0
   once_used: 0
   costDecreaseOnTurnEnd: 0
+  produced_by_doppelganger: 0
   fontSize: 10
