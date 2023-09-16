@@ -155,6 +155,7 @@ public class Map_Generate : MonoBehaviour
         if(now_level == 3 && now_height==-1)
         {
             node_action.ending();
+            return;
         }
         if(now_height==-1)
         {

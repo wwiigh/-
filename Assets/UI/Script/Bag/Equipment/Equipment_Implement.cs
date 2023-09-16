@@ -61,7 +61,7 @@ public class Equipment_Implement : MonoBehaviour
                 List<Card> attack = new List<Card>();
                 for(int i=0;i<deck_5.Count;i++)
                 {
-                    if(deck_5[i].cost_original==1&&deck_5[i].type == Card.Type.attack)
+                    if(deck_5[i].cost==1&&deck_5[i].type == Card.Type.attack)
                     {
                         attack.Add(deck_5[i]);
                     }
