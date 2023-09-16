@@ -506,7 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items: 
   equipments: 
-  relics: 0f0000000a00000005000000
+  relics: 0f0000000a0000000500000017000000
 --- !u!114 &858850751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1323,6 +1323,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5053500044280199543, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6243140214636017815, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6243140214636017815, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6243140214636017815, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875150352194341145, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}

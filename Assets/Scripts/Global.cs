@@ -314,10 +314,10 @@ public class Global : MonoBehaviour
                 card.Args[0] = 5;
                 break;
             case 2:
-                card.cost_original = 0;
+                card.cost = 0;
                 break;
             case 3:
-                card.cost_original = 0;
+                card.cost = 0;
                 break;
             case 4:
                 card.Args[0] = 3;
@@ -332,7 +332,7 @@ public class Global : MonoBehaviour
                 card.Args[0] = 6;
                 break;
             case 8:
-                card.cost_original = 0;
+                card.cost = 0;
                 break;
             case 9:
                 card.Args[0] = 8;
@@ -341,7 +341,7 @@ public class Global : MonoBehaviour
                 card.Args[0] = 8;
                 break;
             case 11:
-                card.cost_original = 0;
+                card.cost = 0;
                 break;
             case 12:
                 card.Args[0] = 10;
@@ -353,7 +353,7 @@ public class Global : MonoBehaviour
                 card.Args[1] = 2;
                 break;
             case 15:
-                card.cost_original = 2;
+                card.cost = 2;
                 break;
             case 16:
                 card.Args[0] = 16;
@@ -369,7 +369,7 @@ public class Global : MonoBehaviour
                 card.Args[1] = 12;
                 break;
             case 20:
-                card.cost_original = 0;
+                card.cost = 0;
                 break;
             case 21:
                 card.Args[1] = 2;
@@ -389,7 +389,7 @@ public class Global : MonoBehaviour
                 card.keep = true;
                 break;
             case 26:
-                card.cost_original = 1;
+                card.cost = 1;
                 break;
             case 27:
                 card.Args[1] = 7;
@@ -424,7 +424,7 @@ public class Global : MonoBehaviour
                 card.Args[1] = 27;
                 break;
             case 37:
-                card.cost_original = 1;
+                card.cost = 1;
                 break;
             case 38:
                 card.Args[1] = 2;
@@ -456,16 +456,16 @@ public class Global : MonoBehaviour
             case 47:
                 break;
             case 48:
-                card.cost_original = 0;
+                card.cost = 0;
                 break;
             case 49:
-                card.cost_original = 1;
+                card.cost = 1;
                 break;
             case 50:
-                card.cost_original = 1;
+                card.cost = 1;
                 break;
             case 51:
-                card.cost_original = 1;
+                card.cost = 1;
                 break;
             case 52:
                 card.Args[0] = 8;
@@ -537,5 +537,7 @@ public class Global : MonoBehaviour
         reward.OnEnable();
         FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
         FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
+        FindObjectOfType<Map_Generate>().CardPanel.SetActive(false);
+
     }
 }

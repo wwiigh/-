@@ -261,10 +261,10 @@ public class Character : MonoBehaviour
         int fireLevel = GetStatus(Status.status.fire_enchantment);
         if (tag == "Player" && fireLevel > 0 && !target_dead) target.GetComponent<Character>().AddStatus(Status.status.burn, fireLevel); 
         
-        if (target.GetComponent<Character>().GetStatus(Status.status.bleed) > 0 && target.GetComponent<Character>().GetHP() != GetHP()){
-            target.GetComponent<Character>().LoseHP(2);
-            target.GetComponent<Character>().AddStatus(Status.status.bleed, -1);
-        }
+        // if (target.GetComponent<Character>().GetStatus(Status.status.bleed) > 0 && target.GetComponent<Character>().GetHP() != GetHP()){
+        //     target.GetComponent<Character>().LoseHP(2);
+        //     target.GetComponent<Character>().AddStatus(Status.status.bleed, -1);
+        // }
 
         int explosive_force_level = GetStatus(Status.status.explosive_force);
         if (explosive_force_level > 0) AddStatus(Status.status.explosive_force, -explosive_force_level);
@@ -434,6 +434,8 @@ public class Character : MonoBehaviour
         int mentalWeakLevel = GetStatus(Status.status.mental_weak);
         if (mentalWeakLevel > 0) Global.AddSan(-mentalWeakLevel);
 
+        if (GetStatus(Status.status.bleed) > 0) LoseHP(1);
+
         foreach(var pack in status){
             if (Status.DecreaseOnTurnEnd(pack._status)) decreaseList.Add(pack);
             if (Status.ClearOnTurnEnd(pack._status)) clearList.Add(pack);
@@ -580,6 +582,7 @@ public class Character : MonoBehaviour
         status.Sort();
         UpdateStatus();
 
+        if (tag == "Player") FindObjectOfType<Deck>().UpdateHand();
         if (tag == "Enemy") GetComponent<EnemyMove>().SetIntention();
     }
 }

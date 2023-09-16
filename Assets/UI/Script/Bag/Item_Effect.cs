@@ -49,6 +49,11 @@ public class Item_Effect : MonoBehaviour
                 {
                     use.interactable = false;
                 }
+                var use_equipment = Global.Return_Equipment();
+                if(use_equipment.Contains(int.Parse(_name)))
+                {
+                    use.interactable = false;
+                }
                 break;
             case Type.equipment_on:
                 use.gameObject.SetActive(true);

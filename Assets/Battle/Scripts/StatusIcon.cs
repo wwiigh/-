@@ -53,7 +53,7 @@ public class StatusIcon : MonoBehaviour
     }
 
 
-
+    
     public void Destroy(){
         if (descriptionBox != null) Destroy(descriptionBox);
         Destroy(gameObject);

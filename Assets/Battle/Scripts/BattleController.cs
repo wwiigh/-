@@ -47,7 +47,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 3;
+        // Global.current_level = 3;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -84,7 +84,7 @@ public class BattleController : MonoBehaviour
             Destroy(characters.transform.GetChild(i).gameObject);
         }
 
-        EnterBattle(BattleType.Boss);
+        EnterBattle(BattleType.Normal);
     }
 
     public void EnterBattle(BattleType type){
@@ -392,14 +392,15 @@ public class BattleController : MonoBehaviour
             float x = 10000;
             GameObject chosen = null;
             foreach(GameObject child in enemylist){
-                if (child.transform.localPosition.x < x){
+                if (child != null && child.transform.localPosition.x < x){
                     x = child.transform.localPosition.x;
                     chosen = child;
                 }
+                if (child == null) enemylist.Remove(child);
             }
 
-            chosen.GetComponent<Character>().TurnStart();
-            if (chosen.GetComponent<Character>().IsAlive()) chosen.GetComponent<EnemyMove>().Move();
+            if (chosen != null) chosen.GetComponent<Character>().TurnStart();
+            if (chosen != null && chosen.GetComponent<Character>().IsAlive()) chosen.GetComponent<EnemyMove>().Move();
             enemylist.Remove(chosen);
             yield return new WaitForSeconds(1f);
         }

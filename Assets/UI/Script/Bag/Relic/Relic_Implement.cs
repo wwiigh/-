@@ -318,9 +318,10 @@ public class Relic_Implement : MonoBehaviour
                 List<Card> player_deck_23 = Deck.GetDeck();
                 foreach (var item in player_deck_23)
                 {
-                    Debug.Log("card cost "+item.cost_original);
-                    if(item.cost_original>=2)item.cost_original = 2;
+                    Debug.Log("card cost "+item.cost);
+                    if(item.cost>=2)item.cost = 2;
                 }
+
                 break;
             case 27:
                 player.GetComponent<Character>().AddStatus(Status.status.dexterity,2);

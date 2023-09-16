@@ -30,9 +30,11 @@ public class CardDisplay : MonoBehaviour
     }
 
     public int GetCost(){
-        if(GameObject.FindWithTag("Player") == null)return thisCard.cost + thisCard.cost_change + thisCard.cost_change_before_play;
+        int cost = thisCard.cost + thisCard.cost_change + thisCard.cost_change_before_play;
+        if (GameObject.FindWithTag("Player") == null) return cost;
         if (GameObject.FindWithTag("Player").GetComponent<Character>().GetStatus(Status.status.void_sword) > 0) return 0;
-        return thisCard.cost + thisCard.cost_change + thisCard.cost_change_before_play;
+        if (Global.Check_Relic_In_Bag(23) && cost > 2) cost = 2;
+        return cost;
     }
 
     public void LoadCard(){
