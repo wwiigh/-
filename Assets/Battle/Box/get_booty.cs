@@ -73,9 +73,11 @@ public class get_booty: MonoBehaviour{
         // enemy_id = new int[]{101, 102, 103};
         // enemy_type = 0;
         // enemy_id = PlayerPrefs.GetInt("enemyid", enemyid);
+        if(enemy_id==null)return;
         golden();
         for(int i = 0; i < get.Length; i++){
             get[i].obj.SetActive(false);
+            get[i].is_used = false;
         }
         booty_card.SetActive(false);
         switch(enemy_type){
@@ -191,6 +193,14 @@ public class get_booty: MonoBehaviour{
         enemy_id = enemy_ids;
         enemy_type = type;
         open_settlement();
+        for(int i=0;i<enemy_id.Length;i++)
+        {
+            int tmp = enemy_id[i];
+            if(tmp <= 7)enemy_id[i] = tmp + 101;
+            else if(tmp <= 16)enemy_id[i] = tmp + 201 - 8;
+            else if(tmp <= 29)enemy_id[i] = tmp + 301 - 17;
+            else if(tmp <= 32)enemy_id[i] = tmp + 401 - 30;
+        }
         return true;
         
     }
