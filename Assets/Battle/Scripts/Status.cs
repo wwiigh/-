@@ -288,7 +288,8 @@ public class Status : MonoBehaviour
             case status.weak:
                 return "造成的傷害<color=red>-25%</color>，持續<color=red>" + level.ToString() + "</color>回合";
             case status.bleed:
-                return "因攻擊失去生命時，失去<color=red>2</color>點生命，還可觸發<color=red>" + level.ToString() + "</color>次";
+                return "回合結束時失去<color=red>1</color>點生命，持續<color=red>" + level.ToString() + "</color>回合";
+                // return "因攻擊失去生命時，失去<color=red>2</color>點生命，還可觸發<color=red>" + level.ToString() + "</color>次";
             case status.frail:
                 return "從卡牌獲得的護甲<color=red>-25%</color>，持續<color=red>" + level.ToString() + "</color>回合";
             case status.vulnerable:
@@ -371,6 +372,7 @@ public class Status : MonoBehaviour
 
     public static bool DecreaseOnTurnEnd(status _status){
         switch(_status){
+            case status.bleed:
             case status.taunt:
             case status.prepare:
             case status.weak:
