@@ -972,7 +972,16 @@ public class GameEvent : MonoBehaviour
     Card Update_Card()
     {
         List<Card> player_deck = Global.GetPlayerDeck();
-        Card card = player_deck[Random.Range(0,player_deck.Count)];
+        int index = Random.Range(0,player_deck.Count);
+        int tmp = index;
+        Card card = player_deck[index];
+        while(card.upgraded == true)
+        {
+            index += 1;
+            if(index >= player_deck.Count)index = 0;
+            card = player_deck[index];
+            if(tmp == index)break;
+        }
         Global.UpgradeCard(card);
         return card;
     }
