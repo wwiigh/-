@@ -776,9 +776,7 @@ MonoBehaviour:
   drawPile: []
   trash: []
   hand: []
-  temp: {fileID: 11400000, guid: ac6d9dc502e816842b3ee9339edbc954, type: 2}
   card_template: {fileID: 7236554932518560697, guid: c07b96994362f9540be08a62da251a48, type: 3}
-  allcards_obj: {fileID: 0}
 --- !u!1 &5913647448023535183
 GameObject:
   m_ObjectHideFlags: 0
@@ -2840,7 +2838,6 @@ MonoBehaviour:
   characters: {fileID: 5913647449380062374}
   character_template: {fileID: 1013566804284671106, guid: 282ef3cc73e40fc4e81903a27f9638fe, type: 3}
   panel: {fileID: 5913647448376535326}
-  descriptionBox: {fileID: 0}
   enemyClass:
   - {fileID: 11400000, guid: 408dd2c2a18aea94299f835ec38972d1, type: 2}
   - {fileID: 11400000, guid: e60a4c0f556c11b429478c29c3177f80, type: 2}
@@ -2949,7 +2946,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1d0e8f56f62a6f44086e7e04d3429170, type: 3}
   - {fileID: 21300000, guid: 2d25673abda0e834286ea4a5dfeac39f, type: 3}
   - {fileID: 21300000, guid: f2d438dc464cd1047ac7ec09ebc5adf5, type: 3}
-  - {fileID: 21300000, guid: 176c93f1fa9ffaa478b1def2973ea74e, type: 3}
+  - {fileID: 21300000, guid: 2b598629fea23084c80adac5d322fcdc, type: 3}
   - {fileID: 21300000, guid: e90a6da4048d4c14482205f3e5169923, type: 3}
   - {fileID: 21300000, guid: 54a2d6d3c1b3b2746bf364761a876f0c, type: 3}
 --- !u!1 &5913647449292792111

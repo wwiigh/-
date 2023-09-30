@@ -206,6 +206,7 @@ public class Character : MonoBehaviour
         return LoseHP((int)(value / 1));
     }
     void AnEyeForAnEye(int dmgReceived){
+        if (tag != "Player") return;
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         deck.AnEyeForAnEye(dmgReceived);
     }

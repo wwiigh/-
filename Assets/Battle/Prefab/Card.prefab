@@ -728,9 +728,13 @@ MonoBehaviour:
   rare: {fileID: -787635700, guid: 48c7cb18aef31994bb0f4c32d8d42a7e, type: 3}
   special: {fileID: -1917997658, guid: 48c7cb18aef31994bb0f4c32d8d42a7e, type: 3}
   cardBase: {fileID: 7236554931928755405}
-  nameText: {fileID: 7236554931904614784}
+  topFrame: {fileID: 6241834228137866352}
   img: {fileID: 3383152639917491011}
+  bottomFrame: {fileID: 7236554933061591652}
   descriptionText: {fileID: 4598465046911617887}
+  nameFrame: {fileID: 7236554931722638701}
+  nameText: {fileID: 7236554931904614784}
+  borderFrame: {fileID: 6283132007538088136}
   costIcon: {fileID: 7236554933394858551}
   costText: {fileID: 9040579521345728019}
   thisCard: {fileID: 0}
@@ -1100,12 +1104,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
+  m_fontSize: 12
   m_fontSizeBase: 10
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 6
+  m_fontSizeMax: 12
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

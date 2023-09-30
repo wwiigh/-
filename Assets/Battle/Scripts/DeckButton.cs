@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DeckButton : MonoBehaviour
 {
-    bool zooming = false;
     Vector3 targetSize = new Vector3(1, 1, 1);
 
     void Update()
@@ -28,5 +27,9 @@ public class DeckButton : MonoBehaviour
         if (name == "trash"){
             Global.ShowPlayerCards(Deck.GetTrash(), null, false);
         }
+    }
+
+    public void ItemIn(){
+        transform.localScale *= 0.6f;
     }
 }
