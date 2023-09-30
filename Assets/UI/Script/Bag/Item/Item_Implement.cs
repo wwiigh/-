@@ -61,7 +61,7 @@ public class Item_Implement : MonoBehaviour
                 if(Map_System.now_state != Map_System.map_state.fight)return false;
                 foreach (var enemy in enemys)
                 {
-                    enemy.GetComponent<Character>().LoseHP(10);
+                    enemy.GetComponent<Character>().GetHit(10);
                 }
                 break;
             case 107:

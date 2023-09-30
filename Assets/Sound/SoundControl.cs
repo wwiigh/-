@@ -12,22 +12,37 @@ public class SoundControl : MonoBehaviour
     public AudioMixer audioMixer;
     void Start()
     {
-        bgm.value = PlayerPrefs.GetFloat("BgmVolume", -20);
-        effectSound.value = PlayerPrefs.GetFloat("EffectSoundVolume", -20);;
+        float init = 0.5f;
+        bgm.value = PlayerPrefs.GetFloat("BgmVolume", init);
+        effectSound.value = PlayerPrefs.GetFloat("EffectSoundVolume", init);;
+        audioMixer.SetFloat("BgmVolume",ChangeTodB(bgm.value));
+        audioMixer.SetFloat("EffectSoundVolume",ChangeTodB(effectSound.value));
     }
     public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("MasterVolume",volume);
+        float init = ChangeTodB(volume);
+        audioMixer.SetFloat("MasterVolume",init);
         PlayerPrefs.SetFloat("MasterVolume", volume);
     }
     public void SetBgmVolume(float volume)
     {
-        audioMixer.SetFloat("BgmVolume",volume);
+        float init = ChangeTodB(volume);
+        audioMixer.SetFloat("BgmVolume",init);
         PlayerPrefs.SetFloat("BgmVolume", volume);
     }
     public void SetEffectSoundVolume(float volume)
     {
-        audioMixer.SetFloat("EffectSoundVolume",volume);
+        float init = ChangeTodB(volume);
+        audioMixer.SetFloat("EffectSoundVolume",init);
         PlayerPrefs.SetFloat("EffectSoundVolume", volume);
+    }
+    float ChangeTodB(float value)
+    {
+        if(value<=0)value = 0.0001f;
+        return 20*Mathf.Log10(value);
+    }
+    float ChangeToFloat(float value)
+    {
+        return Mathf.Pow(10, value / 20);
     }
 }

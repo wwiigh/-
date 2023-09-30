@@ -179,10 +179,10 @@ public class Shop_init : MonoBehaviour
         string name = o.GetComponentInChildren<Shop_Buy>()._name;
         int money = o.GetComponentInChildren<Shop_Buy>().price;
         if(Global.money<money)return;
-        else Global.AddMoney(-money);
         bool buy_success = bag_system.GetComponent<Bag_System>().Add_Item(name,type);
         if(buy_success==true)
         {
+            Global.AddMoney(-money);
             audioSource.Play();
             Button[] tmp = o.GetComponentsInChildren<Button>();
             for(int i=0;i<tmp.Length;i++)tmp[i].gameObject.SetActive(false);

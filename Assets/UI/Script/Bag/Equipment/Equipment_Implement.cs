@@ -26,7 +26,8 @@ public class Equipment_Implement : MonoBehaviour
                 infight = false;
                 if(use_2!=-1)
                 {
-                    player.GetComponent<Character>().Heal(use_2);
+                    // player.GetComponent<Character>().Heal(use_2);
+                    Global.AddHp(use_2);
                     use_2 = -1;
                 }
             }
@@ -152,7 +153,13 @@ public class Equipment_Implement : MonoBehaviour
             case 23:
                 Deck deck_23 = FindObjectOfType<Deck>();
                 List<GameObject> handcard_23 = Deck.GetHand();
-                deck_23.RemoveCard(handcard_23[Random.Range(0,handcard_23.Count)]);
+                List<Card> hand_23 = new List<Card>();
+                foreach(var card in handcard_23)
+                {
+                    hand_23.Add(card.GetComponent<CardDisplay>().thisCard);
+                }
+                Global.ShowPlayerCards(hand_23,callback_23,true);
+                // deck_23.RemoveCard(handcard_23[Random.Range(0,handcard_23.Count)]);
                 break;
             case 24:
                 Deck deck_24 = FindObjectOfType<Deck>();
@@ -205,7 +212,7 @@ public class Equipment_Implement : MonoBehaviour
                     {
                         if(allstatus[i].Item1 < Status.status.compress && allstatus[i].Item1 >= Status.status.burn)
                         {
-                            player.GetComponent<Character>().AddArmor(4);
+                            player.GetComponent<Character>().AddArmor(5);
                         }
                     }
                 }
@@ -220,7 +227,11 @@ public class Equipment_Implement : MonoBehaviour
 
     public void callback_5(Card card)
     {
+        List<Card> deck_5 = Deck.GetDeck();
         card.exhaust = true;
+        deck_5.Remove(card);
+        Deck deck = FindObjectOfType<Deck>();
+        deck.AddCardToHand(card);
     }
     public void callback_6(GameObject enemy)
     {
@@ -238,5 +249,19 @@ public class Equipment_Implement : MonoBehaviour
     public void callback_20(GameObject enemy)
     {
         enemy.GetComponent<Character>().LoseHP(now_charge);
+    }
+    public void callback_23(Card card)
+    {
+        Deck deck = FindObjectOfType<Deck>();
+        List<GameObject> handcard_23 = Deck.GetHand();
+        foreach(var c in handcard_23)
+        {
+            if(c.GetComponent<CardDisplay>().thisCard == card)
+            {
+                deck.RemoveCard(c);
+                // handcard_23.Remove(c);
+                break;
+            }
+        }
     }
 }

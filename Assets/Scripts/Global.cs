@@ -533,8 +533,12 @@ public class Global : MonoBehaviour
     public static void LeaveBattle()
     {
         get_booty reward = FindObjectOfType<get_booty>();
-        reward.transform.GetChild(0).gameObject.SetActive(true);
-        reward.OnEnable();
+        Map_Generate map_Generate = FindObjectOfType<Map_Generate>();
+        if(!(map_Generate.now_height == -1 && current_level == 3))
+        {
+            reward.transform.GetChild(0).gameObject.SetActive(true);
+            reward.OnEnable();
+        }
         FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
         FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
         FindObjectOfType<Map_Generate>().CardPanel.SetActive(false);
