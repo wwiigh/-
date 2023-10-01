@@ -15,5 +15,5 @@ MonoBehaviour:
   texts:
   - box: {fileID: 0}
     information: "\u5DE6\u773C \u7F55\u898B\n\u770B\u7834\u5C0D\u624B\uFF0C\u6575\u4EBA\u50B7\u5BB3-0~40%\uFF0C\u7406\u667A\u626310"
-    line_count: 4
+    line_count: 3
   rarity: 2
