@@ -157,17 +157,24 @@ public class CardEffects : MonoBehaviour
                 tmp1.rarity = Card.Rarity.common;
                 tmp1.cardName = "";
                 tmp1.description = new List<string>();
+                tmp1.description.Add("消費為0");
                 tmp1.Args = new List<int>();
-                tmp1.cost_original = 0;
+                tmp1.cost = 0;
                 list.Add(tmp1);
+
                 Card tmp2 = Card.Copy(tmp1);
-                tmp2.cost_original = 1;
+                tmp2.description[0] = "消費為1";
+                tmp2.cost = 1;
                 list.Add(tmp2);
+
                 Card tmp3 = Card.Copy(tmp2);
-                tmp3.cost_original = 2;
+                tmp3.description[0] = "消費為2";
+                tmp3.cost = 2;
                 list.Add(tmp3);
+
                 Card tmp4 = Card.Copy(tmp3);
-                tmp4.cost_original = 3;
+                tmp4.description[0] = "消費為3";
+                tmp4.cost = 3;
                 list.Add(tmp4);
 
                 Global.SelectCardsFrom(GameObject.FindGameObjectWithTag("Player").transform.parent.parent, list, Callback_29, true);
@@ -207,6 +214,11 @@ public class CardEffects : MonoBehaviour
             case 38:
                 player_character.AddArmor(card_info.Args[0]);
                 Global.ShowPlayerCards(Deck.GetDeck(), Callback_38, true);
+                break;
+            case 39:
+                player_character.AddArmor(card_info.Args[0]);
+                if (!BattleController.PlayedCardThisTurn()) player_character.AddBlock(card_info.Args[1]);
+                EffectEnd();
                 break;
             case 40:
                 foreach(GameObject enemy in BattleController.GetAllEnemy()){
@@ -455,6 +467,7 @@ public class CardEffects : MonoBehaviour
                 break;
             case 34:
                 player_character.Attack(enemy, card_info.Args[0]);
+                card_info.Args[0] = 9;
                 EffectEnd();
                 break;
             case 35:
@@ -597,7 +610,7 @@ public class CardEffects : MonoBehaviour
                 EffectEnd();
                 break;
 
-            case 999:
+            case 901:
                 foreach(GameObject card in cards){
                     Global.UpgradeCard(card);
                 }
@@ -659,7 +672,7 @@ public class CardEffects : MonoBehaviour
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         // Debug.Log("Callback_29, selected number " + n.ToString());
         GameObject tmp = Deck.Draw();
-        if (!card_saved.GetComponent<CardDisplay>().thisCard.once_used && n == tmp.GetComponent<CardDisplay>().thisCard.cost){
+        if (tmp && !card_saved.GetComponent<CardDisplay>().thisCard.once_used && n == tmp.GetComponent<CardDisplay>().thisCard.cost){
             Cost.ChangeCost(1);
             Deck.Draw();
             card_saved.GetComponent<CardDisplay>().thisCard.once_used = true;

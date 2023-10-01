@@ -411,10 +411,10 @@ public class Global : MonoBehaviour
                 card.Args[0] = 3;
                 break;
             case 33:
-                // not implemented yet
+                card.cost = 1;
                 break;
             case 34:
-                card.Args[1] = 3;
+                card.Args[1] = 2;
                 break;
             case 35:
                 card.Args[1] = 7;
@@ -431,7 +431,7 @@ public class Global : MonoBehaviour
                 card.Args[2] = 1;
                 break;
             case 39:
-                // not implemented yet
+                card.Args[1] = 9;
                 break;
             case 40:
                 card.Args[1] = 30;

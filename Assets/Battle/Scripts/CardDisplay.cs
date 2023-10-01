@@ -12,9 +12,13 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] Sprite special;
 
     public Image cardBase;
-    public TMP_Text nameText;
+    [SerializeField] Image topFrame;
     public Image img;
+    [SerializeField] Image bottomFrame;
     public TMP_Text descriptionText;
+    [SerializeField] Image nameFrame;
+    public TMP_Text nameText;
+    [SerializeField] Image borderFrame;
     [SerializeField] GameObject costIcon;
     public TMP_Text costText;
     public Card thisCard;
@@ -31,6 +35,14 @@ public class CardDisplay : MonoBehaviour
 
     public int GetCost(){
         int cost = thisCard.cost + thisCard.cost_change + thisCard.cost_change_before_play;
+
+        int count208 = 0;
+        foreach(GameObject card in Deck.GetHand()){
+            if (card.GetComponent<CardDisplay>().thisCard.id == 208) count208++;
+        }
+
+        if (Deck.GetHand().Contains(gameObject) && GetComponent<CardDisplay>().thisCard.type != Card.Type.special) cost += count208 * 2;
+
         if (GameObject.FindWithTag("Player") == null) return cost;
         if (GameObject.FindWithTag("Player").GetComponent<Character>().GetStatus(Status.status.void_sword) > 0) return 0;
         if (Global.Check_Relic_In_Bag(23) && cost > 2) cost = 2;
@@ -155,5 +167,32 @@ public class CardDisplay : MonoBehaviour
         Debug.Log("set pos to " + v);
         transform.localPosition = v;
         Debug.Log("now pos: " + transform.localPosition);
+    }
+
+    bool fading = false;
+    float fadingSpeed = 0.1f;
+    public void FadeOut(){
+        fading = true;
+    }
+    private void FixedUpdate() {
+        if (fading){
+            cardBase.color = Color.Lerp(cardBase.color, new Color(0, 0, 0, 0), fadingSpeed);
+            topFrame.color = Color.Lerp(topFrame.color, new Color(0, 0, 0, 0), fadingSpeed);
+            img.color = Color.Lerp(img.color, new Color(0, 0, 0, 0), fadingSpeed);
+            bottomFrame.color = Color.Lerp(bottomFrame.color, new Color(0, 0, 0, 0), fadingSpeed);
+            descriptionText.color = Color.Lerp(descriptionText.color, new Color(0, 0, 0, 0), fadingSpeed);
+            nameFrame.color = Color.Lerp(nameFrame.color, new Color(0, 0, 0, 0), fadingSpeed);
+            nameText.color = Color.Lerp(nameText.color, new Color(0, 0, 0, 0), fadingSpeed);
+            borderFrame.color = Color.Lerp(borderFrame.color, new Color(0, 0, 0, 0), fadingSpeed);
+            costIcon.GetComponent<Image>().color = Color.Lerp(costIcon.GetComponent<Image>().color, new Color(0, 0, 0, 0), fadingSpeed);
+            costText.color = Color.Lerp(costText.color, new Color(0, 0, 0, 0), fadingSpeed);
+
+            if (cardBase.color.a < 0.01f){
+                Destroy(gameObject);
+            }
+        }
+    }
+    public bool IsFading(){
+        return fading;
     }
 }
