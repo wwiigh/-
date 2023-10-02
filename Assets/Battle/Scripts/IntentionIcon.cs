@@ -25,4 +25,8 @@ public class IntentionIcon : MonoBehaviour
     public void UpdateText(string name, string description){
         if (box != null) box.GetComponent<DescriptionBox>().UpdateText(name, description);
     }
+
+    public void DestroyBox(){
+        if (box) Destroy(box);
+    }
 }

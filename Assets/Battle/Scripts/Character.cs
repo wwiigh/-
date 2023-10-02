@@ -78,6 +78,9 @@ public class Character : MonoBehaviour
             idx++;
         }
     }
+    public void ClearStatus(){
+        foreach(GameObject statusObj in statusIcons) statusObj.GetComponent<StatusIcon>().Destroy();
+    }
 
     bool dying = false;
     IEnumerator Die(){
@@ -92,7 +95,7 @@ public class Character : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         if (tag == "Enemy"){
             FindObjectOfType<BattleController>().EnemyDie(gameObject);
-            Destroy(gameObject);
+            SafeDestroy();
         }
         else{
             FindObjectOfType<BattleController>().PlayerDie();
@@ -585,5 +588,12 @@ public class Character : MonoBehaviour
 
         if (tag == "Player") FindObjectOfType<Deck>().UpdateHand();
         if (tag == "Enemy") GetComponent<EnemyMove>().SetIntention();
+    }
+
+    public void SafeDestroy(){
+        Debug.Log("safe destroy");
+        GetComponent<EnemyMove>().ClearIntention();
+        ClearStatus();
+        Destroy(gameObject);
     }
 }

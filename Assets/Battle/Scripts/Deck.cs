@@ -48,9 +48,13 @@ public class Deck : MonoBehaviour
         
         drawPile.Add( AllCards.GetCard(903) );
         drawPile.Add( AllCards.GetCard(33) );
-        drawPile.Add( AllCards.GetCard(37) );
+        drawPile.Add( AllCards.GetCard(28) );
         drawPile.Add( AllCards.GetCard(32) );
         drawPile.Add( AllCards.GetCard(1) );
+        drawPile.Add( AllCards.GetCard(57) );
+        drawPile.Add( AllCards.GetCard(57) );
+        drawPile.Add( AllCards.GetCard(57) );
+        drawPile.Add( AllCards.GetCard(57) );
 
         // foreach(Card card in Global.GetPlayerDeck())
         // {
@@ -153,8 +157,8 @@ public class Deck : MonoBehaviour
         trash.Add(card.GetComponent<CardDisplay>().thisCard);
         // Destroy(card);
         card.GetComponent<CardState>().Unselect();
-        card.GetComponent<CardDisplay>().FadeOut();
-        // card.GetComponent<CardMove>().Discard(0.2f, new Vector3(-875, -460, 0));
+        // card.GetComponent<CardDisplay>().FadeOut();
+        card.GetComponent<CardMove>().Discard(0.2f, new Vector3(-875, -460, 0));
         Rearrange();
     }
 
@@ -492,6 +496,8 @@ public class Deck : MonoBehaviour
     }
 
     GameObject MakeCard(Card c){
-        return card_template.GetComponent<CardDisplay>().Make(Card.Copy(c), transform);
+        GameObject card = card_template.GetComponent<CardDisplay>().Make(Card.Copy(c), transform);
+        card.transform.localPosition = new Vector3(875, -450, 0);
+        return card;
     }
 }

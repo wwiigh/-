@@ -1617,6 +1617,10 @@ public class EnemyMove : MonoBehaviour
         return -1;
     }
 
+    public void ClearIntention(){
+        if (intentionObj) intentionObj.GetComponent<IntentionIcon>().DestroyBox();
+    }
+
 
 
     public void SetState(int value){
