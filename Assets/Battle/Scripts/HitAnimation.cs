@@ -48,6 +48,8 @@ public class HitAnimation : MonoBehaviour
         }
 
         isPlaying = false;
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        Debug.Log("here");
+        GetComponent<Character>().SafeDestroy();
     }
 }

@@ -534,7 +534,7 @@ public class BattleController : MonoBehaviour
         panel.GetComponent<Panel>().UpdateAll(selectedCards.Count, targetCardNumber, isEqual, cancellable);
     }
     public void SelectCard_Remove(GameObject card){
-        selectedCards.Remove(card);
+        if (selectedCards.Contains(card)) selectedCards.Remove(card);
         panel.GetComponent<Panel>().UpdateAll(selectedCards.Count, targetCardNumber, isEqual, cancellable);
     }
     public void SelectCard_Confirm(){

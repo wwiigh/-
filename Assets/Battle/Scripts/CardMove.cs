@@ -23,7 +23,7 @@ public class CardMove : MonoBehaviour
     public int clickReturnNumber = -1;
     Vector3 targetSize = new(2, 2, 1);
     Vector3 targetPosition = Vector3.zero;
-    float movingSpeed = 0.3f;
+    float movingSpeed = 0.1f;
 
     private void Start() {
         battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
@@ -92,8 +92,8 @@ public class CardMove : MonoBehaviour
     }
 
     bool discarding = false;
-    Vector3 discardDestination = Vector3.zero;
-    float discardSpeed = 0.1f;
+    // Vector3 discardDestination = Vector3.zero;
+    // float discardSpeed = 0.1f;
     private void FixedUpdate() {
         if ((transform.localScale - targetSize).magnitude > 0.0001f){
             transform.localScale = Vector3.Lerp(transform.localScale, targetSize, 0.2f);
@@ -103,22 +103,29 @@ public class CardMove : MonoBehaviour
         if ((targetPosition - transform.localPosition).magnitude > 0.1f){
             transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, movingSpeed);
         }
-        else transform.localPosition = targetPosition;
-
-        if (discarding){
-            transform.localPosition = Vector3.Lerp(transform.localPosition, discardDestination, discardSpeed);
-            if (transform.localPosition.x - discardDestination.x < 1){
-                Destroy(gameObject);
-                foreach (DeckButton icon in FindObjectsOfType<DeckButton>()){
-                    if (icon.name == "trash") icon.ItemIn();
-                }
+        else if (discarding){
+            Destroy(gameObject);
+            foreach (DeckButton icon in FindObjectsOfType<DeckButton>()){
+                if (icon.name == "trash") icon.ItemIn();
             }
         }
+        else transform.localPosition = targetPosition;
+
+        // if (discarding){
+        //     transform.localPosition = Vector3.Lerp(transform.localPosition, discardDestination, discardSpeed);
+        //     if (transform.localPosition.x - discardDestination.x < 1){
+        //         Destroy(gameObject);
+        //         foreach (DeckButton icon in FindObjectsOfType<DeckButton>()){
+        //             if (icon.name == "trash") icon.ItemIn();
+        //         }
+        //     }
+        // }
     }
 
     public void Discard(float speed, Vector3 destination){
-        discardSpeed = speed;
-        discardDestination = destination;
+        // discardSpeed = speed;
+        // discardDestination = destination;
+        targetPosition = destination;
         discarding = true;
         targetSize = new(0.3f, 0.3f, 1);
     }
