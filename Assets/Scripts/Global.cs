@@ -411,10 +411,10 @@ public class Global : MonoBehaviour
                 card.Args[0] = 3;
                 break;
             case 33:
-                // not implemented yet
+                card.cost = 1;
                 break;
             case 34:
-                card.Args[1] = 3;
+                card.Args[1] = 2;
                 break;
             case 35:
                 card.Args[1] = 7;
@@ -431,7 +431,7 @@ public class Global : MonoBehaviour
                 card.Args[2] = 1;
                 break;
             case 39:
-                // not implemented yet
+                card.Args[1] = 9;
                 break;
             case 40:
                 card.Args[1] = 30;
@@ -533,8 +533,12 @@ public class Global : MonoBehaviour
     public static void LeaveBattle()
     {
         get_booty reward = FindObjectOfType<get_booty>();
-        reward.transform.GetChild(0).gameObject.SetActive(true);
-        reward.OnEnable();
+        Map_Generate map_Generate = FindObjectOfType<Map_Generate>();
+        if(!(map_Generate.now_height == -1 && current_level == 3))
+        {
+            reward.transform.GetChild(0).gameObject.SetActive(true);
+            reward.OnEnable();
+        }
         FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
         FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
         FindObjectOfType<Map_Generate>().CardPanel.SetActive(false);

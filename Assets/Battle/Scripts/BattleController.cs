@@ -47,7 +47,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        // Global.current_level = 3;
+        Global.current_level = 1;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -249,6 +249,7 @@ public class BattleController : MonoBehaviour
 
         if (enemyCount == 0){
             Debug.Log("battle end: you win");
+            ClearDescriptionBox();
             FindObjectOfType<get_booty>().ShowLoot(GetEnemyIDs(), currentBattleType);
             Global.LeaveBattle();
             return;
@@ -277,6 +278,12 @@ public class BattleController : MonoBehaviour
                 enemy.GetComponent<Character>().Heal(10);
                 enemy.GetComponent<Character>().AddStatus(Status.status.strength, 3);
             }
+
+            if (enemy.GetComponent<Character>().GetStatus(Status.status.symbioticA) > 0)
+                enemy.GetComponent<Character>().AddStatus(Status.status.symbioticA, -1);
+
+            if (enemy.GetComponent<Character>().GetStatus(Status.status.symbioticB) > 0)
+                enemy.GetComponent<Character>().AddStatus(Status.status.symbioticB, -1);
         }
 
         int grudgeLevel = deadEnemy.GetComponent<Character>().GetStatus(Status.status.grudge);
@@ -527,7 +534,7 @@ public class BattleController : MonoBehaviour
         panel.GetComponent<Panel>().UpdateAll(selectedCards.Count, targetCardNumber, isEqual, cancellable);
     }
     public void SelectCard_Remove(GameObject card){
-        selectedCards.Remove(card);
+        if (selectedCards.Contains(card)) selectedCards.Remove(card);
         panel.GetComponent<Panel>().UpdateAll(selectedCards.Count, targetCardNumber, isEqual, cancellable);
     }
     public void SelectCard_Confirm(){
@@ -618,6 +625,14 @@ public class BattleController : MonoBehaviour
         else if (id >= 401 && id <= 403) ret = battleController.enemyClass[30 + id - 401].size.y;
         if (ret == 0) ret = 300;
         return ret;
+    }
+
+
+
+    void ClearDescriptionBox(){
+        DescriptionBox tmp = FindObjectOfType<DescriptionBox>();
+        if (tmp == null) return;
+        Destroy(tmp.gameObject);
     }
 
     public void ReorderEnemy(){

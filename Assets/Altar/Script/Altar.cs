@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Altar : MonoBehaviour
 {
     public AudioSource audioSource;
+    [SerializeField] TMP_Text ShowText;
+    [SerializeField] GameObject ShowPanel;
     // Start is called before the first frame update
     public void Add_Hp()
     {
         audioSource.Play();
         int hp = (int)(Global.player_max_hp * 0.3f);
         Global.AddHp(hp);
-        gameObject.SetActive(false);
+        StartCoroutine(ShowInformation("血量恢復了" + hp));
+        // gameObject.SetActive(false);
     }
     
     public void Add_San()
@@ -19,7 +24,8 @@ public class Altar : MonoBehaviour
         audioSource.Play();
         int san = (int)(Global.max_sanity * 0.2f);
         Global.AddSan(san);
-        gameObject.SetActive(false);
+        StartCoroutine(ShowInformation("理智恢復了" + san));
+        // gameObject.SetActive(false);
     }
     public void Up_Card()
     {
@@ -36,6 +42,15 @@ public class Altar : MonoBehaviour
     public void Up_Card_Implement(Card card)
     {
         Global.UpgradeCard(card);
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);;
+        StartCoroutine(ShowInformation("升級了" + card.cardName));
+    }
+    IEnumerator ShowInformation(string text)
+    {
+        ShowPanel.SetActive(true);
+        ShowText.text = text;
+        yield return new WaitForSeconds(2);
+        ShowPanel.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 }

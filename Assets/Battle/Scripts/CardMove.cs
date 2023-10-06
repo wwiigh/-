@@ -5,7 +5,6 @@ using UnityEngine;
 public class CardMove : MonoBehaviour
 {
     BattleController battleController;
-    Cost cost;
     bool draggable = true;
     bool moving = false;
     Vector3 moveDestination;
@@ -22,10 +21,12 @@ public class CardMove : MonoBehaviour
     public delegate void OnClickDelegate(int n);
     public event OnClickDelegate OnClick;
     public int clickReturnNumber = -1;
+    Vector3 targetSize = new(2, 2, 1);
+    Vector3 targetPosition = Vector3.zero;
+    float movingSpeed = 0.1f;
 
     private void Start() {
         battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
-        cost = GameObject.FindGameObjectWithTag("Cost").GetComponent<Cost>();
     }
 
     public void Drag(){
@@ -57,7 +58,7 @@ public class CardMove : MonoBehaviour
             GetComponent<CardDisplay>().thisCard.cost != -1){
             GetComponent<CardState>().state = CardState.State.ReadyToUse;
             CardEffects.Use(gameObject);
-            Move(new Vector3(-700, 300, 0));
+            Move(new Vector3(0, 250, 0));
         }
         else{
             Deck.Rearrange();
@@ -65,23 +66,77 @@ public class CardMove : MonoBehaviour
     }
 
     public void PointerEnter(){
-        scalingState = ScalingState.Bigger;
+        // scalingState = ScalingState.Bigger;
         transform.SetAsLastSibling();
-        StartCoroutine(ChangeSize(2.4f, 0.2f));
+        // StartCoroutine(ChangeSize(2.4f, 0.2f));
+
+        if (!discarding && !GetComponent<CardDisplay>().IsFading()) targetSize = new(2.4f, 2.4f, 1);
     }
 
     public void PointerExit(){
-        scalingState = ScalingState.Smaller;
-        StartCoroutine(ChangeSize(2.0f, 0.2f));
+        // scalingState = ScalingState.Smaller;
+        // StartCoroutine(ChangeSize(2.0f, 0.2f));
+
+        if (!discarding && !GetComponent<CardDisplay>().IsFading()) targetSize = new(2, 2, 1);
     }
 
-    public void Move(Vector3 destnation, float speed){
-        StartCoroutine(SlideTo(destnation, speed));
+    public void Move(Vector3 destination, float speed){
+        // StartCoroutine(SlideTo(destination, speed));
+        targetPosition = destination;
+        movingSpeed = speed;
     }
 
-    public void Move(Vector3 destnation){
-        StartCoroutine(SlideTo(destnation, 0.3f));
+    public void Move(Vector3 destination){
+        // StartCoroutine(SlideTo(destination, 0.3f));
+        Move(destination, 0.3f);
     }
+
+    bool discarding = false;
+    // Vector3 discardDestination = Vector3.zero;
+    // float discardSpeed = 0.1f;
+    private void FixedUpdate() {
+        if ((transform.localScale - targetSize).magnitude > 0.0001f){
+            transform.localScale = Vector3.Lerp(transform.localScale, targetSize, 0.2f);
+        }
+        else transform.localScale = targetSize;
+
+        if ((targetPosition - transform.localPosition).magnitude > 0.1f){
+            transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, movingSpeed);
+        }
+        else if (discarding){
+            Destroy(gameObject);
+            foreach (DeckButton icon in FindObjectsOfType<DeckButton>()){
+                if (icon.name == "trash") icon.ItemIn();
+            }
+        }
+        else transform.localPosition = targetPosition;
+
+        // if (discarding){
+        //     transform.localPosition = Vector3.Lerp(transform.localPosition, discardDestination, discardSpeed);
+        //     if (transform.localPosition.x - discardDestination.x < 1){
+        //         Destroy(gameObject);
+        //         foreach (DeckButton icon in FindObjectsOfType<DeckButton>()){
+        //             if (icon.name == "trash") icon.ItemIn();
+        //         }
+        //     }
+        // }
+    }
+
+    public void Discard(float speed, Vector3 destination){
+        // discardSpeed = speed;
+        // discardDestination = destination;
+        targetPosition = destination;
+        discarding = true;
+        targetSize = new(0.3f, 0.3f, 1);
+    }
+
+    // IEnumerator DiscardAnimation(float height, float speed, Vector3 destination){
+    //     while((destination - transform.localPosition).magnitude > 0.1f){
+    //         transform.localPosition = Vector3.Lerp(transform.localPosition, moveDestination, speed);
+    //         yield return new WaitForSeconds(0.02f);
+    //     }
+    //     moving = false;
+    // }
 
     IEnumerator SlideTo(Vector3 destination, float speed){
         // Debug.Log("slide to(): dst: " + destination.ToString());

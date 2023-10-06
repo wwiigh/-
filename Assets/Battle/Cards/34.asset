@@ -22,10 +22,10 @@ MonoBehaviour:
   description:
   - "\u9020\u6210"
   - '#A'
-  - "\u9EDE\u50B7\u5BB3\u3002\u9019\u5F35\u724C\u5728\u624B\u4E2D\u6642\uFF0C\u6BCF\u6B21\u53D7\u5230X\u9EDE\u751F\u547D\u503C\u50B7\u5BB3\uFF0C\u57FA\u790E\u50B7\u5BB3\u5C31\u589E\u52A0"
+  - "\u9EDE\u50B7\u5BB3\u3002\u9019\u5F35\u724C\u5728\u624B\u4E2D\u6642\uFF0C\u6BCF\u6B21\u53D7\u5230X\u9EDE\u50B7\u5BB3\uFF0C\u57FA\u790E\u50B7\u5BB3\u5C31\u589E\u52A0"
   - '#O'
-  - X
-  Args: 0900000002000000
+  - "X\uFF0C\u6253\u51FA\u5F8C\u91CD\u7F6E"
+  Args: 0900000001000000
   select: 0
   rarity: 2
   type: 0
@@ -36,4 +36,5 @@ MonoBehaviour:
   upgraded: 0
   once_used: 0
   costDecreaseOnTurnEnd: 0
+  produced_by_doppelganger: 0
   fontSize: 10

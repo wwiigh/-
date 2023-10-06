@@ -24,6 +24,9 @@ public class Relic_Implement : MonoBehaviour
     int now_turn;
     int kill_enemy;
     int attack_card_num = 0;
+    bool infight = false;
+    // static int card_17;
+    static Card card_17;
     void Awake()
     {
         Relic_Immediate.Add(6);
@@ -48,6 +51,33 @@ public class Relic_Implement : MonoBehaviour
         Relic_Before_Battle.Add(27);
         Relic_Before_Battle.Add(28);
         Relic_Before_Battle.Add(29);
+        infight = false;
+        card_17 = null;
+    }
+    void Update()
+    {
+        if(Map_System.now_state == Map_System.map_state.fight)
+        {
+            if(infight==false)
+            {
+                infight = true;
+            }
+        }
+        else 
+        {
+            if(infight == true)
+            {
+                infight = false;
+                if(card_17!=null)
+                {
+                    // player.GetComponent<Character>().Heal(use_2);
+                    Global.PlayerDeck_Remove(card_17);
+                    card_17 = Card.Copy(AllCards.GetCard(card_17.id));
+                    Global.PlayerDeck_Add(Card.Copy(card_17));
+                    card_17 = null;
+                }
+            }
+        }
     }
     
     public static void Update_Relic(Type type)
@@ -289,7 +319,7 @@ public class Relic_Implement : MonoBehaviour
                 player.GetComponent<Character>().AddStatus(Status.status.strength,2);
                 break;
             case 17:
-                List<Card> player_deck = Global.GetPlayerDeck();
+                List<Card> player_deck = Deck.GetDeck();
                 int index = Random.Range(0,player_deck.Count);
                 int init = index;
                 while(player_deck[index].upgraded == true)
@@ -300,7 +330,7 @@ public class Relic_Implement : MonoBehaviour
                 }
                 if(player_deck[index].upgraded == true)break;
                 Global.UpgradeCard(player_deck[index]);
-                
+                // card_17 = player_deck[index];
                 break;
             case 21:
                 

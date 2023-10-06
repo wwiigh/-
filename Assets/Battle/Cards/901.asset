@@ -16,12 +16,14 @@ MonoBehaviour:
   cardName: "\u5347\u7D1A"
   image: {fileID: 21300000, guid: 8f1dd5cd02249d944a0aadfdf3faa38c, type: 3}
   cost_original: 0
+  cost_change: 0
+  cost_change_before_play: 0
   cost: 0
   description:
-  - "\u5347\u7D1A\u4E00\u5F35\u5361\u7247"
+  - "\u5347\u7D1A\u4EFB\u610F\u6578\u91CF\u7684\u5361\u7247"
   Args: 
   select: 0
-  rarity: 0
+  rarity: 2
   type: 1
   keep: 0
   keepBeforeUse: 0
@@ -30,4 +32,5 @@ MonoBehaviour:
   upgraded: 0
   once_used: 0
   costDecreaseOnTurnEnd: 0
+  produced_by_doppelganger: 0
   fontSize: 10

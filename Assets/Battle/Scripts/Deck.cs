@@ -46,22 +46,21 @@ public class Deck : MonoBehaviour
         // }
         // Shuffle(drawPile);
         
-        // drawPile.Add( AllCards.GetCard(903) );
-        // drawPile.Add( AllCards.GetCard(42) );
-        // drawPile.Add( AllCards.GetCard(43) );
-        // drawPile.Add( AllCards.GetCard(5) );
-        // drawPile.Add( AllCards.GetCard(58) );
-        // drawPile.Add( AllCards.GetCard(58) );
-        // drawPile.Add( AllCards.GetCard(58) );
-        // drawPile.Add( AllCards.GetCard(15) );
-        // drawPile.Add( AllCards.GetCard(18) );
-        // drawPile.Add( AllCards.GetCard(19) );
+        drawPile.Add( AllCards.GetCard(903) );
+        drawPile.Add( AllCards.GetCard(33) );
+        drawPile.Add( AllCards.GetCard(28) );
+        drawPile.Add( AllCards.GetCard(32) );
+        drawPile.Add( AllCards.GetCard(1) );
+        drawPile.Add( AllCards.GetCard(57) );
+        drawPile.Add( AllCards.GetCard(57) );
+        drawPile.Add( AllCards.GetCard(57) );
+        drawPile.Add( AllCards.GetCard(57) );
 
-        foreach(Card card in Global.GetPlayerDeck())
-        {
-            drawPile.Add( Card.Copy(card) );
-        }
-        Shuffle(drawPile);
+        // foreach(Card card in Global.GetPlayerDeck())
+        // {
+        //     drawPile.Add( Card.Copy(card) );
+        // }
+        // Shuffle(drawPile);
     }
 
 
@@ -96,25 +95,37 @@ public class Deck : MonoBehaviour
 
     public void CardUsed(GameObject card){
         Character player_character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
-        hand.Remove(card);
+        
+        if (card.GetComponent<CardDisplay>().thisCard.exhaust){
+            hand.Remove(card);
+            card.GetComponent<CardDisplay>().FadeOut();
+            Rearrange();
+            // RemoveCard(card);
+            return;
+        }
 
         if (Global.Check_Relic_In_Bag(20) && !BattleController.PlayedCardThisTurn()){
+            hand.Remove(card);
             drawPile.Add(card.GetComponent<CardDisplay>().thisCard);
             Shuffle(drawPile);
         }
         else if (player_character.GetStatus(Status.status.bounce_back) > 0 && card.GetComponent<CardDisplay>().thisCard.id != 12){
             player_character.AddStatus(Status.status.bounce_back, -1);
+            hand.Remove(card);
             drawPile.Add(card.GetComponent<CardDisplay>().thisCard);
             Shuffle(drawPile);
         }
-        else if (!card.GetComponent<CardDisplay>().thisCard.exhaust) trash.Add(card.GetComponent<CardDisplay>().thisCard);
+        else{
+            hand.Remove(card);
+            trash.Add(card.GetComponent<CardDisplay>().thisCard);
+        }
 
         if (player_character.GetStatus(Status.status.imitate) > 0 && card.GetComponent<CardDisplay>().thisCard.id != 48){
             AddCardToHand(card.GetComponent<CardDisplay>().thisCard);
             player_character.AddStatus(Status.status.imitate, -1);
         }
 
-        Destroy(card);
+        if (card != null) Destroy(card);
         Rearrange();
     }
 
@@ -123,7 +134,11 @@ public class Deck : MonoBehaviour
         Character player_character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         hand.Remove(card);
         trash.Add(card.GetComponent<CardDisplay>().thisCard);
-        Destroy(card);
+
+        card.GetComponent<CardState>().Unselect();
+        // card.GetComponent<CardDisplay>().FadeOut();
+        card.GetComponent<CardMove>().Discard(0.2f, new Vector3(-875, -460, 0));
+
         Rearrange();
         
         int tmp = player_character.GetStatus(Status.status.second_weapon);
@@ -140,7 +155,10 @@ public class Deck : MonoBehaviour
     public void SpecialDiscard(GameObject card){
         hand.Remove(card);
         trash.Add(card.GetComponent<CardDisplay>().thisCard);
-        Destroy(card);
+        // Destroy(card);
+        card.GetComponent<CardState>().Unselect();
+        // card.GetComponent<CardDisplay>().FadeOut();
+        card.GetComponent<CardMove>().Discard(0.2f, new Vector3(-875, -460, 0));
         Rearrange();
     }
 
@@ -161,6 +179,10 @@ public class Deck : MonoBehaviour
         if (card_info.id == 24){
             Character player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
             player.AddStatus(Status.status.strength, card_info.Args[1]);
+        }
+
+        if (card_info.id == 58 && card_info.upgraded){
+            Cost.ChangeCost(1);
         }
 
         if (card_info.id == 209){
@@ -424,13 +446,16 @@ public class Deck : MonoBehaviour
     }
 
     static public List<GameObject> GetHand(){
-        return FindObjectOfType<Deck>().hand;
+        if (FindObjectOfType<Deck>() != null) return FindObjectOfType<Deck>().hand;
+        return null;
     }
     static public List<Card> GetDeck(){
-        return FindObjectOfType<Deck>().drawPile;
+        if (FindObjectOfType<Deck>() != null) return FindObjectOfType<Deck>().drawPile;
+        return null;
     }
     static public List<Card> GetTrash(){
-        return FindObjectOfType<Deck>().trash;
+        if (FindObjectOfType<Deck>() != null) return FindObjectOfType<Deck>().trash;
+        return null;
     }
     static public List<Card> GetAll(){
         List<Card> list = new();
@@ -471,6 +496,8 @@ public class Deck : MonoBehaviour
     }
 
     GameObject MakeCard(Card c){
-        return card_template.GetComponent<CardDisplay>().Make(Card.Copy(c), transform);
+        GameObject card = card_template.GetComponent<CardDisplay>().Make(Card.Copy(c), transform);
+        card.transform.localPosition = new Vector3(875, -450, 0);
+        return card;
     }
 }
