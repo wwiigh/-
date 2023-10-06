@@ -210,46 +210,34 @@ public class get_booty: MonoBehaviour{
         for(int i = 0; i < relic_list.Count; i++){
             if(relic_list[i] == relic_id){
                 return false;
-                break;
+                
             }
         }
         switch(relic_id){
             case 1:
                 return false;
-                break;
             case 2:
                 return false;
-                break;
             case 3:
                 return false;
-                break;
             case 4:
                 return false;
-                break;
             case 5:
                 return false;
-                break;
             case 6:
                 return false;
-                break;
             case 7:
                 return false;
-                break;
             case 8:
                 return false;
-                break;
             case 9:
                 return false;
-                break;
             case 10:
-                return false;
                 break;
             case 11:
                 return false;
-                break;
             case 12:
                 return false;
-                break;
         }
         return true;
     }

@@ -14,7 +14,7 @@ public class get_relic : MonoBehaviour
     public Button button;
     int relic_index;
     int is_gotten = 0;
-    int id;
+    public static int id;
     void Start()
     {
         button.onClick.AddListener(relic_onClick);       

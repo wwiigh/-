@@ -10,7 +10,7 @@ public class get_items : MonoBehaviour
     public Sprite[] items_IMGs;
     private int current_index = 0;
     public Button button;
-    int id;
+    public static int id;
     public GameObject item;
     int is_gotten = 0;
     bool bag_full = false;
@@ -24,6 +24,7 @@ public class get_items : MonoBehaviour
         is_gotten = 0;
     }
     
+    
     public void got_items(){
         if(items_IMGs.Length > 0){
             long currentTicks = DateTime.Now.Ticks;
@@ -33,7 +34,6 @@ public class get_items : MonoBehaviour
             }
             img.sprite = items_IMGs[current_index];
             id = Int32.Parse(items_IMGs[current_index].name);
-            
         }
     }
     public void item_onClick(){
