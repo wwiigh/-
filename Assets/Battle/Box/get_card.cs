@@ -10,7 +10,8 @@ public class get_card : MonoBehaviour
     public Sprite[] cardsprite;
     public Card[] cards;
     int current_card_index = 0;
-    int id;
+    
+    public static int id;
     public Button button;
     public GameObject card;
     int is_gotten = 0;

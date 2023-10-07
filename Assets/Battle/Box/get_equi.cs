@@ -10,7 +10,7 @@ public class get_equi : MonoBehaviour
     public Image equiIMG;
     public Sprite[] equiSprite;
     private int current_equi_index;
-    int id;
+    public static int id;
     public Button button;
     public GameObject equi;
     int is_gotten = 0;
