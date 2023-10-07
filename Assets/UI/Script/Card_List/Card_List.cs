@@ -15,6 +15,7 @@ public class Card_List : MonoBehaviour
     public  List<Card> player_deck;
     public GameObject confirm_button;
     public GameObject background;
+    public GameObject formove;
     public static int now_select = 0;
     public static Card now_select_card;
     public GridLayoutGroup gridLayoutGroup;
@@ -36,6 +37,7 @@ public class Card_List : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        background.transform.position = formove.transform.position;
         if(needtoselect==false)confirm_button.GetComponent<Button>().interactable = true;
         else if(now_select == 1)confirm_button.GetComponent<Button>().interactable = true;
         else confirm_button.GetComponent<Button>().interactable = false;
@@ -120,6 +122,7 @@ public class Card_List : MonoBehaviour
         Debug.Log("now line is " + line + " " + last + " " + height);
         float originx = background.GetComponent<RectTransform>().sizeDelta.x;
         background.GetComponent<RectTransform>().sizeDelta = new Vector2(originx, height);
+        formove.GetComponent<RectTransform>().sizeDelta = new Vector2(originx, height);
     }
     int CountColumns()
     {

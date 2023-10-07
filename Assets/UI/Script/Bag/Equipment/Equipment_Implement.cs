@@ -102,6 +102,7 @@ public class Equipment_Implement : MonoBehaviour
                     }
                 }
                 int random_13 = Random.Range(0,tmp.Count);
+                if(tmp.Count!=0)
                 player.GetComponent<Character>().AddStatus(tmp[random_13]._status,-tmp[random_13].level);
                 break;
             case 14:

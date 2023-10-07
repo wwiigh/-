@@ -60,6 +60,7 @@ public class Node:MonoBehaviour
     public GameObject event_object;
     public List<GameObject> All_Battle_Obj;
     public static Node ActiveNode;
+    public GameObject circle;
     public void check()
     {
         ActiveNode = this;

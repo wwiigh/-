@@ -63,6 +63,14 @@ public class Global : MonoBehaviour
     public static void AddSan(int value){
         sanity += value;
         if(sanity > max_sanity)sanity = max_sanity;
+        if(sanity<=0)
+        {
+            Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
+            if(sanity<=0)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("StartMenu");
+            }
+        }
     }
     public static void AddMaxSan(int value){
         max_sanity += value;
@@ -74,6 +82,14 @@ public class Global : MonoBehaviour
     public static void AddHp(int value){
         player_hp += value;
         if(player_hp > player_max_hp) player_hp = player_max_hp;
+        if(player_hp<=0)
+        {
+            Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
+            if(player_hp<=0)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("StartMenu");
+            }
+        }
     }
     public static void AddMaxHp(int value){
         player_max_hp += value;
