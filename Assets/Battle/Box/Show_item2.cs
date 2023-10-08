@@ -92,28 +92,28 @@ public class Show_item2 : MonoBehaviour
         Debug.Log(Mouse.x + "and" + obj5Pos.x  + "ans5");
         Debug.Log(Mouse.x + "and" + obj6Pos.x  + "ans6");
         // Debug.Log(Mouse.x - obj1Pos.x  + "ans");
-        if(Mouse.x - obj1Pos.x < ItemWidth && Mouse.x - obj1Pos.x > 0 && Mouse.y - obj1Pos.y < ItemHight && Mouse.y - obj1Pos.y > 0){
+        if(obj1.activeSelf == true && Mouse.x - obj1Pos.x < ItemWidth && Mouse.x - obj1Pos.x > 0 && Mouse.y - obj1Pos.y < ItemHight && Mouse.y - obj1Pos.y > 0){
             // Debug.Log(CardObj.name);
             // Debug.Log("in card");
             return 1;
         }
-        if(Mouse.x - obj2Pos.x < ItemWidth && Mouse.x - obj2Pos.x > 0 && Mouse.y - obj2Pos.y < ItemHight && Mouse.y - obj2Pos.y > 0){
+        if(obj2.activeSelf == true &&Mouse.x - obj2Pos.x < ItemWidth && Mouse.x - obj2Pos.x > 0 && Mouse.y - obj2Pos.y < ItemHight && Mouse.y - obj2Pos.y > 0){
             // Debug.Log("in item");
             return 2;
         }
-        if(Mouse.x - obj3Pos.x < ItemWidth && Mouse.x - obj3Pos.x > 0 && Mouse.y - obj3Pos.y < ItemHight && Mouse.y - obj3Pos.y > 0){
+        if(obj3.activeSelf == true &&Mouse.x - obj3Pos.x < ItemWidth && Mouse.x - obj3Pos.x > 0 && Mouse.y - obj3Pos.y < ItemHight && Mouse.y - obj3Pos.y > 0){
             // Debug.Log("in equi");
             return 3;
         }
-        if(Mouse.x - obj4Pos.x < ItemWidth && Mouse.x - obj4Pos.x > 0 && Mouse.y - obj4Pos.y < ItemHight && Mouse.y - obj4Pos.y > 0){
+        if(obj4.activeSelf == true &&Mouse.x - obj4Pos.x < ItemWidth && Mouse.x - obj4Pos.x > 0 && Mouse.y - obj4Pos.y < ItemHight && Mouse.y - obj4Pos.y > 0){
             // Debug.Log("in relic");
             return 4;
         }
-        if(Mouse.x - obj5Pos.x < ItemWidth && Mouse.x - obj5Pos.x > 0 && Mouse.y - obj5Pos.y < ItemHight && Mouse.y - obj5Pos.y > 0){
+        if(obj5.activeSelf == true &&Mouse.x - obj5Pos.x < ItemWidth && Mouse.x - obj5Pos.x > 0 && Mouse.y - obj5Pos.y < ItemHight && Mouse.y - obj5Pos.y > 0){
             // Debug.Log("in relic");
             return 5;
         }
-        if(Mouse.x - obj6Pos.x < ItemWidth && Mouse.x - obj6Pos.x > 0 && Mouse.y - obj6Pos.y < ItemHight && Mouse.y - obj6Pos.y > 0){
+        if(obj6.activeSelf == true &&Mouse.x - obj6Pos.x < ItemWidth && Mouse.x - obj6Pos.x > 0 && Mouse.y - obj6Pos.y < ItemHight && Mouse.y - obj6Pos.y > 0){
             // Debug.Log("in relic");
             return 6;
         }
