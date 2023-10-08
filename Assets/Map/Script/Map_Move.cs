@@ -6,6 +6,7 @@ public class Map_Move : MonoBehaviour
 {
     public BoxCollider2D bounds;
     public float scale;
+    public float mouseSpeed;
     Vector3 bound_min,bound_max;
     Vector2 first,second;
     Vector3 pos;
@@ -53,6 +54,14 @@ public class Map_Move : MonoBehaviour
         {
             var y = transform.position.y;
             y = y - pos.y;
+            y = Mathf.Clamp(y,bound_min.y,bound_max.y);
+            transform.position = new Vector3(transform.position.x,y,0);
+        }
+        if(canmove)
+        {
+            float mouseCenter = Input.GetAxis("Mouse ScrollWheel");
+            var y = transform.position.y;
+            y = y - mouseSpeed * mouseCenter;
             y = Mathf.Clamp(y,bound_min.y,bound_max.y);
             transform.position = new Vector3(transform.position.x,y,0);
         }

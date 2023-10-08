@@ -11,6 +11,7 @@ public class Card_Button : MonoBehaviour
     {
         if(open)
         {
+            Clear(null);
             return;    
         }
         Global.ShowPlayerCards(Global.GetPlayerDeck(),Clear,false);

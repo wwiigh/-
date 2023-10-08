@@ -15,7 +15,7 @@ MonoBehaviour:
   texts:
   - box: {fileID: 0}
     information: "\u82E6\u884C \u7F55\u898B\n\u6D88\u8017\u6240\u6709\u5145\u80FD,\u9020\u6210\u7B49\u540C\u5145\u80FD\u91CF\u7684\u7A7F\u900F\u50B7\u5BB3"
-    line_count: 4
+    line_count: 3
   - box: {fileID: 0}
     information: "\u5145\u80FD\u689D\u4EF6 \n\u53D7\u5230\u50B7\u5BB3"
     line_count: 2

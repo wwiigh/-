@@ -994,4 +994,145 @@ public class Map_Generate : MonoBehaviour
         }
         CardPanel.SetActive(false);
     }
+
+    public void ShowBattleSmallMonster()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 'f' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(true);
+            }
+        }
+    }
+    public void DisableBattleSmallMonster()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 'f' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(false);
+            }
+        }
+    }
+    public void ShowBattleBigMonster()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 'F' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(true);
+            }
+        }
+    }
+    public void DisableBattleBigMonster()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 'F' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(false);
+            }
+        }
+    }
+    public void ShowBattleShop()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 's' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(true);
+            }
+        }
+    }
+    public void DisableBattleShop()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 's' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(false);
+            }
+        }
+    }
+    public void ShowBattleTreasure()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 't' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(true);
+            }
+        }
+    }
+    public void DisableBattleTreasure()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 't' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(false);
+            }
+        }
+    }
+    public void ShowBattleEvent()
+    {
+        foreach (var item in nodes)
+        {
+            if((item.Return_type() == 'e' || item.Return_type() == 'm') && item.Return_valid()==true)
+            {
+                item.circle.SetActive(true);
+            }
+        }
+    }
+    public void DisableBattleEvent()
+    {
+        foreach (var item in nodes)
+        {
+            if((item.Return_type() == 'e' || item.Return_type() == 'm') && item.Return_valid()==true)
+            {
+                item.circle.SetActive(false);
+            }
+        }
+    }
+    public void ShowBattleAltar()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 'h' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(true);
+            }
+        }
+    }
+    public void DisableBattleAltar()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 'h' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(false);
+            }
+        }
+    }
+    public void ShowBattleBoss()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 'b' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(true);
+            }
+        }
+    }
+    public void DisableBattleBoss()
+    {
+        foreach (var item in nodes)
+        {
+            if(item.Return_type() == 'b' && item.Return_valid()==true)
+            {
+                item.circle.SetActive(false);
+            }
+        }
+    }
 }

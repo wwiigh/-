@@ -8909,7 +8909,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 7
   m_TargetDisplay: 0
 --- !u!114 &6550776368545626972
 MonoBehaviour:
@@ -10889,6 +10889,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6493026633818653294, guid: d046c0738f1be644d81a8922d143dd04, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7497734540124396572, guid: d046c0738f1be644d81a8922d143dd04, type: 3}
+      propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

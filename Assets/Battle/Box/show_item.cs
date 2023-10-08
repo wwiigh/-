@@ -70,6 +70,7 @@ public class show_item : MonoBehaviour
         }
     }
     int WhereIsMouse(Vector2 Mouse){
+        Debug.Log(Mouse.x + "and" + CardPos.x  + "ans1");
         if(Mouse.x - CardPos.x < ItemWidth && Mouse.x - CardPos.x > 0 && Mouse.y - CardPos.y < ItemHight && Mouse.y - CardPos.y > 0){
             // Debug.Log(CardObj.name);
             // Debug.Log("in card");

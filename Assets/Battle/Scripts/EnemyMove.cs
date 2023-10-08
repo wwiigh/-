@@ -541,7 +541,7 @@ public class EnemyMove : MonoBehaviour
             case 107:
                 if (state == 1) return ("黏液噴射", "將1張「腐蝕黏液」加入抽牌堆");
                 if (state == 4) return ("黏液噴射", "將2張「虛弱黏液」加入抽牌堆");
-                if (state == 0 || state == 3) return ("腐蝕", "給予2層虛弱與2層脆弱");
+                if (state == 0 || state == 3) return ("腐蝕", "給予<color=red>2</color>層虛弱與<color=red>2</color>層脆弱");
                 if (state == 2 || state == 5) return ("飛拳", "造成<color=red>" + GetDamage(13).ToString() + "</color>點傷害");
                 break;
             case 108:
