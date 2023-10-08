@@ -2654,11 +2654,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Settle: {fileID: 1763198475}
---- !u!1 &308057891 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4387781411988423824, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
-  m_PrefabInstance: {fileID: 561243251}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &317344857 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4854296818491551396, guid: 053fbeafa75dca84aa0a14352ad19552, type: 3}
@@ -2903,27 +2898,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3569892541501977624, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
   m_PrefabInstance: {fileID: 561243251}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &389134549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389134546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f6fb2652c17e8942ab5e3b6df50fe79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CardObj: {fileID: 561243254}
-  ItemObj: {fileID: 821359628}
-  EquiObj: {fileID: 2052040616}
-  RelicObj: {fileID: 308057891}
-  Cardinfo: []
-  Iteminfo:
-  - {fileID: 11400000, guid: 89631a7da9fdb4045a18bf66b9167f5f, type: 2}
-  Equiinfo: []
-  Relicinfo: []
 --- !u!1 &396259365
 GameObject:
   m_ObjectHideFlags: 0
@@ -3526,6 +3500,10 @@ PrefabInstance:
       propertyPath: equiSprite.Array.data[30]
       value: 
       objectReference: {fileID: 21300000, guid: 3ab5bb7ff2b65a348aa147f865dde492, type: 3}
+    - target: {fileID: 1113378850461127182, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3166999228090599405, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
       propertyPath: c
       value: 
@@ -4160,11 +4138,6 @@ PrefabInstance:
 --- !u!224 &561243252 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8951559366358632938, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
-  m_PrefabInstance: {fileID: 561243251}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &561243254 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3569892541053260552, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
   m_PrefabInstance: {fileID: 561243251}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &570181104
@@ -5286,11 +5259,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700718948}
   m_CullTransparentMesh: 1
---- !u!1 &821359628 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3569892542543071607, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
-  m_PrefabInstance: {fileID: 561243251}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &836742575
 GameObject:
   m_ObjectHideFlags: 0
@@ -5520,9 +5488,10 @@ GameObject:
   m_Component:
   - component: {fileID: 926515959}
   - component: {fileID: 926515960}
+  - component: {fileID: 926515961}
   m_Layer: 0
   m_Name: booty
-  m_TagString: Untagged
+  m_TagString: treasure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5936,6 +5905,25 @@ MonoBehaviour:
     button: {fileID: 613134567}
   CardBootyCloseButton: {fileID: 700718950}
   booty_card: {fileID: 2087445030}
+--- !u!114 &926515961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926515958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dbd7fd3fe31281448d997e9bb0d5b5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj1: {fileID: 985984741}
+  obj2: {fileID: 572619356}
+  obj3: {fileID: 1117801816}
+  obj4: {fileID: 1208601594}
+  obj5: {fileID: 151827706}
+  obj6: {fileID: 1576878635}
+  get_Booty: {fileID: 1336532994}
 --- !u!1 &935694052
 GameObject:
   m_ObjectHideFlags: 0
@@ -8019,8 +8007,8 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_Camera: {fileID: 1296929096}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -8469,8 +8457,8 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_Camera: {fileID: 1296929096}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -10195,11 +10183,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002369215}
   m_CullTransparentMesh: 1
---- !u!1 &2052040616 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3569892541352592958, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
-  m_PrefabInstance: {fileID: 561243251}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2087445030
 GameObject:
   m_ObjectHideFlags: 0
@@ -10209,9 +10192,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2087445031}
+  - component: {fileID: 2087445032}
   m_Layer: 0
   m_Name: booty_card
-  m_TagString: Untagged
+  m_TagString: treasure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10232,6 +10216,22 @@ Transform:
   m_Father: {fileID: 1336532993}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2087445032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087445030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7ea8686b2ff434a969eddfeafc2882, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj1: {fileID: 1624972074}
+  obj2: {fileID: 1918992937}
+  obj3: {fileID: 836742575}
+  get_Booty: {fileID: 1336532994}
 --- !u!1 &2112648271 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 672700604107678924, guid: 7079d2e5021fd0b449df538e47613672, type: 3}
