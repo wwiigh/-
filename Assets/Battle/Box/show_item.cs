@@ -119,7 +119,7 @@ public class show_item : MonoBehaviour
                 break;
             case 7:
                 ret = "輪轉";
-                ret2 = "本回合內每次獲得護甲時抽1張牌，可觸發2(3)次";
+                ret2 = "本回合內每次獲得護甲時抽1張牌，\n可觸發2(3)次";
                 break;
             case 8:
                 ret = "臨機應變";
@@ -131,7 +131,7 @@ public class show_item : MonoBehaviour
                 break;
             case 10:
                 ret = "無影手";
-                ret2 = "每丟棄1張牌，對隨機敵人造成5(8)點傷害，移除";
+                ret2 = "每丟棄1張牌，\n對隨機敵人造成5(8)點傷害，移除";
                 break;
             case 11:
                 ret = "備用武器";
@@ -625,12 +625,12 @@ public class show_item : MonoBehaviour
                 ret2 = "戰鬥開始時隨機升級一張卡片";
                 break;
             case 18:
-                ret = "重擊";
-                ret2 = "造成30(40)點傷害，選擇最多3張牌在打出前給予保留";
-                break;
-            case 19:
                 ret = "鐮刀";
                 ret2 = "每擊殺一名敵人，獲得1點力量";
+                break;
+            case 19:
+                ret = "拳套";
+                ret2 = "每打出兩張攻擊牌後，獲得1點力量";
                 break;
             case 20:
                 ret = "迴力鏢";

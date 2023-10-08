@@ -2894,11 +2894,6 @@ MonoBehaviour:
   ItemObj: {fileID: 821359628}
   EquiObj: {fileID: 2052040616}
   RelicObj: {fileID: 308057891}
-  Cardinfo: []
-  Iteminfo:
-  - {fileID: 11400000, guid: 89631a7da9fdb4045a18bf66b9167f5f, type: 2}
-  Equiinfo: []
-  Relicinfo: []
 --- !u!1 &396259365
 GameObject:
   m_ObjectHideFlags: 0
@@ -10725,9 +10720,13 @@ MonoBehaviour:
   rare: {fileID: -787635700, guid: 48c7cb18aef31994bb0f4c32d8d42a7e, type: 3}
   special: {fileID: -1917997658, guid: 48c7cb18aef31994bb0f4c32d8d42a7e, type: 3}
   cardBase: {fileID: 3149315656986916575}
-  nameText: {fileID: 3149315657027783570}
+  topFrame: {fileID: 0}
   img: {fileID: 7001596447137470801}
+  bottomFrame: {fileID: 0}
   descriptionText: {fileID: 8072968557459575117}
+  nameFrame: {fileID: 0}
+  nameText: {fileID: 3149315657027783570}
+  borderFrame: {fileID: 0}
   costIcon: {fileID: 3149315655537850405}
   costText: {fileID: 3652246215615755265}
   thisCard: {fileID: 0}
@@ -12085,9 +12084,13 @@ MonoBehaviour:
   rare: {fileID: -787635700, guid: 48c7cb18aef31994bb0f4c32d8d42a7e, type: 3}
   special: {fileID: -1917997658, guid: 48c7cb18aef31994bb0f4c32d8d42a7e, type: 3}
   cardBase: {fileID: 3889289128565802087}
-  nameText: {fileID: 3889289128583657770}
+  topFrame: {fileID: 0}
   img: {fileID: 9180500855243664361}
+  bottomFrame: {fileID: 0}
   descriptionText: {fileID: 7946012329805964277}
+  nameFrame: {fileID: 0}
+  nameText: {fileID: 3889289128583657770}
+  borderFrame: {fileID: 0}
   costIcon: {fileID: 3889289129780513437}
   costText: {fileID: 3234280151776315065}
   thisCard: {fileID: 0}
