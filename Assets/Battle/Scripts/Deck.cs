@@ -51,13 +51,13 @@ public class Deck : MonoBehaviour
         // drawPile.Add( AllCards.GetCard(33) );
         // drawPile.Add( AllCards.GetCard(57) );
         // drawPile.Add( AllCards.GetCard(57) );
-        drawPile.Add( AllCards.GetCard(33) );
+        // drawPile.Add( AllCards.GetCard(33) );
 
-        // foreach(Card card in Global.GetPlayerDeck())
-        // {
-        //     drawPile.Add( Card.Copy(card) );
-        // }
-        // Shuffle(drawPile);
+        foreach(Card card in Global.GetPlayerDeck())
+        {
+            drawPile.Add( Card.Copy(card) );
+        }
+        Shuffle(drawPile);
     }
 
 
