@@ -46,15 +46,12 @@ public class Deck : MonoBehaviour
         // }
         // Shuffle(drawPile);
         
-        drawPile.Add( AllCards.GetCard(903) );
+        // drawPile.Add( AllCards.GetCard(903) );
+        // drawPile.Add( AllCards.GetCard(59) );
+        // drawPile.Add( AllCards.GetCard(33) );
+        // drawPile.Add( AllCards.GetCard(57) );
+        // drawPile.Add( AllCards.GetCard(57) );
         drawPile.Add( AllCards.GetCard(33) );
-        drawPile.Add( AllCards.GetCard(28) );
-        drawPile.Add( AllCards.GetCard(32) );
-        drawPile.Add( AllCards.GetCard(1) );
-        drawPile.Add( AllCards.GetCard(57) );
-        drawPile.Add( AllCards.GetCard(57) );
-        drawPile.Add( AllCards.GetCard(57) );
-        drawPile.Add( AllCards.GetCard(57) );
 
         // foreach(Card card in Global.GetPlayerDeck())
         // {
@@ -424,7 +421,7 @@ public class Deck : MonoBehaviour
         deck.UpdateDeckNumbers();
         for (int i = 0; i < deck.hand.Count; i++){
             if (deck.hand[i].GetComponent<CardState>().state == CardState.State.ReadyToUse)
-                deck.hand[i].GetComponent<CardMove>().Move(new Vector3(-700, 300, 0));
+                deck.hand[i].GetComponent<CardMove>().Move(new Vector3(0, 250, 0));
             else deck.hand[i].GetComponent<CardMove>().Move(new Vector3(-gap/2 * (deck.hand.Count-1) + gap * i, -400, 0));
             deck.hand[i].GetComponent<CardDisplay>().LoadCard();
         }
@@ -432,8 +429,8 @@ public class Deck : MonoBehaviour
 
     public void ResetHand(){
         for (int i = 0; i < hand.Count; i++){
-            if (hand[i].GetComponent<CardState>().state == CardState.State.ReadyToUse)
-                hand[i].GetComponent<CardState>().state = CardState.State.Normal;
+            // if (hand[i].GetComponent<CardState>().state == CardState.State.ReadyToUse)
+            //     hand[i].GetComponent<CardState>().state = CardState.State.Normal;
             if (hand[i].GetComponent<CardState>().state == CardState.State.Selected)
                 hand[i].GetComponent<CardState>().Unselect();
         }
@@ -474,7 +471,8 @@ public class Deck : MonoBehaviour
         foreach(GameObject cardObj in GetHand())
             if (cardObj.GetComponent<CardDisplay>().GetCost() == highestCost &&
                 cardObj.GetComponent<CardState>().state != CardState.State.ReadyToUse) list.Add(cardObj);
-        return list[Random.Range(0, list.Count)];
+        if (list.Count > 0) return list[Random.Range(0, list.Count)];
+        return null;
     }
 
     static void Shuffle(List<Card> deck){
@@ -491,6 +489,8 @@ public class Deck : MonoBehaviour
     }
 
     void UpdateDeckNumbers(){
+        if (!drawPileNumber) drawPileNumber = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        if (!trashNumber) trashNumber = transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         drawPileNumber.text = drawPile.Count.ToString();
         trashNumber.text = trash.Count.ToString();
     }

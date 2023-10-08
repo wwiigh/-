@@ -193,9 +193,11 @@ public class CardEffects : MonoBehaviour
                 break;
             case 33:
                 GameObject card33 = Deck.GetHighestCostCardInHand();
-                int cost33 = card33.GetComponent<CardDisplay>().GetCost();
-                deck.RemoveCard(card33);
-                Deck.Draw(cost33);
+                if (card33){
+                    int cost33 = card33.GetComponent<CardDisplay>().GetCost();
+                    deck.RemoveCard(card33);
+                    Deck.Draw(cost33);
+                }
                 EffectEnd();
                 break;
             case 34:
@@ -213,7 +215,8 @@ public class CardEffects : MonoBehaviour
                 break;
             case 38:
                 player_character.AddArmor(card_info.Args[0]);
-                Global.ShowPlayerCards(Deck.GetDeck(), Callback_38, true);
+                if (Deck.GetDeck().Count > 0) Global.ShowPlayerCards(Deck.GetDeck(), Callback_38, true);
+                else EffectEnd();
                 break;
             case 39:
                 player_character.AddArmor(card_info.Args[0]);
@@ -550,7 +553,6 @@ public class CardEffects : MonoBehaviour
         BattleController battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         Character player_character = battleController.GetPlayer().GetComponent<Character>();
         Deck deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
-        int t1;
         int id = card_saved.GetComponent<CardDisplay>().thisCard.id;
         Card card_info = card_saved.GetComponent<CardDisplay>().thisCard;
         switch(id){

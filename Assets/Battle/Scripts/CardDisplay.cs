@@ -36,13 +36,15 @@ public class CardDisplay : MonoBehaviour
     public int GetCost(){
         int cost = thisCard.cost + thisCard.cost_change + thisCard.cost_change_before_play;
 
-        int count208 = 0;
-        foreach(GameObject card in Deck.GetHand()){
-            if (card.GetComponent<CardDisplay>().thisCard.id == 208) count208++;
+        if (FindAnyObjectByType<Deck>()){
+            int count208 = 0;
+            foreach(GameObject card in Deck.GetHand()){
+                if (!card) continue;
+                if (card.GetComponent<CardDisplay>().thisCard.id == 208) count208++;
+            }
+            if (Deck.GetHand().Contains(gameObject) && GetComponent<CardDisplay>().thisCard.type != Card.Type.special) cost += count208 * 2;
         }
-
-        if (Deck.GetHand().Contains(gameObject) && GetComponent<CardDisplay>().thisCard.type != Card.Type.special) cost += count208 * 2;
-
+        
         if (GameObject.FindWithTag("Player") == null) return cost;
         if (GameObject.FindWithTag("Player").GetComponent<Character>().GetStatus(Status.status.void_sword) > 0) return 0;
         if (Global.Check_Relic_In_Bag(23) && cost > 2) cost = 2;

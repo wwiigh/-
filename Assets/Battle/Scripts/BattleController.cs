@@ -541,7 +541,8 @@ public class BattleController : MonoBehaviour
         if (isEqual && selectedCards.Count == targetCardNumber){
             EnterState(BattleState.Normal);
             // CardEffects.CardSelected(selectedCards);
-            selectCard_callback(selectedCards);
+            List<GameObject> selectedCards_copy = new(selectedCards);
+            selectCard_callback(selectedCards_copy);
             panel.GetComponent<Panel>().Hide();
             deck.ResetHand();
             Deck.Rearrange();
@@ -549,7 +550,8 @@ public class BattleController : MonoBehaviour
         if (!isEqual && selectedCards.Count <= targetCardNumber){
             EnterState(BattleState.Normal);
             // CardEffects.CardSelected(selectedCards);
-            selectCard_callback(selectedCards);
+            List<GameObject> selectedCards_copy = new(selectedCards);
+            selectCard_callback(selectedCards_copy);
             panel.GetComponent<Panel>().Hide();
             deck.ResetHand();
             Deck.Rearrange();
