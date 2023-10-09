@@ -147,6 +147,9 @@ public class get_booty: MonoBehaviour{
                 arr[i] = x;
             }
         }
+        while(arr[2] == arr[0] || arr[2] == arr[1]){
+            arr[2] = UnityEngine.Random.Range(0, 60);
+        }
         for(int i = 0; i < 3; i++){
             award_card[i].picture.sprite = cards[arr[i]].picture;
             award_card[i].card_id = cards[arr[i]].id;

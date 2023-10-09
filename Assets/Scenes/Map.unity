@@ -2898,25 +2898,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3569892541501977624, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
   m_PrefabInstance: {fileID: 561243251}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
---- !u!114 &389134549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389134546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f6fb2652c17e8942ab5e3b6df50fe79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CardObj: {fileID: 561243254}
-  ItemObj: {fileID: 821359628}
-  EquiObj: {fileID: 2052040616}
-  RelicObj: {fileID: 308057891}
-=======
->>>>>>> 16f3d2eed0175081068621f216d5b7cbd8c2a846
 --- !u!1 &396259365
 GameObject:
   m_ObjectHideFlags: 0
@@ -3496,6 +3477,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 678b89d33e376224f95c89bd74c59792, type: 3}
     - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: cardsprite.Array.size
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: cardsprite.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5b329925c54a56e44bfaf6bb8fc63340, type: 3}
+    - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
       propertyPath: cardsprite.Array.data[32]
       value: 
       objectReference: {fileID: 21300000, guid: 200f19249376c2d46bbe6f015d0ad921, type: 3}
@@ -3503,6 +3492,34 @@ PrefabInstance:
       propertyPath: cardsprite.Array.data[38]
       value: 
       objectReference: {fileID: 21300000, guid: ced6305acb54b91489daec7bf17321f4, type: 3}
+    - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: cardsprite.Array.data[46]
+      value: 
+      objectReference: {fileID: 21300000, guid: 742cd707b9cc717459d5d36aee445bc2, type: 3}
+    - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: cardsprite.Array.data[54]
+      value: 
+      objectReference: {fileID: 21300000, guid: 75c819125f55b5a45aa1dcf40e3ed853, type: 3}
+    - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: cardsprite.Array.data[55]
+      value: 
+      objectReference: {fileID: 21300000, guid: 66a2845b50776834493207e699026bf3, type: 3}
+    - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: cardsprite.Array.data[56]
+      value: 
+      objectReference: {fileID: 21300000, guid: ad19dafb470b57745a46cfafcd6e0c9b, type: 3}
+    - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: cardsprite.Array.data[57]
+      value: 
+      objectReference: {fileID: 21300000, guid: ed1841740902bb64e82a601fe27b28b5, type: 3}
+    - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: cardsprite.Array.data[58]
+      value: 
+      objectReference: {fileID: 21300000, guid: 1fe9bac451fe76c4d86f6b294a06cb11, type: 3}
+    - target: {fileID: 1991826083, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
+      propertyPath: cardsprite.Array.data[60]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5c0c83a010834cc409252700c5455401, type: 3}
     - target: {fileID: 598467720285883817, guid: 2c1a1e6cc983fef41acbed5432d35ea7, type: 3}
       propertyPath: equi
       value: 
@@ -5717,7 +5734,7 @@ MonoBehaviour:
   booty: {fileID: 926515958}
   booty_close_button: {fileID: 2002369217}
   cards:
-  - picture: {fileID: 21300000, guid: 791bd09aefdc48a42a18600437bee1d0, type: 3}
+  - picture: {fileID: 21300000, guid: 5b329925c54a56e44bfaf6bb8fc63340, type: 3}
     cardobj: {fileID: 11400000, guid: 33a083eb58abb7340a72fb2f5107b86c, type: 2}
     id: 1
   - picture: {fileID: 21300000, guid: 791bd09aefdc48a42a18600437bee1d0, type: 3}
@@ -5813,7 +5830,7 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: 29ac9b1d0cdccca4795c697179e44f92, type: 3}
     cardobj: {fileID: 11400000, guid: bbe36e5843d5d104d82c2d02fae65e56, type: 2}
     id: 32
-  - picture: {fileID: 21300000, guid: d8af93eb3aa946a438c90cecd1733624, type: 3}
+  - picture: {fileID: 21300000, guid: 200f19249376c2d46bbe6f015d0ad921, type: 3}
     cardobj: {fileID: 11400000, guid: 7c0b4aa081a5c4148bac98e09bf75718, type: 2}
     id: 33
   - picture: {fileID: 21300000, guid: ea2e16c5df9c5814da1b73addc1705c6, type: 3}
@@ -5831,7 +5848,7 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: cede391162b589e4ab7504fc6c5a9696, type: 3}
     cardobj: {fileID: 11400000, guid: dfd969b0923a86c42ad438de7f28880f, type: 2}
     id: 38
-  - picture: {fileID: 21300000, guid: d9dc9a658b2e6a042ad26d024093e508, type: 3}
+  - picture: {fileID: 21300000, guid: ced6305acb54b91489daec7bf17321f4, type: 3}
     cardobj: {fileID: 11400000, guid: c68f1947479813f43b38ad0a0474542c, type: 2}
     id: 39
   - picture: {fileID: 21300000, guid: 3a626d30a954cdd4bb61733952ec50bd, type: 3}
@@ -5855,7 +5872,7 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: 125e9ed2852026040b2bc1dc392019bb, type: 3}
     cardobj: {fileID: 11400000, guid: cd5d28fd2b8dbcf48bff62d47a91b993, type: 2}
     id: 46
-  - picture: {fileID: 21300000, guid: 00ba87f20438a3646acfde6deed31499, type: 3}
+  - picture: {fileID: 21300000, guid: 742cd707b9cc717459d5d36aee445bc2, type: 3}
     cardobj: {fileID: 11400000, guid: d821b209c94cd644aaec35ad13868197, type: 2}
     id: 47
   - picture: {fileID: 21300000, guid: 00ba87f20438a3646acfde6deed31499, type: 3}
@@ -5879,7 +5896,7 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: d626cc1b284f26a4faa80265c93f2674, type: 3}
     cardobj: {fileID: 11400000, guid: 4633c52d1602dfb45a967b456eb165a9, type: 2}
     id: 54
-  - picture: {fileID: 21300000, guid: d626cc1b284f26a4faa80265c93f2674, type: 3}
+  - picture: {fileID: 21300000, guid: 75c819125f55b5a45aa1dcf40e3ed853, type: 3}
     cardobj: {fileID: 11400000, guid: 7348b9bed0ed8fd43b90345dc867509b, type: 2}
     id: 55
   - picture: {fileID: 21300000, guid: 66a2845b50776834493207e699026bf3, type: 3}
@@ -5888,10 +5905,10 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: ad19dafb470b57745a46cfafcd6e0c9b, type: 3}
     cardobj: {fileID: 11400000, guid: 97e004911479f93468d30bdadebfdc1a, type: 2}
     id: 57
-  - picture: {fileID: 21300000, guid: ad19dafb470b57745a46cfafcd6e0c9b, type: 3}
+  - picture: {fileID: 21300000, guid: ed1841740902bb64e82a601fe27b28b5, type: 3}
     cardobj: {fileID: 11400000, guid: ae8deb8ca596d9748a5f7b4a147ae645, type: 2}
     id: 58
-  - picture: {fileID: 21300000, guid: ad19dafb470b57745a46cfafcd6e0c9b, type: 3}
+  - picture: {fileID: 21300000, guid: 1fe9bac451fe76c4d86f6b294a06cb11, type: 3}
     cardobj: {fileID: 11400000, guid: a91586a84ef489140b68cf541b08208c, type: 2}
     id: 59
   - picture: {fileID: 21300000, guid: 5c0c83a010834cc409252700c5455401, type: 3}
@@ -7721,7 +7738,7 @@ MonoBehaviour:
   booty: {fileID: 926515958}
   booty_close_button: {fileID: 2002369217}
   cards:
-  - picture: {fileID: 21300000, guid: 791bd09aefdc48a42a18600437bee1d0, type: 3}
+  - picture: {fileID: 21300000, guid: 5b329925c54a56e44bfaf6bb8fc63340, type: 3}
     cardobj: {fileID: 11400000, guid: 33a083eb58abb7340a72fb2f5107b86c, type: 2}
     id: 1
   - picture: {fileID: 21300000, guid: 791bd09aefdc48a42a18600437bee1d0, type: 3}
@@ -7817,7 +7834,7 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: 29ac9b1d0cdccca4795c697179e44f92, type: 3}
     cardobj: {fileID: 11400000, guid: bbe36e5843d5d104d82c2d02fae65e56, type: 2}
     id: 32
-  - picture: {fileID: 21300000, guid: d8af93eb3aa946a438c90cecd1733624, type: 3}
+  - picture: {fileID: 21300000, guid: 200f19249376c2d46bbe6f015d0ad921, type: 3}
     cardobj: {fileID: 11400000, guid: 7c0b4aa081a5c4148bac98e09bf75718, type: 2}
     id: 33
   - picture: {fileID: 21300000, guid: ea2e16c5df9c5814da1b73addc1705c6, type: 3}
@@ -7835,7 +7852,7 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: cede391162b589e4ab7504fc6c5a9696, type: 3}
     cardobj: {fileID: 11400000, guid: dfd969b0923a86c42ad438de7f28880f, type: 2}
     id: 38
-  - picture: {fileID: 21300000, guid: d9dc9a658b2e6a042ad26d024093e508, type: 3}
+  - picture: {fileID: 21300000, guid: ced6305acb54b91489daec7bf17321f4, type: 3}
     cardobj: {fileID: 11400000, guid: c68f1947479813f43b38ad0a0474542c, type: 2}
     id: 39
   - picture: {fileID: 21300000, guid: 3a626d30a954cdd4bb61733952ec50bd, type: 3}
@@ -7859,7 +7876,7 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: 125e9ed2852026040b2bc1dc392019bb, type: 3}
     cardobj: {fileID: 11400000, guid: cd5d28fd2b8dbcf48bff62d47a91b993, type: 2}
     id: 46
-  - picture: {fileID: 21300000, guid: 00ba87f20438a3646acfde6deed31499, type: 3}
+  - picture: {fileID: 21300000, guid: 742cd707b9cc717459d5d36aee445bc2, type: 3}
     cardobj: {fileID: 11400000, guid: d821b209c94cd644aaec35ad13868197, type: 2}
     id: 47
   - picture: {fileID: 21300000, guid: 00ba87f20438a3646acfde6deed31499, type: 3}
@@ -7883,7 +7900,7 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: d626cc1b284f26a4faa80265c93f2674, type: 3}
     cardobj: {fileID: 11400000, guid: 4633c52d1602dfb45a967b456eb165a9, type: 2}
     id: 54
-  - picture: {fileID: 21300000, guid: d626cc1b284f26a4faa80265c93f2674, type: 3}
+  - picture: {fileID: 21300000, guid: 75c819125f55b5a45aa1dcf40e3ed853, type: 3}
     cardobj: {fileID: 11400000, guid: 7348b9bed0ed8fd43b90345dc867509b, type: 2}
     id: 55
   - picture: {fileID: 21300000, guid: 66a2845b50776834493207e699026bf3, type: 3}
@@ -7892,10 +7909,10 @@ MonoBehaviour:
   - picture: {fileID: 21300000, guid: ad19dafb470b57745a46cfafcd6e0c9b, type: 3}
     cardobj: {fileID: 11400000, guid: 97e004911479f93468d30bdadebfdc1a, type: 2}
     id: 57
-  - picture: {fileID: 21300000, guid: ad19dafb470b57745a46cfafcd6e0c9b, type: 3}
+  - picture: {fileID: 21300000, guid: ed1841740902bb64e82a601fe27b28b5, type: 3}
     cardobj: {fileID: 11400000, guid: ae8deb8ca596d9748a5f7b4a147ae645, type: 2}
     id: 58
-  - picture: {fileID: 21300000, guid: ad19dafb470b57745a46cfafcd6e0c9b, type: 3}
+  - picture: {fileID: 21300000, guid: 1fe9bac451fe76c4d86f6b294a06cb11, type: 3}
     cardobj: {fileID: 11400000, guid: a91586a84ef489140b68cf541b08208c, type: 2}
     id: 59
   - picture: {fileID: 21300000, guid: 5c0c83a010834cc409252700c5455401, type: 3}
