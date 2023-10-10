@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -153,11 +152,11 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 8:
                 ret = "臨機應變";
-                ret2 = "若目標的意圖是攻擊，\n將1張隨機技能牌加入手中，否則將1張隨機攻擊牌加入手中";
+                ret2 = "若目標的意圖是攻擊，\n將1張隨機技能牌加入手中，\n否則將1張隨機攻擊牌加入手中";
                 break;
             case 9:
                 ret = "乘勝追擊";
-                ret2 = "造成6(8)點傷害，若本回合\n已打過攻擊牌與技能牌，獲得1能量並抽1張牌";
+                ret2 = "造成6(8)點傷害，若本回合\n已打過攻擊牌與技能牌，\n獲得1能量並抽1張牌";
                 break;
             case 10:
                 ret = "無影手";
@@ -177,7 +176,7 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 14:
                 ret = "先聲奪人";
-                ret2 = "獲得3點護甲，\n若此牌是本回合第1張打出的牌，獲得1能量並抽1(2)張牌";
+                ret2 = "獲得3點護甲，\n若此牌是本回合第1張打出的牌，\n獲得1能量並抽1(2)張牌";
                 break;
             case 15:
                 ret = "養精蓄銳";
@@ -197,7 +196,7 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 19:
                 ret = "裝甲強化";
-                ret2 = "獲得18(20)點護甲，\n若原本沒有護甲，額外獲得8(12)點臨時護甲";
+                ret2 = "獲得18(20)點護甲，\n若原本沒有護甲，\n額外獲得8(12)點臨時護甲";
                 break;
             case 20:
                 ret = "爆發";
@@ -209,7 +208,7 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 22:
                 ret = "反射斬擊";
-                ret2 = "對隨機敵人造成10(13)點傷害；\n被移除時，對血量最低的敵人造成10(13)點傷害";
+                ret2 = "對隨機敵人造成10(13)點傷害；\n被移除時，\n對血量最低的敵人造成10(13)點傷害";
                 break;
             case 23:
                 ret = "佯攻";
@@ -237,7 +236,7 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 29:
                 ret = "第六感";
-                ret2 = "選擇一個消費，抽1張牌。\n獨一：若抽到的牌消費與你選擇的相同，獲得1點能量並抽1(2)張牌";
+                ret2 = "選擇一個消費，抽1張牌。\n獨一：若抽到的牌消費與你選擇的相同\n，獲得1點能量並抽1(2)張牌";
                 break;
             case 30:
                 ret = "預謀";
@@ -245,7 +244,7 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 31:
                 ret = "烈焰護身";
-                ret2 = "獲得10(13)點臨時護甲，\n本回合每次受到攻擊時，給予攻擊者4(5)層燃燒";
+                ret2 = "獲得10(13)點臨時護甲，\n本回合每次受到攻擊時\n，給予攻擊者4(5)層燃燒";
                 break;
             case 32:
                 ret = "火焰附魔";
@@ -253,7 +252,7 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 33:
                 ret = "縝密計算";
-                ret2 = "隨機移除一張手中\n耗能最高的卡牌並抽X張牌，X為該牌的耗能";
+                ret2 = "隨機移除一張手中\n耗能最高的卡牌並抽X張牌\n，X為該牌的耗能";
                 break;
             case 34:
                 ret = "以牙還牙";
@@ -265,11 +264,11 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 36:
                 ret = "最後手段";
-                ret2 = "造成7(9)點傷害，\n若這張牌在手牌的最左邊，改為造成21(27)點傷害";
+                ret2 = "造成7(9)點傷害，\n若這張牌在手牌的最左邊，\n改為造成21(27)點傷害";
                 break;
             case 37:
                 ret = "影子分身";
-                ret2 = "打出卡牌時(「影子分身」除外)，\n將一張消費為0、基礎攻擊、護甲減半、\n帶有移除和消逝的複製加入手中。可觸發3次。因此能力產生的卡牌不會觸發此效果";
+                ret2 = "打出卡牌時(「影子分身」除外)，\n將一張消費為0、基礎攻擊、護甲減半、\n帶有移除和消逝的複製加入手中。可觸發3次。\n因此能力產生的卡牌不會觸發此效果";
                 break;
             case 38:
                 ret = "專注";
@@ -277,19 +276,19 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 39:
                 ret = "招架";
-                ret2 = "獲得6點護甲，\n若此牌是本回合第1張打出的牌，獲得6(9)點臨時護甲";
+                ret2 = "獲得6點護甲，\n若此牌是本回合第1張打出的牌\n，獲得6(9)點臨時護甲";
                 break;
             case 40:
                 ret = "引爆";
-                ret2 = "給予所有敵人5層燃燒，\n燃燒層數為40(30)以上的敵人\n立即失去等同3倍層數的生命，隨後清空層數";
+                ret2 = "給予所有敵人5層燃燒，\n燃燒層數為40(30)以上的敵人\n立即失去等同3倍層數的生命\n，隨後清空層數";
                 break;
             case 41:
                 ret = "Jackpot!";
-                ret2 = "抽3張牌，若抽到的所有牌消費都相同，對所有敵人造成13(17)點傷害";
+                ret2 = "抽3張牌，若抽到的所有牌消費都相同\n，對所有敵人造成13(17)點傷害";
                 break;
             case 42:
                 ret = "迴旋踢";
-                ret2 = "造成6(8)點傷害1次。每當這張牌從棄牌堆加入手牌，基礎傷害次數+1";
+                ret2 = "造成6(8)點傷害1次。\n每當這張牌從棄牌堆加入手牌\n，基礎傷害次數+1";
                 break;
             case 43:
                 ret = "直拳";
@@ -301,11 +300,11 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 45:
                 ret = "突進";
-                ret2 = "獲得3(5)點臨時護甲，\n從直拳與上鉤拳中選擇一張加入手牌，並給予消逝與移除";
+                ret2 = "獲得3(5)點臨時護甲，\n從直拳與上鉤拳中選擇一張加入手牌\n，並給予消逝與移除";
                 break;
             case 46:
                 ret = "劍氣";
-                ret2 = "對所有敵人造成5點傷害。\n獨一：將一張「納刀(+)」加入手牌，並給予移除。\n若本回合打出過「劍氣」，改為造成2次傷害";
+                ret2 = "對所有敵人造成5點傷害。\n獨一：將一張「納刀(+)」加入手牌，\n並給予移除。若本回合打出過「劍氣」\n，改為造成2次傷害";
                 break;
             case 47:
                 ret = "拔刀斬";
@@ -313,27 +312,27 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 48:
                 ret = "模仿";
-                ret2 = "丟棄1張牌，\n獲得3(5)點護甲，從抽牌堆檢索1張耗能為0的卡片";
+                ret2 = "丟棄1張牌，獲得3(5)點護甲\n，從抽牌堆檢索1張耗能為0的卡片";
                 break;
             case 49:
                 ret = "殘心";
-                ret2 = "臨時力量與臨時敏捷\n在回合結束時改為減少一半的層數，而不是全部層數。移除";
+                ret2 = "臨時力量與臨時敏捷\n在回合結束時改為減少一半的層數\n，而不是全部層數。移除";
                 break;
             case 50:
                 ret = "玄武架勢";
-                ret2 = "回合開始時，若上回合沒有打出過攻擊牌，獲得5點臨時力量。移除";
+                ret2 = "回合開始時，若上回合沒有打出過攻擊牌\n，獲得5點臨時力量。移除";
                 break;
             case 51:
                 ret = "青龍架勢";
-                ret2 = "回合開始時，\n若上回合沒有打出過技能牌，獲得5點臨時敏捷。移除";
+                ret2 = "回合開始時，\n若上回合沒有打出過技能牌，\n獲得5點臨時敏捷。移除";
                 break;
             case 52:
                 ret = "跳步";
-                ret2 = "獲得5(8)點臨時護甲，\n若沒有臨時敏捷，獲得2點臨時敏捷，否則獲得1點敏捷";
+                ret2 = "獲得5(8)點臨時護甲，\n若沒有臨時敏捷，獲得2點臨時敏捷，\n否則獲得1點敏捷";
                 break;
             case 53:
                 ret = "突刺";
-                ret2 = "造成7(10)點傷害，\n若沒有臨時力量，獲得2點臨時力量，否則獲得1點力量";
+                ret2 = "造成7(10)點傷害，\n若沒有臨時力量，獲得2點臨時力量，\n否則獲得1點力量";
                 break;
             case 54:
                 ret = "棄械";
@@ -341,7 +340,7 @@ public class Show_item2 : MonoBehaviour
                 break;
             case 55:
                 ret = "破邪";
-                ret2 = "造成6點傷害，\n若擊殺非召喚物敵人，恢復3(5)%理智";
+                ret2 = "造成6點傷害，\n若擊殺非召喚物敵人，\n恢復3(5)%理智";
                 break;
             case 56:
                 ret = "無念";
@@ -361,7 +360,7 @@ public class Show_item2 : MonoBehaviour
                 break;                
             case 60:
                 ret = "利刃";    
-                ret2 = "造成7點傷害，隨後，若目標沒有護甲，給予1(2)層易傷";  
+                ret2 = "造成7點傷害，隨後，\n若目標沒有護甲，給予1(2)層易傷";  
                 break;
         }
         DescriptionBox_name = ret;
@@ -655,12 +654,12 @@ public class Show_item2 : MonoBehaviour
                 ret2 = "戰鬥開始時隨機升級一張卡片";
                 break;
             case 18:
-                ret = "重擊";
-                ret2 = "造成30(40)點傷害，選擇最多3張牌在打出前給予保留";
-                break;
-            case 19:
                 ret = "鐮刀";
                 ret2 = "每擊殺一名敵人，獲得1點力量";
+                break;
+            case 19:
+                ret = "拳套";
+                ret2 = "每打出兩張攻擊牌後，獲得1點力量";
                 break;
             case 20:
                 ret = "迴力鏢";

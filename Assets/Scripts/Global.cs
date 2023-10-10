@@ -555,7 +555,7 @@ public class Global : MonoBehaviour
             reward.transform.GetChild(0).gameObject.SetActive(true);
             reward.OnEnable();
         }
-        FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
+        // FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
         FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
         FindObjectOfType<Map_Generate>().CardPanel.SetActive(false);
 

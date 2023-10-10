@@ -158,6 +158,7 @@ public class get_booty: MonoBehaviour{
     void click_get_card(int idx){
         Global.PlayerDeck_Add(cards[award_card[idx].card_id - 1].cardobj);
         booty_card.SetActive(false);
+        FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
     }
     void click_get_item(int index){
         // print(get[index].id);
@@ -191,6 +192,7 @@ public class get_booty: MonoBehaviour{
     }
     public void close_card_booty(){
         booty_card.SetActive(false);
+        FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
     }
     public bool ShowLoot(int[] enemy_ids, BattleController.BattleType type){
         enemy_id = enemy_ids;
