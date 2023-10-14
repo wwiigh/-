@@ -52,7 +52,9 @@ public class Altar : MonoBehaviour
         Disable_button();
         ShowPanel.SetActive(true);
         ShowText.text = text;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1f);
+        FindObjectOfType<Transition>().Play();
+        yield return new WaitForSeconds(0.6f);
         ShowPanel.SetActive(false);
         this.gameObject.SetActive(false);
         Show_button();

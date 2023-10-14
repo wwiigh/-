@@ -133,13 +133,13 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(103,EventClass.Type.story);
                 break;
             case 103: 
-                this.gameObject.SetActive(false);  
+                StartCoroutine(nameof(transition)); 
                 break;
             case 104: 
-                this.gameObject.SetActive(false);  
+                StartCoroutine(nameof(transition)); 
                 break;
             case 105:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 201:   
                 Reset();
@@ -158,10 +158,10 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(204,EventClass.Type.story);
                 break;
             case 204:   
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 205:   
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 301:   
                 Global.AddSan(-10);
@@ -178,14 +178,14 @@ public class GameEvent : MonoBehaviour
                 FindObjectOfType<Bag_System>().Add_Item("3","relic",true);
                 Global.AddSan(-10);
                 StartCoroutine(ShowInformation("理智減少了10，獲得遺物"+getRelicName(3)));
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 401:   
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 SceneManager.LoadScene("StartMenu");
                 break;
             case 501:   
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 SceneManager.LoadScene("StartMenu");
                 break;
             case 1000:
@@ -223,7 +223,7 @@ public class GameEvent : MonoBehaviour
                     Node.ActiveNode.StopAllCoroutines();
                     Node.ActiveNode.click_action_battle_normal();
                     
-                    this.gameObject.SetActive(false);
+                    StartCoroutine(nameof(transition)); 
                 }
                 break;
             case 3000:
@@ -280,10 +280,10 @@ public class GameEvent : MonoBehaviour
                     LoadEvent(4001,EventClass.Type.normal);
                 }
                 else 
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 4001:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 5000:
                 Reset();
@@ -388,7 +388,7 @@ public class GameEvent : MonoBehaviour
 
                 break;
             case 8001:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 9000:
                 Reset();
@@ -415,10 +415,10 @@ public class GameEvent : MonoBehaviour
                 }
                 break;
             case 9001:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 9002:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 10000:
                 string text10000 = "";
@@ -442,7 +442,7 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(11001,EventClass.Type.normal);
                 break;
             case 11001:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 11002:
                 Card card11002 = Update_Card();
@@ -549,13 +549,13 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(14001,EventClass.Type.normal);
                 break;
             case 14001:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 14002:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 14003:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 15000:
                 Global.AddHp(-10);
@@ -564,13 +564,13 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(15001,EventClass.Type.normal);
                 break;
             case 15001:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 15002:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 16000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 18000:
                 Card card18000 = Update_Card();
@@ -590,7 +590,7 @@ public class GameEvent : MonoBehaviour
                 // this.gameObject.SetActive(false);
                 break;
             case 21000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 22000:
                 Global.AddSan(-10);
@@ -641,7 +641,7 @@ public class GameEvent : MonoBehaviour
                 // this.gameObject.SetActive(false);
                 break;
             case 26000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 27000:
                 string text27000 = "";
@@ -660,13 +660,13 @@ public class GameEvent : MonoBehaviour
                 // this.gameObject.SetActive(false);
                 break;
             case 28000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 29000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 30000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             default:
                 break;
@@ -695,31 +695,31 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(205,EventClass.Type.story);  
                 break;
             case 301:   
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 303: 
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 1000:
                 FindObjectOfType<Bag_System>().Show_Equipment_list(2,2);
                 break;
             case 2000: 
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 3000: 
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 3001: 
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 3002: 
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 3003:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 5000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 5001:
                 random_value = Random.value;
@@ -737,13 +737,13 @@ public class GameEvent : MonoBehaviour
                 }// this.gameObject.SetActive(false);
                 break;
             case 6000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition));
                 break;
             case 6001:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 6002:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 8000:
                 Global.AddHp(-5);
@@ -753,13 +753,13 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(8001,EventClass.Type.normal);
                 break;
             case 9000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 10000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 11000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 11002:
                 Card card11002 = Remove_Card();
@@ -776,13 +776,13 @@ public class GameEvent : MonoBehaviour
                 // this.gameObject.SetActive(false);text11002
                 break;
             case 12000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 12001:
-                this.gameObject.SetActive(false);
+               StartCoroutine(nameof(transition)); 
                 break;
             case 12002:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 13000:
                 //待做
@@ -803,10 +803,10 @@ public class GameEvent : MonoBehaviour
                 LoadEvent(15002,EventClass.Type.normal);
                 break;
             case 16000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 18000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 19000:
                 int relic19000 = FindObjectOfType<Bag_System>().Remove_Random_Equipment();
@@ -820,7 +820,7 @@ public class GameEvent : MonoBehaviour
                 break;
             case 25000:
                 
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 27000:
                 string text27000 = "";
@@ -839,10 +839,10 @@ public class GameEvent : MonoBehaviour
                 // this.gameObject.SetActive(false);
                 break;
             case 28000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 30000:
-                this.gameObject.SetActive(false);
+               StartCoroutine(nameof(transition)); 
                 break;
             default:
                 break;
@@ -856,14 +856,14 @@ public class GameEvent : MonoBehaviour
                 FindObjectOfType<Bag_System>().Show_Equipment_list(1,3);
                 break;
             case 5001:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 14000:
                 Reset();
                 LoadEvent(14003,EventClass.Type.normal);
                 break;
             case 16000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 19000:
                 float rv = Random.value;
@@ -880,7 +880,7 @@ public class GameEvent : MonoBehaviour
                 StartCoroutine(ShowInformation(text19000));
                 break;
             case 28000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             default:
                 break;
@@ -891,10 +891,10 @@ public class GameEvent : MonoBehaviour
         switch (event_loaded.id)
         {
             case 1000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 16000:
-                this.gameObject.SetActive(false);
+                StartCoroutine(nameof(transition)); 
                 break;
             case 19000:
                 Global.AddHp(-10);
@@ -903,7 +903,7 @@ public class GameEvent : MonoBehaviour
                 // this.gameObject.SetActive(false);
                 break;
             case 28000:
-                this.gameObject.SetActive(false);
+               StartCoroutine(nameof(transition)); 
                 break;
             default:
                 break;
@@ -1050,7 +1050,7 @@ public class GameEvent : MonoBehaviour
         ShowText.text = text;
         yield return new WaitForSeconds(2);
         ShowPanel.SetActive(false);
-        this.gameObject.SetActive(false);
+        StartCoroutine(nameof(transition)); 
     }
     IEnumerator ShowInformation_NOTDisabe(string text)
     {
@@ -1381,5 +1381,11 @@ public class GameEvent : MonoBehaviour
         }
         return e_name;
     }
-    
+   
+    IEnumerator transition()
+    {
+        FindObjectOfType<Transition>().Play();
+        yield return new WaitForSeconds(0.6f);
+        this.gameObject.SetActive(false);
+    }
 }
