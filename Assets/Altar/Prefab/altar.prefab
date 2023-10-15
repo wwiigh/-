@@ -355,6 +355,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 2774856589014929681}
+  sanButton: {fileID: 2515736850069341435}
+  hpButton: {fileID: 3731690401179994999}
+  cardButton: {fileID: 2086927718114871523}
   ShowText: {fileID: 4602605324173275392}
   ShowPanel: {fileID: 8041113789569895455}
 --- !u!82 &2774856589014929681
