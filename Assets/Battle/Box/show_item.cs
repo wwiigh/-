@@ -256,7 +256,7 @@ public class show_item : MonoBehaviour
                 break;
             case 41:
                 ret = "Jackpot!";
-                ret2 = "抽3張牌，若抽到的所有牌消費都相同，對所有敵人造成13(17)點傷害";
+                ret2 = "抽3張牌，\n若抽到的所有牌消費都相同，對所有敵人造成13(17)點傷害";
                 break;
             case 42:
                 ret = "迴旋踢";
@@ -292,7 +292,7 @@ public class show_item : MonoBehaviour
                 break;
             case 50:
                 ret = "玄武架勢";
-                ret2 = "回合開始時，若上回合沒有打出過攻擊牌，獲得5點臨時力量。移除";
+                ret2 = "回合開始時，\n若上回合沒有打出過攻擊牌，獲得5點臨時力量。移除";
                 break;
             case 51:
                 ret = "青龍架勢";
@@ -332,7 +332,7 @@ public class show_item : MonoBehaviour
                 break;                
             case 60:
                 ret = "利刃";    
-                ret2 = "造成7點傷害，隨後，若目標沒有護甲，給予1(2)層易傷";  
+                ret2 = "造成7點傷害，\n隨後，若目標沒有護甲，給予1(2)層易傷";  
                 break;
         }
         DescriptionBox_name = ret;
