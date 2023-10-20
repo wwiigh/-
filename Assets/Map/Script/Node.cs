@@ -61,39 +61,54 @@ public class Node:MonoBehaviour
     public List<GameObject> All_Battle_Obj;
     public static Node ActiveNode;
     public GameObject circle;
+    Transition transition;
     public void check()
     {
         ActiveNode = this;
+        if(transition==null)transition = FindObjectOfType<Transition>();
         // print("check");
         // print(height.ToString()+" "+width.ToString());
         switch(type)
         {
             case 's':
+                // Invoke(nameof(click_action_shop),0.6f);
                 click_action_shop();
                 break;
             case 'f':
-                click_action_battle_normal();
+                Invoke(nameof(click_action_battle_normal),0.6f);
+                // click_action_battle_normal();
+                transition.Play();
                 break;
             case 'F':
-                click_action_battle_Elite(); 
+                Invoke(nameof(click_action_battle_Elite),0.6f);
+                // click_action_battle_Elite(); 
+                transition.Play();
                 break;
             case 'e':
-                click_action_event();
+                Invoke(nameof(click_action_event),0.6f);
+                // click_action_event();
+                transition.Play();
                 break;
             case 'm':
-                click_action_story(Map_Generate.now_level);
+                Invoke(nameof(click_action_story),0.6f);
+                transition.Play();
                 break;
             case 't':
+                // Invoke(nameof(click_action_treasure),0.6f);
                 click_action_treasure();
                 break;
             case 'n':
                 
                 break;
             case 'b':
-                click_action_battle_Boss();
+                Invoke(nameof(click_action_battle_Boss),0.6f);
+                // click_action_battle_Boss();
+                transition.Play();
                 break;
             case 'h':
-                click_action_altar();
+                Invoke(nameof(click_action_altar),0.6f);
+                // click_action_altar();
+                transition.Play();
                 break;
         }
     }
@@ -304,8 +319,9 @@ public class Node:MonoBehaviour
         }
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.ending);
     }
-    public void click_action_story(int level)
+    public void click_action_story()
     {
+        int level = Map_Generate.now_level;
         event_object.SetActive(true);
         switch (level)
         {
@@ -339,6 +355,12 @@ public class Node:MonoBehaviour
             //     FindObjectOfType<Map_Node_Action>().Check_Battle_State();
             // }
             yield return new WaitForEndOfFrame();
+        }
+        if(transition==null)transition = FindObjectOfType<Transition>();
+        if(type == 'b'||type == 'F'||type == 'f')
+        {
+            transition.Play();
+            yield return new WaitForSeconds(0.6f);
         }
         foreach (var item in All_Battle_Obj)
         {

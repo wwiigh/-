@@ -7,6 +7,7 @@ using TMPro;
 public class Altar : MonoBehaviour
 {
     public AudioSource audioSource;
+    public GameObject sanButton,hpButton,cardButton;
     [SerializeField] TMP_Text ShowText;
     [SerializeField] GameObject ShowPanel;
     // Start is called before the first frame update
@@ -31,6 +32,7 @@ public class Altar : MonoBehaviour
     {
         // Global.PlayerDeckInit();
         audioSource.Play();
+        Disable_button();
         List<Card> cards = Global.GetPlayerDeck();
         List<Card> noUpgrade = new List<Card>();
         foreach(Card card in cards)
@@ -47,10 +49,26 @@ public class Altar : MonoBehaviour
     }
     IEnumerator ShowInformation(string text)
     {
+        Disable_button();
         ShowPanel.SetActive(true);
         ShowText.text = text;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1f);
+        FindObjectOfType<Transition>().Play();
+        yield return new WaitForSeconds(0.6f);
         ShowPanel.SetActive(false);
         this.gameObject.SetActive(false);
+        Show_button();
+    }
+    public void Disable_button()
+    {
+        sanButton.GetComponent<Button>().interactable = false;
+        hpButton.GetComponent<Button>().interactable = false;
+        cardButton.GetComponent<Button>().interactable = false;
+    }
+    public void Show_button()
+    {
+        sanButton.GetComponent<Button>().interactable = true;
+        hpButton.GetComponent<Button>().interactable = true;
+        cardButton.GetComponent<Button>().interactable = true;
     }
 }
