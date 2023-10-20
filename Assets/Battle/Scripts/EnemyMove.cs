@@ -523,7 +523,7 @@ public class EnemyMove : MonoBehaviour
                 if (state == 2) return ("驚嚇", "理智<color=red>-2</color>");
                 break;
             case 104:
-                if (state == 0) return ("躲藏", "恢復<color=green>2</color>點生命");
+                if (state == 0) return ("躲藏", "恢復<color=green>1</color>點生命");
                 if (state == 1) return ("揮擊", "造成<color=red>" + GetDamage(6).ToString() + "</color>點傷害");
                 if (state == 2) return ("利螯", "造成<color=red>" + GetDamage(3).ToString() + "</color>點傷害，給予<color=red>3</color>層流血");
                 break;
@@ -777,7 +777,7 @@ public class EnemyMove : MonoBehaviour
                     case 0:
                         GetComponent<Animator>().Play("104_skill");
                         yield return new WaitForSeconds(0.5f);
-                        GetComponent<Character>().Heal(2);
+                        GetComponent<Character>().Heal(1);
                         break;
                     case 1:
                         GetComponent<Animator>().Play("104_attack1");

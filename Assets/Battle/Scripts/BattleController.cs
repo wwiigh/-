@@ -121,6 +121,9 @@ public class BattleController : MonoBehaviour
         
         background.GetComponent<Image>().sprite = backgroundImages[Global.current_level - 1];
         background.GetComponent<RectTransform>().offsetMin = new Vector2(0, 390);
+
+        GameObject.Find("SoundPlay").GetComponent<AudioSource>().clip = GetComponent<BattleSound>().bgm;
+        GameObject.Find("SoundPlay").GetComponent<AudioSource>().Play();
     }
     
 
@@ -382,6 +385,7 @@ public class BattleController : MonoBehaviour
 
 
     public void EndTurn(){
+        GameObject.Find("End turn button").GetComponent<Button>().interactable = false;
         Character player_character = characters.transform.GetChild(0).GetComponent<Character>();
         if (player_character.GetStatus(Status.status.prepare) > 0 && Deck.GetHand().Count >= 1) PrepareEffect();
         else StartCoroutine(_EndTurn());
@@ -391,35 +395,31 @@ public class BattleController : MonoBehaviour
         deck.TurnEnd();
         player_character.TurnEnd();
         Equipment_Charge.Update_Equipment_Cold();
-        // yield return new WaitForSeconds(0.1f);
+
         List<GameObject> enemylist = new();
         foreach(Transform child in characters.transform)
             if (child.tag == "Enemy" && child.GetComponent<Character>().IsAlive()) enemylist.Add(child.gameObject);
-        while(enemylist.Count > 0){
-            float x = 10000;
-            GameObject chosen = null;
-            foreach(GameObject child in enemylist){
-                if (child != null && child.transform.localPosition.x < x){
-                    x = child.transform.localPosition.x;
-                    chosen = child;
-                }
-                if (child == null) enemylist.Remove(child);
+        
+        // bubble sort by position.x
+        int start_idx = 0;
+        int idx;
+        while(start_idx < enemylist.Count){
+            idx = start_idx;
+            while(idx < enemylist.Count - 1){
+                if (enemylist[idx].transform.localPosition.x > enemylist[idx+1].transform.localPosition.x)
+                    (enemylist[idx], enemylist[idx+1]) = (enemylist[idx+1], enemylist[idx]);
+                idx++;
             }
+            start_idx++;
+        }
 
-            if (chosen != null) chosen.GetComponent<Character>().TurnStart();
-            if (chosen != null && chosen.GetComponent<Character>().IsAlive()) chosen.GetComponent<EnemyMove>().Move();
-            enemylist.Remove(chosen);
+        foreach(GameObject chosen in enemylist){
+            if (!chosen || !chosen.GetComponent<Character>().IsAlive()) continue;
+            chosen.GetComponent<Character>().TurnStart();
+            chosen.GetComponent<EnemyMove>().Move();
             yield return new WaitForSeconds(1f);
         }
-        // foreach(GameObject child in enemylist){
-        //     child.GetComponent<Character>().TurnStart();
-        //     if (child.GetComponent<Character>().IsAlive()) child.GetComponent<EnemyMove>().Move();
-        //     yield return new WaitForSeconds(1f);
-        // }
-        if (player_character.GetStatus(Status.status.vulnerable) > 0){
-            if (player_character.vulnerable_buffer) player_character.vulnerable_buffer = false;
-            else player_character.AddStatus(Status.status.vulnerable, -1);
-        }
+
         StartCoroutine(_StartTurn());
     }
 
@@ -464,6 +464,7 @@ public class BattleController : MonoBehaviour
 
         player.GetComponent<Character>().TurnStart();
         yield return new WaitForSeconds(0);
+        GameObject.Find("End turn button").GetComponent<Button>().interactable = true;
     }
 
 
@@ -544,7 +545,7 @@ public class BattleController : MonoBehaviour
             List<GameObject> selectedCards_copy = new(selectedCards);
             selectCard_callback(selectedCards_copy);
             panel.GetComponent<Panel>().Hide();
-            deck.ResetHand();
+            deck.ResetHand(false);
             Deck.Rearrange();
         }
         if (!isEqual && selectedCards.Count <= targetCardNumber){
@@ -553,7 +554,7 @@ public class BattleController : MonoBehaviour
             List<GameObject> selectedCards_copy = new(selectedCards);
             selectCard_callback(selectedCards_copy);
             panel.GetComponent<Panel>().Hide();
-            deck.ResetHand();
+            deck.ResetHand(false);
             Deck.Rearrange();
         }
     }
@@ -562,7 +563,7 @@ public class BattleController : MonoBehaviour
         if (battleState == BattleState.SelectCard){
             EnterState(BattleState.Normal);
             panel.GetComponent<Panel>().Hide();
-            deck.ResetHand();
+            deck.ResetHand(true);
             Deck.Rearrange();
         }
     }
