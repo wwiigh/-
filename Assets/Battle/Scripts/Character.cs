@@ -243,7 +243,7 @@ public class Character : MonoBehaviour
     public bool Attack(GameObject target, int dmg, float strength_multiplier=1, float tmp_strength_multiplier=1){
         if (tag == "Player") FindObjectOfType<BattleSound>().Play(BattleSound.SoundType.playerAttack);
         if (tag == "Enemy") FindObjectOfType<BattleSound>().Play(BattleSound.SoundType.enemyAttack);
-        
+        if(target==null)return true;
         int armor_before = target.GetComponent<Character>().GetArmor() + target.GetComponent<Character>().GetBlock();
         int hp_before = target.GetComponent<Character>().GetHP();
 

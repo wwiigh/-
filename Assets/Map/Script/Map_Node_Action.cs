@@ -99,6 +99,10 @@ public class Map_Node_Action : MonoBehaviour
         }
         FindObjectOfType<Map_System>().Change_state(Map_System.map_state.ending);
     }
+    public void Dieending()
+    {
+        Invoke(nameof(ending),0.6f);       
+    }
     // public void click_action_story(int level)
     // {
     //     event_object.SetActive(true);

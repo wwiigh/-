@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Settle : MonoBehaviour
 {
@@ -27,15 +28,19 @@ public class Settle : MonoBehaviour
         if(!is_win){
             Victory.text = "Defeat";
         }
-        level.text = end_level;
-        Enemy.text = end_enemy;
-        Elite.text = end_elite;
-        Boss.text = end_boss;
-        Relic.text = end_relic;
+        level.text = Global.current_level.ToString();
+        Enemy.text = Global.kill_enemys.ToString();
+        Elite.text = Global.kill_elites.ToString();
+        Boss.text = Global.kill_leaders.ToString();
+        Relic.text = Global.kill_leaders.ToString();
     }
     // 傳入遊戲結束時，是贏還是輸，贏true，輸false
     public void game_is_end(bool win){
         is_win = win;
+    }
+    public void BackToTitle()
+    {
+        SceneManager.LoadScene("StartMenu");
     }
     
 }

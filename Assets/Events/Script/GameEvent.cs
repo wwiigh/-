@@ -7,6 +7,7 @@ using TMPro;
 
 public class GameEvent : MonoBehaviour
 {
+    public GameObject ending;
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject optionButton;
     EventClass event_loaded;
@@ -181,12 +182,10 @@ public class GameEvent : MonoBehaviour
                 StartCoroutine(nameof(transition)); 
                 break;
             case 401:   
-                StartCoroutine(nameof(transition)); 
-                SceneManager.LoadScene("StartMenu");
+                StartCoroutine(endingTransition(false)); 
                 break;
             case 501:   
-                StartCoroutine(nameof(transition)); 
-                SceneManager.LoadScene("StartMenu");
+                StartCoroutine(endingTransition(true)); 
                 break;
             case 1000:
                 FindObjectOfType<Bag_System>().Show_Equipment_list(1,1);
@@ -1387,5 +1386,13 @@ public class GameEvent : MonoBehaviour
         FindObjectOfType<Transition>().Play();
         yield return new WaitForSeconds(0.6f);
         this.gameObject.SetActive(false);
+    }
+    IEnumerator endingTransition(bool win)
+    {
+        FindObjectOfType<Transition>().Play();
+        yield return new WaitForSeconds(0.6f);
+        this.gameObject.SetActive(false);
+        ending.SetActive(true);
+        ending.GetComponent<Settle>().game_is_end(win);
     }
 }

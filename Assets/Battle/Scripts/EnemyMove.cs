@@ -231,6 +231,7 @@ public class EnemyMove : MonoBehaviour
     public void SetIntention(){
         int id = GetComponent<Character>().GetEnemyID();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if(player==null)return;
         Character player_character = player.GetComponent<Character>();
 
         // previous_state = state;

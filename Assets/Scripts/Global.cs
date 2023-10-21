@@ -68,7 +68,10 @@ public class Global : MonoBehaviour
             Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
             if(sanity<=0)
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("StartMenu");
+                FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
+                FindObjectOfType<Map_Generate>().CardPanel.SetActive(false);
+                FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
+                FindObjectOfType<Map_Node_Action>().Dieending();
             }
         }
     }
@@ -87,7 +90,10 @@ public class Global : MonoBehaviour
             Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
             if(player_hp<=0)
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("StartMenu");
+                FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
+                FindObjectOfType<Map_Generate>().CardPanel.SetActive(false);
+                FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
+                FindObjectOfType<Map_Node_Action>().Dieending();
             }
         }
     }
@@ -554,6 +560,10 @@ public class Global : MonoBehaviour
         {
             reward.transform.GetChild(0).gameObject.SetActive(true);
             reward.OnEnable();
+        }
+        else
+        {
+            FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
         }
         // FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
         FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
