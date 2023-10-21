@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 5078899637487730305}
   - component: {fileID: 439979932117328070}
   - component: {fileID: 6353895470024523098}
+  - component: {fileID: 4801033198541780948}
   m_Layer: 5
   m_Name: Character
   m_TagString: Untagged
@@ -293,8 +294,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1013566804284671104}
-          m_TargetAssemblyTypeName: Character, Assembly-CSharp
+        - m_Target: {fileID: 4801033198541780948}
+          m_TargetAssemblyTypeName: CharacterHover, Assembly-CSharp
           m_MethodName: HoverIn
           m_Mode: 1
           m_Arguments:
@@ -309,8 +310,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1013566804284671104}
-          m_TargetAssemblyTypeName: Character, Assembly-CSharp
+        - m_Target: {fileID: 4801033198541780948}
+          m_TargetAssemblyTypeName: CharacterHover, Assembly-CSharp
           m_MethodName: HoverOut
           m_Mode: 1
           m_Arguments:
@@ -325,8 +326,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1013566804284671104}
-          m_TargetAssemblyTypeName: Character, Assembly-CSharp
+        - m_Target: {fileID: 4801033198541780948}
+          m_TargetAssemblyTypeName: CharacterHover, Assembly-CSharp
           m_MethodName: Click
           m_Mode: 1
           m_Arguments:
@@ -551,6 +552,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4801033198541780948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013566804284671106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bde047dbd1c9d30479d93b80ceb16146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3712698369549826252
 GameObject:
   m_ObjectHideFlags: 0

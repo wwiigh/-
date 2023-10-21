@@ -146,7 +146,7 @@ public class Character : MonoBehaviour
             Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
             UpdateHP();
         }
-        if (damage > 0) GetComponent<HitAnimation>().Play(dead);
+        if (damage > 0) GetComponent<HitAnimation>().Play(true, dead);
         if (dead){
             Debug.Log("GetHit called Die()");
             StartCoroutine(Die());
@@ -197,13 +197,14 @@ public class Character : MonoBehaviour
             UpdateHP();
             Debug.Log("LoseHP called Die()");
             StartCoroutine(Die());
-            GetComponent<HitAnimation>().Play(true);
+            GetComponent<HitAnimation>().Play(false, true);
             return false;
         }
         else{
             hp -= value;
             UpdateHP();
             AnEyeForAnEye(value);
+            GetComponent<HitAnimation>().Play(false, false);
             return true;
         }
     }
@@ -367,28 +368,28 @@ public class Character : MonoBehaviour
 
 
 
-    public void HoverIn(){
-        // Debug.Log("HoverIn");
-        if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
-            if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
-                transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
-                // Debug.Log("change color");
-            }
-        }
-    }
-    public void Click(){
-        if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
-            if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
-                battleController.EnemySelected(gameObject);
-                transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-            }
-        }
-    }
-    public void HoverOut(){
-        if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
-            transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-        }
-    }
+    // public void HoverIn(){
+    //     // Debug.Log("HoverIn");
+    //     if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
+    //         if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
+    //             transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
+    //             // Debug.Log("change color");
+    //         }
+    //     }
+    // }
+    // public void Click(){
+    //     if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
+    //         if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
+    //             battleController.EnemySelected(gameObject);
+    //             transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+    //         }
+    //     }
+    // }
+    // public void HoverOut(){
+    //     if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
+    //         transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+    //     }
+    // }
 
 
 

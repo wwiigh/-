@@ -23505,6 +23505,7 @@ MonoBehaviour:
   cancelButtonTemplate: {fileID: 2946692941200208504, guid: 72ea6201857bd0f4091535a502e5e934, type: 3}
   cardTemplate: {fileID: 7236554932518560697, guid: c07b96994362f9540be08a62da251a48, type: 3}
   descriptionBoxTemplate: {fileID: 4048720986479955020, guid: 8bff04be2b724934b9705219aa1692bc, type: 3}
+  characterFrameTemplate: {fileID: 8077254556400267084, guid: 2b9c049cbc322904f9057a1e9d43a62f, type: 3}
 --- !u!4 &9095151440684955827
 Transform:
   m_ObjectHideFlags: 0
