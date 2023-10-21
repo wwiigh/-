@@ -47,8 +47,8 @@ public class Deck : MonoBehaviour
         // Shuffle(drawPile);
         
         drawPile.Add( AllCards.GetCard(903) );
-        drawPile.Add( AllCards.GetCard(19) );
-        drawPile.Add( AllCards.GetCard(19) );
+        drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(101) );
         drawPile.Add( AllCards.GetCard(1) );
         drawPile.Add( AllCards.GetCard(57) );
 

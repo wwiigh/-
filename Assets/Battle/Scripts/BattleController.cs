@@ -416,7 +416,7 @@ public class BattleController : MonoBehaviour
         foreach(GameObject chosen in enemylist){
             if (!chosen || !chosen.GetComponent<Character>().IsAlive()) continue;
             chosen.GetComponent<Character>().TurnStart();
-            chosen.GetComponent<EnemyMove>().Move();
+            if (chosen.GetComponent<Character>().IsAlive()) chosen.GetComponent<EnemyMove>().Move();
             yield return new WaitForSeconds(1f);
         }
 

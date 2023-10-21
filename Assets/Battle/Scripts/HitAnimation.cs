@@ -5,51 +5,64 @@ using UnityEngine.UI;
 
 public class HitAnimation : MonoBehaviour
 {
-    Vector2 original_position = Vector2.zero;
-    bool isPlaying = false;
-    Coroutine current_animation = null;
-    public void Play(bool dead){
-        if (original_position == Vector2.zero) original_position = transform.localPosition;
-        if (isPlaying) StopCoroutine(current_animation);
-        if (dead) current_animation = StartCoroutine(Die());
-        else current_animation = StartCoroutine(GetHit());
+    Vector3 original_position = Vector3.zero;
+    bool dying = false;
+    bool color_changing = false;
+    Color target_color = new Color(1, 1, 1, 1);
+    bool position_changing = false;
+    Vector3 target_position = Vector3.zero;
+    public void Play(bool knockback=true, bool dead=false){
+        if (original_position == Vector3.zero) original_position = transform.localPosition;
+        Animation(knockback, dead);
     }
 
-    IEnumerator GetHit(){
-        Debug.Log("Playing GetHit()");
-        isPlaying = true;
+    void FixedUpdate()
+    {
+        if (color_changing){
+            transform.GetChild(0).GetComponent<Image>().color = Color.Lerp(
+                transform.GetChild(0).GetComponent<Image>().color, target_color, 0.1f);
+            Color diff = transform.GetChild(0).GetComponent<Image>().color - target_color;
+            float diff_value = Mathf.Abs(diff.r) + Mathf.Abs(diff.g) + Mathf.Abs(diff.b) + Mathf.Abs(diff.a);
+            if (diff_value < 0.001f){
+                transform.GetChild(0).GetComponent<Image>().color = target_color;
+                color_changing = false;
+            }
+        }
+        
+        if (position_changing){
+            transform.localPosition = Vector3.Lerp(transform.localPosition, target_position, 0.1f);
+            if ((transform.localPosition - target_position).magnitude < 0.001f){
+                if (dying){
+                    GetComponent<Character>().SafeDestroy();
+                    return;
+                }
+                transform.localPosition = target_position;
+                position_changing = false;
+            }
+        }
+    }
+
+    void Animation(bool knockback=true, bool dead=false){
+        if (dead) dying = true;
+
         transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
-        if (tag == "Player") transform.localPosition = original_position + Vector2.left * 100;
-        else transform.localPosition = original_position + Vector2.right * 100;
-        float percent = 0;
-        while(1 - percent > 0.001f){
-            percent = Mathf.Lerp(percent, 1, 0.1f);
-            transform.GetChild(0).GetComponent<Image>().color = new Color(1, percent, percent, 1);
-            if (tag == "Player") transform.localPosition = original_position + Vector2.left * 100 * (1 - percent);
-            else transform.localPosition = original_position + Vector2.right * 100 * (1 - percent);
-            yield return new WaitForSeconds(0.02f);
-        }
+        if (!dead) target_color = new Color(1, 1, 1, 1);
+        else target_color = new Color(0, 0, 0, 0);
+        color_changing = true;
 
-        transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        transform.localPosition = original_position;
-        isPlaying = false;
-    }
-    IEnumerator Die(){
-        Debug.Log("Playing Die()");
-        isPlaying = true;
-        Vector2 destination = original_position + Vector2.right * 50;
-        if (tag == "Player") destination = original_position + Vector2.left * 50;
-        float percent = 0;
-        while(1 - percent > 0.001f){
-            percent = Mathf.Lerp(percent, 1, 0.1f);
-            transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1 - percent);
-            transform.localPosition = original_position * (1 - percent) + destination * percent;
-            yield return new WaitForSeconds(0.02f);
+        if (!knockback && !dead) return;
+        if (!dead){
+            if (knockback){
+                if (tag == "Player") transform.localPosition = original_position + Vector3.left * 100;
+                else transform.localPosition = original_position + Vector3.right * 100;
+                target_position = original_position;
+                position_changing = true;
+            }
         }
-
-        isPlaying = false;
-        // Destroy(gameObject);
-        Debug.Log("here");
-        GetComponent<Character>().SafeDestroy();
+        else{
+            target_position = original_position + Vector3.right * 50;
+            if (tag == "Player") target_position = original_position + Vector3.left * 50;
+            position_changing = true;
+        }
     }
 }
