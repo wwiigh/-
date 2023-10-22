@@ -46,18 +46,17 @@ public class Deck : MonoBehaviour
         // }
         // Shuffle(drawPile);
         
-        // drawPile.Add( AllCards.GetCard(903) );
-        // drawPile.Add( AllCards.GetCard(59) );
-        // drawPile.Add( AllCards.GetCard(33) );
-        // drawPile.Add( AllCards.GetCard(57) );
-        // drawPile.Add( AllCards.GetCard(57) );
-        // drawPile.Add( AllCards.GetCard(33) );
+        drawPile.Add( AllCards.GetCard(903) );
+        drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(1) );
+        drawPile.Add( AllCards.GetCard(57) );
 
-        foreach(Card card in Global.GetPlayerDeck())
-        {
-            drawPile.Add( Card.Copy(card) );
-        }
-        Shuffle(drawPile);
+        // foreach(Card card in Global.GetPlayerDeck())
+        // {
+        //     drawPile.Add( Card.Copy(card) );
+        // }
+        // Shuffle(drawPile);
     }
 
 
@@ -427,10 +426,10 @@ public class Deck : MonoBehaviour
         }
     }
 
-    public void ResetHand(){
+    public void ResetHand(bool clearRTU){
         for (int i = 0; i < hand.Count; i++){
-            // if (hand[i].GetComponent<CardState>().state == CardState.State.ReadyToUse)
-            //     hand[i].GetComponent<CardState>().state = CardState.State.Normal;
+            if (hand[i].GetComponent<CardState>().state == CardState.State.ReadyToUse && clearRTU)
+                hand[i].GetComponent<CardState>().state = CardState.State.Normal;
             if (hand[i].GetComponent<CardState>().state == CardState.State.Selected)
                 hand[i].GetComponent<CardState>().Unselect();
         }

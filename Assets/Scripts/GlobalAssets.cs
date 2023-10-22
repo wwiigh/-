@@ -8,4 +8,5 @@ public class GlobalAssets : MonoBehaviour
     public GameObject cancelButtonTemplate;
     public GameObject cardTemplate;
     public GameObject descriptionBoxTemplate;
+    public GameObject characterFrameTemplate;
 }

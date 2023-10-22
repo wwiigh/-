@@ -117,7 +117,7 @@ public class Character : MonoBehaviour
         int hp_diff = hp;
         bool dead = false;
         GameObject dmgText = Instantiate(damageTextTemplate, transform);
-        dmgText.GetComponent<DamageText>().Show(damage);
+        dmgText.GetComponent<DamageText>().Show(damage, true);
         if (damage >= block + armor + hp){
             dead = true;
             block = 0;
@@ -146,7 +146,7 @@ public class Character : MonoBehaviour
             Relic_Implement.Handle_Relic_Dead(Relic_Implement.DeadType.Player);
             UpdateHP();
         }
-        if (damage > 0) GetComponent<HitAnimation>().Play(dead);
+        if (damage > 0) GetComponent<HitAnimation>().Play(true, dead);
         if (dead){
             Debug.Log("GetHit called Die()");
             StartCoroutine(Die());
@@ -184,6 +184,9 @@ public class Character : MonoBehaviour
             if (Random.Range(0, 100) < evadeLevel) value = 0;
 
         if (value > 0) tookDmgThisTurn = true;
+        
+        GameObject dmgText = Instantiate(damageTextTemplate, transform);
+        dmgText.GetComponent<DamageText>().Show(value, false);
 
         PowerCompete(value);
         
@@ -194,13 +197,14 @@ public class Character : MonoBehaviour
             UpdateHP();
             Debug.Log("LoseHP called Die()");
             StartCoroutine(Die());
-            GetComponent<HitAnimation>().Play(true);
+            GetComponent<HitAnimation>().Play(false, true);
             return false;
         }
         else{
             hp -= value;
             UpdateHP();
             AnEyeForAnEye(value);
+            GetComponent<HitAnimation>().Play(false, false);
             return true;
         }
     }
@@ -238,6 +242,9 @@ public class Character : MonoBehaviour
     //     return Attack(target, dmg, 1, 1);
     // }
     public bool Attack(GameObject target, int dmg, float strength_multiplier=1, float tmp_strength_multiplier=1){
+        if (tag == "Player") FindObjectOfType<BattleSound>().Play(BattleSound.SoundType.playerAttack);
+        if (tag == "Enemy") FindObjectOfType<BattleSound>().Play(BattleSound.SoundType.enemyAttack);
+        
         int armor_before = target.GetComponent<Character>().GetArmor() + target.GetComponent<Character>().GetBlock();
         int hp_before = target.GetComponent<Character>().GetHP();
 
@@ -361,28 +368,28 @@ public class Character : MonoBehaviour
 
 
 
-    public void HoverIn(){
-        // Debug.Log("HoverIn");
-        if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
-            if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
-                transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
-                // Debug.Log("change color");
-            }
-        }
-    }
-    public void Click(){
-        if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
-            if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
-                battleController.EnemySelected(gameObject);
-                transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-            }
-        }
-    }
-    public void HoverOut(){
-        if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
-            transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-        }
-    }
+    // public void HoverIn(){
+    //     // Debug.Log("HoverIn");
+    //     if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
+    //         if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
+    //             transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 128, 128, 255);
+    //             // Debug.Log("change color");
+    //         }
+    //     }
+    // }
+    // public void Click(){
+    //     if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
+    //         if (!BattleController.HasTauntEnemy() || GetComponent<Character>().GetStatus(Status.status.taunt) > 0){
+    //             battleController.EnemySelected(gameObject);
+    //             transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+    //         }
+    //     }
+    // }
+    // public void HoverOut(){
+    //     if (battleController.GetState() == BattleController.BattleState.SelectEnemy && tag == "Enemy"){
+    //         transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+    //     }
+    // }
 
 
 
@@ -405,6 +412,17 @@ public class Character : MonoBehaviour
             block = 0;
             UpdateHP();
         }
+
+        List<(Status.status _status, int level)> decreaseList = new();
+        foreach(var pack in status){
+            if (pack._status == Status.status.vulnerable && tag == "Player" && vulnerable_buffer){
+                vulnerable_buffer = false;
+                continue;
+            }
+            if (Status.DecreaseOnTurnStart(pack._status)) decreaseList.Add(pack);
+        }
+        foreach(var pack in decreaseList) AddStatus(pack._status, -1);
+        UpdateStatus();
 
         if (tag == "Enemy") Invoke("TurnEnd", 1);
     }

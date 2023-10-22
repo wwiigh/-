@@ -616,7 +616,7 @@ public class CardEffects : MonoBehaviour
                 foreach(GameObject card in cards){
                     Global.UpgradeCard(card);
                 }
-                deck.ResetHand();
+                deck.ResetHand(false);
                 EffectEnd();
                 break;
             default:
