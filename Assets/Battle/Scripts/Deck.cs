@@ -49,8 +49,15 @@ public class Deck : MonoBehaviour
         drawPile.Add( AllCards.GetCard(903) );
         drawPile.Add( AllCards.GetCard(101) );
         drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(38) );
         drawPile.Add( AllCards.GetCard(1) );
-        drawPile.Add( AllCards.GetCard(57) );
+        drawPile.Add( AllCards.GetCard(26) );
+        drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(101) );
+        drawPile.Add( AllCards.GetCard(101) );
 
         // foreach(Card card in Global.GetPlayerDeck())
         // {
@@ -300,15 +307,17 @@ public class Deck : MonoBehaviour
     public void TurnEnd(){
         Character player_character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
 
-        int tmp = Random.Range(0, hand.Count);
-        if (player_character.GetStatus(Status.status.information_erase) > 0)
-            hand[tmp].GetComponent<CardDisplay>().thisCard = AllCards.GetCard(204);
+        if (hand.Count > 0){
+            int tmp = Random.Range(0, hand.Count);
+            if (player_character.GetStatus(Status.status.information_erase) > 0)
+                hand[tmp].GetComponent<CardDisplay>().thisCard = AllCards.GetCard(204);
 
-        tmp = Random.Range(0, hand.Count);
-        if (player_character.GetStatus(Status.status.swallow) > 0){
-            FindObjectOfType<BattleController>().SetSwallowedCard(hand[tmp].GetComponent<CardDisplay>().thisCard);
-            Destroy(hand[tmp]);
-            hand.RemoveAt(tmp);
+            tmp = Random.Range(0, hand.Count);
+            if (player_character.GetStatus(Status.status.swallow) > 0){
+                FindObjectOfType<BattleController>().SetSwallowedCard(hand[tmp].GetComponent<CardDisplay>().thisCard);
+                Destroy(hand[tmp]);
+                hand.RemoveAt(tmp);
+            }
         }
 
         OnceEffectReactivate();

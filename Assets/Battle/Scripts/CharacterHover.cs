@@ -87,9 +87,10 @@ public class CharacterHover : MonoBehaviour
 
     float multiplier = 1.25f;
     void SetTargetPosition(){
+        Vector3 offset = GetComponent<Character>().GetOffset();
         for (int i = 0; i < 4; i++){
-            if (mouse_in) target_position[i] = original_pos[i];
-            else target_position[i] = original_pos[i] * multiplier;
+            if (mouse_in) target_position[i] = original_pos[i] + offset;
+            else target_position[i] = original_pos[i] * multiplier + offset;
         }
     }
 
@@ -105,14 +106,25 @@ public class CharacterHover : MonoBehaviour
             if (!corners[i]) corners[i] = frame.transform.GetChild(i).gameObject;
         }
 
-        original_pos[0] = new(-100, 100);
-        original_pos[1] = new(100, 100);
-        original_pos[2] = new(-100, -100);
-        original_pos[3] = new(100, -100);
+        Vector3 size = GetComponent<Character>().GetSize();
+        if (size.x == 0) size.x = 300;
+        if (size.y == 0) size.y = 300;
+
+        Vector3 offset = GetComponent<Character>().GetOffset();
+
+        // original_pos[0] = new Vector3(-100, 100) + offset;
+        // original_pos[1] = new Vector3(100, 100) + offset;
+        // original_pos[2] = new Vector3(-100, -100) + offset;
+        // original_pos[3] = new Vector3(100, -100) + offset;
+
+        original_pos[0] = new Vector3(-(size.x / 2 - 50),  (size.y / 2 - 50));
+        original_pos[1] = new Vector3( (size.x / 2 - 50),  (size.y / 2 - 50));
+        original_pos[2] = new Vector3(-(size.x / 2 - 50), -(size.y / 2 - 50));
+        original_pos[3] = new Vector3( (size.x / 2 - 50), -(size.y / 2 - 50));
 
         if (!showing){
             for (int i = 0; i < 4; i++){
-                corners[i].transform.localPosition = original_pos[i] * multiplier;
+                corners[i].transform.localPosition = original_pos[i] * multiplier + offset;
             }
         }
         

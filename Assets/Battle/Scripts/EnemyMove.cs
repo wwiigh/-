@@ -637,7 +637,7 @@ public class EnemyMove : MonoBehaviour
                 break;
             case 308:
                 if (state == 0) return ("吞噬", "給予「下回合結束時，隨機移除一張手中的牌」效果");
-                if (state == 1) return ("消化", "若被吞噬的牌為攻擊牌，獲得<color=green>5</color>點力量；\n若為技能牌，恢復<color=green>20</color>點生命；\n若為特殊牌，失去<color=red>30</color>點生命");
+                if (state == 1) return ("消化", "若被吞噬的牌為攻擊牌，獲得<color=green>5</color>點力量；\n若為技能牌，恢復<color=green>20</color>點生命；\n若為特殊牌，失去<color=red>20</color>點生命；\n若沒有成功吞噬，失去<color=red>50</color>點生命");
                 if (state == 2) return ("碎骨撕咬", "造成<color=red>" + GetDamage(25).ToString() + "</color>點傷害，給予<color=red>2</color>層虛弱、<color=red>2</color>層脆弱、<color=red>2</color>層易傷");
                 if (state == 3) return ("嘲笑", "玩家每有一個負面狀態使理智<color=red>-3</color>");
                 break;
@@ -1293,14 +1293,18 @@ public class EnemyMove : MonoBehaviour
                     // GetComponent<Animator>().Play("308_attack");
                     yield return new WaitForSeconds(0.5f);
                     player_character.AddStatus(Status.status.swallow, 1);
+                    FindObjectOfType<BattleController>().SetSwallowedCard(null);
                 }
                 else if (state == 1){
                     // GetComponent<Animator>().Play("308_attack");
                     yield return new WaitForSeconds(0.5f);
-                    Card.Type cardType = FindObjectOfType<BattleController>().GetSwallowedCard().type;
-                    if (cardType == Card.Type.attack) GetComponent<Character>().AddStatus(Status.status.strength, 5);
-                    if (cardType == Card.Type.skill) GetComponent<Character>().Heal(20);
-                    if (cardType == Card.Type.special) GetComponent<Character>().LoseHP(30);
+                    Card swallowedCard = FindObjectOfType<BattleController>().GetSwallowedCard();
+                    Card.Type cardType = 0;
+                    if (swallowedCard) cardType = swallowedCard.type;
+                    if (swallowedCard == null) GetComponent<Character>().LoseHP(50);
+                    else if (cardType == Card.Type.attack) GetComponent<Character>().AddStatus(Status.status.strength, 5);
+                    else if (cardType == Card.Type.skill) GetComponent<Character>().Heal(20);
+                    else if (cardType == Card.Type.special) GetComponent<Character>().LoseHP(20);
                 }
                 else if (state == 2){
                     // GetComponent<Animator>().Play("308_attack");

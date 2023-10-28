@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-    BattleController battleController;
     [SerializeField] GameObject imageObj;
     [SerializeField] TMPro.TextMeshProUGUI nameText;
     [SerializeField] GameObject hpBarTemplate;
@@ -27,7 +26,6 @@ public class Character : MonoBehaviour
     List<GameObject> statusIcons = new List<GameObject>();
     void Start()
     {
-        battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         effects = GameObject.FindGameObjectWithTag("BattleEffects").GetComponent<BattleEffects>();
         Init_HP();
         UpdateStatus();
@@ -569,6 +567,14 @@ public class Character : MonoBehaviour
     public EnemyClass.EnemyType GetEnemyType(){
         if (tag == "Player") return 0;
         else return enemyClass.type;
+    }
+    public Vector3 GetSize(){
+        if (!enemyClass) return new Vector3(300, 300);
+        return enemyClass.size;
+    }
+    public Vector3 GetOffset(){
+        if (!enemyClass) return new Vector3(0, 0);
+        return enemyClass.offset;
     }
 
     public List<(Status.status _status, int level)> GetAllStatus(){
