@@ -32,7 +32,7 @@ public class get_booty: MonoBehaviour{
     public Get[] get = new Get[6];
     BattleController.BattleType enemy_type = 0;
     int[] enemy_id;
-    int number_of_probability = 101;
+    int number_of_probability = 10;
     public Text gold_text;
     public GameObject booty;
     public Button booty_close_button;

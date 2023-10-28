@@ -47,7 +47,7 @@ public class BattleController : MonoBehaviour
 
 
     private void Start() {
-        Global.current_level = 1;
+        // Global.current_level = 1;
         EnterNewLevel();
         deck = deck_obj.GetComponent<Deck>();
     }
@@ -300,7 +300,10 @@ public class BattleController : MonoBehaviour
         if (!player.GetComponent<Character>().IsAlive()) 
         {
             Debug.Log("battle end: you lose");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("StartMenu");
+            FindObjectOfType<Map_Generate>().battle_object.SetActive(false);
+            FindObjectOfType<Map_Generate>().battle_object_equipment.SetActive(false);
+            FindObjectOfType<Map_Generate>().CardPanel.SetActive(false);
+            FindObjectOfType<Map_Node_Action>().Dieending();
         }
     }
 
@@ -419,7 +422,7 @@ public class BattleController : MonoBehaviour
             if (chosen.GetComponent<Character>().IsAlive()) chosen.GetComponent<EnemyMove>().Move();
             yield return new WaitForSeconds(1f);
         }
-
+        if(player!=null)
         StartCoroutine(_StartTurn());
     }
 

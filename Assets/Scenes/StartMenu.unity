@@ -194,7 +194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: START
+  m_Text: "\u904A\u6232\u958B\u59CB"
 --- !u!222 &81896969
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -261,10 +261,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Dream of Azathoth
+  m_text: "\u5922\u4E2D\u7684\u963F\u85A9\u6258\u65AF"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6b5f8bb61d4f0e1418344a40896e9919, type: 2}
+  m_sharedMaterial: {fileID: -4244188951181779056, guid: 6b5f8bb61d4f0e1418344a40896e9919, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 148.55
+  m_fontSize: 124.75
   m_fontSizeBase: 180
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -744,7 +744,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: CONTINUE
+  m_Text: "\u7E7C\u7E8C\u904A\u6232"
 --- !u!222 &745410510
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -824,7 +824,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: QUIT
+  m_Text: "\u96E2\u958B"
 --- !u!222 &1187775863
 CanvasRenderer:
   m_ObjectHideFlags: 0
