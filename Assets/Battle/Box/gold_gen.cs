@@ -11,7 +11,7 @@ public class gold_gen : MonoBehaviour
     public Text Golden_number;
     void OnEnable()
     {
-        int x = UnityEngine.Random.Range(0, Int32.MaxValue) % 150;
+        int x = UnityEngine.Random.Range(50, 150) % 150;
         Golden_number.text = "" + x;
         Global.AddMoney(x);
         // Debug.Log("you get "+x);

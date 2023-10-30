@@ -395,6 +395,7 @@ public class Status : MonoBehaviour
     public static bool ClearOnTurnEnd(status _status){
         switch(_status){
             case status.fortify:
+            case status.lock_on:
                 return true;
             default:
                 return false;

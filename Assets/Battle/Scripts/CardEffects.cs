@@ -683,9 +683,10 @@ public class CardEffects : MonoBehaviour
     }
     static void Callback_38(Card card){
         GameObject cardObj = FindObjectOfType<Deck>().MoveFromDrawPileToHand(card);
-        cardObj.GetComponent<CardDisplay>().thisCard.keep = true;
-        cardObj.GetComponent<CardDisplay>().thisCard.cost += card_saved.GetComponent<CardDisplay>().thisCard.upgraded? 1:2;
-        cardObj.GetComponent<CardDisplay>().thisCard.costDecreaseOnTurnEnd = true;
+        Card card_info = cardObj.GetComponent<CardDisplay>().thisCard;
+        card_info.keep = true;
+        if (card_info.cost != -1) card_info.cost += card_saved.GetComponent<CardDisplay>().thisCard.upgraded? 1:2;
+        card_info.costDecreaseOnTurnEnd = true;
         EffectEnd();
     }
     static void Callback_45(int n){
